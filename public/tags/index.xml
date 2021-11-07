@@ -2,10 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Yuan Meng</title>
-    <link>https://example.com/tags/</link>
+    <link>https://www.yuan-meng.com/tags/</link>
     <description>Recent content in Tags on Yuan Meng</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Yuan Meng</copyright><atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Yuan Meng</copyright>
+    <lastBuildDate>Sat, 06 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>metrics</title>
+      <link>https://www.yuan-meng.com/tags/metrics/</link>
+      <pubDate>Sat, 06 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/tags/metrics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>product</title>
+      <link>https://www.yuan-meng.com/tags/product/</link>
+      <pubDate>Sat, 06 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/tags/product/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

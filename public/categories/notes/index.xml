@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Yuan Meng</title>
-    <link>https://www.yuan-meng.com/</link>
-    <description>Recent content on Yuan Meng</description>
+    <title>notes on Yuan Meng</title>
+    <link>https://www.yuan-meng.com/categories/notes/</link>
+    <description>Recent content in notes on Yuan Meng</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Yuan Meng</copyright>
-    <lastBuildDate>Sat, 06 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/categories/notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Choosing Metrics</title>
       <link>https://www.yuan-meng.com/posts/metrics/</link>

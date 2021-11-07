@@ -45,10 +45,10 @@ weight = 2
   showAllPostsArchive = false # default
 
   # Home page settings
-  description = "Hi, this is Yuan. I'm a cognitive science PhD candidate at Berkeley studying how kids and adults figure out causality and form stereotypes through exploration and observations. Starting in 2022, I'll be a data scientist at Quora."
+  description = "Hi, this is Yuan. I'm a cognitive science PhD candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations. Starting in 2022, I'll be a data scientist at Quora."
   showAllPostsOnHomePage = false # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
-  tagsOverview = true # show tags overview by default.
+  tagsOverview = false # show tags overview by default.
   showProjectsList = true # show projects list by default (if projects data file exists).
   projectsUrl = "https://github.com/Yuan-Meng" # title link for projects list
 
