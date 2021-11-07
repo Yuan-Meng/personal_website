@@ -59,18 +59,15 @@ To examine whether something is successful, we need to know why it was design in
 For Google Maps, fuel-efficient route suggestions hopefully give them a competitive advantage over, say, Apple Maps: iOS users should be less likely to "multi-tenant" (using both Google Maps and Apple Maps) and those who rely on Google Maps may feel free to take more trips. To test these hypotheses, we can examine changes in daily active users, trips per week per user, etc.. However, this new feature is not all perfect  — fuel-efficient routes may be way slower than the fasted routes, so we should watch out for drastic increases in time between the same two points.
 
 
-If stuck, below are some "frameworks" to brainstorm metrics:
+## "Metric Frameworks"
+
+If stuck, below are some "frameworks" to fall back on to brainstorm metrics:
 
 - **User journey**: Most products have a conversion funnel that moves new users towards users who frequently take "core actions" (e.g., Quora: answer questions; Notion: become a paid user) of the business 👉 Track each step in this funnel to come up with relevant metrics (and diagnose problems, if any)
 - **Input/out put**: Input (or driver) metrics are actions you take or resources you put in (e.g., DoorDash's driver incentive program) and outcome metrics are results you achieve (e.g., delivery times, order lateness, customer retention)
 - **Know the domain**: If you're working for DoorDash, you know 3 sides of the market each have its own needs and wants (merchants: reach + revenue; dashers: flexibility + earnings; customers: selection + convenience) so you can use metrics to track these needs and wants 
 
-<!-- # Metric Questions
+# Metric Interview Questions
 
-- **metric design**: come up with or choose metrics that appropriately capture the goodness of a specific feature/product → these metrics are used to measure the success + health of a product and hold the team accountable
-- **metric evaluation**: proactively understand what might be wrong with a metric and how it may lead the team to misleading conclusions -->
-
-<!-- 
-
-# Readings
-1. Lean Analytics -->
+- **Metric design**: come up with or choose metrics that appropriately capture the goodness of a specific feature/product → these metrics are used to measure the success + health of a product and hold the team accountable
+- **Metric evaluation**: proactively understand what might be wrong with a metric and how it may lead the team to misleading conclusions 
