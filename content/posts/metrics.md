@@ -10,7 +10,6 @@ keywords:
     - metrics, product
 ---
 
-# Design Good Metrics
 
 'Tis the college and job application season again. If only schools and companies have crystal balls to see into each candidate's future achievements, they need not interview people; since they do not have such a thing, SAT scores, GPA, internships, and other quantifiable metrics are used to aid decisions. Simplifications are by no means ideal — As Goodhart put it ([paraphrased](https://en.wikipedia.org/wiki/Goodhart%27s_law)), "When a measure becomes a metric, it ceases to be a good measure." However, the opposite is worse: Making critical decisions based on heuristics, biases, and opinions.
 
@@ -18,7 +17,7 @@ The solution? It's *not* not using metrics but carefully designing good metrics:
 
 > "[...] faulty intuition, untrusted partners, and complex systems can be understood via intuitive, trustworthy, simple metrics." — David Manheim, [*Goodhart's Law and Why Measurement is Hard*](https://www.ribbonfarm.com/2016/06/09/goodharts-law-and-why-measurement-is-hard/)
 
-## Characteristics of Good Metrics
+# Design Good Metrics
 
 1. **Goal-oriented**: Good metrics should track the most appropriate goals given your business model and stage (i.e., lean analytics stuff) 👉 Counterexample: For an early startup, user growth is more important than immediate revenue
 2. **Causal**: Ideally, metric movement should be caused by whether you're closer to or further from your goal 👉 Counterexample: Stats 101 grades are correlated with stats 102 gades, but grade inflation in 101 won't improve 102 grades; it's prerequisite + interest + effort that matter
@@ -30,7 +29,7 @@ The solution? It's *not* not using metrics but carefully designing good metrics:
 8. **Comparable:** Can be compared across time, products, and even companies 👉 Counterexample: Absolute changes are harder to compare than relative quantities
 9. **Trade off between goals:** When we have more than one goal, good metrics offer a trade-off — when driving somewhere, we want to be fast but don't want to get tickets 👉 **speed / # of ticket** is low when we drive too fast (too many tickets) or too slow (low speed) and high when we're reasonably fast
 
-## Debug Metrics
+# Debug Bad Metrics
     
 > "[...] metrics sometimes becomes an excuse to for doing fun math and coding instead of dealing with messy and hard-to-understand human interactions." — David Manheim, [*Overpowered Metrics Eat Underspecified Goals*](https://www.ribbonfarm.com/2016/09/29/soft-bias-of-underspecified-goals/)
 
@@ -43,31 +42,41 @@ The solution? It's *not* not using metrics but carefully designing good metrics:
 
 # How to Think of Metrics?
 
-## "Product Sense"
+Not so long ago, I thought of "product sense" as a misnomer: No one is born with such a sense and there's always deliberation. After thinking extensively about products for a month or two, I do see why: Seeing a new product or design now, I can't help but wonder how it came to be, along with what metrics capture that.
 
-Not so long ago, I thought of "product sense" as a misnomer: No one is born with such a sense and there's always so much deliberation. After thinking extensively about products for a while, though, I do feel it's a sense after all: Whenever I see a new product or design now, I can't help but wonder how it came to be, along with what metrics can be used to capture that.
-
-I had my first epiphany when Google Maps started suggesting fuel-efficient routes. I was amazed by the thoughtfulness and then wondered, **how do we know if this cool new feature is successful**? 
+For instance, when Google Maps started suggesting fuel-efficient routes, I was amazed and immediately wondered, **how do we know if this cool feature is successful**? 
 
 {{< figure src="https://www.dropbox.com/s/jw68iz18rgjp642/metrics.jpg?raw=1" width="400">}}
 
 To examine whether something is successful, we need to know why it was design in the first place. Then after that, I always ask myself the following questions:
 1. **Adoption and usage**: ***How many people use it? Do they use it much?***  — However awesome, an obscure product or feature is hardly a success
 2. **Company goals**: Okay, people use it. ***Does that serve the designer's purposes?*** 
-3. **Counter mertrics** ***Are there unintended consequences?***  From time to time, I think about the [value alignment problem](https://deepmind.com/research/publications/2020/Artificial-Intelligence-Values-and-Alignment) I first heard in Alison Gopnik's AI seminar: If you build an AI that maximizes the number of paper clips made, then it will wreak havoc by turning all the metal on this planet into paper clips.
+3. **Counter mertrics** ***Are there unintended consequences?***  From time to time, I think about the [value alignment problem](https://deepmind.com/research/publications/2020/Artificial-Intelligence-Values-and-Alignment) I first heard in Alison Gopnik's AI seminar: If you build an AI that maximizes the number of paper clips made, then it will wreak havoc by turning all the metal on this planet into paper clips. Make sure the new feature/product does not do that...
 
 For Google Maps, fuel-efficient route suggestions hopefully give them a competitive advantage over, say, Apple Maps: iOS users should be less likely to "multi-tenant" (using both Google Maps and Apple Maps) and those who rely on Google Maps may feel free to take more trips. To test these hypotheses, we can examine changes in daily active users, trips per week per user, etc.. However, this new feature is not all perfect  — fuel-efficient routes may be way slower than the fasted routes, so we should watch out for drastic increases in time between the same two points.
 
-
-## "Metric Frameworks"
 
 If stuck, below are some "frameworks" to fall back on to brainstorm metrics:
 
 - **User journey**: Most products have a conversion funnel that moves new users towards users who frequently take "core actions" (e.g., Quora: answer questions; Notion: become a paid user) of the business 👉 Track each step in this funnel to come up with relevant metrics (and diagnose problems, if any)
 - **Input/out put**: Input (or driver) metrics are actions you take or resources you put in (e.g., DoorDash's driver incentive program) and outcome metrics are results you achieve (e.g., delivery times, order lateness, customer retention)
-- **Know the domain**: If you're working for DoorDash, you know 3 sides of the market each have its own needs and wants (merchants: reach + revenue; dashers: flexibility + earnings; customers: selection + convenience) so you can use metrics to track these needs and wants 
+- **Know the domain**: If you're working for DoorDash, you know 3 sides of the market each have its own needs and wants (merchants: reach + revenue; dashers: flexibility + earnings; customers: selection + convenience) so you can use metrics to track these needs and wants 👉 This is just one example; read engineering blogs of the company you're interviewing with to see what matters in their specific domain
 
-# Metric Interview Questions
+# Types of Metric Interviews
 
-- **Metric design**: come up with or choose metrics that appropriately capture the goodness of a specific feature/product → these metrics are used to measure the success + health of a product and hold the team accountable
-- **Metric evaluation**: proactively understand what might be wrong with a metric and how it may lead the team to misleading conclusions 
+I've seen metric questions in both product and machine learning interviews, which is not surprising since no matter how you solve a business problem (experiments + hypothesis testing, machine learning), you need metrics to validate your solution.
+
+- **Metric design**: Come up with or choose metrics that appropriately capture the goodness of a product/feature (using A/B testing to make launch decisions or measure success of past launches) or a model (ML design)
+- **Metric evaluation**: Explain strange metric movements (e.g., Why did X dropped by Y%?) or critique wrong/misleading metrics (Does it measure what we want?)
+
+[This video](https://youtu.be/nPJKFWMiIC8) mentioned the rule of thumb is to choose 2 success metrics and 1 counter metric. However, I've seen interviewers who asked explicitly for 6+ metrics. So be sure to think broadly and thoroughly about which metrics capture what you want.
+
+# Resources I Used
+
+As a fresh grad with no product experience, I read 4 product books, dozens of company engineering blogs, and Googled a ton in the past 2 months to learn. Below are must-read resources if you wish to know really metrics well:
+
+1. **Lean Analytics**: Must, must read to understand which metrics are most relevant for which business models (e.g., e-commerce, user-generated content, multi-sided marketplace, media, etc.) at which stage 👉 Chances are, most tech companies you're interviewing with have one of one those business models
+2. **Company research**: Many companies have great engineering blogs; public companies have earnings calls  👉 From there, you can learn what exact metrics companies use for what purposes (e.g., DoorDash uses order lateness to optimize the performance of delivery time predictions, more so than overall accuracy)
+2. **a16z**: golden articles recommended by Quora — [16 Startup Metrics](https://a16z.com/2015/08/21/16-metrics/), [16 More Startup Metrics](https://a16z.com/2015/09/23/16-more-metrics/), [16 Ways to Measure Network Effects](https://future.a16z.com/how-to-measure-network-effects/) 👉 Similar to Lean Analytics, but had interesting additions (e.g., multi-tenanting)
+3. **Emma Ding**: Check out her [metric framework article](https://towardsdatascience.com/the-ultimate-guide-to-cracking-business-case-interviews-for-data-scientists-part-1-cb768c37edf4) and [product-related videos](https://www.youtube.com/watch?v=X8u6kr4fxXc&list=PLY1Fi4XflWStFs6tLQ3Gey2Aaq_U4-Xnc) 👉 I think Emma's content is a wonderful start to understanding metrics but you may wish to check #1-3 to dive deeper
+4. **Experiment metrics**: [Trustworthy Online Controlled Experiments: A Practical Guide to A/B Testing](https://www.amazon.com/Trustworthy-Online-Controlled-Experiments-Practical/dp/1108724264) and Udacity's [A/B testing course](https://www.udacity.com/course/ab-testing--ud257) both discussed experiment metrics in detail 👉 Experiment metrics are often shorter-term and more granular than success metrics of a product, so be sure to go over #1-4

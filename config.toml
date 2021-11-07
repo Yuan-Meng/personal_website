@@ -45,7 +45,7 @@ weight = 2
   showAllPostsArchive = false # default
 
   # Home page settings
-  description = "Hi, this is Yuan. I'm a cognitive science PhD candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations. Starting in 2022, I'll be a data scientist at Quora."
+  description = "Hi, this is Yuan. I'm a cognitive science PhD candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations."
   showAllPostsOnHomePage = false # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
   tagsOverview = false # show tags overview by default.
@@ -60,7 +60,7 @@ weight = 2
   showReadTime = true # default
 
   [params.comments]
-    enabled = true # default
+    enabled = false # default
     engine = "cactus_comments" # only disqus, utterances, and cactus_comments is supported
     [params.comments.utterances]
       repo = "<github_username>/<github_reponame>"
