@@ -69,7 +69,7 @@ If stuck, below are some "frameworks" to fall back on to brainstorm metrics:
 I've seen metric questions in both product and machine learning interviews. This is not surprising since no matter how you solve a business problem (experiments + hypothesis testing, machine learning), you need metrics to validate your solution.
 
 - **Metric design**: Come up with or choose metrics that appropriately capture the goodness of a product/feature (using A/B testing to make launch decisions or measuring the success of past launches) or a model (evaluating whether an ML system is working properly, especially compared to older systems)
-- **Metric evaluation**: Explain strange metric movements (e.g., Why did X dropped by Y%?) or critique wrong/misleading metrics (Does it measure what we want?)
+- **Metric evaluation**: Explain strange metric movements (e.g., Why did X drop by Y%?) or critique wrong/misleading metrics (Does it measure what we want?)
 
 **Regarding metric design**: [This video](https://youtu.be/nPJKFWMiIC8) said the rule of thumb is to choose 2 success metrics and 1 counter metric. However, I've been explicitly asked to provide 6+ metrics in one interview. So be sure to think thoroughly about which metrics capture what you want.
 
@@ -90,6 +90,6 @@ As a fresh grad with no product experience, I learned all of the above in the pa
 
 # Final Thoughts
 
-Since interviews tend to mimic real-life problems, I sometimes imagined, had I worked as product data scientist for a week, all of those metric shenanigans would've made much more sense to me more quickly ("纸上得来终觉浅"😬)... I'll revisit this writing after having worked on real products in the not-so-distant future. 
+Since interviews tend to mimic real-life problems, I sometimes imagined, had I worked as product data scientist for a week, all of those metric shenanigans would've made much more sense to me more quickly ("纸上得来终觉浅" 😬)... I'll revisit this writing after having worked on real products in the not-so-distant future. 
 
 Meanwhile, I often hear fellow grads complaining how "unfair" it is that companies ask product or even A/B testing questions since we have no experiences — whenever someone says that, I think about law or med school students: Before working on actual court cases or patients, it is possible and desirable have the theoretical foundations. And if you find this process fun, more reasons to make it your career.
