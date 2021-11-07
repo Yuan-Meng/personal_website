@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on yuan meng</title>
+    <link>https://example.com/posts/</link>
+    <description>Recent content in Posts on yuan meng</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>yuan meng</copyright>
+    <lastBuildDate>Sat, 06 Nov 2021 16:44:26 -0700</lastBuildDate><atom:link href="https://example.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>using bootstrap confidence intervals to make business decisions</title>
+      <link>https://example.com/posts/my-first-post/</link>
+      <pubDate>Sat, 06 Nov 2021 16:44:26 -0700</pubDate>
+      
+      <guid>https://example.com/posts/my-first-post/</guid>
+      <description>hey</description>
+    </item>
+    
+  </channel>
+</rss>
