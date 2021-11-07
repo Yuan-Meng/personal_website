@@ -50,7 +50,7 @@ For instance, when Google Maps started suggesting fuel-efficient routes, I was a
 
 To examine whether something is successful, we need to know why it was design in the first place. Then after that, I always ask myself the following questions:
 1. **Adoption and usage**: How many people use it? Do they use it much? And do they use it in ways that you care about? — However awesome, an obscure product or feature is hardly a success
-2. **Company goals**: Okay, people use it, a lot. But does that serve the designer's original purposes?
+2. **Company goals**: Okay, people use it, a lot. But does that serve the designer's original purposes (e.g., user growth, revenue... social good)?
 3. **Counter metrics**: Are there unintended consequences?  From time to time, I think about the [value alignment problem](https://deepmind.com/research/publications/2020/Artificial-Intelligence-Values-and-Alignment) I first heard in Alison Gopnik's AI seminar: If you build an AI that maximizes the number of paperclips made, then it will wreak havoc by turning all the metal on this planet into paperclips. Make sure the new feature/product is nothing like this paperclip-making AI (e.g., product cannibalization, a more sophisticated but way less performant model)...
 
 > (There are many popular metric frameworks out there, such as "AARRR", but above is how I like to think about the problem at hand.)
