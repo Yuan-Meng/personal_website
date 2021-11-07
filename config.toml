@@ -80,5 +80,8 @@ weight = 2
     name = "linkedin"
     link = "https://www.linkedin.com/in/yuanmengds/"
   [[params.social]]
+    name = "quora"
+    link = "https://www.quora.com/profile/Yuan-Meng-15"  
+  [[params.social]]
     name = "email"
     link = "yuan_meng@berkeley.edu"  # no need for "mailto:" in the head
