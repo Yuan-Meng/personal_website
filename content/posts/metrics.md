@@ -31,7 +31,7 @@ The solution? It's *not* not using metrics but carefully designing good metrics:
 
 # Debug Bad Metrics
     
-> "[...] metrics sometimes becomes an excuse to for doing fun math and coding instead of dealing with messy and hard-to-understand human interactions." — David Manheim, [*Overpowered Metrics Eat Underspecified Goals*](https://www.ribbonfarm.com/2016/09/29/soft-bias-of-underspecified-goals/)
+> "[...] metrics sometimes becomes an excuse for doing fun math and coding instead of dealing with messy and hard-to-understand human interactions." — David Manheim, [*Overpowered Metrics Eat Underspecified Goals*](https://www.ribbonfarm.com/2016/09/29/soft-bias-of-underspecified-goals/)
 
 1. **Think of edge/corner cases to "game" the proposed metric**
     - e.g., Udacity may achieve high conversion rate (# of conversions / # of sign-ups) by steering users away from signing up (e.g., "Hey it's too much work! You can't possibly finish...")
@@ -82,7 +82,7 @@ Surprising as it may sound, I find Chip Huyen's [Design a Machine Learning Syste
 
 As a fresh grad with no product experience, I learned all of the above in the past 2 months from 4 product books (*Lean Analytics*, *Decode & Conquer*, *Cracking the PM Interview*, *Trustworthy Online Controlled Experiments*), dozens of company engineering blogs, TechCrunch articles, PyData and Y Combinator talks, etc. or just pondering about products. Not everything is helpful; below are what I found helpful:
 
-1. **Lean Analytics**: Must, must read to understand which metrics are most relevant for which business models (e.g., e-commerce, user-generated content, multi-sided marketplace, media, etc.) at which stage 👉 Chances are, most tech companies you're interviewing with have one of one those business models (perhaps 23andMe, for instance, doesn't not fit into these categories...)
+1. **Lean Analytics**: Must, must read to understand which metrics are most relevant for which business models (e.g., e-commerce, user-generated content, multi-sided marketplace, media, etc.) at which stage 👉 Chances are, most tech companies you're interviewing with have one of one those business models (perhaps 23andMe, for instance, doesn't fit into these categories...)
 2. **Company research**: Many companies have great engineering blogs; public companies have earnings calls  👉 From there, you can learn what exact metrics companies use for what purposes (e.g., DoorDash uses order lateness to optimize delivery time prediction models, rather than overall accuracy — this makes a ton of sense because late orders are way worse for the customers than early orders)
 2. **a16z**: Pure gold recommended by Quora — [16 Startup Metrics](https://a16z.com/2015/08/21/16-metrics/), [16 More Startup Metrics](https://a16z.com/2015/09/23/16-more-metrics/), and [16 Ways to Measure Network Effects](https://future.a16z.com/how-to-measure-network-effects/) 👉 Similar to Lean Analytics, but have some interesting additions (e.g., multi-tenanting)
 3. **Emma Ding**: Check out her [metric framework](https://towardsdatascience.com/the-ultimate-guide-to-cracking-business-case-interviews-for-data-scientists-part-1-cb768c37edf4) and [product-related videos](https://www.youtube.com/watch?v=X8u6kr4fxXc&list=PLY1Fi4XflWStFs6tLQ3Gey2Aaq_U4-Xnc) 👉 I think Emma's content is a wonderful start to understanding product and metrics but you way wish to check out #1-3 to dive deeper afterwards
