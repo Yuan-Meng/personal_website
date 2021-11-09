@@ -57,7 +57,7 @@ keywords:
 
 # Morality
 
-*How can machines solve Hume's 'is-ought' problem? how does learning to be moral differ from other statistical learning problems?* 
+*How can machines solve Hume's "is-ought" problem? How does learning to be moral differ from other statistical learning problems?* 
 
 - Levine, S., Kleiman-Weiner, M., Schulz, L., Tenenbaum, J., & Cushman, F. (2020). The logic of universalization guides moral judgment. *Proceedings of the National Academy of Sciences, 117*(42), 26158-26169. ([PDF](https://www.pnas.org/content/pnas/117/42/26158.full.pdf))
 - Bear, A., Bensinger, S., Jara-Ettinger, J., Knobe, J., & Cushman, F. (2020). What comes to mind?. *Cognition, 194*, 104057. ([PDF](https://compdevlab.yale.edu/docs/2019/2019_Cognition_WTCM.pdf))
@@ -65,7 +65,7 @@ keywords:
 
 # Deep Reinforcement Learning
 
-*Can the mind be seen as implementing deep RL? How can deep RL be used to model the mind?*
+*Can the mind be seen as implementing deep RL? Can deep RL be used to model the mind?*
 
 - Ma, W. J., & Peters, B. (2020). A neural network walks into a lab: Towards using deep nets as models for human behavior. *arXiv preprint arXiv:2005.02181*. ([link](https://arxiv.org/abs/2005.02181))
 - van Opheusden, B., & Ma, W. J. (2019). Tasks for aligning human and machine planning. *Current Opinion in Behavioral Sciences, 29*, 127-133. ([PDF](https://sci-hub.se/https://www.sciencedirect.com/science/article/pii/S2352154619300622?casa_token=zQjqC3CbyK0AAAAA:jl0QU84JLItaNgsHc937CC_K2PnKM9QcTEi_-QomnlTq5JDcd6VQAE-7kow4KIzSh4SKHbf-BQ))
