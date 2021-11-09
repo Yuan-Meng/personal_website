@@ -15,7 +15,7 @@ keywords:
 
 # Overview
 
-*How can AI and cognitive science shed light on one another's biggest challenges?* 
+*How can AI and cognitive science shed light on each other's biggest challenges?* 
 
 - Lake, B. M., Ullman, T. D., Tenenbaum, J. B., & Gershman, S. J. (2017). Building machines that learn and think like people. *Behavioral and Brain Sciences, 40*. ([PDF](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/A9535B1D745A0377E16C590E14B94993/S0140525X16001837a.pdf/building-machines-that-learn-and-think-like-people.pdf))
 - Ullman, T. D., & Tenenbaum, J. B. (2020). Bayesian models of conceptual development: Learning as building models of the world. *Annual Review of Developmental Psychology, 2*, 533-558. ([PDF](https://sci-hub.se/https://www.annualreviews.org/doi/abs/10.1146/annurev-devpsych-121318-084833))
@@ -24,7 +24,7 @@ keywords:
 
 # Reasoning
 
-*New research on on causal reasoning, problem solving, decision making, etc.*
+*New research on how people reason about causality, solve problems, make decisions, etc.*
 
 - Rule, J. S., Tenenbaum, J. B., & Piantadosi, S. T. (2020). The child as hacker. *Trends in Cognitive Sciences, 24*(11), 900-915. ([PDF](http://colala.berkeley.edu/papers/rule2020child.pdf))
 - Adams, G. S., Converse, B. A., Hales, A. H., & Klotz, L. E. (2021). People systematically overlook subtractive changes. *Nature, 592*(7853), 258-261. ([link](https://www.nature.com/articles/s41586-021-03380-y), behind paywall)
@@ -49,7 +49,7 @@ keywords:
 
 # Social Cognition
 
-*New research on how we learn from others (imitation, teaching...) and about others (social evaluation, action understanding...)*
+*New agent-based research on how we learn from others (imitation, teaching...) and about others (social evaluation, action understanding...)*
 
 - Jara-Ettinger, J., Schulz, L. E., & Tenenbaum, J. B. (2020). The naive utility calculus as a unified, quantitative framework for action understanding. *Cognitive Psychology, 123*, 101334. ([PDF](https://compdevlab.yale.edu/docs/2020/cogpsych_NUC.pdf))
 - Yang, S. C. H., Vong, W. K., Yu, Y., & Shafto, P. (2019). A unifying computational framework for teaching and active learning. *Topics in Cognitive Science, 11*(2), 316-337. ([PDF](http://scottchenghsinyang.com/paper/Yang-TOPICS-2019.pdf))
@@ -57,7 +57,7 @@ keywords:
 
 # Morality
 
-*How can machines solve Hume's "is-ought" problem? How does learning to be moral differ from other statistical learning problems?* 
+*How can machines solve Hume's "is-ought" problem by going from how the world is to how it should be? How does learning to be moral differ from other statistical learning problems?* 
 
 - Levine, S., Kleiman-Weiner, M., Schulz, L., Tenenbaum, J., & Cushman, F. (2020). The logic of universalization guides moral judgment. *Proceedings of the National Academy of Sciences, 117*(42), 26158-26169. ([PDF](https://www.pnas.org/content/pnas/117/42/26158.full.pdf))
 - Bear, A., Bensinger, S., Jara-Ettinger, J., Knobe, J., & Cushman, F. (2020). What comes to mind?. *Cognition, 194*, 104057. ([PDF](https://compdevlab.yale.edu/docs/2019/2019_Cognition_WTCM.pdf))
@@ -65,7 +65,7 @@ keywords:
 
 # Deep Reinforcement Learning
 
-*Can the mind be seen as implementing deep RL? Can deep RL be used to model the mind?*
+*Can the mind be modeled by or seen as implementing deep RL?*
 
 - Ma, W. J., & Peters, B. (2020). A neural network walks into a lab: Towards using deep nets as models for human behavior. *arXiv preprint arXiv:2005.02181*. ([link](https://arxiv.org/abs/2005.02181))
 - van Opheusden, B., & Ma, W. J. (2019). Tasks for aligning human and machine planning. *Current Opinion in Behavioral Sciences, 29*, 127-133. ([PDF](https://sci-hub.se/https://www.sciencedirect.com/science/article/pii/S2352154619300622?casa_token=zQjqC3CbyK0AAAAA:jl0QU84JLItaNgsHc937CC_K2PnKM9QcTEi_-QomnlTq5JDcd6VQAE-7kow4KIzSh4SKHbf-BQ))
