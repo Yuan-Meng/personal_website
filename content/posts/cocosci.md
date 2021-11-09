@@ -1,5 +1,5 @@
 ---
-title: Latest Hits in Computational Cognitive Science
+title: Latest Hits in Cognitively Inpsired AI
 date: 2021-11-09
 tags:
     - AI
