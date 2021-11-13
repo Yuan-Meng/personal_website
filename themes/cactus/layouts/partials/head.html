@@ -47,4 +47,5 @@
     {{ template "_internal/google_analytics.html" . }}
   {{ end }}
   {{ end }}
+  {{ if .Params.math }}{{ partial "helpers/katex.html" . }}{{ end }}
 </head>

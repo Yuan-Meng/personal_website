@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <script type="text/javascript" src="https://latest.cactus.chat/cactus.js"></script>
+  <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Quasi-Experiments for Causal Inference | Yuan Meng</title>
+  <link rel = 'canonical' href = 'https://www.yuan-meng.com/posts/causality/'>
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a computational cognitive science PhD candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), product analytics, cognitively inspired AI, guitar, symphonic metal, and Oxford commas.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Quasi-Experiments for Causal Inference" />
+<meta property="og:description" content="&ldquo;Causation [&hellip;] is the cement is the universe.&rdquo; — David Hume, Abstract
+ Data scientists help the team make good decisions and good decisions rely on causation. Prof. Alison Gopnik always has the nicest example: While yellow fingers and smoking are both correlated with lung cancer, washing hands doesn&rsquo;t prevent cancer.
+Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. However, it&rsquo;s not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can&rsquo;t in good conscience force someone to smoke, nor can you easily have them quit smoking." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.yuan-meng.com/posts/causality/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-11-11T00:00:00+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Quasi-Experiments for Causal Inference"/>
+<meta name="twitter:description" content="&ldquo;Causation [&hellip;] is the cement is the universe.&rdquo; — David Hume, Abstract
+ Data scientists help the team make good decisions and good decisions rely on causation. Prof. Alison Gopnik always has the nicest example: While yellow fingers and smoking are both correlated with lung cancer, washing hands doesn&rsquo;t prevent cancer.
+Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. However, it&rsquo;s not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can&rsquo;t in good conscience force someone to smoke, nor can you easily have them quit smoking."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.yuan-meng.com/css/styles.94f653e9e151e28067a7c5dbbc4600cbd5a3c721e79faaf971e523c40f3b249b8e4f20bb57810dfffa8d559ca5c140fd56eb4cd9c0853113ad08e66afdb08bdd.css" integrity="sha512-lPZT6eFR4oBnp8XbvEYAy9WjxyHnn6r5ceUjxA87JJuOTyC7V4EN//qNVZylwUD9VutM2cCFMROtCOZq/bCL3Q=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.yuan-meng.com/images/favicon.ico" />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://www.yuan-meng.com/posts/cocosci/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&text=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&title=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&is_video=false&description=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Quasi-Experiments%20for%20Causal%20Inference&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&title=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&title=Quasi-Experiments%20for%20Causal%20Inference" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&name=Quasi-Experiments%20for%20Causal%20Inference&description=%26ldquo%3bCausation%20%5b%26hellip%3b%5d%20is%20the%20cement%20is%20the%20universe.%26rdquo%3b%20%e2%80%94%20David%20Hume%2c%20Abstract%0a%20Data%20scientists%20help%20the%20team%20make%20good%20decisions%20and%20good%20decisions%20rely%20on%20causation.%20Prof.%20Alison%20Gopnik%20always%20has%20the%20nicest%20example%3a%20While%20yellow%20fingers%20and%20smoking%20are%20both%20correlated%20with%20lung%20cancer%2c%20washing%20hands%20doesn%26rsquo%3bt%20prevent%20cancer.%0aRandomized%20controlled%20experiments%2c%20or%20A%2fB%20tests%2c%20are%20the%20gold%20standard%20for%20establishing%20causality.%20However%2c%20it%26rsquo%3bs%20not%20always%20possible%2c%20feasible%2c%20or%20ethical%20to%20randomly%20assign%20people%20into%20different%20variants%3a%20In%20the%20example%20above%2c%20you%20can%26rsquo%3bt%20in%20good%20conscience%20force%20someone%20to%20smoke%2c%20nor%20can%20you%20easily%20have%20them%20quit%20smoking." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&t=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      <nav id="TableOfContents"></nav>
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Quasi-Experiments for Causal Inference
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2021-11-11 00:00:00 &#43;0000 UTC" itemprop="datePublished">2021-11-11</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          13 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/notes">notes</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/causal-inference" rel="tag">causal inference</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/quasi-experiment" rel="tag">quasi-experiment</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <blockquote>
+<p>&ldquo;Causation [&hellip;] is the cement is the universe.&rdquo; — David Hume, <em>Abstract</em></p>
+</blockquote>
+<p>Data scientists help the team make good decisions and good decisions rely on causation. <a href="http://alisongopnik.com/">Prof. Alison Gopnik</a> always has the nicest example: While yellow fingers and smoking are both correlated with lung cancer, washing hands doesn&rsquo;t prevent cancer.</p>
+<p>Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. However, it&rsquo;s not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can&rsquo;t in good conscience force someone to smoke, nor can you easily have them quit smoking. Worse still, even if you&rsquo;ve run what seems like a well-controlled experiment, differences may still arise from factors other than your treatment. For instance, say DoorDash A/B tested SOS pricing (their version of &ldquo;surge pricing&rdquo;) and didn&rsquo;t observe significant drops in delivery times in treatment compared to control. Is SOS pricing useless? Not necessarily — A given market shares the same pool of dashers and customer; only the treatment variant &ldquo;paid the price&rdquo; but the control variant reaped the benefit (e.g., increased dasher supplies + decreased order demands 👉 shorter delivery times + fewer late orders) for free, resulting in smaller observed differences than what could have been the &ldquo;ground truth&rdquo;.</p>
+<p>Where randomized controlled experiments are tricky, quasi-experiments (&ldquo;quasi&rdquo; means &ldquo;as if&rdquo; or &ldquo;almost&rdquo; in Latin) may help data scientists answer questions about causality. If you&rsquo;re interviewing with a marketplace company such as DoorDash, Uber, Lyft, Airbnb, etc. for which regular A/B testing can be problematic, chances are you&rsquo;re expected to have some knowledge of those &ldquo;non-traditional&rdquo; methods.</p>
+<h1 id="switchbacks">Switchbacks</h1>
+<p>For DoorDash to test SOS pricing properly, it&rsquo;s necessary to split the dasher and the customer pools either across space (different markets) or across time (different time of the day). In fact, they do both (check out DoorDash&rsquo;s <a href="https://doordash.news/2018/02/14/switchback-tests-and-randomized-experimentation-under-network-effects-at-doordash/">blog</a>).</p>
+<figure><img src="https://miro.medium.com/max/1400/1*wTkgNdjmhOeMUjfGbpqzJQ.png"
+         alt="DoorDash tests SOS pricing using switchbacks across time-market units" width="500"/><figcaption>
+            <p>DoorDash tests SOS pricing using switchbacks across time-market units</p>
+        </figcaption>
+</figure>
+
+<p>Multiple markets are selected for experimentation and the time of the day in each market is evenly split into small chunks, say, half an hour. Each time-market unit (rather than a delivery, for example, in regular A/B testing) is randomly assigned to having or not having SOS pricing. To examine whether SOS pricing is effective, key metrics such as delivery times and order lateness are compared between &ldquo;treatment units&rdquo; and &ldquo;control units&rdquo; after the switchback experiment.</p>
+<p>A few things to think over:</p>
+<ol>
+<li>
+<p><strong>How fine should the time units be?</strong> Two hours, half an hour, or 10 minutes? Too coarse, there won&rsquo;t be enough randomization units; too granular, the market won&rsquo;t have time to respond to the change and the variance would probably be high (market trends are smoother over a longer period of time and more volatile in a shorter period). We can try a bunch of window sizes to see when we can a reasonably low standard error $\frac{\sigma}{\sqrt{N}}$ ($N$ is the number of market-time units).</p>
+</li>
+<li>
+<p><strong>Time units in the same market are dependent</strong>. Deliveries at 11:30 AM in LA are probably highly similar to deliveries at 12 PM in LA, even though the pricing strategy might differ. To address this dependence issue, we can use mixed models where the pricing strategy is the &ldquo;fixed effects&rdquo; and time and markets are &ldquo;random effects&rdquo;. Below is a toy implementation using the <code>lme4</code> package in R:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span style="color:#50fa7b">library</span>(lme4)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>sos <span style="color:#ff79c6">&lt;-</span> <span style="color:#50fa7b">lmer</span>(delivery_time <span style="color:#ff79c6">~</span> has_sos <span style="color:#ff79c6">+</span> (<span style="color:#bd93f9">1</span><span style="color:#ff79c6">|</span>market) <span style="color:#ff79c6">+</span> (<span style="color:#bd93f9">1</span><span style="color:#ff79c6">|</span>time), data<span style="color:#ff79c6">=</span>sb_data)
+</code></pre></div><p>Another way to correct for dependence is using the so-called &ldquo;<a href="https://stats.stackexchange.com/questions/50778/sandwich-estimator-intuition">Huber Sandwich Estimator</a>&rdquo; (R package: <code>sandwich</code>) that relaxes the independence assumption.</p>
+</li>
+<li>
+<p><strong>Weight each market-time unit by the number of deliveries or not?</strong> Since randomization units are market-time units, we can ignore delivery-level information and use the simple, rather than weighted, average in each variant</p>
+</li>
+<li>
+<p><strong>Is the change visible?</strong> Switchbacks are great for testing invisible algorithmic changes (e.g., ranking, pricing), but not visible UI changes 👉 Users will be confused if they are switched back and forth between old and new designs😵‍💫</p>
+</li>
+</ol>
+<h1 id="difference-in-differences-did">Difference in Differences (DiD)</h1>
+<p><del>Facebook</del> Meta famously did a country test before <a href="https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/">shipping &ldquo;Reactions&rdquo;</a>. It used to be the case that users could only like a post but not express other emotions such as anger or sadness. If someone posted about a loved one passing away, it seemed inappropriate to like it, yet many might not want to leave a comment (e.g., too effortful, not close enough). Meta data scientists hypothesized that, if a wider range of reactions were allowed, people would be more willing to engage with posts. They could run a regular A/B test, randomly assigning users to having or not having reactions. However, if users in different variants are in the same friend circle, you risk creating bad user experiences: Say a treatment user reacted to the post by a control user, the latter would not be able to see it and engage back.</p>
+<p>To alleviate this worry, Meta tested Reactions in different countries, assuming users in different countries didn&rsquo;t know each other. In a simplified example, country A (green) had reactions and country B (red) didn&rsquo;t. The $y-$axis tracks the number of posts reacted (including likes) to per user, which Meta aimed to drive up.</p>
+<figure><img src="https://www.dropbox.com/s/s9x78epex3zw1lk/reactions.png?raw=1"
+         alt="Changes in # of posts reacted to per user after launching Reactions" width="500"/><figcaption>
+            <p>Changes in # of posts reacted to per user after launching Reactions</p>
+        </figcaption>
+</figure>
+
+<ul>
+<li>
+<p><strong>Assumptions</strong>: To identify the treatment effect, we have to assume 1) the same country different across time and 2) the same time effect across countries.</p>
+</li>
+<li>
+<p><strong>Analysis</strong>: Under those assumptions, if Reactions had no effect, the green light would be parallel to the red light after feature launching. <strong>The difference between the actual green line and the counterfactual under the null hypothesis is the treatment effect</strong>. This method is called &ldquo;difference in differences (DiD)&rdquo;. We can use a regression model to capture this analysis ($y$: success metric; $D_{post}$: 0 $\rightarrow$ pre-test, 1 $\rightarrow$ post-test; $D_{treatment}$: 1 $\rightarrow$ treatment, 0 $\rightarrow$ control) —</p>
+<ul>
+<li>$y = \beta_0 + \beta_1 D_{post} + \beta_2 D_{treatment} + \beta_3 D_{post} D_{treatment} + \beta_4 X + \epsilon$</li>
+<li>The interaction coefficient $\beta_3$ is the difference in differences</li>
+</ul>
+</li>
+</ul>
+<p>DiD is fast but crude: Both of the assumptions above can be easily violated, resulting in invalid conclusions. As we&rsquo;ll see in a minute, more sophisticated methods such as synthetic control are developed to address issues like this.</p>
+<h1 id="synthetic-control-synth">Synthetic Control (Synth)</h1>
+<p>The main idea behind synthetic control is that we can train a model to learn the relationship between covariates and the target metric and use that relationship to predict what the metric would look like without the treatment. This method is called &ldquo;synthetic&rdquo; control because there never was a control; the prediction served as the control and is compared with the actual observation after feature launching.</p>
+<p>Below is a neat talk by Uber data scientists on how they tested cash trips. In markets like India where not a lot of people carry credit cards, riders often pay drivers in cash. Cash trips may be inconvenient to the drivers as they need to wire the commission fees to Uber later; however, some drivers may prefer to receive cash. Uber wants to test how giving drivers heads up about whether a trip is a cash trip might affect how many cash trips they gave.</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/j5DoJV5S2Ao" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>Now, Uber faces the same problem as DoorDash did: A market shares the same pool of drivers and riders; if the treatment takes more or fewer cash trips, the control would have fewer or more cash trips to take. Switchbacks are inappropriate here: Imagine, a driver was in treatment and received heads up about cash trips; later when they are switched to control, they will naturally interpret a lack of heads up as a non-cash trip rather than type unknown.</p>
+<p>Uber used synthetic control in this case, building a time series model to predict what would happen in a city had the feature not been rolled out (&ldquo;synthetic city&rdquo;) and comparing it with what did happen after THE rollout (&ldquo;treatment city&rdquo;). The difference between the synthetic and the treatment cities are the treatment effect. To report to stakeholders, you can average differences over time.</p>
+<figure><img src="https://www.dropbox.com/s/tebslmo8g1agtlm/synthetic_controk.png?raw=1"
+         alt="Uber used synthetic control to test heads up to drivers about cash trips" width="550"/><figcaption>
+            <p>Uber used synthetic control to test heads up to drivers about cash trips</p>
+        </figcaption>
+</figure>
+
+<p>As you can tell, the problem boils down to building an accurate and robust time-series model and <em>not</em> tweaking it till you find treatment effects.</p>
+<h1 id="did--synth--causalimpact">DiD + Synth 👉 CausalImpact</h1>
+<p><a href="https://google.github.io/CausalImpact/CausalImpact.html">CausalImpact</a> combines ideas from DiD and synth. Unlike synthetic control, there is an actual control group; unlike DiD, there&rsquo;s no need to assume invariant regional differences and time effects — instead, we build a Bayesian structural time-series models using the trend in control to predict what the trend would look like in treatment and compare this &ldquo;synthetic treatment&rdquo; with the actual treatment.</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/KEhJNM5K73A" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>HelloFresh used CausalImpact to test a YouTube ad campaign across geographical regions. The treatment saw the ads and the control didn&rsquo;t. HelloFresh data scientists used the trend in the control conversation rate to predict what the treatment conversation rate would be without the campaign — the impact of the ad campaign lies in the difference between the predicted and the actual treatment conversion rates.</p>
+<p>Google open sourced the <code>CausalImpact</code> R package. Below is a toy example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span style="color:#50fa7b">library</span>(CausalImpact)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>impact <span style="color:#ff79c6">&lt;-</span> <span style="color:#50fa7b">CausalImpact</span>(data, pre.period, post.period)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span style="color:#50fa7b">plot</span>(impact)
+</code></pre></div><figure><img src="https://www.dropbox.com/s/cwtreolbp7h9477/causalimpact.png?raw=1"
+         alt="Example results: The top panel shows the actual trend (solid) and the counterfactual (dashed) and the middle panel the difference between them" width="550"/><figcaption>
+            <p>Example results: The top panel shows the actual trend (solid) and the counterfactual (dashed) and the middle panel the difference between them</p>
+        </figcaption>
+</figure>
+
+<h1 id="propensity-score-matching-psm">Propensity Score Matching (PSM)</h1>
+<p>Say HelloFresh wants to see if people who click on Food Network ads are more likely to buy from HelloFresh. Here&rsquo;s the problem: Ads are usually personalized, so those who are shown such ads likely differ from those who aren&rsquo;t; if we do observe a difference in HelloFresh purchases between clickers and non-clickers, should we attribute it to the ads or individual differences? It could be the case that those interested in cooking tend to click on Food Network ads and buy from HelloFresh.</p>
+<figure><img src="https://www.dropbox.com/s/iexwhzrjzzxtokq/propensity.png?raw=1"
+         alt="In the HelloFresh example, it&amp;rsquo;s hard to tell whether ad clicking causes buying or if both are driven by a third variable: Interest in cooking" width="550"/><figcaption>
+            <p>In the HelloFresh example, it&rsquo;s hard to tell whether ad clicking causes buying or if both are driven by a third variable: Interest in cooking</p>
+        </figcaption>
+</figure>
+
+<p>The solution? We can build a model using user demographics, past behaviors, etc. to predict the probability that they are shown a Food Network ad and match users with high exposure probability but didn&rsquo;t click on Food Network ads with those who had similar probability and clicked. This method is called &ldquo;propensity score matching&rdquo; (PSM). Presumably, matched users have the same &ldquo;propensity&rdquo; to click on ads, so we can more confidently attribute the downstream difference in their HelloFresh purchases to whether or not they have clicked on the ads.</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/gaUgW7NWai8" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>The idea behind PSM sounds simple but it&rsquo;s tricky <a href="https://cran.r-project.org/web/packages/MatchIt/vignettes/matching-methods.html">how we can find matches</a>:</p>
+<ol>
+<li><strong>Greedy vs. optimal</strong>: For each of the $N$ users in Group A, we can search through each of the $N$ users in Group B to find the best match 👉 time complexity: $O(N^2)$. However, this approach doesn&rsquo;t guarantee optimal results on the group level. Alternatively, we can exhaust all one-to-one matches to find the combination that minimizes within-pair differences 👉 time complexity: $O(N!)$.</li>
+<li><strong>Constraints</strong>: We can constrain what we consider as a match. For instance, we can set a threshold on the largest propensity score difference allowed for match pairs (caliper matching). Another common constraint is whether we only consider one-to-one matching or if we allow one-to-many matching.</li>
+</ol>
+<p>Matching algorithms are worth dedicating an entire book to; for data science interviews, it&rsquo;s enough to recognize when to use PSM and know what the &ldquo;propensity&rdquo; is.</p>
+<h1 id="regression-discontinuity-design-rdd">Regression Discontinuity Design (RDD)</h1>
+<p>Let&rsquo;s think about another DoorDash example. Late orders anger hungry customers; the later, the worse 👉 frustrated customers may churn or order less in the future, resulting in lower lifetime values (LTVs). To make things slightly better, DoorDash automatically issues a refund to orders more than 30 minutes late. The question is, how does the refund impact customer LTV? Obviously, it&rsquo;s unfair to randomly assign customers into getting or not getting a refund. However, it&rsquo;s also problematic to compare LTV between those who received or didn&rsquo;t receive refunds, because average lateness is likely higher in the former than the latter.</p>
+<p>To answer this question, we can use order lateness (minutes late) and refund status (received or not) to predict LTV and look for a &ldquo;jump&rdquo; at the 30-minute refund cutoff. The upward jump is how much auto refunds saved DoorDash&rsquo;s customer LTV.</p>
+<figure><img src="https://www.dropbox.com/s/vz60f040euu0465/rdd.png?raw=1"
+         alt="Using regression discontinuity design (RDD) to measure the impact of automatically refunds on customer LTV when orders arrive late 👉 $y = f(X) &#43; \beta D &#43; \epsilon$ ($y$: LTV; $X$: order lateness; $D$: refund $\rightarrow$ 1, no refund $\rightarrow$ 0)" width="550"/><figcaption>
+            <p>Using regression discontinuity design (RDD) to measure the impact of automatically refunds on customer LTV when orders arrive late 👉 $y = f(X) + \beta D + \epsilon$ ($y$: LTV; $X$: order lateness; $D$: refund $\rightarrow$ 1, no refund $\rightarrow$ 0)</p>
+        </figcaption>
+</figure>
+
+<p>Depending on if the cutoff is deterministic or not, RDD breaks down into <a href="https://scholar.princeton.edu/sites/default/files/jmummolo/files/rdd_jm.pdf">two types</a>:</p>
+<ul>
+<li><strong>Sharp (deterministic)</strong>: Orders $\geq$ 30 minutes late definitely receive a refund and those $&lt;$ 30 minutes late definitely don&rsquo;t</li>
+<li><strong>Fuzzy (probabilistic)</strong>: The admission office has a suggested SAT cutoff, but students with lower scores might still get in through special programs</li>
+</ul>
+<p>The core assumption behind RDD is that the trajectories of &ldquo;near-winners&rdquo; and &ldquo;near-losers&rdquo; would have been the same without the &ldquo;reward&rdquo;, so the discontinuity (jump between orange lines) can be attributed to it. However, the relationship between the &ldquo;running variable&rdquo; (order lateness) and the outcome (LTV) may be naturally &ldquo;jumpy&rdquo; around the cutoff, rendering the conclusion invalid.</p>
+<h1 id="regress-it-out">&ldquo;Regress It Out&rdquo;</h1>
+<p>Continuing with the regression idea, we can statistically control for covariates by &ldquo;regressing them out&rdquo;. Say we wanna know how gender impacts income, we can put potential confounders such as education and age in the same model and look at the slope of gender with all else being held the same. If this slope is much steeper than a horizontal line, then we can probably claim that gender affects income.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span>bias <span style="color:#ff79c6">&lt;-</span> <span style="color:#50fa7b">lm</span>(income <span style="color:#ff79c6">~</span> gender <span style="color:#ff79c6">+</span> education <span style="color:#ff79c6">+</span> age, data<span style="color:#ff79c6">=</span>data)
+</code></pre></div><p>While simple and useful, this method is not always appropriate (<a href="https://journals.sagepub.com/doi/pdf/10.1177/2515245917745629">Rohrer, 2018</a>):</p>
+<ul>
+<li><strong>Collider</strong>: If $X$ is the common effect of $Y$ and $Z$ ($Y \rightarrow X \leftarrow Z$), controlling for $X$ would result in spurious correlation between $Y$ and $Z$.
+<ul>
+<li><strong>Example</strong>: Warm and competent candidates tend to successful. In other words, a job offer is the common effect of warmth and competence. Since all of our colleagues were once successful candidates (i.e., interview results are &ldquo;controlled for&rdquo;), when we look around in the office, everybody may seem both warm and competent. If not careful, we may jump to the conclusion that those two traits are intrinsically linked.</li>
+</ul>
+</li>
+<li><strong>Mediator</strong>: If $X$ influences $Y$ through $Z$ ($X \rightarrow Y \rightarrow Z$), controlling for $Y$ leads to the false conclusion that $X$ and $Y$ have no relationship at all.
+<ul>
+<li><strong>Example</strong>: Great musicians love what they do, love motivates them to practice, and practice makes perfect. If we look at a bunch of Curtis students, all of whom practice a ton, we may falsely conclude that someone&rsquo;s love of music has nothing to do achievements as a musician.</li>
+</ul>
+</li>
+</ul>
+<p>Since we don&rsquo;t always know how variables are related (which can be expressed by Bayesian networks), statistical control may hurt unexpectedly.</p>
+<hr>
+<h1 id="summary">Summary</h1>
+<p>As a cognitive scientist, I&rsquo;m writing a dissertation on how people think about causality intuitively. As a data scientist interested in causal inference, it&rsquo;s fascinating how formal methods and human intuitions converge: For both, <strong>the heart of causality is counterfactuals</strong>, worlds that could have been but never came to be.</p>
+<p>Summarized below are common causal inference methods in data science I wrote about:</p>
+<ul>
+<li>
+<p><strong>Intervention and counterfactuals</strong>: The common assumption behind DiD, synth, CausalImpact, and RDD is that if we don&rsquo;t do anything (e.g., launching a new feature), nothing will happen; since something did happen, then what we did had an impact. This falls under the <a href="https://plato.stanford.edu/entries/causation-mani/#Inte">interventionist</a> view of causation: We know A causes B when <em>iif</em> doing A makes B happen. The difference between these methods lies in how they construct the counterfactual world without the treatment.</p>
+</li>
+<li>
+<p><strong>Statistical control</strong>: Apart from what we do, lots of other things in the world can make a difference to the outcome we care about. In both PSM and regression, the idea is to hold other potentially impactful variables constant and check if the variable we care about the most still changes the outcome. This is neat but be aware that controlling for wrong variables (e.g., comment effects and mediators) can lead to wrong conclusions.</p>
+</li>
+</ul>
+<p>Just a few years ago, causal inference was rather niche in data science; I&rsquo;m happy to see those methods quickly gaining popularity in the data science community, as a cognitive scientist, data scientist, and lover of philosophy of science.</p>
+<h1 id="resources">Resources</h1>
+<ol>
+<li><a href="https://www.ai-expo.net/northamerica/wp-content/uploads/2018/11/1500-Jessica-Lachs-DoorDash-DATA-STRAT-V1.pdf">Lessons Learned on Experimentation @DoorDash</a></li>
+<li><a href="https://doordash.news/2018/02/14/switchback-tests-and-randomized-experimentation-under-network-effects-at-doordash/">Switchback Tests and Randomized Experimentation Under Network Effects at DoorDash</a></li>
+<li><a href="https://eng.uber.com/xp/">Under the Hood of Uber&rsquo;s Experimentation Platform</a></li>
+<li>Experimentation in a Ridesharing Marketplace by Lyft (<a href="https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-b39db027a66e#.djox1933t">Part 1</a>, <a href="https://eng.lyft.com/https-medium-com-adamgreenhall-simulating-a-ridesharing-marketplace-36007a8a31f2#.g9b34i3gm">Part 2</a>, <a href="https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-f75a9c4fcf01">Part 3</a>)</li>
+<li><a href="https://towardsdatascience.com/causal-inference-using-synthetic-control-the-ultimate-guide-a622ad5cf827">Causal Inference Using Synthetic Control: The Ultimate Guide</a></li>
+<li><a href="https://www.youtube.com/watch?v=GTgZfCltMm8">Inferring the Effect of an Event Using CausalImpact</a></li>
+<li><a href="https://www.amazon.com/Book-Why-Science-Cause-Effect/dp/046509760X">The Book of Why: The New Science of Cause and Effect </a></li>
+<li><a href="https://matheusfacure.github.io/python-causality-handbook/landing-page.html">Causal Inference for The Brave and True</a></li>
+<li>Liu, T., Ungar, L., &amp; Kording, K. (2021). Quantifying causality in data science with quasi-experiments. <em>Nature Computational Science</em>, 1(1), 24-32. (<a href="https://www.nature.com/articles/s43588-020-00005-8.pdf">PDF</a>)</li>
+</ol>
+<hr>
+<blockquote>
+<p><a href="https://www.causalscience.org/">Causal Data Science Meeting 2021</a> takes place between November 15 and 16!</p>
+</blockquote>
+<figure><img src="https://www.dropbox.com/s/1dlnw8sr12ifr0m/pearl.png?raw=1" width="500"/>
+</figure>
+
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">About</a></li>
+         
+          <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents"></nav>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&text=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&title=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&is_video=false&description=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Quasi-Experiments%20for%20Causal%20Inference&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&title=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&title=Quasi-Experiments%20for%20Causal%20Inference" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&name=Quasi-Experiments%20for%20Causal%20Inference&description=%26ldquo%3bCausation%20%5b%26hellip%3b%5d%20is%20the%20cement%20is%20the%20universe.%26rdquo%3b%20%e2%80%94%20David%20Hume%2c%20Abstract%0a%20Data%20scientists%20help%20the%20team%20make%20good%20decisions%20and%20good%20decisions%20rely%20on%20causation.%20Prof.%20Alison%20Gopnik%20always%20has%20the%20nicest%20example%3a%20While%20yellow%20fingers%20and%20smoking%20are%20both%20correlated%20with%20lung%20cancer%2c%20washing%20hands%20doesn%26rsquo%3bt%20prevent%20cancer.%0aRandomized%20controlled%20experiments%2c%20or%20A%2fB%20tests%2c%20are%20the%20gold%20standard%20for%20establishing%20causality.%20However%2c%20it%26rsquo%3bs%20not%20always%20possible%2c%20feasible%2c%20or%20ethical%20to%20randomly%20assign%20people%20into%20different%20variants%3a%20In%20the%20example%20above%2c%20you%20can%26rsquo%3bt%20in%20good%20conscience%20force%20someone%20to%20smoke%2c%20nor%20can%20you%20easily%20have%20them%20quit%20smoking." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fcausality%2f&t=Quasi-Experiments%20for%20Causal%20Inference" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2021  Yuan Meng 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

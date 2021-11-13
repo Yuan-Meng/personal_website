@@ -7,7 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Yuan Meng</copyright>
-    <lastBuildDate>Sat, 06 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Quasi-Experiments for Causal Inference</title>
+      <link>https://www.yuan-meng.com/posts/causality/</link>
+      <pubDate>Thu, 11 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/causality/</guid>
+      <description>&amp;ldquo;Causation [&amp;hellip;] is the cement is the universe.&amp;rdquo; — David Hume, Abstract
+ Data scientists help the team make good decisions and good decisions rely on causation. Prof. Alison Gopnik always has the nicest example: While yellow fingers and smoking are both correlated with lung cancer, washing hands doesn&amp;rsquo;t prevent cancer.
+Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. However, it&amp;rsquo;s not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can&amp;rsquo;t in good conscience force someone to smoke, nor can you easily have them quit smoking.</description>
+    </item>
+    
+    <item>
+      <title>Latest Hits in Cognitively Inpsired AI</title>
+      <link>https://www.yuan-meng.com/posts/cocosci/</link>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/cocosci/</guid>
+      <description>This paper collection reflects some of the most exiting trends in computational cognitive science and cognitively inspired AI, in my opinion.
+ Overview How can AI and cognitive science shed light on each other&amp;rsquo;s biggest challenges?
+ Lake, B. M., Ullman, T. D., Tenenbaum, J. B., &amp;amp; Gershman, S. J. (2017). Building machines that learn and think like people. Behavioral and Brain Sciences, 40. (PDF) Ullman, T. D., &amp;amp; Tenenbaum, J.</description>
+    </item>
+    
     <item>
       <title>Choosing Metrics</title>
       <link>https://www.yuan-meng.com/posts/metrics/</link>
