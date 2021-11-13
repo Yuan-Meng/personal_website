@@ -30,7 +30,7 @@ For DoorDash to test SOS pricing properly, it's necessary to split the dasher an
 Multiple markets are selected for experimentation and the time of the day in each market is evenly split into small chunks, say, half an hour. Each time-market unit (rather than a delivery, for example, in regular A/B testing) is randomly assigned to having or not having SOS pricing. To examine whether SOS pricing is effective, key metrics such as delivery times and order lateness are compared between "treatment units" and "control units" after the switchback experiment.
 
 A few things to think over:
-1. **How fine should the time units be?** Two hours, half an hour, or 10 minutes? Too coarse, there won't be enough randomization units; too granular, the market won't have time to respond to the change and the variance would probably be high (market trends are smoother over a longer period of time and more volatile in a shorter period). We can try a bunch of window sizes to see when we can have a reasonably low standard error $\frac{\sigma}{\sqrt{N}}$ ($N$ is the number of market-time units).
+1. **How fine should the time units be?** Two hours, half an hour, or 10 minutes? Too coarse, there won't be enough randomization units; too granular, the market won't have time to respond to the change and the variance would probably be high (market trends are smoother over a longer period of time and more volatile in a shorter period). We can try a bunch of window sizes to see when we have a reasonably low standard error $\frac{\sigma}{\sqrt{N}}$ ($N$ is the number of market-time units).
 
 2. **Time units in the same market are dependent**. Deliveries at 11:30 AM in LA are probably highly similar to deliveries at 12 PM in LA, even though the pricing strategy might differ. To address this dependence issue, we can use mixed models where the pricing strategy is the "fixed effects" and time and markets are "random effects". Below is a toy implementation using the `lme4` package in R:
 
@@ -64,7 +64,7 @@ DiD is fast but crude: Both of the assumptions above can be easily violated, res
 
 # Synthetic Control (Synth)
 
-The main idea behind synthetic control is that we can train a model to learn the relationship between covariates and the target metric and use that relationship to predict what the metric would look like without the treatment. This method is called "synthetic" control because there never was a control; the prediction served as the control and is compared with the actual observation after feature launching.
+The main idea behind synthetic control is that we can train a model to learn the relationship between covariates and the target metric in the pre-launching period and use that relationship to predict what the metric would look like without the treatment in the post-launching period. This method is called "synthetic" control because there never was an actual control group; the model prediction served as the control and is compared with the actual trend after feature launching.
 
 Below is a neat talk by Uber data scientists on how they tested cash trips. In markets like India where not a lot of people carry credit cards, riders often pay drivers in cash. Cash trips may be inconvenient to the drivers as they need to wire the commission fees to Uber later; however, some drivers may prefer to receive cash. Uber wants to test how giving drivers heads up about whether a trip is a cash trip might affect how many cash trips they gave. 
 
