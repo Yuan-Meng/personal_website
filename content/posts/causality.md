@@ -159,7 +159,7 @@ Summarized below are common causal inference methods in data science I wrote abo
 
 - **Statistical control**: Apart from what we do, lots of other things in the world can make a difference to the outcome we care about. In both PSM and regression, the idea is to hold other potentially impactful variables constant and check if the variable we care about the most still changes the outcome. This is neat but be aware that controlling for wrong variables (e.g., comment effects and mediators) can lead to wrong conclusions.
 
-Just a few years ago, causal inference was rather niche in data science; I'm happy to see those methods quickly gaining popularity in the data science community, as a cognitive scientist, data scientist, and lover of philosophy of science.
+Just a few years ago, causal inference was rather niche in data science; I'm happy to see those methods quickly gaining popularity in the data science community, as a cognitive scientist, data scientist, and lover of the philosophy of science.
 
 # Resources
 
