@@ -154,7 +154,7 @@ If the outcome is naturally "jumpy" around the cutoff (people suddenly get hungr
 
 # "Regress It Out"
 
-Continuing with the regression idea, we can statistically control for **confounders** (common causes behind the treatment and the outcome) by regressing them out. Say DoorDash wanna know if paying extra money to Dashers during peak hours would increase how many hours they work, we can include **potential confounders that could lead to peak hours** in the same model, **such as bad weather or holidays**, and look at the partial slope of incentive with "all else being held the same". If it's much steeper than a horizontal line, then we may claim that incentive stipulates supply.
+Continuing with the regression idea, we can statistically control for **confounders** (factors that also affect the outcome) by regressing them out. Say DoorDash wanna know if paying extra money to Dashers during peak hours would increase how many hours they work, we can include **potential confounders that could lead to peak hours** in the same model, **such as bad weather or holidays**, and look at the partial slope of incentive with "all else being held the same". If it's much steeper than a horizontal line, then we may claim that incentive stipulates supply.
 
 {{< figure src="https://doordash.engineering/wp-content/uploads/2021/06/image3-1.png" width="550" caption="The relationship between Dasher incentive and expected Dasher hours during peak hours could be confounded by holidays, meal time, bad weather, etc. that can lead to peak hours (see [DoorDash engineering blog](https://doordash.engineering/2021/06/29/managing-supply-and-demand-balance-through-machine-learning/))">}}
 
