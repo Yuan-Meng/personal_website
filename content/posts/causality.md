@@ -19,7 +19,10 @@ include_toc: true
 
 Data scientists help the team make good decisions and good decisions rely on causation. [Prof. Alison Gopnik](http://alisongopnik.com/) always has the nicest example: While yellow fingers and smoking are both correlated with lung cancer, washing hands doesn't prevent cancer. 
 
-Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. Unfortunately, it's not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can't in good conscience force someone to smoke, nor can you easily have them quit smoking. Worse still, even if you've run what seems like a well-controlled experiment, differences may arise from factors other than your treatment. For instance, say DoorDash A/B tested "SOS pricing" (treatment customers paid more for each order during peak hours) but *didn't* observe significant drops in delivery times in treatment vs. control. Is SOS pricing useless? Not necessarily — A given market shares the same pool of dashers and customer; only the treatment "paid the price" but the control reaped the benefits for free (SOS pricing 👉 increased dasher supplies + decreased order demands 👉 shorter delivery times + fewer late orders), making the observed difference quite likely smaller than the true difference.
+Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. Unfortunately, it's not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can't in good conscience force someone to smoke, nor can you easily have them quit smoking. 
+
+
+Worse still, even if you've run what seems like a well-controlled experiment, differences may arise from factors other than your treatment. For instance, say DoorDash A/B tested "SOS pricing" (treatment customers paid more for each order during peak hours) but *didn't* observe significant drops in delivery times in treatment vs. control. Is SOS pricing useless? Not necessarily — A given market shares the same pool of dashers and customer; only the treatment "paid the price" but the control reaped the benefits for free (SOS pricing 👉 increased dasher supplies + decreased order demands 👉 shorter delivery times + fewer late orders), making the observed difference quite likely smaller than the true difference.
 
 Where randomized controlled experiments are tricky, quasi-experiments ("quasi" means "as if" or "almost" in Latin) may help data scientists answer questions about causality. If you're interviewing with a marketplace company such as DoorDash, Uber, Lyft, Airbnb, etc. for which regular A/B testing can be problematic, chances are you're expected to have some knowledge of those "non-traditional" methods.
 # Switchbacks
@@ -151,23 +154,30 @@ If the outcome is naturally "jumpy" around the cutoff (people suddenly get hungr
 
 # "Regress It Out"
 
-Continuing with the regression idea, we can statistically control for covariates by "regressing them out". Say we wanna know how much gender impacts income, we can put potential confounders like education and age in the same model and look at the slope of gender with all else being held the same. If this slope is much steeper than a horizontal line, then we can probably claim that gender affects income.
+Continuing with the regression idea, we can statistically control for confounders by "regressing them out". Say we wanna know how much gender impacts income, we can put potential education and age in the same model and look at the slope of gender with all else being held the same. If this slope is much steeper than a horizontal line, then we can probably claim that gender affects income.
 
 ```r
 bias <- lm(income ~ gender + education + age, data=data)
 ```
 
 While simple and useful, this method is not always appropriate ([Rohrer, 2018](https://journals.sagepub.com/doi/pdf/10.1177/2515245917745629)):
+
 - **Colliders**: If $X$ is the common effect of $Y$ and $Z$ ($Y \rightarrow X \leftarrow Z$), controlling for $X$ would result in spurious correlation between $Y$ and $Z$. 
   - **Example**: Warm and competent candidates tend to be successful. In other words, a job offer is the common effect of warmth and competence. Since all of our colleagues were once successful candidates (i.e., interview results are "controlled for"), when we look around in the office, almost everyone seems warm and competent. If not careful, we may jump to the conclusion that these two traits are intrinsically linked.
 - **Mediators**: If $X$ influences $Y$ through $Z$ ($X \rightarrow Y \rightarrow Z$), controlling for $Y$ leads to the false conclusion that $X$ and $Y$ have no relationship at all. 
   - **Example**: Family wealth impacts education and education impacts future income. However, when we see PhD students (i.e, the education level is controlled for) from different socioeconomic backgrounds making roughly the same amount of $$ after graduation, we may falsely conclude that there's no such thing as generational wealth, at least among PhD's.
 
+{{< figure src="https://www.dropbox.com/s/d9yg8h1mizd94uo/dag.png?raw=1" width="350" caption="It's desirable to control for confounders but disastrous to control for colliders (Liu et al., 2021) or mediators (Rohrer, 2018)">}}  
+
 Since we don't always know how variables are related to one another (which we can represent using Bayesian networks), statistical control may hurt unexpectedly. 
 
-<!-- # Instrumental Variables (IV)
+# Instrumental Variables (IV)
 
-Blah. -->
+Last but not least, let's revisit the education example: How does the amount of schooling affect future income? To answer this question, we need to notice something special about schooling: US children are required to enter school the calendar year they are 6 but can leave school as soon as they turn 16. So this would mean that children born earlier in the year (e.g., January) are required to stay in school longer than those born later in the year (e.g., December). 
+
+To use econometric jargon, years of schooling is the treatment, future income the outcome, and **birth season the instrument variable (IV)**, which can only affect the outcome via the treatment. We can regress the treatment on the IV ($\hat{X} = \alpha IV$) and then regress the outcome on the treatment estimation from the first step ($\hat{Y} = \beta \hat{X}$). IV estimation allows causal inference in the presence of confounders (IVs), without us having to regress them out and thereby wreak havoc unbeknownst to ourselves.
+
+{{< figure src="https://www.dropbox.com/s/sid3xuo4nrlshul/iv.png?raw=1" width="400" caption="Instrumental variable (IV) estimation allows causal inference without statistical control of confounders (Liu et al., 2021)">}}  
 
 ---
 # Summary 
@@ -178,8 +188,7 @@ Not that long ago, causal inference was rather niche in data science; I'm happy 
 
 - **Intervention and counterfactuals**: The common philosophical assumption behind DiD, synth, CausalImpact, and RDD is that if we don't do anything (e.g., launching a new feature), nothing will happen; since something did happen, then what we did had an impact. This falls under the [interventionist](https://plato.stanford.edu/entries/causation-mani/#Inte) view of causation: We know A causes B when *iif* doing A makes B happen. These methods differ in how they construct the counterfactual world without the treatment.
 
-- **Statistical control**: Apart from what we do, lots of things in the world can make a difference to the outcome. Both PSM and regression hold potential confounders constant and examine whether the variable we're most interested in influences the outcome. We need to be careful that controlling for wrong variables (e.g., common effects and mediators) can lead to wrong conclusions.
-
+- **Confounders**: Other than what we do, lots of things in the world can make a difference to the outcome we care about. PSM and regression both hold confounders constant to see how much the treatment still impacts the outcome. We need to be extra careful how controlling for wrong variables (e.g., common effects and mediators) can lead to wrong conclusions. By contrast, IV can estimate the treatment effect even in the face of confounders but one has to be extra clever to think of useful instrumental variables.
 
 # Resources
 
@@ -196,6 +205,6 @@ Not that long ago, causal inference was rather niche in data science; I'm happy 
 
 ---
 
-> [Causal Data Science Meeting 2021](https://www.causalscience.org/) takes place between November 15 and 16!
-
+<!-- > [Causal Data Science Meeting 2021](https://www.causalscience.org/) takes place between November 15 and 16!
+ -->
 {{< figure src="https://www.dropbox.com/s/1dlnw8sr12ifr0m/pearl.png?raw=1" width="500">}}
