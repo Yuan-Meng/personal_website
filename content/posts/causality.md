@@ -164,7 +164,7 @@ While simple and useful, this method is not always appropriate ([Rohrer, 2018](h
 
 - **Colliders**: If $X$ is the common effect of $Y$ and $Z$ ($Y \rightarrow X \leftarrow Z$), controlling for $X$ would result in spurious correlation between $Y$ and $Z$. 
   - **Example**: Warm and competent candidates tend to be successful. In other words, a job offer is the common effect of warmth and competence. Since all of our colleagues were once successful candidates (i.e., interview results are "controlled for"), when we look around in the office, almost everyone seems warm and competent. If not careful, we may jump to the conclusion that these two traits are intrinsically linked.
-- **Mediators**: If $X$ influences $Z$ through $Y$ ($X \rightarrow Y \rightarrow Z$), controlling for $Y$ leads to the false conclusion that $X$ and $Y$ have no relationship at all. 
+- **Mediators**: If $X$ influences $Z$ through $Y$ ($X \rightarrow Y \rightarrow Z$), controlling for $Y$ leads to the false conclusion that $X$ and $Z$ have no relationship at all. 
   - **Example**: Family wealth impacts education and education impacts future income. However, when we see PhD students (i.e, the education level is controlled for) from different socioeconomic backgrounds making roughly the same amount of $$ after graduation, we may falsely conclude that there's no such thing as generational wealth.
 
 {{< figure src="https://www.dropbox.com/s/d9yg8h1mizd94uo/dag.png?raw=1" width="350" caption="It's desirable to control for confounders but disastrous to control for colliders (Liu et al., 2021) or mediators (Rohrer, 2018)">}}  
