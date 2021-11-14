@@ -54,7 +54,7 @@ To design effective switchback experiments, below are a few things to think over
 
 ~~Facebook~~ Meta famously did a country test before [shipping "Reactions"](https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/). It used to be the case that users could only like a post but not express other emotions such as anger or sadness. If someone posted about a loved one passing away, it seemed inappropriate to like it, yet many might not want to leave a comment (e.g., too effortful, not close enough). Meta data scientists hypothesized that, if a wider range of reactions were allowed, people would be more willing to engage with posts. They could run a regular A/B test, randomly assigning users to having or not having reactions. However, if users in different variants are in the same friend circle, you risk creating bad user experiences: Say a treatment user reacted to a post by a control user, the latter would not be able to see it and engage back. 
 
-To alleviate this worry, Meta tested Reactions in different countries, assuming users didn't interact folks from other countries. In this example, country A (green) had reactions while country B (red) didn't. The $y-$axis tracks the number of posts reacted (including likes) to per user, which Meta aimed to drive up.
+To alleviate this worry, Meta tested Reactions in different countries, assuming users didn't interact with folks from other countries. In this example, country A (green) had reactions while country B (red) didn't. The $y-$axis tracks the number of posts reacted (including likes) to per user, which Meta aimed to drive up.
 
 {{< figure src="https://www.dropbox.com/s/s9x78epex3zw1lk/reactions.png?raw=1" width="500" caption="The # of posts reacted to per user before and after launching Reactions">}}
 
@@ -96,7 +96,7 @@ To successfully implement synthetic control, you gotta be a good time-series mod
 
 [CausalImpact](https://google.github.io/CausalImpact/CausalImpact.html) combines ideas from DiD and synth and is the best of both worlds:
 
-- **Unlike synth**, there is an actual control group not exposed to the new feature 👉 this means CausalImpact can use control data from both pre- and post-launching periods whereas synth only makes use of the pre-launching data
+- **Unlike synth**, there is an actual control group not exposed to the new feature 👉 this means CausalImpact can use control data from both pre- and post-launching periods whereas synth only makes use of the pre-launching data 👉 hopefully, more data means more generalizable and robust
 - **Unlike DiD**, we don't need to assume the same regional differences across time or the same time effects across regions 👉 instead, we can build a Bayesian structural time-series model using the control data to predict a "synthetic treatment" trend and compare it with the actual treatment data
 
 Google open-sourced the `CausalImpact` R package. Below is a toy example:
@@ -143,7 +143,7 @@ To answer this question, we can use a regression discontinuity design (RDD), usi
 
 {{< figure src="https://www.dropbox.com/s/vz60f040euu0465/rdd.png?raw=1" width="550" caption="DoorDash uses regression discontinuity design (RDD) to measure the impact of auto-refunding on customer LTVs when orders arrive late">}}
 
-- **Assumptions**: Trajectories of "near-winners" (orders 31 minutes late) and "near-losers" (orders 29 minutes late) would have been the same without the treatment (refunding), so discontinuity can be attributed to treatment effects. 
+- **Assumption**: Trajectories of "near-winners" (orders 31 minutes late) and "near-losers" (orders 29 minutes late) would have been the same without the treatment (refunding), so discontinuity can be attributed to treatment effects. 
 - **Formalism**: $y = f(X) + \beta D + \epsilon$ 👉 $y$: the outcome variable (e.g., LTV); $X$: the "running variable" that has continuous effects on the outcome (e.g., order lateness); $D$: whether treatment was assigned (0: not refunded, 1: refunded)
 - **Types**: Depending on whether the cutoff is deterministic, RDD has [two types](https://scholar.princeton.edu/sites/default/files/jmummolo/files/rdd_jm.pdf)
   - **Sharp (deterministic)**: Orders $\geq$ 30 minutes late definitely receive a refund and those $<$ 30 minutes late definitely don't 
@@ -164,8 +164,8 @@ While simple and useful, this method is not always appropriate ([Rohrer, 2018](h
 
 - **Colliders**: If $X$ is the common effect of $Y$ and $Z$ ($Y \rightarrow X \leftarrow Z$), controlling for $X$ would result in spurious correlation between $Y$ and $Z$. 
   - **Example**: Warm and competent candidates tend to be successful. In other words, a job offer is the common effect of warmth and competence. Since all of our colleagues were once successful candidates (i.e., interview results are "controlled for"), when we look around in the office, almost everyone seems warm and competent. If not careful, we may jump to the conclusion that these two traits are intrinsically linked.
-- **Mediators**: If $X$ influences $Y$ through $Z$ ($X \rightarrow Y \rightarrow Z$), controlling for $Y$ leads to the false conclusion that $X$ and $Y$ have no relationship at all. 
-  - **Example**: Family wealth impacts education and education impacts future income. However, when we see PhD students (i.e, the education level is controlled for) from different socioeconomic backgrounds making roughly the same amount of $$ after graduation, we may falsely conclude that there's no such thing as generational wealth, at least among PhD's.
+- **Mediators**: If $X$ influences $Z$ through $Y$ ($X \rightarrow Y \rightarrow Z$), controlling for $Y$ leads to the false conclusion that $X$ and $Y$ have no relationship at all. 
+  - **Example**: Family wealth impacts education and education impacts future income. However, when we see PhD students (i.e, the education level is controlled for) from different socioeconomic backgrounds making roughly the same amount of $$ after graduation, we may falsely conclude that there's no such thing as generational wealth.
 
 {{< figure src="https://www.dropbox.com/s/d9yg8h1mizd94uo/dag.png?raw=1" width="350" caption="It's desirable to control for confounders but disastrous to control for colliders (Liu et al., 2021) or mediators (Rohrer, 2018)">}}  
 
@@ -173,7 +173,7 @@ Since we don't always know how variables are related to one another (which we ca
 
 # Instrumental Variables (IV)
 
-Last but not least, let's revisit the education example: How does the amount of schooling affect future income? To answer this question, we need to notice something special about schooling: US children are required to enter school the calendar year they are 6 but can leave school as soon as they turn 16. So this would mean that children born earlier in the year (e.g., January) are required to stay in school longer than those born later in the year (e.g., December). 
+Last but not least, let's revisit the education example: How does the amount of schooling affect future income? To answer this question, we need to notice something special about schooling: US children are required to enter school the calendar year they are 6 but can leave school as soon as they turn 16. So this would mean that children born earlier in the year (e.g., January) are required to stay in school almost a year longer than those born later the same year (e.g., December). 
 
 To use econometric jargon, years of schooling is the treatment, future income the outcome, and **birth season the instrument variable (IV)**, which can only affect the outcome via the treatment. We can regress the treatment on the IV ($\hat{X} = \alpha IV$) and then regress the outcome on the treatment estimation from the first step ($\hat{Y} = \beta \hat{X}$). IV estimation allows causal inference in the presence of confounders (IVs), without us having to regress them out and thereby wreak havoc unbeknownst to ourselves.
 
@@ -186,7 +186,7 @@ As a cognitive scientist, I'm writing a dissertation on how people think about c
 
 Not that long ago, causal inference was rather niche in data science; I'm happy to see it quickly gaining popularity in recently years. To summarize what I wrote:
 
-- **Intervention and counterfactuals**: The common philosophical assumption behind DiD, synth, CausalImpact, and RDD is that if we don't do anything (e.g., launching a new feature), nothing will happen; since something did happen, then what we did had an impact. This falls under the [interventionist](https://plato.stanford.edu/entries/causation-mani/#Inte) view of causation: We know A causes B when *iif* doing A makes B happen. These methods differ in how they construct the counterfactual world without the treatment.
+- **Counterfactuals and intervention**: The common philosophical assumption behind DiD, synth, CausalImpact, and RDD is that if we don't do anything (e.g., launching a new feature), nothing will happen; since something did happen, then what we did had an impact. This falls under the [interventionist](https://plato.stanford.edu/entries/causation-mani/#Inte) view of causation: We know A causes B when *iif* doing A makes B happen. These methods differ in how they construct the counterfactual world without the treatment.
 
 - **Confounders**: Other than what we do, lots of things in the world can make a difference to the outcome we care about. PSM and regression both hold confounders constant to see how much the treatment still impacts the outcome. We need to be extra careful how controlling for wrong variables (e.g., common effects and mediators) can lead to wrong conclusions. By contrast, IV can estimate the treatment effect even in the face of confounders but one has to be extra clever to think of useful instrumental variables.
 
