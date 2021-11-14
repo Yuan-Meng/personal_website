@@ -1,6 +1,6 @@
 ---
 title: Quasi-Experiments for Causal Inference 
-date: 2021-11-11
+date: 2021-11-12
 math: true
 tags:
     - causal inference
@@ -52,9 +52,9 @@ To design effective switchback experiments, below are a few things to think over
 
 # Difference in Differences (DiD)
 
-~~Facebook~~ Meta famously did a country test before [shipping "Reactions"](https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/). It used to be the case that users could only like a post but not express other emotions such as anger or sadness. If someone posted about a loved one passing away, it seemed inappropriate to like it, yet many might not want to leave a comment (e.g., too effortful, not close enough). Meta data scientists hypothesized that, if a wider range of reactions were allowed, people would be more willing to engage with posts. They could run a regular A/B test, randomly assigning users to having or not having reactions. However, if users in different variants are in the same friend circle, you risk creating bad user experiences: Say a treatment user reacted to a post by a control user, the latter would not be able to see it and engage back. 
+~~Facebook~~ Meta famously did a country test before [shipping "Reactions"](https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/). It used to be the case that users could only like a post but not express other emotions such as anger or sadness. If someone posted about a loved one passing away, it seemed inappropriate to like it, yet many might not want to leave a comment (e.g., too effortful, not close enough). Meta data scientists hypothesized that, if a wider range of reactions were allowed, people would be more willing to engage with posts. They could run a regular A/B test, randomly assigning users to having or not having Reactions. However, if users in different variants are in the same friend circle, you risk creating bad user experiences: Say a treatment user reacted to a post by a control user, the latter would not be able to see it and engage back. 
 
-To alleviate this worry, Meta tested Reactions in different countries, assuming users didn't interact with folks from other countries. In this example, country A (green) had reactions while country B (red) didn't. The $y-$axis tracks the number of posts reacted (including likes) to per user, which Meta aimed to drive up.
+To alleviate this worry, Meta tested Reactions in different countries, assuming users didn't interact with folks from other countries. In this example, country A (green) had Reactions while country B (red) didn't. The $y-$axis tracks the number of posts reacted (including likes) to per user, which Meta aimed to drive up.
 
 {{< figure src="https://www.dropbox.com/s/s9x78epex3zw1lk/reactions.png?raw=1" width="500" caption="The # of posts reacted to per user before and after launching Reactions">}}
 
