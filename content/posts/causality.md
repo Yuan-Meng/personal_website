@@ -154,7 +154,7 @@ If the outcome is naturally "jumpy" around the cutoff (people suddenly get hungr
 
 # "Regress It Out"
 
-Continuing with the regression idea, we can statistically control for confounders by "regressing them out". Say we wanna know how much gender impacts income, we can put potential education and age in the same model and look at the slope of gender with all else being held the same. If this slope is much steeper than a horizontal line, then we can probably claim that gender affects income.
+Continuing with the regression idea, we can statistically control for **confounders** (common causes behind the outcome and the treatment) by "regressing them out". Say we wanna know how much gender impacts income, we can put potential confounders such as education and age in the same model and look at the slope of gender with all else being held the same. If this slope is much steeper than a horizontal line, then we can probably claim that gender affects income.
 
 ```r
 bias <- lm(income ~ gender + education + age, data=data)
