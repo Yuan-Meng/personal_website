@@ -172,7 +172,7 @@ Blah. -->
 ---
 # Summary 
 
-As a cognitive scientist, I'm writing a dissertation on how people think about causality intuitively. As a data scientist interested in causal inference, it's cool to see how human intuitions and formal methods conversage: For both, the heart of causality is **counterfactuals** — worlds that could have been but never came to be, as well as **intervention** — what we can do to make a difference.
+As a cognitive scientist, I'm writing a dissertation on how people think about causality intuitively. As a data scientist interested in causal inference, it's cool to see how human intuitions and formal methods converge: For both, the heart of causality is **counterfactuals** — worlds that could have been but never came to be, as well as **intervention** — what we can do to make a difference.
 
 Not that long ago, causal inference was rather niche in data science; I'm happy to see it quickly gaining popularity in recently years. To summarize what I wrote:
 
