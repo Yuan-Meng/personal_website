@@ -80,7 +80,7 @@ A simple thing to do is compare metrics before and after the launch. However, ch
 
 Synthetic control comes to the rescue: We can build a model that learns the relationship between certain predictors and the target metric in the pre-launching period and then use the learned relationship to forecast how the metric would look later if the feature wasn't launched. This method is called "*synthetic* control" in that there never was an actual control: The model's prediction simulates a "parallel universe" without the feature launch and **the difference between the synthetic control and what actually happened after launching is the treatment effect**.
 
-Uber data scientists used synthetic control to examine the effect of giving drivers heads up about cash trips. In markets like India where not a lot of people carry credit cards, riders often pay drivers in cash. Cash trips may be inconvenient to the drivers as they need to wire commission fees to Uber later; however, some drivers may prefer to receive cash. Uber wanted to test whether showing drivers whether a trip was a cash trip in advance might affect how many cash trips they took. 
+Uber data scientists used synthetic control to measure the effect of giving drivers heads up about cash trips. In markets like India where not a lot of people carry credit cards, riders often pay drivers in cash. Cash trips may be inconvenient to the drivers as they need to wire commission fees to Uber later; however, some drivers may prefer to receive cash. Uber wanted to test whether showing drivers whether a trip was a cash trip in advance might affect how many cash trips they took. 
 
 {{< youtube j5DoJV5S2Ao >}}
 
@@ -154,7 +154,7 @@ If the outcome is naturally "jumpy" around the cutoff (people suddenly get hungr
 
 # "Regress It Out"
 
-Continuing with the regression idea, we can statistically control for **confounders** (a rough but somewhat inaccurate definition: factors that also affect the outcome) by regressing them out. Say DoorDash wanna know if paying extra money to Dashers during peak hours would increase how many hours they work, we can include **potential confounders that could lead to peak hours** in the same model, **such as bad weather or holidays**, and look at the partial slope of incentive with "all else being held the same". If it's much steeper than a horizontal line, then we may claim that incentive stipulates supply.
+Continuing with the regression idea, we can statistically control for **confounders** (a fast and loose definition: factors that also affect the outcome) by regressing them out. Say DoorDash wanna know if paying extra money to Dashers during peak hours would increase how many hours they work; we can include **potential confounders that may lead to peak hours** in the same model, **such as bad weather or holidays**, and examine the partial slope of incentive with "all else being held the same". If it's much steeper than a horizontal line, we may claim that incentive stipulates supply.
 
 {{< figure src="https://doordash.engineering/wp-content/uploads/2021/06/image3-1.png" width="550" caption="The relationship between Dasher incentive and expected Dasher hours during peak hours could be confounded by holidays, meal time, bad weather, etc. that can lead to peak hours (see [DoorDash engineering blog](https://doordash.engineering/2021/06/29/managing-supply-and-demand-balance-through-machine-learning/))">}}
 
