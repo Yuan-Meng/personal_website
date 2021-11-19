@@ -56,7 +56,7 @@ weight = 2
   dateFormat = "2006-01-02" # default
 
   # Post page settings
-  show_updated = true # default
+  show_updated = false # default
   showReadTime = true # default
 
   [params.comments]
