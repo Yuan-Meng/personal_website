@@ -70,6 +70,6 @@ Head over to Zoom to finish it up. Once done, you're ready for your lessons!
 {{< figure src="https://www.dropbox.com/s/1rbi5cghqf0g34r/zoom.png?raw=1" width="500" >}}
 
 - **Speaker**: Scarlett Solo USB
-- **Outputs**: Name of your Loopback setup ("Tonebridge")
+- **Microphone**: Name of your Loopback setup ("Tonebridge")
 
 
