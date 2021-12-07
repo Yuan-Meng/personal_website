@@ -12,7 +12,7 @@ keywords:
 
 # Goals + Overview (macOS)
 
-I've been taking guitar lessons over Zoom since the pandemic began. For an electric player, it was initially challenging to split audio input/output multiple ways: 
+I've been taking guitar lessons over Zoom since the pandemic began. For an electric player, it was initially challenging how I could split audio inputs/outputs multiple ways: 
 
 1. **Input #1**: Microphone -- so I can talk to my teacher
 2. **Input #2**: Guitar -- no need to explain 🎸🤟 :) 
