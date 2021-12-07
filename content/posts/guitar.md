@@ -19,7 +19,7 @@ I've been taking guitar lessons over Zoom since the pandemic began. For an elect
 3. **Output #1**: Headphone -- so I hear guitar effects created by my amp simulator 
 3. **Output #2**: Zoom -- so my teacher hears the same effects, not just dry signals  
 
-After some research, I found a setup that feels simple and intuitive to me. Below are a few things you need (OFC, you don't need to get the exact same models): 
+After some research, I found a setup that feels simple and intuitive to me. Below are a few things you need (OFC, you don't have to get the exact same models): 
 1. **An audio interface**: [Focusrite Scarlett Solo USB Audio Interface](https://www.amazon.com/Focusrite-Scarlett-Audio-Interface-Tools/dp/B07QR6Z1JB?ref_=ast_sto_dp&th=1)
 2. **An XLR microphone** (not USB): [Blue Baby Bottle](https://www.amazon.com/Blue-Microphones-Large-Diaphragm-Condenser-Microphone/dp/B01N7TTXZ5/ref=sr_1_1?keywords=xlr+microphone+baby+bottle&qid=1638851698&s=musical-instruments&sr=1-1)
 3. **An audio-routing software**: [Loopback](https://rogueamoeba.com/loopback/) (only works for Mac)
