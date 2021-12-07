@@ -40,8 +40,8 @@ Loopback allows you to stack guitar effects on top of audio interface inputs. Re
 
 {{< figure src="https://www.dropbox.com/s/hvifkxhq4vhtkgq/tonebridge.png?raw=1" width="500" >}}
 
-- **Two inputs**: Choose Scarlett Solo for the microphone + Tonebridge for the guitar
-- **One output**: Map both inputs to one output -- make sure the sides (L + R) align
+- **Inputs**: Choose Scarlett Solo for the microphone + Tonebridge for the guitar
+- **Output**: Map both inputs to one output -- make sure the sides (L + R) align
 
 
 # System Preferences
@@ -69,7 +69,7 @@ Head over to Zoom to finish it up. Once done, you're ready for your lessons!
 
 {{< figure src="https://www.dropbox.com/s/1rbi5cghqf0g34r/zoom.png?raw=1" width="500" >}}
 
-
-
+- **Speaker**: Scarlett Solo USB
+- **Outputs**: Name of your Loopback setup ("Tonebridge")
 
 
