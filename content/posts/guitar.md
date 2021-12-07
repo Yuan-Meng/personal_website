@@ -30,7 +30,7 @@ Now we got the gear, let's connect everything first:
 
 1. Plug guitar + microphone + headphone into Scarlett Solo
 2. Connect Scarlett Solo to your laptop via a USB
-3. Register and setup your Scarlett Solo (see [instructions](https://customer.focusrite.com/en/my-hardware))  
+3. Register and set up your Scarlett Solo (see [instructions](https://customer.focusrite.com/en/my-hardware))  
 
 
 # Loopback
