@@ -11,7 +11,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title> Quasi-Experiments for Causal Inference | Yuan Meng</title>
   <link rel = 'canonical' href = 'https://www.yuan-meng.com/posts/causality/'>
-  <meta name="description" content="Hi, this is Yuan. I&#39;m a computational cognitive science PhD candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), product analytics, cognitively inspired AI, guitar, symphonic metal, and Oxford commas.">
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a computational cognitive science PhD candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, guitar, symphonic metal, and Oxford commas.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="all,follow">
   <meta name="googlebot" content="index,follow,snippet,archive">
@@ -21,8 +21,8 @@
 Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. Unfortunately, it&rsquo;s not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can&rsquo;t in good conscience force someone to smoke, nor can you easily have them quit smoking." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.yuan-meng.com/posts/causality/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-11-11T00:00:00+00:00" />
-<meta property="article:modified_time" content="2021-11-11T00:00:00+00:00" />
+<meta property="article:published_time" content="2021-11-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-11-12T00:00:00+00:00" />
 
 
   <meta name="twitter:card" content="summary"/>
@@ -98,6 +98,12 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
           </a>
         </li>
         
+        
+        <li>
+          <a class="icon" href="https://www.yuan-meng.com/posts/guitar/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
         
         <li>
           <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
@@ -190,7 +196,7 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
         
         <div class="postdate">
           
-          <time datetime="2021-11-11 00:00:00 &#43;0000 UTC" itemprop="datePublished">2021-11-11</time>
+          <time datetime="2021-11-12 00:00:00 &#43;0000 UTC" itemprop="datePublished">2021-11-12</time>
           
         </div>
         
@@ -198,7 +204,7 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
         <div class="article-read-time">
           <i class="far fa-clock"></i>
           
-          14 minute read
+          16 minute read
         </div>
         
         
@@ -232,7 +238,8 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
 <p>&ldquo;Causation [&hellip;] is the cement of the universe.&rdquo; — David Hume, <em>Abstract</em></p>
 </blockquote>
 <p>Data scientists help the team make good decisions and good decisions rely on causation. <a href="http://alisongopnik.com/">Prof. Alison Gopnik</a> always has the nicest example: While yellow fingers and smoking are both correlated with lung cancer, washing hands doesn&rsquo;t prevent cancer.</p>
-<p>Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. Unfortunately, it&rsquo;s not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can&rsquo;t in good conscience force someone to smoke, nor can you easily have them quit smoking. Worse still, even if you&rsquo;ve run what seems like a well-controlled experiment, differences may arise from factors other than your treatment. For instance, say DoorDash A/B tested &ldquo;SOS pricing&rdquo; (treatment customers paid more for each order during peak hours) but <em>didn&rsquo;t</em> observe significant drops in delivery times in treatment vs. control. Is SOS pricing useless? Not necessarily — A given market shares the same pool of dashers and customer; only the treatment &ldquo;paid the price&rdquo; but the control reaped the benefits for free (SOS pricing 👉 increased dasher supplies + decreased order demands 👉 shorter delivery times + fewer late orders), making the observed difference quite likely smaller than the true difference.</p>
+<p>Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. Unfortunately, it&rsquo;s not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can&rsquo;t in good conscience force someone to smoke, nor can you easily have them quit smoking.</p>
+<p>Worse still, even if you&rsquo;ve run what seems like a well-controlled experiment, differences may arise from factors other than your treatment. For instance, say DoorDash A/B tested &ldquo;SOS pricing&rdquo; (treatment customers paid more for each order during peak hours) but <em>didn&rsquo;t</em> observe significant drops in delivery times in treatment vs. control. Is SOS pricing useless? Not necessarily — A given market shares the same pool of dashers and customer; only the treatment &ldquo;paid the price&rdquo; but the control reaped the benefits for free (SOS pricing 👉 increased dasher supplies + decreased order demands 👉 shorter delivery times + fewer late orders), making the observed difference quite likely smaller than the true difference.</p>
 <p>Where randomized controlled experiments are tricky, quasi-experiments (&ldquo;quasi&rdquo; means &ldquo;as if&rdquo; or &ldquo;almost&rdquo; in Latin) may help data scientists answer questions about causality. If you&rsquo;re interviewing with a marketplace company such as DoorDash, Uber, Lyft, Airbnb, etc. for which regular A/B testing can be problematic, chances are you&rsquo;re expected to have some knowledge of those &ldquo;non-traditional&rdquo; methods.</p>
 <h1 id="switchbacks">Switchbacks</h1>
 <p>For DoorDash to test SOS pricing properly, it&rsquo;s necessary to split the dasher and the customer pools either across space (different markets) or across time (different time of the day). In fact, they do both (DoorDash wrote a wonderful <a href="https://doordash.news/2018/02/14/switchback-tests-and-randomized-experimentation-under-network-effects-at-doordash/">blog post</a>).</p>
@@ -262,8 +269,8 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
 </li>
 </ol>
 <h1 id="difference-in-differences-did">Difference in Differences (DiD)</h1>
-<p><del>Facebook</del> Meta famously did a country test before <a href="https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/">shipping &ldquo;Reactions&rdquo;</a>. It used to be the case that users could only like a post but not express other emotions such as anger or sadness. If someone posted about a loved one passing away, it seemed inappropriate to like it, yet many might not want to leave a comment (e.g., too effortful, not close enough). Meta data scientists hypothesized that, if a wider range of reactions were allowed, people would be more willing to engage with posts. They could run a regular A/B test, randomly assigning users to having or not having reactions. However, if users in different variants are in the same friend circle, you risk creating bad user experiences: Say a treatment user reacted to a post by a control user, the latter would not be able to see it and engage back.</p>
-<p>To alleviate this worry, Meta tested Reactions in different countries, assuming users didn&rsquo;t interact folks from other countries. In this example, country A (green) had reactions while country B (red) didn&rsquo;t. The $y-$axis tracks the number of posts reacted (including likes) to per user, which Meta aimed to drive up.</p>
+<p><del>Facebook</del> Meta famously did a country test before <a href="https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/">shipping &ldquo;Reactions&rdquo;</a>. It used to be the case that users could only like a post but not express other emotions such as anger or sadness. If someone posted about a loved one passing away, it seemed inappropriate to like it, yet many might not want to leave a comment (e.g., too effortful, not close enough). Meta data scientists hypothesized that, if a wider range of reactions were allowed, people would be more willing to engage with posts. They could run a regular A/B test, randomly assigning users to having or not having Reactions. However, if users in different variants are in the same friend circle, you risk creating bad user experiences: Say a treatment user reacted to a post by a control user, the latter would not be able to see it and engage back.</p>
+<p>To alleviate this worry, Meta tested Reactions in different countries, assuming users didn&rsquo;t interact with folks from other countries. In this example, country A (green) had Reactions while country B (red) didn&rsquo;t. The $y-$axis tracks the number of posts reacted (including likes) to per user, which Meta aimed to drive up.</p>
 <figure><img src="https://www.dropbox.com/s/s9x78epex3zw1lk/reactions.png?raw=1"
          alt="The # of posts reacted to per user before and after launching Reactions" width="500"/><figcaption>
             <p>The # of posts reacted to per user before and after launching Reactions</p>
@@ -293,7 +300,7 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
 <p>&ldquo;The outside world often has a much larger effect on metrics than product changes do.&rdquo; Jan Overgoor, <a href="https://medium.com/airbnb-engineering/experiments-at-airbnb-e2db3abf39e7"><em>Experiments at Airbnb</em></a></p>
 </blockquote>
 <p>Synthetic control comes to the rescue: We can build a model that learns the relationship between certain predictors and the target metric in the pre-launching period and then use the learned relationship to forecast how the metric would look later if the feature wasn&rsquo;t launched. This method is called &ldquo;<em>synthetic</em> control&rdquo; in that there never was an actual control: The model&rsquo;s prediction simulates a &ldquo;parallel universe&rdquo; without the feature launch and <strong>the difference between the synthetic control and what actually happened after launching is the treatment effect</strong>.</p>
-<p>Uber data scientists used synthetic control to examine the effect of giving drivers heads up about cash trips. In markets like India where not a lot of people carry credit cards, riders often pay drivers in cash. Cash trips may be inconvenient to the drivers as they need to wire commission fees to Uber later; however, some drivers may prefer to receive cash. Uber wanted to test whether showing drivers whether a trip was a cash trip in advance might affect how many cash trips they took.</p>
+<p>Uber data scientists used synthetic control to measure the effect of giving drivers heads up about cash trips. In markets like India where not a lot of people carry credit cards, riders often pay drivers in cash. Cash trips may be inconvenient to the drivers as they need to wire commission fees to Uber later; however, some drivers may prefer to receive cash. Uber wanted to test whether showing drivers whether a trip was a cash trip in advance might affect how many cash trips they took.</p>
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
   <iframe src="https://www.youtube.com/embed/j5DoJV5S2Ao" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
@@ -311,8 +318,8 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
 <h1 id="did--synth--causalimpact">DiD + Synth 👉 CausalImpact</h1>
 <p><a href="https://google.github.io/CausalImpact/CausalImpact.html">CausalImpact</a> combines ideas from DiD and synth and is the best of both worlds:</p>
 <ul>
-<li><strong>Unlike synth</strong>, there is an actual control group not exposed to the new feature 👉 this means CausalImpact can use control data from both pre- and post-launching periods whereas synth only makes use of the pre-launching data</li>
-<li><strong>Unlike DiD</strong>, we don&rsquo;t need to assume the same regional differences across time or the same time effects across regions 👉 instead, we can build a Bayesian structural time-series model using the control data to predict a &ldquo;synthetic treatment&rdquo; trend and compare it with the actual treatment data</li>
+<li><strong>Unlike synth</strong>, there is an actual control group not exposed to the new feature 👉 this means CausalImpact can use control data from both pre- and post-launching periods whereas synth only makes use of the pre-launching data; hopefully more data means higher generalizability and robustness</li>
+<li><strong>Unlike DiD</strong>, we don&rsquo;t need to assume the same regional differences across time or the same time effects across regions 👉 instead, we can build a Bayesian structural time-series model using the control data to predict a &ldquo;synthetic treatment&rdquo; trend and compare it with the actual treatment</li>
 </ul>
 <p>Google open-sourced the <code>CausalImpact</code> R package. Below is a toy example:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span style="color:#50fa7b">library</span>(CausalImpact)
@@ -362,7 +369,7 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
 </figure>
 
 <ul>
-<li><strong>Assumptions</strong>: Trajectories of &ldquo;near-winners&rdquo; (orders 31 minutes late) and &ldquo;near-losers&rdquo; (orders 29 minutes late) would have been the same without the treatment (refunding), so discontinuity can be attributed to treatment effects.</li>
+<li><strong>Assumption</strong>: Trajectories of &ldquo;near-winners&rdquo; (orders 31 minutes late) and &ldquo;near-losers&rdquo; (orders 29 minutes late) would have been the same without the treatment (refunding), so discontinuity can be attributed to treatment effects.</li>
 <li><strong>Formalism</strong>: $y = f(X) + \beta D + \epsilon$ 👉 $y$: the outcome variable (e.g., LTV); $X$: the &ldquo;running variable&rdquo; that has continuous effects on the outcome (e.g., order lateness); $D$: whether treatment was assigned (0: not refunded, 1: refunded)</li>
 <li><strong>Types</strong>: Depending on whether the cutoff is deterministic, RDD has <a href="https://scholar.princeton.edu/sites/default/files/jmummolo/files/rdd_jm.pdf">two types</a>
 <ul>
@@ -373,8 +380,14 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
 </ul>
 <p>If the outcome is naturally &ldquo;jumpy&rdquo; around the cutoff (people suddenly get hungry 30 minutes after the ETA), you may wrongly attribute discontinuity to treatment.</p>
 <h1 id="regress-it-out">&ldquo;Regress It Out&rdquo;</h1>
-<p>Continuing with the regression idea, we can statistically control for covariates by &ldquo;regressing them out&rdquo;. Say we wanna know how much gender impacts income, we can put potential confounders like education and age in the same model and look at the slope of gender with all else being held the same. If this slope is much steeper than a horizontal line, then we can probably claim that gender affects income.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span>bias <span style="color:#ff79c6">&lt;-</span> <span style="color:#50fa7b">lm</span>(income <span style="color:#ff79c6">~</span> gender <span style="color:#ff79c6">+</span> education <span style="color:#ff79c6">+</span> age, data<span style="color:#ff79c6">=</span>data)
+<p>Continuing with the regression idea, we can statistically control for <strong>confounders</strong> (a fast and loose definition: factors that also affect the outcome) by regressing them out. Say DoorDash wanna know if paying extra money to Dashers during peak hours would increase how many hours they work; we can include <strong>potential confounders that may lead to peak hours</strong> in the same model, <strong>such as bad weather or holidays</strong>, and examine the partial slope of incentive with &ldquo;all else being held the same&rdquo;. If it&rsquo;s much steeper than a horizontal line, we may claim that incentive stipulates supply.</p>
+<figure><img src="https://doordash.engineering/wp-content/uploads/2021/06/image3-1.png"
+         alt="The relationship between Dasher incentive and expected Dasher hours during peak hours could be confounded by holidays, meal time, bad weather, etc. that can lead to peak hours (see DoorDash engineering blog)" width="550"/><figcaption>
+            <p>The relationship between Dasher incentive and expected Dasher hours during peak hours could be confounded by holidays, meal time, bad weather, etc. that can lead to peak hours (see <a href="https://doordash.engineering/2021/06/29/managing-supply-and-demand-balance-through-machine-learning/">DoorDash engineering blog</a>)</p>
+        </figcaption>
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span>incentive <span style="color:#ff79c6">&lt;-</span> <span style="color:#50fa7b">lm</span>(dasher_hours <span style="color:#ff79c6">~</span> incentive <span style="color:#ff79c6">+</span> is_holiday <span style="color:#ff79c6">+</span> is_bad_weather, data<span style="color:#ff79c6">=</span>data)
 </code></pre></div><p>While simple and useful, this method is not always appropriate (<a href="https://journals.sagepub.com/doi/pdf/10.1177/2515245917745629">Rohrer, 2018</a>):</p>
 <ul>
 <li><strong>Colliders</strong>: If $X$ is the common effect of $Y$ and $Z$ ($Y \rightarrow X \leftarrow Z$), controlling for $X$ would result in spurious correlation between $Y$ and $Z$.
@@ -382,25 +395,38 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
 <li><strong>Example</strong>: Warm and competent candidates tend to be successful. In other words, a job offer is the common effect of warmth and competence. Since all of our colleagues were once successful candidates (i.e., interview results are &ldquo;controlled for&rdquo;), when we look around in the office, almost everyone seems warm and competent. If not careful, we may jump to the conclusion that these two traits are intrinsically linked.</li>
 </ul>
 </li>
-<li><strong>Mediators</strong>: If $X$ influences $Y$ through $Z$ ($X \rightarrow Y \rightarrow Z$), controlling for $Y$ leads to the false conclusion that $X$ and $Y$ have no relationship at all.
+<li><strong>Mediators</strong>: If $X$ influences $Z$ through $Y$ ($X \rightarrow Y \rightarrow Z$), controlling for $Y$ leads to the false conclusion that $X$ and $Z$ have no relationship at all.
 <ul>
-<li><strong>Example</strong>: Family wealth impacts education and education impacts future income. However, when we see PhD students (i.e, the education level is controlled for) from different socioeconomic backgrounds making roughly the same amount of $$ after graduation, we may falsely conclude that there&rsquo;s no such thing as generational wealth, at least among PhD&rsquo;s.</li>
+<li><strong>Example</strong>: Family wealth impacts education and education impacts future income. However, when we see PhD students (i.e, the education level is controlled for) from different socioeconomic backgrounds making roughly the same amount of $$ after graduation, we may falsely conclude that there&rsquo;s no such thing as generational wealth.</li>
 </ul>
 </li>
 </ul>
+<figure><img src="https://www.dropbox.com/s/d9yg8h1mizd94uo/dag.png?raw=1"
+         alt="It&amp;rsquo;s desirable to control for confounders but disastrous to control for colliders (Liu et al., 2021) or mediators (Rohrer, 2018)" width="350"/><figcaption>
+            <p>It&rsquo;s desirable to control for confounders but disastrous to control for colliders (Liu et al., 2021) or mediators (Rohrer, 2018)</p>
+        </figcaption>
+</figure>
+
 <p>Since we don&rsquo;t always know how variables are related to one another (which we can represent using Bayesian networks), statistical control may hurt unexpectedly.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<h1 id="instrumental-variables-iv">Instrumental Variables (IV)</h1>
+<p>Last but not least, let&rsquo;s revisit the education example: How does the amount of schooling affect future income? To answer this question, we need to notice something special about schooling: US children are required to enter school the calendar year they are 6 but can leave school as soon as they turn 16. So this would mean that children born earlier in the year (e.g., January) are required to stay in school almost a year longer than those born later the same year (e.g., December).</p>
+<p>To use econometric jargon, years of schooling is the treatment, future income the outcome, and <strong>birth season the instrument variable (IV)</strong>, which can only affect the outcome via the treatment. We can regress the treatment on the IV ($\hat{X} = \alpha IV$) and then regress the outcome on the treatment estimation from the first step ($\hat{Y} = \beta \hat{X}$). IV estimation allows causal inference in the presence of confounders (IVs), without us having to regress them out and thereby wreak havoc unbeknownst to ourselves.</p>
+<figure><img src="https://www.dropbox.com/s/sid3xuo4nrlshul/iv.png?raw=1"
+         alt="Instrumental variable (IV) estimation allows causal inference without statistical control of confounders (Liu et al., 2021)" width="400"/><figcaption>
+            <p>Instrumental variable (IV) estimation allows causal inference without statistical control of confounders (Liu et al., 2021)</p>
+        </figcaption>
+</figure>
+
 <hr>
 <h1 id="summary">Summary</h1>
-<p>As a cognitive scientist, I&rsquo;m writing a dissertation on how people think about causality intuitively. As a data scientist interested in causal inference, it&rsquo;s cool to see how human intuitions and formal methods conversage: For both, the heart of causality is <strong>counterfactuals</strong> — worlds that could have been but never came to be, as well as <strong>intervention</strong> — what we can do to make a difference.</p>
+<p>As a cognitive scientist, I&rsquo;m writing a dissertation on how people think about causality intuitively. As a data scientist interested in causal inference, it&rsquo;s cool to see how human intuitions and formal methods converge: For both, the heart of causality is <strong>counterfactuals</strong> — worlds that could have been but never came to be, as well as <strong>intervention</strong> — what we can do to make a difference.</p>
 <p>Not that long ago, causal inference was rather niche in data science; I&rsquo;m happy to see it quickly gaining popularity in recently years. To summarize what I wrote:</p>
 <ul>
 <li>
-<p><strong>Intervention and counterfactuals</strong>: The common philosophical assumption behind DiD, synth, CausalImpact, and RDD is that if we don&rsquo;t do anything (e.g., launching a new feature), nothing will happen; since something did happen, then what we did had an impact. This falls under the <a href="https://plato.stanford.edu/entries/causation-mani/#Inte">interventionist</a> view of causation: We know A causes B when <em>iif</em> doing A makes B happen. These methods differ in how they construct the counterfactual world without the treatment.</p>
+<p><strong>Counterfactuals and intervention</strong>: The common philosophical assumption behind DiD, synth, CausalImpact, and RDD is that if we don&rsquo;t do anything (e.g., launching a new feature), nothing will happen; since something did happen, then what we did had an impact. This falls under the <a href="https://plato.stanford.edu/entries/causation-mani/#Inte">interventionist</a> view of causation: We know A causes B when <em>iif</em> doing A makes B happen. These methods differ in how they construct the counterfactual world without the treatment.</p>
 </li>
 <li>
-<p><strong>Statistical control</strong>: Apart from what we do, lots of things in the world can make a difference to the outcome. Both PSM and regression hold potential confounders constant and examine whether the variable we&rsquo;re most interested in influences the outcome. We need to be careful that controlling for wrong variables (e.g., common effects and mediators) can lead to wrong conclusions.</p>
+<p><strong>Confounders in the wild</strong>: Other than what we do, lots of things in the world can make a difference to the outcome we care about. PSM and regression both hold confounders constant to see how much the treatment still impacts the outcome. We need to be extra careful how controlling for wrong variables (e.g., common effects and mediators) can lead to wrong conclusions. By contrast, IV can estimate the treatment effect even in the face of confounders but one has to be extra clever to think of useful instrumental variables.</p>
 </li>
 </ul>
 <h1 id="resources">Resources</h1>
@@ -417,9 +443,8 @@ Randomized controlled experiments, or A/B tests, are the gold standard for estab
 <li>Liu, T., Ungar, L., &amp; Kording, K. (2021). Quantifying causality in data science with quasi-experiments. <em>Nature Computational Science</em>, 1(1), 24-32. (<a href="https://www.nature.com/articles/s43588-020-00005-8.pdf">PDF</a>)</li>
 </ol>
 <hr>
-<blockquote>
-<p><a href="https://www.causalscience.org/">Causal Data Science Meeting 2021</a> takes place between November 15 and 16!</p>
-</blockquote>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 <figure><img src="https://www.dropbox.com/s/1dlnw8sr12ifr0m/pearl.png?raw=1" width="500"/>
 </figure>
 
