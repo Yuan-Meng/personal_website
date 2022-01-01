@@ -6,7 +6,7 @@ tags:
     - causal inference
     - quasi-experiment
 categories:
-- notes
+- tutorials
 keywords:
     - causal inference, quasi-experiment
 include_toc: true

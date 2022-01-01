@@ -5,7 +5,7 @@ tags:
     - music
     - guitar
 categories:
-- notes
+- tutorials
 keywords:
     - music, guitar
 ---

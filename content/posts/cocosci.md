@@ -5,7 +5,7 @@ tags:
     - AI
     - cognition
 categories:
-- notes
+- papers
 keywords:
     - AI, cognition
 ---

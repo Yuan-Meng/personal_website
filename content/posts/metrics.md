@@ -5,7 +5,7 @@ tags:
     - metrics
     - product
 categories:
-- notes
+- tutorials
 keywords:
     - metrics, product
 ---
