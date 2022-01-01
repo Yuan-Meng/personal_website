@@ -12,13 +12,13 @@ keywords:
 
 {{< figure src="http://oge.mit.edu/wp-content/uploads/2017/12/Screen-Shot-2017-12-20-at-10.18.54-PM.png" width="600" >}}
 
-Sure, resolutions are meant to be broken, but like everything good in life, it's better to try and fail than never to attempt at all. So here's my attempt for 2022.
+Sure, resolutions are meant to be broken, but like everything good in life, it's better to try and fail than never to have attempted at all. So here's my attempt for 2022.
 
 
 
 # 1. Be a better modeler
 
-2021 felt quite surreal --- I got my first job offer as a machine learning data scientist, something I'd been dreaming of for nearly two years. Now in 2022, I wanna up my ante in the modeling game by working through (a subset of) the following:
+2021 felt quite surreal --- I got my first job offer as a machine learning data scientist, something I'd been dreaming of for nearly two years. In 2022, I wanna up my ante in the modeling game by working through (a subset of) the following:
 
 - **Read Kevin Murphy's [Machine Learning: A Probabilistic Perspective](https://www.amazon.com/Machine-Learning-Probabilistic-Perspective-Computation/dp/0262018020)** to build a solid foundation 👉 I learned ML in a somewhat hacky way, by doing projects across a wide range of topics (e.g., graphs, NLP, recommender systems, etc.); sure, I've taken ML classes and read other ML books, but Kevin Murphy's 1000-page bible is something I just got the courage for and probably closer to my training in computational cognitive science than other ones out there.
 
