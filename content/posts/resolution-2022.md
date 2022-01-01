@@ -42,6 +42,6 @@ In 2022, I want to be kinder, more open, and let people feel valued and loved. A
 
 # 3. Be kind to myself
 
-I'm glad I went to LA on a whim at the end of 2021 and had extensive conversations with my friend (who I bet my 💰 on will be a gifted clinical scientist) about mental health and "doing enough" means. All this weight we carry and rituals we perform in order not to fall behind may just ironically weigh us down. I hope that in 2022, I can learn to let go of the shackles I put on myself and... just do stuff. Last but not least, I'll shop around for a cat and a therapist I really like.
+I'm glad I went to LA on a whim at the end of 2021 and had extensive conversations with my friend (who I bet my 💰 on will be a gifted clinical scientist) about mental health and what "doing enough" means. All this weight we carry and rituals we perform in order not to fall behind may just ironically weigh us down. I hope that in 2022, I can learn to let go of the shackles I put on myself and... just do stuff. Last but not least, I'll shop around for a cat and a therapist I really like.
 
 {{< figure src="https://www.dropbox.com/s/tpwsx5z1j38gaf6/meow.jpg?raw=1" width="400" >}}
