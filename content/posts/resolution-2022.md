@@ -20,7 +20,7 @@ Sure, resolutions are meant to be broken, but like everything good in life, it's
 
 2021 felt quite surreal --- I got my first job offer as a machine learning data scientist, something I'd been dreaming of for nearly two years. In 2022, I wanna up my ante in the modeling game by working through (a subset of) the following:
 
-- **Read Kevin Murphy's [Machine Learning: A Probabilistic Perspective](https://www.amazon.com/Machine-Learning-Probabilistic-Perspective-Computation/dp/0262018020)** to build a solid foundation 👉 I learned ML in a somewhat hacky way, by doing projects across a wide range of topics (e.g., graphs, NLP, recommender systems, etc.); sure, I've taken ML classes and read other ML books, but Kevin Murphy's 1000-page bible is something I just got the courage for and probably closer to my training in computational cognitive science than other ones out there.
+- **Read Kevin Murphy's [Machine Learning: A Probabilistic Perspective](https://www.amazon.com/Machine-Learning-Probabilistic-Perspective-Computation/dp/0262018020)** to build a solid foundation 👉 I learned ML in a somewhat hacky way, by doing projects across a wide range of topics (e.g., graphs, NLP, recommender systems, etc.); sure, I've taken ML classes and read other ML books, but Kevin Murphy's 1000-page bible is something I just got the courage for and probably closer to my training in computational cognitive science (i.e., structured [probabilistic models](https://probmods.org/) and Bayesian stuff) than the other classics out there.
 
 {{< figure src="https://www.dropbox.com/s/263flcrbuy9gila/ml.jpeg?raw=1" width="450" >}}
 
@@ -34,11 +34,9 @@ I also wish to learn more about model serving --- the reason being that deployin
 
 > "It's only love, it's only pain, it's only fear that runs through my veins, it's all the things you can't explain, that makes us human." --- Civil Twilight, [Human](https://open.spotify.com/track/4fDXIANSPZ5TyyIeiTPbD9) (2009)
 
-The pandemic still loomed over 2021 (and will stay for God knows how long...), yet I made more friends than I ever did before, thanks to sports, technology, interviews, and circumstances stranger than Hollywood horrors. I'm so tried of telling the last story nor do I wish to anymore. The upshot is that I've felt pain, had fun, and seen the good, the bad, and the ugly in people --- and I wouldn't trade it for the world.
+The pandemic still loomed over 2021 (and will stay for God knows how long...), yet I made more friends than I ever did before, thanks to sports, tech, interviews, and circumstances stranger than Hollywood horrors. I'm so tried of telling the last story nor do I wish to anymore. The upshot is that I've felt pain, had fun, and seen the good, the bad, and the ugly in people --- and I wouldn't trade it for the world.
 
-In 2022, I want to be kinder, more open, and let people feel valued and loved. As a cognitive scientist working with kids, I used to end experiments with a generic "Thank you", but now I always tell the family how their selfless contribution helps our lab carry on with cool science on rainy days --- maybe I'm older, or maybe it's the apocalypse, I've learned nothing is ever easy in this life and we can take no kindness for granted. And as an introvert, it used to kill me to reach out to folks I admire, but as I'm doing that increasingly more, I feel happier than ever --- this may be the social version of *fortuna favet fortibus* ("fortune favors the bold").
-
-
+In 2022, I want to be kinder, more open, and let people feel valued and loved. As a researcher who works with kids, I used to end experiments with a generic "Thank you", but now I always tell the family how their selfless contribution helps our lab carry on with cool science on rainy days --- maybe I'm older, or maybe it's the apocalypse, I've learned nothing is ever easy in this life and we can take no kindness for granted. And as an introvert, it used to kill me to reach out to folks I admire, but as I'm doing that increasingly more, I feel happier than ever --- this may be the social version of *fortuna favet fortibus* ("fortune favors the bold").
 
 # 3. Be kind to myself
 
