@@ -12,10 +12,7 @@ keywords:
 
 {{< figure src="https://www.dropbox.com/s/2ux6iau56c9s6pf/resolution.png?raw=1" width="600" caption="Piled Higher and Deeper: https://phdcomics.com/comics.php?f=1670" >}}
 
-Sure, resolutions are meant to be broken, but like everything good in life, it's better to try and fail than never to have attempted at all. 
-
-So here's my attempt for 2022.
-
+Resolutions are meant to be broken, but like everything good in life, it's better to try and fail than never to have attempted at all. So here's my attempt for 2022.
 
 
 # 1. Be a better modeler
