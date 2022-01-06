@@ -13,6 +13,15 @@ include_toc: true
 
 ---
 
+---
+**NOTE**
+
+- This post contains technical errors regarding synthetic control. The writing could also be clearer. I plan on updating this article in late January. 
+
+- None of the examples used are from actual DS interviews --- they are adapted from various company engineering blogs and PyData talks that I saw.
+
+---
+
 
 > "Causation [...] is the cement of the universe." — David Hume, *Abstract*
 
