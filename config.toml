@@ -45,7 +45,7 @@ weight = 2
   showAllPostsArchive = false # default
 
   # Home page settings
-  description = "Hi, this is Yuan. I'm a computational cognitive science PhD candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, guitar, symphonic metal, and Oxford commas."
+  description = "Hi, this is Yuan. I'm a [computational cognitive science](https://nyuccl.org/cogsci/) Ph.D. candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, guitar, symphonic metal, and Oxford commas."
   showAllPostsOnHomePage = false # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
   tagsOverview = false # show tags overview by default.
