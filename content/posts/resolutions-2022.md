@@ -1,5 +1,5 @@
 ---
-title: New Year Resolution
+title: New Year Resolutions
 date: 2022-01-01
 tags:
     - resolution
