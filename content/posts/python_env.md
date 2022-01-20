@@ -16,7 +16,7 @@ include_toc: true
 
 ---
 
-[CogSci 131](https://classes.berkeley.edu/content/2022-spring-cogsci-c131-001-lec-001) (Computational Modeling of Cognition) is one of my favorite classes at Berkeley when I took it with Prof. [Tom Griffiths](https://cocosci.princeton.edu/tom/tom.php) in 2016. Now I'm teaching it in my last semester. Before getting to the fun part (e.g., implementing recurrent nets and classic RL algorithms like SARSA using vanilla NumPy), one needs to set up the right Python environment. I hope tutorial can save students some headaches.
+[CogSci 131](https://classes.berkeley.edu/content/2022-spring-cogsci-c131-001-lec-001) (Computational Modeling of Cognition) is one of my favorite classes at Berkeley when I took it with Prof. [Tom Griffiths](https://cocosci.princeton.edu/tom/tom.php) in 2016. Now I'm teaching it in my last semester. Before getting to the fun part (e.g., implementing recurrent nets and classic RL algorithms like SARSA using vanilla NumPy), one needs to set up the right Python environment. I hope this tutorial can save students some headaches.
 
 # Option #1: Conda Virtual Environment
 
