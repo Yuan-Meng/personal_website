@@ -24,7 +24,7 @@ To avoid nightmares down the line👇, use virtual environments for your local s
 
 {{< figure src="https://imgs.xkcd.com/comics/python_environment_2x.png" width="400">}}
 
-1. **Install Miniconda**: Install the right version for your operation system from [this page](https://docs.conda.io/en/latest/miniconda.html) (I used [Anaconda](https://www.anaconda.com/products/individual) years ago that comes with doznes of pre-installed packages, which is more cumbersome or convenient, depending on the perspective)
+1. **Install Miniconda**: Install the right version for your operating system from [this page](https://docs.conda.io/en/latest/miniconda.html) (I used [Anaconda](https://www.anaconda.com/products/individual) years ago that comes with doznes of pre-installed packages, which is more cumbersome or convenient, depending on the perspective)
 
 {{< figure src="https://www.dropbox.com/s/pm4p2v4n57adf5k/miniconda.png?raw=1" width="600" caption="Selection of latest Miniconda installers (if your machine has an Apple silicon chips, pick the third option under MacOS).">}}
 
