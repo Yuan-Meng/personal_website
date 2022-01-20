@@ -26,7 +26,7 @@ To avoid nightmares down the line👇, use virtual environments for your local s
 
 1. **Install Miniconda**: Install the right version for your operating system from [this page](https://docs.conda.io/en/latest/miniconda.html) (I used [Anaconda](https://www.anaconda.com/products/individual) years ago that comes with dozens of pre-installed packages, which is more cumbersome or convenient, depending on the perspective)
 
-{{< figure src="https://www.dropbox.com/s/pm4p2v4n57adf5k/miniconda.png?raw=1" width="600" caption="Selection of latest Miniconda installers (if your machine has an Apple silicon chips, pick the third option under MacOS).">}}
+{{< figure src="https://www.dropbox.com/s/pm4p2v4n57adf5k/miniconda.png?raw=1" width="600" caption="Selection of latest Miniconda installers (if your machine has an Apple silicon chip, pick the third option under MacOS).">}}
 
 2. **Create environment**: Open a terminal 👉 `cd` to where you wanna launch Jupyter (for me it's `cd /Users/apple/Documents/spring2022/cogsci131/notebooks`) 👉 run this command `conda create --name cogsci131 python=3.9.5`
     - "cogsci131" is the name of the environment; you can use whatever you like
