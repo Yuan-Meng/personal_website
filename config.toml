@@ -45,7 +45,7 @@ weight = 2
   showAllPostsArchive = true # default
 
   # Home page settings
-  description = "Hi, this is Yuan. I'm a computational cognitive science Ph.D. candidate at UC Berkeley studying common sense reasoning in adults and kids. My research spans causal reasoning, social learning, and explanations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, symphonic metal, and Oxford commas. Use 重庆话 when I do mental math."
+  description = "Hi, this is Yuan. I'm a computational cognitive science Ph.D. candidate at UC Berkeley studying common sense reasoning in adults and kids. My research spans causal inference, social learning, and explanations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, symphonic metal, and Oxford commas. Use 重庆话 when I do mental math."
   showAllPostsOnHomePage = true # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
   tagsOverview = false # show tags overview by default.
