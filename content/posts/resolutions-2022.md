@@ -2,12 +2,12 @@
 title: New Year Resolutions
 date: 2022-01-01
 tags:
-    - resolution
+    - resolutons
     - 2022
 categories:
 - essays
 keywords:
-    - resolution, 2022
+    - resolutions, 2022
 ---
 
 {{< figure src="https://www.dropbox.com/s/2ux6iau56c9s6pf/resolution.png?raw=1" width="600" caption="Piled Higher and Deeper: https://phdcomics.com/comics.php?f=1670" >}}

@@ -5,6 +5,7 @@ math: true
 tags:
     - causal inference
     - quasi-experiment
+    - statistics
 categories:
 - tutorials
 keywords:

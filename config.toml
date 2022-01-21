@@ -42,11 +42,11 @@ weight = 2
   colortheme = "white" # dark, light, white, or classic
   rss = true # generate rss feed. default value is false
   googleAnalyticsAsync = true # use asynchronous tracking. Synchronous tracking by default
-  showAllPostsArchive = false # default
+  showAllPostsArchive = true # default
 
   # Home page settings
-  description = "Hi, this is Yuan. I'm a [computational cognitive science](https://nyuccl.org/cogsci/) Ph.D. candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, guitar, symphonic metal, and Oxford commas."
-  showAllPostsOnHomePage = false # default
+  description = "Hi, this is Yuan. I'm a [computational cognitive science](https://nyuccl.org/cogsci/) Ph.D. candidate at UC Berkeley studying how kids and adults figure out causality and reinforce stereotypes through exploration and observations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, guitar, symphonic metal, and Oxford commas. Speak 重庆话 natively."
+  showAllPostsOnHomePage = true # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
   tagsOverview = false # show tags overview by default.
   showProjectsList = true # show projects list by default (if projects data file exists).
