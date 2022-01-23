@@ -19,9 +19,9 @@ include_toc: true
 
 # Why Ask Why?
 
-## We can't but think about causation
+## We can't help but think about causation
 
-As a cognitive scientist, I study common sense causal reasoning. Folks say *"correlation is not causation"* like a broken record, yet we can't help but think "leaves fall *because* the wind blows", not "leaves *happen to* fall *after* the wind blows". If you're intrigued, I highly recommend [this talk](https://youtu.be/q0HLci67Tr8) by Tobias Gerstenberg at Standford.
+As a cognitive scientist, I study common sense causal reasoning. Folks say *"correlation is not causation"* like a broken record, yet we can't help but think "leaves fall *because* the wind blows", not "leaves *happen to* fall *after* the wind blows". If you're intrigued by causal cognition, I recommend [this talk](https://youtu.be/q0HLci67Tr8) by Tobias Gerstenberg .
  
 {{< figure src="https://www.dropbox.com/s/gfiw187r502jb1l/1t1_redgreen_2sec.gif?raw=1" width="350" caption="[Kominsky et al. (2017)](http://www.jfkominsky.com/demos.html) showed that even 12-month-olds 'think' the red block makes the green one move if the motions abide by Newton's Third Law.">}}
 
@@ -65,7 +65,7 @@ This design is called "switchbacks", in that a market is switched back and forth
 
     ```r
     library(lme4)
-    sos <- lmer(delivery_time ~ has_sos + (1|market/time), data=sb_data)
+    lmer(delivery_time ~ has_sos + (1|market/time), data=sb_data)
     ```
 
     Moreover, we can use the "[Huber Sandwich Estimator](https://stats.stackexchange.com/questions/50778/sandwich-estimator-intuition)" to compute variance, which doesn't make the independence assumption like ordinary least squares (OLS).
@@ -151,65 +151,110 @@ Selection bias comes to haunt us: Ads are personalized, so those who are shown a
 
 Instead, we can use user demographics and behaviors to predict the probability that 1) they are shown an ad and 2) will click on it and match clickers vs. non-clickers based on this propensity ($p(\mathrm{expose}) \times p(\mathrm{click})$). If we see a difference in their conversation rates, we can be more confident that this ad campaign had an effect.
 
----
-
-**CONTENT BELOW UNDER UPDATING**
-
-I'm rewriting this post for more clarity and accuracy. Updated version coming soon...
-
----
 
 # Method 2: Counterfactuals
 
-## 3. Difference in Differences (DiD)
+To use regression or matching, we need many treated vs. untreated units whose outcomes we can compare. It's hard to measure the causal impact of an election, a policy change, or a pandemic using statistical control. These events are special because they 1) happen *infrequently* and 2) impact *large units* such as an entire city, state, or country. As a result of *both*, treated units are few and far between. 
+
+Why do events have to meet both criteria? We can think of some counterexamples:
+- **Rare but units are small**: A particular A/B test only happens that once, but because the units are small (e.g., users or even pageviews), one experiment still results in many treated vs. untreated units.
+- **Large units but not rare**: Weekends impact the entire planet, not chosen individuals (I digress: PhD students be like ["What weekends?"](https://phdcomics.com/comics.php?f=1924)), but because they happen every week, we also have many treated vs. untreated units.
+
+<!-- > "The outside world often has a much larger effect on metrics than product changes do." Jan Overgoor, [*Experiments at Airbnb*](https://medium.com/airbnb-engineering/experiments-at-airbnb-e2db3abf39e7)
+ -->
+[Comparative case studies](https://en.wikipedia.org/wiki/Case_study) are traditionally used in those cases, like comparing how "similar" countries went on different trajectories because a major event (e.g., a war) happened in some but not others. The underlying philosophy is the [counterfactual view of causation](https://plato.stanford.edu/entries/causation-counterfactual/): By saying "$X$ (the event) causes $Y$" (an outcome)", we mean that "had $X$  not happened, $Y$ would not have occurred". Methods such as difference-in-differences (DD) and synthetic control put this idea into action --- they both use untreated units *similar* (I avoided the definition again, which I'll discuss later) to a treated unit to create a "parallel" universe of the treated unit where the treatment never occurred. If the treatment had no effect, the counterfactual outcome in the parallel universe would be the same as the actual outcome in the real world; if the two diverge, it provides evidence the treatment has a causal impact.
+
+## 3. Difference-in-Differences (DD)
+
+Let's look at some classic examples in tech. In the old days, Meta users could only like a post but not express other emotions such as anger or sadness. If someone posted about a loved one passing away, it seemed inappropriate to like it, yet many might not want to leave a comment (e.g., too effortful, not close enough). Meta data scientists hypothesized that, if more reactions were allowed, people would be more willing to engage with posts. Because of the "spillover effect" mentioned before, a regular A/B test wasn't a good idea (e.g., if a treatment user reacted to a post by control user, the latter would not be able to see it and engage back). 
+
+To avoid bad user experience and contaminated results, Meta did a geo experiment ([talk](https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/)). Let's they rolled out this new "Reactions" feature to Canada (treated) but not to the US (untreated) and measured the number of posts reacted to (including likes) per user before and after the rollout. Below are results I made up.
+
+{{< figure src="https://www.dropbox.com/s/qt9aoe34zc60fv7/diff-in-diff.png?raw=1" width="400" caption="\# of posts reacted to per user before and after launching Reactions">}}
+
+What's the treatment effect of Reactions? To answer this question, we need to assume that the outcome will *trend the same way* in different countries if the treatment had no effect. Under this "common trend" assumption, the blue line in Canada would still be parallel to the blue line in the US after the rollout. The fact that the solid blue line showing the actual outcome is higher than the dashed blue line showing the counterfactual outcome means "Reactions" drove up the outcome metric. 
+
+Another way to understand the treatment effect is to look at the table below:
+
+<div align="center">
+
+|        | Canada (treated) | US (untreated) | difference |
+|:------:|:----------------:|:--------------:|:----------:|
+| before | 3.5              | 4.2            | -0.7       |
+| after  | 5.0              | 4.9            | +0.1       |
+| change | +1.5             | +0.7           | +0.8       |
+
+</div>
+
+- **Same time effect across units**: Under the common trend assumption, if the # of reactions per user increased by 0.7 in the US, it should also increase by 0.7 in Canada. However, it actually decreased by 1.5 in Canada  — the 0.8 difference between our expectation and the reality is the treatment effect of Reactions.  
+- **Same regional difference across time**: Again assuming the common trend, if an average US user reacted to 0.7 more posts compared to an average Canadian user before the launch, we should see the same difference afterwards. However, after the launch, an average US user reacted to 0.1 fewer posts than an average Canadian user. The 0.8 between these two differences is the treatment effect. 
+
+If the common trend assumption breaks, the analysis above is invalid. One way to check is to use the unit type ($D_{treatment} = 1$: Canada; $D_{treatment} = 0$: US), covariates $X$ relevant to the outcome, and their [interaction](https://en.wikipedia.org/wiki/Interaction_(statistics)) (an interaction means the same covariates impact different units differently) to predict the outcome: 
+
+$$Y = \beta_0 + \beta_1 D_{treatment} + \beta_2 X + \beta_3 D_{treatment} X + \epsilon.$$
+
+If the interaction $\beta_3$ is not significant, maybe we can buy this assumption.  
+
+But what if the trends are already different before the launch? In the research design phase, we can use *matching* to select untreated units that are similar (e.g., population, culture, user demographics and behavioral patterns, etc.) to the treated unit. The hope is that matched units are more likely to share a common trend. If you still don't want to commit to this strong assumption, then you can use methods such as synthetic control or CausalImpact to explicitly model trends over time.   
+
 ## 4. Synthetic Control
-## 5. CausalImpact
+
+For Uber, in markets like India or South America where credit cards are not the norm, riders often pay drivers [by cash](https://techcrunch.com/2015/05/11/uber-is-testing-cash-payments-in-hyderabad-india/). Uber charges drivers \~25% of their earnings as the "service fee" so drivers receiving cash payments need to wire this fee to Uber. This may create hassles for the drivers and will take them off the road for a bit. Alternatively, drivers may prefer cash over credit card payments. It's hard to know. Uber was considering giving drivers a heads up about the trip type: For a cash trip, the app will show "CASH"; otherwise, the app doesn't say anything. One of the success metrics could be the number of cash trips per driver. 
+
+Uber faced the same problem as DoorDash: In the same market, if treatment drivers accept more or fewer cash strops, the control will have fewer or more left to accept. Can Uber use switchbacks? That would be problematic: If a driver was in treatment and received heads up about cash trips, after being switched to control, they will interpret not seeing "CASH" as a non-cash trip rather than not knowing the type. Instead, Uber used synthetic control ([talk](https://youtu.be/j5DoJV5S2Ao)). Below is a rough sketch:
+
+1. **Choose a donor pool**: We can roll out this feature only to, say, São Paulo (treated), and use matching to find $J$ untreated cities with similar characteristics (credit card prevalence, population, etc.), such as Rio de Janeiro and Lima. The untreated units we selected are called the "donor pool". Later they will help us create a "synthetic São Paulo" with no treatment.
+2. **Find the weight of each unit**: Not all untreated units are equally important. We can use the pre-treatment data to find the optimal weight of each. To do so --- 
+    - We first choose features $\mathbf{X}$ (e.g., weather, events, holiday) that can be used to predict the outcome and find their importances $\mathbf{V}$ (generally, the higher the predictive power, the higher the importance)
+    - Then we build a model to predict each unit's pre-treatment outcome and optimize the weights to minimize the difference between the treated unit and the donor pool average, $\|\mathbf{X_1} - \mathbf{X_0}\mathbf{W}\| =\sqrt{\sum_{h=1}^{k}v_h(X_{h1}-\sum_{j=2}^{j+1}w_jX_{hj})^2}$ 👉 weights are non-negative ($w_j \geq 0$) and add up to 1 ($\sum_{j=2}^{J+1}w_j = 1$).
+3. **Create a synthetic control**: After finding the weights (e.g., Rio: .6; Lima: .4), we can used the weighted average of the donor pool to project the post-treatment outcome in the treated unit if  the treatment didn't occur, $\sum_{j=2}^{J+1} w_j Y_{jt}$ 👉 *drum roll*... this weighted average is called the "synthetic control" and represents our best guess for how things could have been in untreated São Paulo. At any point $t$ after the launch, the difference between the actual and the synthetic São Paulo is the treatment effect at $t$, $Y_{1t}^{treated} - \sum_{j=2}^{J+1} w_j Y_{jt}$.
+
+    {{< figure src="https://www.dropbox.com/s/tebslmo8g1agtlm/synthetic_controk.png?raw=1" width="600" caption="Uber used the synthetic control method to measure how much giving drivers heads up about cash trips impacted # of cash trips per driver">}}
+
+4. **Significance test**: As we can see, notifying drivers of cash trips seemed to have reduced the number of cash trips per driver in São Paulo. Is the decrease *statistically significant*? Synthetic control practitioners often use permutation tests to answer this question. We can "pretend" each untreated unit is treated and go through steps #1-3 to create a synthetic control and find the "treatment effect". Since the treatment didn't happen there, the effect should be small. Say we have 50 untreated units and the treated unit's effect ranks second, we can be quite confident that the treatment effect is significant. 
+
+Compared to previous methods, synthetic control is quite complex and many things can go wrong (check out [Abadie, 2021](https://economics.mit.edu/files/17847) for more details):
+- **Donor pool**: If untreated units are dissimilar to the treated unit, we cannot create good counterfactuals (most weights are 0). Again, matching comes handy.
+- **Overfitting**: In a short pre-treatment period with too many untreated units, we're bound to "overfit" --- the synthetic control may mimic the treated unit too exactly rather than giving us a robust projection of the possible trend. 
+- **Data peaking**: When choosing the donor pool and optimizing weights, we may peek at the post-treatment data and end up finding false positive treatment effects. 
+- **Level of questions**: If you wish to answer questions about individual users, synthetic control is not the right method. And if you make a small UI change, synthetic control is also not great for detecting such weak signals.
+
+<!-- ## 5. CausalImpact -->
 
 # Method 3: Natural Experiments
 
-## 6. Regression Discontinuity Design (RDD)
-## 7. Instrumental Variables (IVs)
+## 5. Regression Discontinuity Design (RDD)
+
+Consider another DoorDash example. Late orders anger hungry customers; the later, the worse. Frustrated customers may order less in the future or even churn, resulting in lower lifetime values (LTVs). To make things slightly better, DoorDash automatically issues a refund to orders $\geq$ 30 minutes late. How does it impact LTV? 
+
+It's unfair to randomly assign customers into getting or not getting a refund, but it's also wrong to compare LTV between those who received or didn't receive refunds, since average lateness is likely higher in the former than in the latter.
+
+To answer this question, we can use a regression discontinuity design (RDD), using order lateness (minutes late) and refund status (received or not) to predict LTV. As we can see in the figure below, the upward "jump" right after the 30-minute cutoff shows auto-refunding saved DoorDash's customer LTV, albeit not a lot.
+
+{{< figure src="https://www.dropbox.com/s/vz60f040euu0465/rdd.png?raw=1" width="550" caption="DoorDash uses regression discontinuity design (RDD) to measure the impact of auto-refunding on customer LTVs when orders arrive late">}}
+
+- **Assumption**: Trajectories of "near-winners" (orders 31 minutes late) and "near-losers" (orders 29 minutes late) would have been the same without the treatment (refunding), so discontinuity can be attributed to treatment effects. 
+- **Formalism**: $y = f(X) + \beta D + \epsilon$ 👉 $y$: the outcome variable (e.g., LTV); $X$: the "running variable" that has continuous effects on the outcome (e.g., order lateness); $D$: whether treatment was assigned (0: not refunded, 1: refunded)
+- **Types**: Depending on whether the cutoff is deterministic, RDD has [two types](https://scholar.princeton.edu/sites/default/files/jmummolo/files/rdd_jm.pdf)
+  - **Sharp (deterministic)**: Orders $\geq$ 30 minutes late definitely receive a refund and those $<$ 30 minutes late definitely don't 
+  - **Fuzzy (probabilistic)**: The admission office has a suggested SAT cutoff, but students with lower scores might still get in through special programs
 
 
-<!-- ~~Facebook~~ Meta famously did a country test before [shipping "Reactions"](https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/). It used to be the case that users could only like a post but not express other emotions such as anger or sadness. If someone posted about a loved one passing away, it seemed inappropriate to like it, yet many might not want to leave a comment (e.g., too effortful, not close enough). Meta data scientists hypothesized that, if a wider range of reactions were allowed, people would be more willing to engage with posts. They could run a regular A/B test, randomly assigning users to having or not having Reactions. However, if users in different variants are in the same friend circle, you risk creating bad user experiences: Say a treatment user reacted to a post by a control user, the latter would not be able to see it and engage back. 
-
-To alleviate this worry, Meta tested Reactions in different countries, assuming users didn't interact with folks from other countries. In this example, country A (green) had Reactions while country B (red) didn't. The $y-$axis tracks the number of posts reacted (including likes) to per user, which Meta aimed to drive up.
-
-{{< figure src="https://www.dropbox.com/s/s9x78epex3zw1lk/reactions.png?raw=1" width="500" caption="The # of posts reacted to per user before and after launching Reactions">}}
+If the outcome is naturally "jumpy" around the cutoff (people suddenly get hungry 30 minutes after the ETA), you may wrongly attribute discontinuity to treatment.
 
 
-- **Assumptions**: 1) Differences between countries are the same at different points in time and 2) the time effect is the same across different countries. 
+## 6. Instrumental Variables (IVs)
 
-- **Analysis**: Under those assumptions, if Reactions had no effect at all, the green line would be parallel to the red line after feature launching. In my badly drawn illustration, **the difference between the actual green line and the dotted green line** (the counterfactual under the null hypothesis) **is the treatment effect**. This method is called **"difference in differences (DiD)"**. 
+Last but not least, let's revisit the education example: How does the amount of schooling affect future income? To answer this question, we need to notice something special about schooling: US children are required to enter school the calendar year they are 6 but can leave school as soon as they turn 16. So this would mean that children born earlier in the year (e.g., January) are required to stay in school almost a year longer than those born later the same year (e.g., December). 
 
-- **Formalism**: $y = \beta_0 + \beta_1 D_{post} + \beta_2 D_{treatment} + \beta_3 D_{post} D_{treatment} + \beta_4 X + \epsilon$
-  - **Variables**: $y$: the value of the success metric (e.g., # of posts reacted to per user); $D_{post}$: whether an observation came from the pre-launching or the post-launching period (0: pre, 1: post); $D_{treatment}$: whether an observation was in treatment or control (1: treatment, 0: control); $X$: covariates (e.g., country/user demographics)
-  - **Interpretation**: The interaction $\beta_3$ is the difference in differences
+To use econometric jargon, years of schooling is the treatment, future income the outcome, and **birth season the instrument variable (IV)**, which can only affect the outcome via the treatment. We can regress the treatment on the IV ($\hat{X} = \alpha IV$) and then regress the outcome on the treatment estimation from the first step ($\hat{Y} = \beta \hat{X}$). IV estimation allows causal inference in the presence of confounders (IVs), without us having to regress them out and thereby wreak havoc unbeknownst to ourselves.
 
-DiD is an old method that's fast but crude: Both of the assumptions above can be easily violated (e.g., between-country differences may change over time and time effects may differ by country), resulting in invalid conclusions. As we'll see in a minute, more sophisticated methods such as synthetic control and CausalImpact are developed to make causal inference without these rigid assumptions.
+{{< figure src="https://www.dropbox.com/s/sid3xuo4nrlshul/iv.png?raw=1" width="400" caption="Instrumental variable (IV) estimation allows causal inference without statistical control of confounders (Liu et al., 2021)">}}  
+
+
+<!-- 
 
 # Synthetic Control (Synth)
-
-Sometimes we can't but roll out a feature to all users at once (e.g., due to urgency or the worry that treatment users might leak confidential information to the Internet) but still wish to know what would be like without this new feature.
-
-A simple thing to do is compare metrics before and after the launch. However, changes may result from what's happening in the world besides the feature launch. 
-
-> "The outside world often has a much larger effect on metrics than product changes do." Jan Overgoor, [*Experiments at Airbnb*](https://medium.com/airbnb-engineering/experiments-at-airbnb-e2db3abf39e7)
-
-
-Synthetic control comes to the rescue: We can build a model that learns the relationship between certain predictors and the target metric in the pre-launching period and then use the learned relationship to forecast how the metric would look later if the feature wasn't launched. This method is called "*synthetic* control" in that there never was an actual control: The model's prediction simulates a "parallel universe" without the feature launch and **the difference between the synthetic control and what actually happened after launching is the treatment effect**.
-
-Uber data scientists used synthetic control to measure the effect of giving drivers heads up about cash trips. In markets like India where not a lot of people carry credit cards, riders often pay drivers in cash. Cash trips may be inconvenient to the drivers as they need to wire commission fees to Uber later; however, some drivers may prefer to receive cash. Uber wanted to test whether showing drivers whether a trip was a cash trip in advance might affect how many cash trips they took. 
-
-{{< youtube j5DoJV5S2Ao >}}
-
-Uber faced the same problem as DoorDash did: A market shares the same pool of drivers and riders; if the treatment takes more or fewer cash trips, the control will have fewer or more cash trips to take. Can Uber use switchbacks like DoorDash? Nice guess, but that would be inappropriate: Imagine, a driver was in treatment and received heads up about cash trips; when they are switched to control, they'll naturally think a trip without a heads up is non-cash rather than type unknown. 
-
-{{< figure src="https://www.dropbox.com/s/tebslmo8g1agtlm/synthetic_controk.png?raw=1" width="600" caption="Uber used synthetic control to test heads up to drivers about cash trips (to report to stakeholders, you can average the differences over time)">}}
-
-Instead, Uber data scientists trained a time-series model to predict the number of cash trips had the feature not been rolled out in a city ("synthetic city") and compared the prediction with the actual number of cash trips after the rollout ("treatment city"). The difference between the two shows that telling drivers about the trip type encouraged them to take more cash trips.
-
-To successfully implement synthetic control, you gotta be a good time-series modeler and are *not* tempted to tweak your model until you find treatment effects.
 
 # DiD + Synth 👉 CausalImpact
 
@@ -231,54 +276,6 @@ HelloFresh used CausalImpact to measure the impact of a YouTube ad campaign acro
 
 {{< youtube KEhJNM5K73A >}}
 
-
-# Regression Discontinuity Design (RDD)
-
-Consider another DoorDash example. Late orders anger hungry customers; the later, the worse. Frustrated customers may order less in the future or even churn, resulting in lower lifetime values (LTVs). To make things slightly better, DoorDash automatically issues a refund to orders $\geq$ 30 minutes late. How does it impact LTV? 
-
-It's unfair to randomly assign customers into getting or not getting a refund, but it's also wrong to compare LTV between those who received or didn't receive refunds, since average lateness is likely higher in the former than in the latter.
-
-To answer this question, we can use a regression discontinuity design (RDD), using order lateness (minutes late) and refund status (received or not) to predict LTV. As we can see in the figure below, the upward "jump" right after the 30-minute cutoff shows auto-refunding saved DoorDash's customer LTV, albeit not a lot.
-
-{{< figure src="https://www.dropbox.com/s/vz60f040euu0465/rdd.png?raw=1" width="550" caption="DoorDash uses regression discontinuity design (RDD) to measure the impact of auto-refunding on customer LTVs when orders arrive late">}}
-
-- **Assumption**: Trajectories of "near-winners" (orders 31 minutes late) and "near-losers" (orders 29 minutes late) would have been the same without the treatment (refunding), so discontinuity can be attributed to treatment effects. 
-- **Formalism**: $y = f(X) + \beta D + \epsilon$ 👉 $y$: the outcome variable (e.g., LTV); $X$: the "running variable" that has continuous effects on the outcome (e.g., order lateness); $D$: whether treatment was assigned (0: not refunded, 1: refunded)
-- **Types**: Depending on whether the cutoff is deterministic, RDD has [two types](https://scholar.princeton.edu/sites/default/files/jmummolo/files/rdd_jm.pdf)
-  - **Sharp (deterministic)**: Orders $\geq$ 30 minutes late definitely receive a refund and those $<$ 30 minutes late definitely don't 
-  - **Fuzzy (probabilistic)**: The admission office has a suggested SAT cutoff, but students with lower scores might still get in through special programs
-
-
-If the outcome is naturally "jumpy" around the cutoff (people suddenly get hungry 30 minutes after the ETA), you may wrongly attribute discontinuity to treatment.
-
-# "Regress It Out"
-
-Continuing with the regression idea, we can statistically control for **confounders** (a fast and loose definition: factors that also affect the outcome) by regressing them out. Say DoorDash wanna know if paying extra money to Dashers during peak hours would increase how many hours they work; we can include **potential confounders that may lead to peak hours** in the same model, **such as bad weather or holidays**, and examine the partial slope of incentive with "all else being held the same". If it's much steeper than a horizontal line, we may claim that incentive stipulates supply.
-
-{{< figure src="https://doordash.engineering/wp-content/uploads/2021/06/image3-1.png" width="550" caption="The relationship between Dasher incentive and expected Dasher hours during peak hours could be confounded by holidays, meal time, bad weather, etc. that can lead to peak hours (see [DoorDash engineering blog](https://doordash.engineering/2021/06/29/managing-supply-and-demand-balance-through-machine-learning/))">}}
-
-```r
-incentive <- lm(dasher_hours ~ incentive + is_holiday + is_bad_weather, data=data)
-```
-
-While simple and useful, this method is not always appropriate ([Rohrer, 2018](https://journals.sagepub.com/doi/pdf/10.1177/2515245917745629)):
-
-- **Colliders**: If $X$ is the common effect of $Y$ and $Z$ ($Y \rightarrow X \leftarrow Z$), controlling for $X$ would result in spurious correlation between $Y$ and $Z$. 
-  - **Example**: Warm and competent candidates tend to be successful. In other words, a job offer is the common effect of warmth and competence. Since all of our colleagues were once successful candidates (i.e., interview results are "controlled for"), when we look around in the office, almost everyone seems warm and competent. If not careful, we may jump to the conclusion that these two traits are intrinsically linked.
-- **Mediators**: If $X$ influences $Z$ through $Y$ ($X \rightarrow Y \rightarrow Z$), controlling for $Y$ leads to the false conclusion that $X$ and $Z$ have no relationship at all. 
-  - **Example**: Family wealth impacts education and education impacts future income. However, when we see PhD students (i.e, the education level is controlled for) from different socioeconomic backgrounds making roughly the same amount of $$ after graduation, we may falsely conclude that there's no such thing as generational wealth.
-
-{{< figure src="https://www.dropbox.com/s/d9yg8h1mizd94uo/dag.png?raw=1" width="350" caption="It's desirable to control for confounders but disastrous to control for colliders (Liu et al., 2021) or mediators (Rohrer, 2018)">}}  
-
-Since we don't always know how variables are related to one another (which we can represent using Bayesian networks), statistical control may hurt unexpectedly. 
-
-# Instrumental Variables (IV)
-
-Last but not least, let's revisit the education example: How does the amount of schooling affect future income? To answer this question, we need to notice something special about schooling: US children are required to enter school the calendar year they are 6 but can leave school as soon as they turn 16. So this would mean that children born earlier in the year (e.g., January) are required to stay in school almost a year longer than those born later the same year (e.g., December). 
-
-To use econometric jargon, years of schooling is the treatment, future income the outcome, and **birth season the instrument variable (IV)**, which can only affect the outcome via the treatment. We can regress the treatment on the IV ($\hat{X} = \alpha IV$) and then regress the outcome on the treatment estimation from the first step ($\hat{Y} = \beta \hat{X}$). IV estimation allows causal inference in the presence of confounders (IVs), without us having to regress them out and thereby wreak havoc unbeknownst to ourselves.
-
-{{< figure src="https://www.dropbox.com/s/sid3xuo4nrlshul/iv.png?raw=1" width="400" caption="Instrumental variable (IV) estimation allows causal inference without statistical control of confounders (Liu et al., 2021)">}}  
 
 ---
 # Summary 
