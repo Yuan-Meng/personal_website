@@ -25,7 +25,7 @@ weight = 2
   [markup.tableOfContents]
     endLevel = 4
     ordered = false
-    startLevel = 2
+    startLevel = 1
   [markup.highlight]
     codeFences = true
     guessSyntax = false
@@ -46,7 +46,7 @@ weight = 2
 
   # Home page settings
   description = "Hi, this is Yuan. I'm a computational cognitive science Ph.D. candidate at UC Berkeley studying common sense reasoning in adults and kids. My research spans causal inference, social learning, and explanations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, symphonic metal, and Oxford commas. Use 重庆话 when I do mental math."
-  showAllPostsOnHomePage = true # default
+  showAllPostsOnHomePage = false # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
   tagsOverview = false # show tags overview by default.
   showProjectsList = true # show projects list by default (if projects data file exists).
@@ -70,6 +70,8 @@ weight = 2
       siteName = "your_cactus_comments_sitename" # see https://cactus.chat/ on how to register your site name
       #serverUrl = "" # Defaults to https://matrix.cactus.chat:8448 (Cactus Chat public server)
       #serverName = "" # Defaults to cactus.chat
+
+  tocInline = true
 
   # the value of name should be an valid font awesome icon name (brands type)
   # https://fontawesome.com/icons?d=gallery&s=brands
