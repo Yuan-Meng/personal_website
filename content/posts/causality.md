@@ -95,7 +95,7 @@ People with health concerns (e.g., asthma), higher social economic status, etc. 
 
 
 
-# Method 1: Statistical control 
+# Method 1: Statistical Control 
 
 When life gives you a confounder, you can squeeze (weak) causation out of it using statistical control. The idea is that we hold confounders at constant values and only let the treatment vary; if the outcome changes, we can be a bit more confident that the treatment has an effect. Two common methods are regression and matching.
 
@@ -165,7 +165,7 @@ I'm rewriting this post for more clarity and accuracy. Updated version coming so
 ## 4. Synthetic Control
 ## 5. CausalImpact
 
-# Method 3: Natural experiments
+# Method 3: Natural Experiments
 
 ## 6. Regression Discontinuity Design (RDD)
 ## 7. Instrumental Variables (IVs)
