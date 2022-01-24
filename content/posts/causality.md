@@ -110,7 +110,7 @@ To "regress out" all relevant confounders, we can include them in the same model
 lm(infection_rate ~ got_booster + age + has_asthema + SES + ..., data=omicron)
 ```
 
-After fitting the model to the data, we can extract the **partial slope** of the treatment (`get_booster`). The slope tells us, *with all else being the same*, how much getting a booster changes one's infection rate compared to not getting one. A horizontal slope ($\beta = 0$) indicates no treatment effect and $\beta <0$ means boosters may reduce infection rates (if $\beta > 0$, then the booster backfired🦠...).
+After fitting the model to the data, we can extract the **partial slope** of the treatment (`get_booster`). The slope tells us, *with all else being the same*, how much getting a booster changes one's infection rate compared to not getting one. A horizontal slope ($\beta = 0$) indicates no treatment effect and $\beta <0$ means boosters may reduce infection rates (if $\beta > 0$, then the booster backfired🦠...). 
 
 "Garbage can regression" is dangerous. Potential mistakes come in two flavors:
 
@@ -174,7 +174,7 @@ To avoid bad user experience and contaminated results, Meta did a geo experiment
 
 {{< figure src="https://www.dropbox.com/s/qt9aoe34zc60fv7/diff-in-diff.png?raw=1" width="400" caption="\# of posts reacted to per user before and after launching Reactions">}}
 
-What's the treatment effect of Reactions? To answer this question, we need to assume that the outcome will *trend the same way* in different countries if the treatment had no effect. Under this "common trend" assumption, the blue line in Canada would still be parallel to the blue line in the US after the rollout. The fact that the solid blue line showing the actual outcome is higher than the dashed blue line showing the counterfactual outcome means "Reactions" drove up the outcome metric. 
+What's the treatment effect of Reactions? To answer this question, we need to assume that the outcome will *trend the same way* in different countries if the treatment had no effect. Under this "common trend" assumption, the (dashed) blue line in Canada would still be parallel to the green line in the US after the rollout. The fact that the solid blue line showing the actual outcome is higher than the dashed blue line showing the counterfactual outcome means "Reactions" drove up the outcome metric. 
 
 Another way to understand the treatment effect is to look at the table below:
 
@@ -295,7 +295,7 @@ Even with a ton of domain knowledge, it's still hard to find great instruments t
 5. [Causal Inference: The Mixtape](https://mixtape.scunning.com/) 
     - 👉 similar to #4; also aims to cover all grounds and provides implementations (R + Stata)
 6. [The Effect: An Introduction to Research Design and Causality](https://theeffectbook.net/) 
-    - 👉 similar to #4 & #6, but more in depth
+    - 👉 similar to #4 & #5, but more in depth
 
 
 ## Papers
