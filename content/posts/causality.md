@@ -298,20 +298,21 @@ Even with a ton of domain knowledge, it's still hard to find great instruments t
 
 ## Papers
 
-1. Abadie, A. (2021). Using synthetic controls: Feasibility, data requirements, and methodological aspects. *Journal of Economic Literature, 59*(2), 391-425. ([PDF](https://inferenceproject.yale.edu/sites/default/files/jel.20191450.pdf)) 
+7. Abadie, A. (2021). Using synthetic controls: Feasibility, data requirements, and methodological aspects. *Journal of Economic Literature, 59*(2), 391-425. ([PDF](https://inferenceproject.yale.edu/sites/default/files/jel.20191450.pdf)) 
     -  👉 review paper by creator of synthetic control; may not have all the details (e.g., how to select predictors and find feature importances...)
-2. Liu, T., Ungar, L., & Kording, K. (2021). Quantifying causality in data science with quasi-experiments. *Nature Computational Science, 1*(1), 24-32. ([PDF](https://www.nature.com/articles/s43588-020-00005-8.pdf)) 
+8. Liu, T., Ungar, L., & Kording, K. (2021). Quantifying causality in data science with quasi-experiments. *Nature Computational Science, 1*(1), 24-32. ([PDF](https://www.nature.com/articles/s43588-020-00005-8.pdf)) 
     - 👉 short review paper covering IV, RDD, and DD; has nice examples in neuroscience + industry + social issues
-3. Rohrer, J. M. (2018). Thinking clearly about correlations and causation: Graphical causal models for observational data. *Advances in Methods and Practices in Psychological Science, 1*(1), 27-42. ([PDF](https://psyarxiv.com/t3qub/download?format=pdf)) 
+9. Rohrer, J. M. (2018). Thinking clearly about correlations and causation: Graphical causal models for observational data. *Advances in Methods and Practices in Psychological Science, 1*(1), 27-42. ([PDF](https://psyarxiv.com/t3qub/download?format=pdf)) 
     - 👉 my regression section is based on this lovely paper; really helps you think more clearly about causal relationships 
 
-## Talks & Blogs
+## Talks 
+10. [When Do We Actually Need Causal Inference?](https://youtu.be/2dv7NrYExzo) by Sean Taylor
+11. [Causality in Neuroscience and Beyond](https://youtu.be/ahyp-zox3Ks) by Konrad Körding
+12. [Science Before Statistics: Causal Inference](https://youtu.be/KNPYUVmY3NM) by Richard McElreath 
+13. [Inferring the Effect of an Event Using CausalImpact](https://www.youtube.com/watch?v=GTgZfCltMm8) by Kay Brodersen
 
-1. [When Do We Actually Need Causal Inference?](https://youtu.be/2dv7NrYExzo) by Sean Taylor
-2. [Causality in Neuroscience and Beyond](https://youtu.be/ahyp-zox3Ks) by Konrad Körding
-3. [Science Before Statistics: Causal Inference](https://youtu.be/KNPYUVmY3NM) by Richard McElreath 
-4. [Lessons Learned on Experimentation @DoorDash](https://www.ai-expo.net/northamerica/wp-content/uploads/2018/11/1500-Jessica-Lachs-DoorDash-DATA-STRAT-V1.pdf)
-5. [Switchback Tests and Randomized Experimentation Under Network Effects at DoorDash](https://doordash.news/2018/02/14/switchback-tests-and-randomized-experimentation-under-network-effects-at-doordash/)
-6. [Under the Hood of Uber's Experimentation Platform](https://eng.uber.com/xp/)
-7. Experimentation in a Ridesharing Marketplace by Lyft ([Part 1](https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-b39db027a66e#.djox1933t), [Part 2](https://eng.lyft.com/https-medium-com-adamgreenhall-simulating-a-ridesharing-marketplace-36007a8a31f2#.g9b34i3gm), [Part 3](https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-f75a9c4fcf01))
-8. [Inferring the Effect of an Event Using CausalImpact](https://www.youtube.com/watch?v=GTgZfCltMm8)
+# Blogs
+14. [Lessons Learned on Experimentation @DoorDash](https://www.ai-expo.net/northamerica/wp-content/uploads/2018/11/1500-Jessica-Lachs-DoorDash-DATA-STRAT-V1.pdf)
+15. [Switchback Tests and Randomized Experimentation Under Network Effects at DoorDash](https://doordash.news/2018/02/14/switchback-tests-and-randomized-experimentation-under-network-effects-at-doordash/)
+16. [Under the Hood of Uber's Experimentation Platform](https://eng.uber.com/xp/)
+17. Experimentation in a Ridesharing Marketplace by Lyft ([Part 1](https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-b39db027a66e#.djox1933t), [Part 2](https://eng.lyft.com/https-medium-com-adamgreenhall-simulating-a-ridesharing-marketplace-36007a8a31f2#.g9b34i3gm), [Part 3](https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-f75a9c4fcf01))
