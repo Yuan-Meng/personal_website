@@ -28,7 +28,7 @@ Nice try... I know what you're thinking, *"The red block <u>made</u> the green o
 
 Your stats professor can say *"correlation is not causation"* like a broken record, but we can't help but think about causation. Even 12-month-old babies don't think the motions of the two blocks are merely correlated. They look longer, as if *surprised*, when we reverse the sequence (but not if the blocks don't abide by Newton's Third Law, in which case the event can't be causal, [Kominsky et al., 2017](http://www.jfkominsky.com/demos.html)). If you're intrigued by causal cognition, I recommend [this talk](https://youtu.be/q0HLci67Tr8) by Tobias Gerstenberg.
  
-But my priors tell me you're here for data science. Just as causation is a fundamental part of human cognition, it is also the backbone of data science and perhaps, "the cement of the universe" --- as Hume beautifully put it in [*Abstract*](http://web.mnstate.edu/gracyk/courses/web%20publishing/hume'sabstract.htm).
+But my priors tell me you're here for data science. Just as causation is a fundamental part of human cognition, it is also the backbone of data science and, perhaps, "the cement of the universe" --- as Hume beautifully put it in [*Abstract*](http://web.mnstate.edu/gracyk/courses/web%20publishing/hume'sabstract.htm).
 
 ## We can't make things happen without knowing why
 
@@ -234,7 +234,7 @@ For DoorDash, late orders are the worst --- "hangery" customers may order less o
 We can tweak this idea a little bit to make it work: Instead of comparing all customers who didn't get a refund vs. all customers who did, we can compare those around 30-minute cutoff. For instance, A might get a refund for a 30.1-minute order whereas B gets nothing for a 29.9-minute later order. One should not feel angrier than the other just because of the 0.2-minute difference in lateness, so if we do observe a difference in LTV between A and B, then it may well be attributed to the refund. This method is called the regression discontinuity design (RDD). 
 
 
-Say DoorDash plotted the data and found a downward "jump" after the cutoff, this suggests that the refund reduced late orders' damage to LTV to some degree. 
+Say DoorDash plotted the data and found a upward "jump" after the cutoff, this suggests that the refund reduced late orders' damage to LTV to some degree. 
 
 {{< figure src="https://www.dropbox.com/s/vz60f040euu0465/rdd.png?raw=1" width="400" caption="DoorDash uses regression discontinuity design (RDD) to measure the impact of auto-refunding on customer LTVs when orders arrive late.">}}
 
