@@ -204,106 +204,114 @@ For Uber, in markets like India or South America where credit cards are not the 
 Uber faced the same problem as DoorDash: In the same market, if treatment drivers accept more or fewer cash strops, the control will have fewer or more left to accept. Can Uber use switchbacks? That would be problematic: If a driver was in treatment and received heads up about cash trips, after being switched to control, they will interpret not seeing "CASH" as a non-cash trip rather than not knowing the type. Instead, Uber used synthetic control ([talk](https://youtu.be/j5DoJV5S2Ao)). Below is a rough sketch:
 
 1. **Choose a donor pool**: We can roll out this feature only to, say, São Paulo (treated), and use matching to find $J$ untreated cities with similar characteristics (credit card prevalence, population, etc.), such as Rio de Janeiro and Lima. The untreated units we selected are called the "donor pool". Later they will help us create a "synthetic São Paulo" with no treatment.
-2. **Find the weight of each unit**: Not all untreated units are equally important. We can use the pre-treatment data to find the optimal weight of each. To do so --- 
+2. **Find the weight of each unit**: Not all untreated units are equally important. We can use the pre-treatment data to find the optimal weights $\mathbf{W}$. To do so --- 
     - We first choose features $\mathbf{X}$ (e.g., weather, events, holiday) that can be used to predict the outcome and find their importances $\mathbf{V}$ (generally, the higher the predictive power, the higher the importance)
-    - Then we build a model to predict each unit's pre-treatment outcome and optimize the weights to minimize the difference between the treated unit and the donor pool average, $\|\mathbf{X_1} - \mathbf{X_0}\mathbf{W}\| =\sqrt{\sum_{h=1}^{k}v_h(X_{h1}-\sum_{j=2}^{j+1}w_jX_{hj})^2}$ 👉 weights are non-negative ($w_j \geq 0$) and add up to 1 ($\sum_{j=2}^{J+1}w_j = 1$).
-3. **Create a synthetic control**: After finding the weights (e.g., Rio: .6; Lima: .4), we can used the weighted average of the donor pool to project the post-treatment outcome in the treated unit if  the treatment didn't occur, $\sum_{j=2}^{J+1} w_j Y_{jt}$ 👉 *drum roll*... this weighted average is called the "synthetic control" and represents our best guess for how things could have been in untreated São Paulo. At any point $t$ after the launch, the difference between the actual and the synthetic São Paulo is the treatment effect at $t$, $Y_{1t}^{treated} - \sum_{j=2}^{J+1} w_j Y_{jt}$.
+    - Then we build a model to predict each unit's pre-treatment outcome and optimize the weights to minimize the difference between the treated unit and the donor pool average, $\|\mathbf{X_1} - \mathbf{X_0}\mathbf{W}\| =\sqrt{\sum_{h=1}^{k}v_h(X_{h1}-\sum_{j=2}^{j+1}w_jX_{hj})^2}$ 👉 weights are non-negative ($w_j \geq 0$) and add up to 1 ($\sum_{j=2}^{J+1}w_j = 1$)
+3. **Create a synthetic control**: After finding the weights (e.g., Rio: .6; Lima: .4), we can used the weighted average of the donor pool to project the post-treatment outcome in the treated unit if  the treatment didn't occur, $\sum_{j=2}^{J+1} w_j Y_{jt}$ 👉 *drum roll*... this weighted average is called the "synthetic control" and represents our best guess for how things could have been in untreated São Paulo. At any point $t$ after the launch, the difference between the actual and the synthetic São Paulo is the treatment effect at $t$, $Y_{1t}^{treated} - \sum_{j=2}^{J+1} w_j Y_{jt}$
 
     {{< figure src="https://www.dropbox.com/s/tebslmo8g1agtlm/synthetic_controk.png?raw=1" width="600" caption="Uber used the synthetic control method to measure how much giving drivers heads up about cash trips impacted # of cash trips per driver">}}
 
 4. **Significance test**: As we can see, notifying drivers of cash trips seemed to have reduced the number of cash trips per driver in São Paulo. Is the decrease *statistically significant*? Synthetic control practitioners often use permutation tests to answer this question. We can "pretend" each untreated unit is treated and go through steps #1-3 to create a synthetic control and find the "treatment effect". Since the treatment didn't happen there, the effect should be small. Say we have 50 untreated units and the treated unit's effect ranks second, we can be quite confident that the treatment effect is significant. 
 
 Compared to previous methods, synthetic control is quite complex and many things can go wrong (check out [Abadie, 2021](https://economics.mit.edu/files/17847) for more details):
-- **Donor pool**: If untreated units are dissimilar to the treated unit, we cannot create good counterfactuals (most weights are 0). Again, matching comes handy.
-- **Overfitting**: In a short pre-treatment period with too many untreated units, we're bound to "overfit" --- the synthetic control may mimic the treated unit too exactly rather than giving us a robust projection of the possible trend. 
-- **Data peaking**: When choosing the donor pool and optimizing weights, we may peek at the post-treatment data and end up finding false positive treatment effects. 
-- **Level of questions**: If you wish to answer questions about individual users, synthetic control is not the right method. And if you make a small UI change, synthetic control is also not great for detecting such weak signals.
+1. **Donor pool**: If untreated units are dissimilar to the treated unit, we cannot create good counterfactuals (most weights are 0). Again, matching comes handy.
+2. **Overfitting**: In a short pre-treatment period with too many untreated units, we're bound to "overfit" --- the synthetic control may mimic the treated unit too exactly rather than giving us a robust projection of the possible trend. 
+3. **Data peaking**: When choosing the donor pool and optimizing weights, we may peek at the post-treatment data and end up finding false positive treatment effects. 
+4. **Question types**: If you wish to answer questions about individual users, synthetic control is not the right method. And if you make a small UI change, synthetic control is also not great for detecting such weak signals.
 
-<!-- ## 5. CausalImpact -->
+Regarding #3, a newer method [CausalImpact](https://google.github.io/CausalImpact/CausalImpact.html) developed by Google can make use of data in both periods. You can see it in action in another HelloFresh [talk](https://youtu.be/KEhJNM5K73A).
 
 # Method 3: Natural Experiments
 
+In colloquial language, "natural experiments" often refer to once-in-a-life events, such as the Fall of the Berlin Wall. Here I'm referring to cases where "the universe randomizes something for us" ([Körding, 2021](https://youtu.be/ahyp-zox3Ks)). Below are two such examples.
+
 ## 5. Regression Discontinuity Design (RDD)
 
-Consider another DoorDash example. Late orders anger hungry customers; the later, the worse. Frustrated customers may order less in the future or even churn, resulting in lower lifetime values (LTVs). To make things slightly better, DoorDash automatically issues a refund to orders $\geq$ 30 minutes late. How does it impact LTV? 
+For DoorDash, late orders are the worst --- "hangery" customers may order less or churn. To make it slightly better, DoorDash automatically issues a refund to orders $\geq$ 30 minutes late. So *how does this policy impact customer lifetime values (LTVs)*? Apparently, we can't randomly assign customers into getting or not getting a refund. It's also wrong to compare LTV between those who received or didn't receive refunds, since the average lateness is different between the two groups. 
 
-It's unfair to randomly assign customers into getting or not getting a refund, but it's also wrong to compare LTV between those who received or didn't receive refunds, since average lateness is likely higher in the former than in the latter.
-
-To answer this question, we can use a regression discontinuity design (RDD), using order lateness (minutes late) and refund status (received or not) to predict LTV. As we can see in the figure below, the upward "jump" right after the 30-minute cutoff shows auto-refunding saved DoorDash's customer LTV, albeit not a lot.
-
-{{< figure src="https://www.dropbox.com/s/vz60f040euu0465/rdd.png?raw=1" width="550" caption="DoorDash uses regression discontinuity design (RDD) to measure the impact of auto-refunding on customer LTVs when orders arrive late">}}
-
-- **Assumption**: Trajectories of "near-winners" (orders 31 minutes late) and "near-losers" (orders 29 minutes late) would have been the same without the treatment (refunding), so discontinuity can be attributed to treatment effects. 
-- **Formalism**: $y = f(X) + \beta D + \epsilon$ 👉 $y$: the outcome variable (e.g., LTV); $X$: the "running variable" that has continuous effects on the outcome (e.g., order lateness); $D$: whether treatment was assigned (0: not refunded, 1: refunded)
-- **Types**: Depending on whether the cutoff is deterministic, RDD has [two types](https://scholar.princeton.edu/sites/default/files/jmummolo/files/rdd_jm.pdf)
-  - **Sharp (deterministic)**: Orders $\geq$ 30 minutes late definitely receive a refund and those $<$ 30 minutes late definitely don't 
-  - **Fuzzy (probabilistic)**: The admission office has a suggested SAT cutoff, but students with lower scores might still get in through special programs
+We can tweak this idea a little bit to make it work: Instead of comparing all customers who didn't get a refund vs. all customers who did, we can compare those around 30-minute cutoff. For instance, A might get a refund for a 30.1-minute order whereas B gets nothing for a 29.9-minute later order. One should not feel angrier than the other just because of the 0.2-minute difference in lateness, so we do observe a difference in LTV between A and B, then it may well be attributed to the refund. This method is called the regression discontinuity design (RDD). 
 
 
-If the outcome is naturally "jumpy" around the cutoff (people suddenly get hungry 30 minutes after the ETA), you may wrongly attribute discontinuity to treatment.
+Say DoorDash plotted the data and found a upward "jump" after the cutoff, this suggests that the refund reduced late orders' damage to LTV to some degree. 
+
+{{< figure src="https://www.dropbox.com/s/vz60f040euu0465/rdd.png?raw=1" width="400" caption="DoorDash uses regression discontinuity design (RDD) to measure the impact of auto-refunding on customer LTVs when orders arrive late.">}}
+
+To reach the above conclusion, we made two assumptions: 
+
+- **Continuity**: Without any cause, the outcome should change smoothly with the "running variable" (e.g., order lateness);
+- **As good as random**: Treatment assignment of "near-winners" (A) and "near-losers" (B) is as good as random 👉 this is the "natural experiment" here.
+
+Both assumptions are reasonable in the refund case, so discontinuity can be attributed to the treatment. In other cases, we may see a naturally "jumpy" relationship around the cutoff. For instance, if GPA determines whether students can get a merit-based scholarship (eligible if GPA $\geq$ 80\%), those just below the cutoff (e.g., 79.9\%) may beg the teacher for a "mercy pass", but not those just above (80.1\%). Students who still nearly lose may have even lower grades to begin with, or didn't argue for grades, making them less comparable with the near-winners. 
+
+This example sounds straightforward. In reality, there can be complications:
+1. The cutoff isn't always deterministic, making the discontinuity less clean:
+    - **Sharp (deterministic)**: Orders $\geq$ 30 minutes late definitely receive a refund and those $<$ 30 minutes late definitely don't 
+    - **Fuzzy (probabilistic)**: The admission office has a suggested SAT cutoff, but students with lower scores might still get in through special programs
+2. The jump may not be dramatic 👉 we can use the running variable and the treatment assignment ($D = 1$: treatment; $D = 0$: control) to predict the outcome, $y = f(X) + \beta D + \epsilon$, and check if $\beta$ is statistically significant;
+3. The relationship between the running variable and the outcome may not be linear, in which case it's harder to spot the jump. 
 
 
 ## 6. Instrumental Variables (IVs)
 
-Last but not least, let's revisit the education example: How does the amount of schooling affect future income? To answer this question, we need to notice something special about schooling: US children are required to enter school the calendar year they are 6 but can leave school as soon as they turn 16. So this would mean that children born earlier in the year (e.g., January) are required to stay in school almost a year longer than those born later the same year (e.g., December). 
+I don't pretend I understand the most confusing and ingenious method of the six --- instrumental variables. The best I can do is to walk you through an iconic example ([Angrist & Krueger, 1990](https://www.nber.org/papers/w3572)): *How does years of school affect future income?*
 
-To use econometric jargon, years of schooling is the treatment, future income the outcome, and **birth season the instrument variable (IV)**, which can only affect the outcome via the treatment. We can regress the treatment on the IV ($\hat{X} = \alpha IV$) and then regress the outcome on the treatment estimation from the first step ($\hat{Y} = \beta \hat{X}$). IV estimation allows causal inference in the presence of confounders (IVs), without us having to regress them out and thereby wreak havoc unbeknownst to ourselves.
+{{< figure src="https://www.dropbox.com/s/caq8zp4b3lupbg9/iv.png?raw=1" width="400">}}
 
-{{< figure src="https://www.dropbox.com/s/sid3xuo4nrlshul/iv.png?raw=1" width="400" caption="Instrumental variable (IV) estimation allows causal inference without statistical control of confounders (Liu et al., 2021)">}}  
+Many confounders can impact both schooling and income, making causal inference difficult. However, the US education system created a natural experiment for us: Children are required to enter school the calendar year they are 6 but can leave as soon as they turn 16. Imagine two kids Josh and Guido:
 
+- **Birth seasons**: Josh was born on Jan. 1, 2006; Guido was born on Dec. 31, 2006 
+- **Entering school**: Both would be required to go to school on Sept. 1, 2012
+- **Dropping out**: However, Josh will be free to leave on Jan. 1, 2022 whereas Guido has to stay until Dec. 31st, 2022
 
-<!-- 
+Just because of a later birth season, Guido is required to remain in school for almost a year longer than Josh. Presumably, the birth season has nothing to do with any confounders such as family wealth or intelligence, but it has a causal effect on the treatment, years of schooling, through which it may impact income.  
 
-# Synthetic Control (Synth)
-
-# DiD + Synth 👉 CausalImpact
-
-[CausalImpact](https://google.github.io/CausalImpact/CausalImpact.html) combines ideas from DiD and synth and is the best of both worlds:
-
-- **Unlike synth**, there is an actual control group not exposed to the new feature 👉 this means CausalImpact can use control data from both pre- and post-launching periods whereas synth only makes use of the pre-launching data; hopefully more data means higher generalizability and robustness
-- **Unlike DiD**, we don't need to assume the same regional differences across time or the same time effects across regions 👉 instead, we can build a Bayesian structural time-series model using the control data to predict a "synthetic treatment" trend and compare it with the actual treatment
-
-Google open-sourced the `CausalImpact` R package. Below is a toy example:
-
-```r
-library(CausalImpact)
-impact <- CausalImpact(data, pre.period, post.period)
-plot(impact)
-```
-{{< figure src="https://www.dropbox.com/s/cwtreolbp7h9477/causalimpact.png?raw=1" width="550" caption="Example results: The top panel shows the actual treatment (solid line) and the synthetic treatment predicted by the model (dashed line) and the middle panel shows the difference between the two before and after launching">}}
-
-HelloFresh used CausalImpact to measure the impact of a YouTube ad campaign across geographic regions. The treatment saw the ads and the control didn't. HelloFresh data scientists used control data to predict what the treatment conversation rate would look like without the campaign and compared it with the actual observation — as mentioned, the impact of this ad campaign lies in the difference.
-
-{{< youtube KEhJNM5K73A >}}
+{{< figure src="https://www.dropbox.com/s/rcnrj0rk0mzdljh/instruments.png?raw=1" width="400">}}
 
 
----
-# Summary 
+We can use the birth season as an "instrument" to estimate the causal effect of schooling on income. First, we regress years of schooling on birth season, $\hat{X} = \alpha IV$. Then, we regress income on an unbiased estimate of years of schooling obtained in the first step, $\hat{Y} = \beta \hat{X}$. This method is called "two-stage least-squares". The coefficient $\beta$ we get from the second step is the causal effect of schooling on income. IV estimation allows us to make causal inference in the presence of confounders (IVs), rather than regressing them out and wreaking havoc unbeknownst to ourselves.
 
-As a cognitive scientist, I'm writing a dissertation on how people think about causality intuitively. As a data scientist interested in causal inference, it's cool to see how human intuitions and formal methods converge: For both, the heart of causality is **counterfactuals** — worlds that could have been but never came to be, as well as **intervention** — what we can do to make a difference.
+The bar for what we consider as good instruments is high, which must be 
 
-Not that long ago, causal inference was rather niche in data science; I'm happy to see it quickly gaining popularity in recently years. To summarize what I wrote:
+- randomly assigned to units, 
+- causally impacting the treatment,
+- correlated with the outcome 
+- but uncorrelated with any confounders. 
 
-- **Counterfactuals and intervention**: The common philosophical assumption behind DiD, synth, CausalImpact, and RDD is that if we don't do anything (e.g., launching a new feature), nothing will happen; since something did happen, then what we did had an impact. This falls under the [interventionist](https://plato.stanford.edu/entries/causation-mani/#Inte) view of causation: We know A causes B when *iif* doing A makes B happen. These methods differ in how they construct the counterfactual world without the treatment.
+Even with a ton of domain knowledge, it's still hard to find great instruments that fit the problem, which might have limited the industry use cases if this method. Weak instruments are not as useful. When we do find one, though, it really pays.
 
-- **Confounders in the wild**: Other than what we do, lots of things in the world can make a difference to the outcome we care about. PSM and regression both hold confounders constant to see how much the treatment still impacts the outcome. We need to be extra careful how controlling for wrong variables (e.g., common effects and mediators) can lead to wrong conclusions. By contrast, IV can estimate the treatment effect even in the face of confounders but one has to be extra clever to think of useful instrumental variables.
- -->
+# Resources
 
-<!-- # Resources
+## Books
+1. [Mostly Harmless Econometrics]( https://www.amazon.com/dp/0691120358/ref=cm_sw_em_r_mt_dp_5QENZH0GT2AE3HPZDJPD) 
+    - 👉 written by the OG of causal inference in econometrics, Joshua Angrist (which I learned during interviews last year)
+2. [Causality: Models, Reasoning and Inference](https://www.amazon.com/dp/052189560X/ref=cm_sw_r_tw_dp_Q6HW7EVMW5NF88ZF69EA) 
+    - 👉 written by the OG of causal inference in computer science, Judea Pearl (which is the tradition I follow)
+3. [The Book of Why: The New Science of Cause and Effect](https://www.amazon.com/Book-Why-Science-Cause-Effect/dp/046509760X) 
+    - 👉 popular science book by Judea Pearl; super fun read 
+4. [Causal Inference for The Brave and True](https://matheusfacure.github.io/python-causality-handbook/landing-page.html) 
+    - 👉 the author summarized common causal inference methods in econometrics and has Python implementations for each 
+5. [Causal Inference: The Mixtape](https://mixtape.scunning.com/) 
+    - 👉 similar to #4; also aims to cover all grounds and provides implementations (R + Stata)
+6. [The Effect: An Introduction to Research Design and Causality](https://theeffectbook.net/) 
+    - 👉 similar to #4 & #6, but more in depth
 
-1. [Lessons Learned on Experimentation @DoorDash](https://www.ai-expo.net/northamerica/wp-content/uploads/2018/11/1500-Jessica-Lachs-DoorDash-DATA-STRAT-V1.pdf)
-2. [Switchback Tests and Randomized Experimentation Under Network Effects at DoorDash](https://doordash.news/2018/02/14/switchback-tests-and-randomized-experimentation-under-network-effects-at-doordash/)
-3. [Under the Hood of Uber's Experimentation Platform](https://eng.uber.com/xp/)
-4. Experimentation in a Ridesharing Marketplace by Lyft ([Part 1](https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-b39db027a66e#.djox1933t), [Part 2](https://eng.lyft.com/https-medium-com-adamgreenhall-simulating-a-ridesharing-marketplace-36007a8a31f2#.g9b34i3gm), [Part 3](https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-f75a9c4fcf01))
-5. [Causal Inference Using Synthetic Control: The Ultimate Guide](https://towardsdatascience.com/causal-inference-using-synthetic-control-the-ultimate-guide-a622ad5cf827)
-6. [Inferring the Effect of an Event Using CausalImpact](https://www.youtube.com/watch?v=GTgZfCltMm8)
-7. [The Book of Why: The New Science of Cause and Effect ](https://www.amazon.com/Book-Why-Science-Cause-Effect/dp/046509760X)
-8. [Causal Inference for The Brave and True](https://matheusfacure.github.io/python-causality-handbook/landing-page.html)
-9. [Python and the Holy Grail of Causal Inference](https://youtu.be/HPC42U9xtQY)
-10. Liu, T., Ungar, L., & Kording, K. (2021). Quantifying causality in data science with quasi-experiments. *Nature Computational Science*, 1(1), 24-32. ([PDF](https://www.nature.com/articles/s43588-020-00005-8.pdf))
- -->
----
 
-<!-- > [Causal Data Science Meeting 2021](https://www.causalscience.org/) takes place between November 15 and 16!
- -->
-<!-- {{< figure src="https://www.dropbox.com/s/1dlnw8sr12ifr0m/pearl.png?raw=1" width="500">}} -->
+## Papers
+
+1. Abadie, A. (2021). Using synthetic controls: Feasibility, data requirements, and methodological aspects. *Journal of Economic Literature, 59*(2), 391-425. ([PDF](https://inferenceproject.yale.edu/sites/default/files/jel.20191450.pdf)) 
+    -  👉 review paper by creator of synthetic control; may not have all the details (e.g., how to select predictors and find feature importances...)
+2. Liu, T., Ungar, L., & Kording, K. (2021). Quantifying causality in data science with quasi-experiments. *Nature Computational Science, 1*(1), 24-32. ([PDF](https://www.nature.com/articles/s43588-020-00005-8.pdf)) 
+    - 👉 short review paper covering IV, RDD, and DD; has nice examples in neuroscience + industry + social issues
+3. Rohrer, J. M. (2018). Thinking clearly about correlations and causation: Graphical causal models for observational data. *Advances in Methods and Practices in Psychological Science, 1*(1), 27-42. ([PDF](https://psyarxiv.com/t3qub/download?format=pdf)) 
+    - 👉 my regression section is based on this lovely paper; really helps you think more clearly about causal relationships 
+
+## Talks & Blogs
+
+1. [When Do We Actually Need Causal Inference?](https://youtu.be/2dv7NrYExzo) by Sean Taylor
+2. [Causality in Neuroscience and Beyond](https://youtu.be/ahyp-zox3Ks) by Konrad Körding
+3. [Science Before Statistics: Causal Inference](https://youtu.be/KNPYUVmY3NM) by Richard McElreath 
+4. [Lessons Learned on Experimentation @DoorDash](https://www.ai-expo.net/northamerica/wp-content/uploads/2018/11/1500-Jessica-Lachs-DoorDash-DATA-STRAT-V1.pdf)
+5. [Switchback Tests and Randomized Experimentation Under Network Effects at DoorDash](https://doordash.news/2018/02/14/switchback-tests-and-randomized-experimentation-under-network-effects-at-doordash/)
+6. [Under the Hood of Uber's Experimentation Platform](https://eng.uber.com/xp/)
+7. Experimentation in a Ridesharing Marketplace by Lyft ([Part 1](https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-b39db027a66e#.djox1933t), [Part 2](https://eng.lyft.com/https-medium-com-adamgreenhall-simulating-a-ridesharing-marketplace-36007a8a31f2#.g9b34i3gm), [Part 3](https://eng.lyft.com/experimentation-in-a-ridesharing-marketplace-f75a9c4fcf01))
+8. [Inferring the Effect of an Event Using CausalImpact](https://www.youtube.com/watch?v=GTgZfCltMm8)
