@@ -279,7 +279,7 @@ The bar for what we consider as good instruments is high, which must be
 - correlated with the outcome,
 - but uncorrelated with any confounders. 
 
-Even with a ton of domain knowledge, it's still hard to find great instruments that fit the problem, which might have limited the industry use cases if this method. Weak instruments are not as useful. When we do find one, though, it really pays.
+Even with a ton of domain knowledge, it's still hard to find great instruments that fit the problem, which might have limited the industry use cases of this method. Weak instruments are not as useful. When we do find one, though, it really pays.
 
 # Resources
 
