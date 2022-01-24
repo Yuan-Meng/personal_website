@@ -14,19 +14,21 @@ include_toc: true
 
 ---
 
+What do you see? 👀
 
-> "Causation […] is the cement of the universe." — David Hume, *Abstract*
+{{< figure src="https://www.dropbox.com/s/gfiw187r502jb1l/1t1_redgreen_2sec.gif?raw=1" width="350" >}}
+
+You're probably thinking, *"The red block stopped, right after which the green block started to move coincidentally."*
+
+Nice try... I know what you're thinking, *"The red block <u>made</u> the green one move"*. 
 
 # Why Ask Why?
 
 ## We can't help but think about causation
 
-As a cognitive scientist, I study common sense causal reasoning. Folks say *"correlation is not causation"* like a broken record, yet we can't help but think "leaves fall *because* the wind blows", not "leaves *happen to* fall *after* the wind blows". If you're intrigued by causal cognition, I recommend [this talk](https://youtu.be/q0HLci67Tr8) by Tobias Gerstenberg .
+Your stats professor can say *"correlation is not causation"* like a broken record, but we can't help but think about causation. Even 12-month-old babies don't think the motions of the two blocks are merely correlated. They look longer, as if *surprised*, when we reverse the sequence (but not if the blocks don't abide by Newton's Third Law, in which case the event can't be causal, [Kominsky et al., 2017](http://www.jfkominsky.com/demos.html)). If you're intrigued by causal cognition, I recommend [this talk](https://youtu.be/q0HLci67Tr8) by Tobias Gerstenberg.
  
-{{< figure src="https://www.dropbox.com/s/gfiw187r502jb1l/1t1_redgreen_2sec.gif?raw=1" width="350" caption="[Kominsky et al. (2017)](http://www.jfkominsky.com/demos.html) showed that even 12-month-olds 'think' the red block makes the green one move if the motions abide by Newton's Third Law.">}}
-
-
-But my priors tell me you're here for the data science. Just as causation is a fundamental component of human cognition, it is also the backbone of data science.
+But my priors tell me you're here for data science. Just as causation is a fundamental part of human cognition, it is also the backbone of data science and perhaps, "the cement of the universe" --- as Hume beautifully put it in [*Abstract*](http://web.mnstate.edu/gracyk/courses/web%20publishing/hume'sabstract.htm).
 
 ## We can't make things happen without knowing why
 
@@ -186,7 +188,7 @@ Another way to understand the treatment effect is to look at the table below:
 
 </div>
 
-- **Same time effect across units**: Under the common trend assumption, if the # of reactions per user increased by 0.7 in the US, it should also increase by 0.7 in Canada. However, it actually decreased by 1.5 in Canada  — the 0.8 difference between our expectation and the reality is the treatment effect of Reactions.  
+- **Same time effect across units**: Under the common trend assumption, if the # of reactions per user increased by 0.7 in the US, it should also increase by 0.7 in Canada. However, it actually increased by 1.5 in Canada  — the 0.8 difference between our expectation and the reality is the treatment effect of Reactions.  
 - **Same regional difference across time**: Again assuming the common trend, if an average US user reacted to 0.7 more posts compared to an average Canadian user before the launch, we should see the same difference afterwards. However, after the launch, an average US user reacted to 0.1 fewer posts than an average Canadian user. The 0.8 between these two differences is the treatment effect. 
 
 If the common trend assumption breaks, the analysis above is invalid. One way to check is to use the unit type ($D_{treatment} = 1$: Canada; $D_{treatment} = 0$: US), covariates $X$ relevant to the outcome, and their [interaction](https://en.wikipedia.org/wiki/Interaction_(statistics)) (an interaction means the same covariates impact different units differently) to predict the outcome: 
@@ -229,7 +231,7 @@ In colloquial language, "natural experiments" often refer to once-in-a-life even
 
 For DoorDash, late orders are the worst --- "hangery" customers may order less or churn. To make it slightly better, DoorDash automatically issues a refund to orders $\geq$ 30 minutes late. So *how does this policy impact customer lifetime values (LTVs)*? Apparently, we can't randomly assign customers into getting or not getting a refund. It's also wrong to compare LTV between those who received or didn't receive refunds, since the average lateness is different between the two groups. 
 
-We can tweak this idea a little bit to make it work: Instead of comparing all customers who didn't get a refund vs. all customers who did, we can compare those around 30-minute cutoff. For instance, A might get a refund for a 30.1-minute order whereas B gets nothing for a 29.9-minute later order. One should not feel angrier than the other just because of the 0.2-minute difference in lateness, so we do observe a difference in LTV between A and B, then it may well be attributed to the refund. This method is called the regression discontinuity design (RDD). 
+We can tweak this idea a little bit to make it work: Instead of comparing all customers who didn't get a refund vs. all customers who did, we can compare those around 30-minute cutoff. For instance, A might get a refund for a 30.1-minute order whereas B gets nothing for a 29.9-minute later order. One should not feel angrier than the other just because of the 0.2-minute difference in lateness, so if we do observe a difference in LTV between A and B, then it may well be attributed to the refund. This method is called the regression discontinuity design (RDD). 
 
 
 Say DoorDash plotted the data and found a upward "jump" after the cutoff, this suggests that the refund reduced late orders' damage to LTV to some degree. 
@@ -274,7 +276,7 @@ The bar for what we consider as good instruments is high, which must be
 
 - randomly assigned to units, 
 - causally impacting the treatment,
-- correlated with the outcome 
+- correlated with the outcome,
 - but uncorrelated with any confounders. 
 
 Even with a ton of domain knowledge, it's still hard to find great instruments that fit the problem, which might have limited the industry use cases if this method. Weak instruments are not as useful. When we do find one, though, it really pays.

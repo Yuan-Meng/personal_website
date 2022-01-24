@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tutorials on Yuan Meng</title>
+    <link>https://www.yuan-meng.com/categories/tutorials/</link>
+    <description>Recent content in tutorials on Yuan Meng</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Yuan Meng</copyright>
+    <lastBuildDate>Wed, 19 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/categories/tutorials/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Set Up Python Environment for CogSci 131</title>
+      <link>https://www.yuan-meng.com/posts/python_env/</link>
+      <pubDate>Wed, 19 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/python_env/</guid>
+      <description>CogSci 131 (Computational Modeling of Cognition) is one of my favorite classes at Berkeley when I took it with Prof. Tom Griffiths in 2016. Now I&amp;rsquo;m teaching it in my last semester. Before getting to the fun parts (e.g., implementing recurrent nets and classic RL algorithms like SARSA using vanilla NumPy), one needs to set up the right Python environment. I hope this tutorial can save students some headaches.
+Option #1: Conda Virtual Environment To avoid nightmares down the line👇, use virtual environments for your local stuff.</description>
+    </item>
+    
+    <item>
+      <title>A Minimalist Setup for Zoom Guitar Lessons</title>
+      <link>https://www.yuan-meng.com/posts/guitar/</link>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/guitar/</guid>
+      <description>Goals + Overview (macOS) I&amp;rsquo;ve been taking guitar lessons over Zoom since the pandemic. As an electric player, I initially found it challenging to split audio inputs/outputs multiple ways:
+ Input #1: Microphone &amp;ndash; so I can talk to my teacher Input #2: Guitar &amp;ndash; no need to explain 🎸🤟 :) Output #1: Headphone &amp;ndash; so I hear guitar effects created by my amp simulator Output #2: Zoom &amp;ndash; so my teacher hears the same effects, not just dry signals  After some research, I found a setup that feels simple and intuitive to me.</description>
+    </item>
+    
+    <item>
+      <title>Causal Inference in Data Science</title>
+      <link>https://www.yuan-meng.com/posts/causality/</link>
+      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/causality/</guid>
+      <description>&amp;ldquo;Causation […] is the cement of the universe.&amp;rdquo; — David Hume, Abstract
+ Why Ask Why? We can&amp;rsquo;t help but think about causation As a cognitive scientist, I study common sense causal reasoning. Folks say &amp;ldquo;correlation is not causation&amp;rdquo; like a broken record, yet we can&amp;rsquo;t help but think &amp;ldquo;leaves fall because the wind blows&amp;rdquo;, not &amp;ldquo;leaves happen to fall after the wind blows&amp;rdquo;. If you&amp;rsquo;re intrigued by causal cognition, I recommend this talk by Tobias Gerstenberg .</description>
+    </item>
+    
+    <item>
+      <title>Choosing Metrics</title>
+      <link>https://www.yuan-meng.com/posts/metrics/</link>
+      <pubDate>Sat, 06 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/metrics/</guid>
+      <description>&amp;lsquo;Tis the college and job application season of the year. If only schools and companies have crystal balls to see into each candidate&amp;rsquo;s future achievements, they need not interview people; since they do not have such things, SAT scores, GPA, internships, and other quantifiable metrics are used to aid decisions. Simplified metrics are by no means ideal — As Goodhart put it (often paraphrased), &amp;ldquo;When a measure becomes a metric, it ceases to be a good measure.</description>
+    </item>
+    
+  </channel>
+</rss>

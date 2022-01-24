@@ -9,14 +9,13 @@
     <copyright>Yuan Meng</copyright>
     <lastBuildDate>Fri, 12 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/tags/quasi-experiment/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Quasi-Experiments for Causal Inference</title>
+      <title>Causal Inference in Data Science</title>
       <link>https://www.yuan-meng.com/posts/causality/</link>
       <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://www.yuan-meng.com/posts/causality/</guid>
-      <description>&amp;ldquo;Causation [&amp;hellip;] is the cement of the universe.&amp;rdquo; — David Hume, Abstract
- Data scientists help the team make good decisions and good decisions rely on causation. Prof. Alison Gopnik always has the nicest example: While yellow fingers and smoking are both correlated with lung cancer, washing hands doesn&amp;rsquo;t prevent cancer.
-Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. Unfortunately, it&amp;rsquo;s not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can&amp;rsquo;t in good conscience force someone to smoke, nor can you easily have them quit smoking.</description>
+      <description>&amp;ldquo;Causation […] is the cement of the universe.&amp;rdquo; — David Hume, Abstract
+ Why Ask Why? We can&amp;rsquo;t help but think about causation As a cognitive scientist, I study common sense causal reasoning. Folks say &amp;ldquo;correlation is not causation&amp;rdquo; like a broken record, yet we can&amp;rsquo;t help but think &amp;ldquo;leaves fall because the wind blows&amp;rdquo;, not &amp;ldquo;leaves happen to fall after the wind blows&amp;rdquo;. If you&amp;rsquo;re intrigued by causal cognition, I recommend this talk by Tobias Gerstenberg .</description>
     </item>
     
   </channel>

@@ -7,7 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Yuan Meng</copyright>
-    <lastBuildDate>Sun, 05 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 19 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Set Up Python Environment for CogSci 131</title>
+      <link>https://www.yuan-meng.com/posts/python_env/</link>
+      <pubDate>Wed, 19 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/python_env/</guid>
+      <description>CogSci 131 (Computational Modeling of Cognition) is one of my favorite classes at Berkeley when I took it with Prof. Tom Griffiths in 2016. Now I&amp;rsquo;m teaching it in my last semester. Before getting to the fun parts (e.g., implementing recurrent nets and classic RL algorithms like SARSA using vanilla NumPy), one needs to set up the right Python environment. I hope this tutorial can save students some headaches.
+Option #1: Conda Virtual Environment To avoid nightmares down the line👇, use virtual environments for your local stuff.</description>
+    </item>
+    
+    <item>
+      <title>New Year Resolutions</title>
+      <link>https://www.yuan-meng.com/posts/resolutions-2022/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/resolutions-2022/</guid>
+      <description>Piled Higher and Deeper: https://phdcomics.com/comics.php?f=1670
+  Resolutions are meant to be broken, but like everything good in life, it&amp;rsquo;s better to try and fail than never to have attempted at all. So here&amp;rsquo;s my attempt for 2022.
+1. Be a better modeler 2021 felt quite surreal &amp;mdash; I got my first job offer as a machine learning data scientist, something I&amp;rsquo;d been dreaming of for nearly two years. In 2022, I wanna up my ante in the modeling game by working through (a subset of) the following:</description>
+    </item>
+    
     <item>
       <title>A Minimalist Setup for Zoom Guitar Lessons</title>
       <link>https://www.yuan-meng.com/posts/guitar/</link>
@@ -19,14 +40,13 @@
     </item>
     
     <item>
-      <title>Quasi-Experiments for Causal Inference</title>
+      <title>Causal Inference in Data Science</title>
       <link>https://www.yuan-meng.com/posts/causality/</link>
       <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://www.yuan-meng.com/posts/causality/</guid>
-      <description>&amp;ldquo;Causation [&amp;hellip;] is the cement of the universe.&amp;rdquo; — David Hume, Abstract
- Data scientists help the team make good decisions and good decisions rely on causation. Prof. Alison Gopnik always has the nicest example: While yellow fingers and smoking are both correlated with lung cancer, washing hands doesn&amp;rsquo;t prevent cancer.
-Randomized controlled experiments, or A/B tests, are the gold standard for establishing causality. Unfortunately, it&amp;rsquo;s not always possible, feasible, or ethical to randomly assign people into different variants: In the example above, you can&amp;rsquo;t in good conscience force someone to smoke, nor can you easily have them quit smoking.</description>
+      <description>&amp;ldquo;Causation […] is the cement of the universe.&amp;rdquo; — David Hume, Abstract
+ Why Ask Why? We can&amp;rsquo;t help but think about causation As a cognitive scientist, I study common sense causal reasoning. Folks say &amp;ldquo;correlation is not causation&amp;rdquo; like a broken record, yet we can&amp;rsquo;t help but think &amp;ldquo;leaves fall because the wind blows&amp;rdquo;, not &amp;ldquo;leaves happen to fall after the wind blows&amp;rdquo;. If you&amp;rsquo;re intrigued by causal cognition, I recommend this talk by Tobias Gerstenberg .</description>
     </item>
     
     <item>
