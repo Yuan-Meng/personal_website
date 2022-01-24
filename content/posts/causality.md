@@ -311,7 +311,7 @@ Even with a ton of domain knowledge, it's still hard to find great instruments t
 12. [Science Before Statistics: Causal Inference](https://youtu.be/KNPYUVmY3NM) by Richard McElreath 
 13. [Inferring the Effect of an Event Using CausalImpact](https://www.youtube.com/watch?v=GTgZfCltMm8) by Kay Brodersen
 
-# Blogs
+## Blogs
 14. [Lessons Learned on Experimentation @DoorDash](https://www.ai-expo.net/northamerica/wp-content/uploads/2018/11/1500-Jessica-Lachs-DoorDash-DATA-STRAT-V1.pdf)
 15. [Switchback Tests and Randomized Experimentation Under Network Effects at DoorDash](https://doordash.news/2018/02/14/switchback-tests-and-randomized-experimentation-under-network-effects-at-doordash/)
 16. [Under the Hood of Uber's Experimentation Platform](https://eng.uber.com/xp/)
