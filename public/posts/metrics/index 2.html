@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <script type="text/javascript" src="https://latest.cactus.chat/cactus.js"></script>
+  <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Choosing Metrics | Yuan Meng</title>
+  <link rel = 'canonical' href = 'https://www.yuan-meng.com/posts/metrics/'>
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a computational cognitive science Ph.D. candidate at UC Berkeley studying common sense reasoning in adults and kids. My research spans causal inference, social learning, and explanations. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, symphonic metal, and Oxford commas. Use 重庆话 when I do mental math.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Choosing Metrics" />
+<meta property="og:description" content="&lsquo;Tis the college and job application season of the year. If only schools and companies have crystal balls to see into each candidate&rsquo;s future achievements, they need not interview people; since they do not have such things, SAT scores, GPA, internships, and other quantifiable metrics are used to aid decisions. Simplified metrics are by no means ideal — As Goodhart put it (often paraphrased), &ldquo;When a measure becomes a metric, it ceases to be a good measure." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.yuan-meng.com/posts/metrics/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-11-06T00:00:00+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Choosing Metrics"/>
+<meta name="twitter:description" content="&lsquo;Tis the college and job application season of the year. If only schools and companies have crystal balls to see into each candidate&rsquo;s future achievements, they need not interview people; since they do not have such things, SAT scores, GPA, internships, and other quantifiable metrics are used to aid decisions. Simplified metrics are by no means ideal — As Goodhart put it (often paraphrased), &ldquo;When a measure becomes a metric, it ceases to be a good measure."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.yuan-meng.com/css/styles.94f653e9e151e28067a7c5dbbc4600cbd5a3c721e79faaf971e523c40f3b249b8e4f20bb57810dfffa8d559ca5c140fd56eb4cd9c0853113ad08e66afdb08bdd.css" integrity="sha512-lPZT6eFR4oBnp8XbvEYAy9WjxyHnn6r5ceUjxA87JJuOTyC7V4EN//qNVZylwUD9VutM2cCFMROtCOZq/bCL3Q=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.yuan-meng.com/images/favicon.ico" />
+
+  
+  
+  
+  
+  
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li>
+          <a class="icon" href="https://www.yuan-meng.com/posts/cocosci/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&text=Choosing%20Metrics" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&title=Choosing%20Metrics" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&is_video=false&description=Choosing%20Metrics" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Choosing%20Metrics&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&title=Choosing%20Metrics" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&title=Choosing%20Metrics" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&name=Choosing%20Metrics&description=%26lsquo%3bTis%20the%20college%20and%20job%20application%20season%20of%20the%20year.%20If%20only%20schools%20and%20companies%20have%20crystal%20balls%20to%20see%20into%20each%20candidate%26rsquo%3bs%20future%20achievements%2c%20they%20need%20not%20interview%20people%3b%20since%20they%20do%20not%20have%20such%20things%2c%20SAT%20scores%2c%20GPA%2c%20internships%2c%20and%20other%20quantifiable%20metrics%20are%20used%20to%20aid%20decisions.%20Simplified%20metrics%20are%20by%20no%20means%20ideal%20%e2%80%94%20As%20Goodhart%20put%20it%20%28often%20paraphrased%29%2c%20%26ldquo%3bWhen%20a%20measure%20becomes%20a%20metric%2c%20it%20ceases%20to%20be%20a%20good%20measure." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&t=Choosing%20Metrics" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#design-good-metrics">Design Good Metrics</a></li>
+    <li><a href="#debug-bad-metrics">Debug Bad Metrics</a></li>
+    <li><a href="#how-to-think-of-metrics">How to Think of Metrics?</a></li>
+    <li><a href="#types-of-metric-interviews">Types of Metric Interviews</a></li>
+    <li><a href="#resources-i-used">Resources I Used</a></li>
+    <li><a href="#final-thoughts">Final Thoughts</a></li>
+  </ul>
+</nav>
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Choosing Metrics
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2021-11-06 00:00:00 &#43;0000 UTC" itemprop="datePublished">2021-11-06</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          10 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/tutorials">tutorials</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/metrics" rel="tag">metrics</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/product" rel="tag">product</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>&lsquo;Tis the college and job application season of the year. If only schools and companies have crystal balls to see into each candidate&rsquo;s future achievements, they need not interview people; since they do not have such things, SAT scores, GPA, internships, and other quantifiable metrics are used to aid decisions. Simplified metrics are by no means ideal — As Goodhart put it (often <a href="https://en.wikipedia.org/wiki/Goodhart%27s_law">paraphrased</a>), &ldquo;When a measure becomes a metric, it ceases to be a good measure.&rdquo; However, the opposite is worse: Making critical decisions based on heuristics, biases, and personal opinions.</p>
+<p>The solution? It&rsquo;s <em>not</em> not using metrics but carefully designing good metrics:</p>
+<blockquote>
+<p>&ldquo;[&hellip;] faulty intuition, untrusted partners, and complex systems can be understood via intuitive, trustworthy, simple metrics.&rdquo; — David Manheim, <a href="https://www.ribbonfarm.com/2016/06/09/goodharts-law-and-why-measurement-is-hard/"><em>Goodhart&rsquo;s Law and Why Measurement is Hard</em></a></p>
+</blockquote>
+<h1 id="design-good-metrics">Design Good Metrics</h1>
+<ol>
+<li><strong>Goal-oriented</strong>: Good metrics should track the most appropriate goals given your business model and stage (think lean analytics stuff) 👉 Counterexample: For a new startup, user growth is more important than immediate revenue, so it would be unwise to bombard your site with ads (&ldquo;杀鸡取卵&rdquo;) early, or ever</li>
+<li><strong>Causal</strong>: Ideally, metric movements should be caused by whether or not you&rsquo;re closer to your goals 👉 Counterexample: Stats 101 grades are correlated with Stats 102 grades, but inflating grades in 101 won&rsquo;t improve 102 grades; it&rsquo;s the students&rsquo; prerequisites + interests + efforts that matter</li>
+<li><strong>Not gameable</strong>: Related to #1, good metrics should only be moved by goal attainment; it should be hard to make them look good without achieving actual goals of the product or the company 👉 Counterexample: The police may choose not to report crime if solely rewarded by low crime rate; exams are designed to measure learning, but one may get by using test-taking skills (&ldquo;三长两短选一长&rdquo;)</li>
+<li><strong>Actionable:</strong> Good metrics help make good decisions 👉 Counterexample: For a software-as-a-service (SaaS) company, by the time a user has churned, it&rsquo;s already too late (resurrecting a churned user is hard and acquiring a new one is costly); better to monitor engagement and usage to prevent churning</li>
+<li><strong>Simple:</strong> Easy to understand and compute, so people have no trouble discussing and debugging them 👉 Counterexample: weighted sum of multiple metrics</li>
+<li><strong>Clear:</strong> No ambiguity in interpretation 👉 Counterexample: For a search engine, longer time per session could mean people are so engaged that they keep going down rabbit holes or so confused that they can&rsquo;t find what they want; we simply can&rsquo;t tell (a better metric would be # of sessions per user)</li>
+<li><strong>Measurable</strong>: Can be easily measured within a reasonable time frame 👉 Counterexample: For a MOOC site, it&rsquo;s hard to track what people do with the knowledge later, even though that&rsquo;s super relevant to its mission</li>
+<li><strong>Comparable:</strong> Across time, products, and even companies 👉 Counterexample: Absolute changes are hard to compare, so better use relative quantities</li>
+<li><strong>Trade off between goals:</strong> When we have more than one goal, good metrics offer a trade-off — when driving somewhere, we want to be fast but don&rsquo;t want to get tickets 👉 <strong>speed / # of ticket</strong> is low when we drive too fast (too many tickets) or too slow (low speed) and high when we&rsquo;re reasonably fast</li>
+</ol>
+<h1 id="debug-bad-metrics">Debug Bad Metrics</h1>
+<blockquote>
+<p>&ldquo;[&hellip;] metrics sometimes becomes an excuse for doing fun math and coding instead of dealing with messy and hard-to-understand human interactions.&rdquo; — David Manheim, <a href="https://www.ribbonfarm.com/2016/09/29/soft-bias-of-underspecified-goals/"><em>Overpowered Metrics Eat Underspecified Goals</em></a></p>
+</blockquote>
+<ol>
+<li><strong>Think of edge/corner cases to &ldquo;game&rdquo; the proposed metric</strong>
+<ul>
+<li>e.g., Udacity may achieve high conversion rate (# of conversions / # of sign-ups) by steering users away from signing up (e.g., &ldquo;Hey it&rsquo;s too much work! You can&rsquo;t possibly finish&hellip;&quot;)</li>
+</ul>
+</li>
+<li><strong>Think of long-term goals that may be harmed by short-term metrics</strong>
+<ul>
+<li>e.g., Quora can increase revenue by encouraging all authors to monetize their content, but if there&rsquo;s no restriction on how much content goes behind the paywall, soon users may leave for lack of good free content</li>
+</ul>
+</li>
+<li><strong>Bonus: Think of metrics that better align with company/product/feature goals</strong></li>
+</ol>
+<h1 id="how-to-think-of-metrics">How to Think of Metrics?</h1>
+<p>Not so long ago, I thought of &ldquo;product sense&rdquo; as a misnomer: No one is born with such a sense and there&rsquo;s always deliberation. After thinking extensively about products for a while, I do &ldquo;sense&rdquo; something now: Seeing a new product or design, I can&rsquo;t help but wonder how it came to be, along with what metrics capture that.</p>
+<p>For instance, when Google Maps started suggesting fuel-efficient routes, I was amazed and immediately wondered, <strong>how do we know if this cool feature is successful</strong>?</p>
+<figure><img src="https://www.dropbox.com/s/jw68iz18rgjp642/metrics.jpg?raw=1" width="400"/>
+</figure>
+
+<p>To examine whether something is successful, we need to know why it was designed in the first place. Then after that, I always ask myself the following questions:</p>
+<ol>
+<li><strong>Adoption and usage</strong>: How many people use it? Do they use it much? And do they use it in ways that you care about? — However awesome, an obscure product or feature is hardly a success</li>
+<li><strong>Company goals</strong>: Okay, people use it, a lot. But does that serve the designer&rsquo;s original purposes (e.g., user growth, revenue&hellip; social good)?</li>
+<li><strong>Counter metrics</strong>: Are there unintended consequences?  From time to time, I think about the <a href="https://deepmind.com/research/publications/2020/Artificial-Intelligence-Values-and-Alignment">value alignment problem</a> I first heard in Alison Gopnik&rsquo;s AI seminar: If you build an AI that maximizes the number of paperclips made, then it will wreak havoc by turning all the metal on this planet into paperclips. Make sure the new feature/product is nothing like this paperclip-making AI (e.g., product cannibalization, a more sophisticated but way less performant model)&hellip;</li>
+</ol>
+<blockquote>
+<p>(There are many popular metric frameworks out there, such as &ldquo;<a href="https://en.wikipedia.org/wiki/Growth_hacking">AARRR</a>&rdquo;, but above is how I like to think about the problem at hand.)</p>
+</blockquote>
+<p>For Google Maps, fuel-efficient route suggestions hopefully give them a competitive advantage over, say, Apple Maps: iOS users might be less likely to &ldquo;multi-tenant&rdquo; (using both Google Maps and Apple Maps) and those who rely on Google Maps may feel free to take more trips. To test these hypotheses, we can examine changes in daily active users, trips per week per user, etc.. However, this new feature may not be all perfect  — fuel-efficient routes may be way slower than the fasted routes, so we should watch out for drastic increases in time between point A and point B (I later read an article about this on <a href="https://techcrunch.com/2021/10/06/google-maps-launches-eco-friendly-routing-in-the-u-s/">TechCrunch</a>; check it out if you&rsquo;re intrigued).</p>
+<p>If stuck, below are some &ldquo;frameworks&rdquo; to fall back on to brainstorm metrics:</p>
+<ul>
+<li><strong>User journey</strong>: Most products have a conversion funnel that moves new users towards users who frequently take &ldquo;core actions&rdquo; (e.g., Quora: answer questions; Notion: become a paid user) of the business 👉 Track each step in this funnel to come up with relevant metrics (and diagnose problems, if any)</li>
+<li><strong>Input/output</strong>: Input metrics are actions you take or resources you put in (e.g., DoorDash&rsquo;s driver incentive program pays driver extra dollars to work during peak hours) and outcome metrics are results you achieve (e.g., decreased delivery times, improvements on order lateness, higher customer retention)</li>
+<li><strong>Know the domain</strong>: If you&rsquo;re working for DoorDash, you know the three sides of the market each have its own needs and wants (merchants: reach + revenue; dashers: flexibility + earnings; customers: selection + convenience), so you can think of proper metrics to track these needs and wants 👉 This is just one example; it helps a ton to read engineering blogs of the company you&rsquo;re interviewing with to see what matters in their specific domain</li>
+</ul>
+<h1 id="types-of-metric-interviews">Types of Metric Interviews</h1>
+<p>I&rsquo;ve seen metric questions in both product and machine learning interviews. This is not surprising since no matter how you solve a business problem (experiments + hypothesis testing, machine learning), you need metrics to validate your solution.</p>
+<ul>
+<li><strong>Metric design</strong>: Come up with or choose metrics that appropriately capture the goodness of a product/feature (using A/B testing to make launch decisions or measuring the success of past launches) or a model (evaluating whether an ML system is working properly, especially compared to older systems)</li>
+<li><strong>Metric evaluation</strong>: Explain strange metric movements (e.g., Why did X drop by Y%?) or critique wrong/misleading metrics (Does it measure what we want?)</li>
+</ul>
+<p><strong>Regarding metric design</strong>: <a href="https://youtu.be/nPJKFWMiIC8">This video</a> said the rule of thumb is to choose 2 success metrics and 1 counter metric. In my experience, different companies have different styles: Some suggested that I select a &ldquo;North Star metric&rdquo; after I provided several; some  explicitly asked me to think of 6+ metrics. So be sure to both think thoroughly about metrics that capture what you want and identify the one or two that matter the most.</p>
+<p><strong>Regarding metric evaluation</strong>: When evaluating a metric itself, think about the principles behind good metrics mentioned earlier as well as ways to &ldquo;hack&rdquo; metrics; when investigating a metric movement, rule out &ldquo;stupid&rdquo; reasons (internal: logging errors, feature launching, outages, etc.; external: seasonality, competitors, competitor outages, regulations, etc.) first, and then break down the &ldquo;haystack&rdquo; (each component that makes up the metric, all parties involved, different segments, etc.) to look for the &ldquo;needle&rdquo; (e.g., profound changes in product/feature health) 👉 When talking to product data scientist friends, I like asking them the first thing they&rsquo;d do after waking up to a jaw-dropping dashboard, for insights and for fun :)</p>
+<p>Surprising as it may sound, I find Chip Huyen&rsquo;s <a href="https://huyenchip.com/machine-learning-systems-design/design-a-machine-learning-system.html">Design a Machine Learning System</a> and Martin Zinkevich&rsquo;s <a href="http://martin.zinkevich.org/rules_of_ml/rules_of_ml.pdf">Rules of Machine Learning: Best Practices for ML Engineering</a> helpful for product data scientists as well. When choosing loss functions and evaluation metrics, ML folks also need to think about how users would interact with an ML-powered feature (user actions both serve as training data and data for online evaluation after deployment) and which actions to optimize for (e.g., clicks, shares, time per session, etc.). Admittedly, I wouldn&rsquo;t have read these if I hadn&rsquo;t been preparing for an ML interview&hellip; Still, I&rsquo;d recommend these two articles to product DS candidates who have extra time (😂) and wish to think about metrics even more precisely through an ML lens.</p>
+<h1 id="resources-i-used">Resources I Used</h1>
+<p>As a fresh grad with no product experience, I learned all of the above in the past 2 months from 4 product books (<em>Lean Analytics</em>, <em>Decode &amp; Conquer</em>, <em>Cracking the PM Interview</em>, <em>Trustworthy Online Controlled Experiments</em>), dozens of company engineering blogs, TechCrunch articles, PyData and Y Combinator talks, etc. or just pondering about products. Not everything is helpful; below are what I found helpful:</p>
+<ol>
+<li><strong>Lean Analytics</strong>: Must, must read to understand which metrics are most relevant for which business models (e.g., e-commerce, user-generated content, multi-sided marketplace, media, etc.) at which stage 👉 Chances are, most tech companies you&rsquo;re interviewing with have one of those business models (perhaps 23andMe, for instance, doesn&rsquo;t fit into these categories&hellip;)</li>
+<li><strong>Company research</strong>: Many companies have great engineering blogs; public companies have earnings calls  👉 From there, you can learn what exact metrics companies use for what purposes (e.g., DoorDash uses order lateness to optimize delivery time prediction models, rather than overall accuracy — this makes a ton of sense because late orders are way worse for the customers than early orders)</li>
+<li><strong>a16z</strong>: Pure gold recommended by Quora — <a href="https://a16z.com/2015/08/21/16-metrics/">16 Startup Metrics</a>, <a href="https://a16z.com/2015/09/23/16-more-metrics/">16 More Startup Metrics</a>, and <a href="https://future.a16z.com/how-to-measure-network-effects/">16 Ways to Measure Network Effects</a> 👉 Similar to Lean Analytics, but have some interesting additions (e.g., multi-tenanting)</li>
+<li><strong>Data Interview Pro (Emma)</strong>: Check out her <a href="https://towardsdatascience.com/the-ultimate-guide-to-cracking-business-case-interviews-for-data-scientists-part-1-cb768c37edf4">metric framework</a> and <a href="https://www.youtube.com/watch?v=X8u6kr4fxXc&amp;list=PLY1Fi4XflWStFs6tLQ3Gey2Aaq_U4-Xnc">product-related videos</a> 👉 I think Emma&rsquo;s content is a wonderful start to understanding product and metrics but you may wish to check out #1-3 to dive deeper afterwards</li>
+<li><strong>Experiment metrics</strong>: <a href="https://www.amazon.com/Trustworthy-Online-Controlled-Experiments-Practical/dp/1108724264">Trustworthy Online Controlled Experiments: A Practical Guide to A/B Testing</a> and Udacity&rsquo;s <a href="https://www.udacity.com/course/ab-testing--ud257">A/B testing course</a> both discuss experiment metrics in detail 👉 Experiment metrics are often shorter-term and more granular than success metrics of a product, so be sure to go over #1-4</li>
+</ol>
+<h1 id="final-thoughts">Final Thoughts</h1>
+<p>Since interviews tend to mimic real-life problems, I sometimes imagined, had I worked as a product data scientist for a week, all of those metric shenanigans would&rsquo;ve made much more sense to me more quickly (&ldquo;纸上得来终觉浅&rdquo; 😬)&hellip; I&rsquo;ll revisit this writing after having worked on real products in the not-so-distant future.</p>
+<p>Meanwhile, I often hear fellow grads complaining how &ldquo;unfair&rdquo; it is that companies ask product or even A/B testing questions since we have no experiences — whenever someone says that, I think about law or med school students: Before working on actual court cases or patients, it is possible and desirable have the theoretical foundations. And if you find this process fun, more reasons to make it your career.</p>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">About</a></li>
+         
+          <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#design-good-metrics">Design Good Metrics</a></li>
+    <li><a href="#debug-bad-metrics">Debug Bad Metrics</a></li>
+    <li><a href="#how-to-think-of-metrics">How to Think of Metrics?</a></li>
+    <li><a href="#types-of-metric-interviews">Types of Metric Interviews</a></li>
+    <li><a href="#resources-i-used">Resources I Used</a></li>
+    <li><a href="#final-thoughts">Final Thoughts</a></li>
+  </ul>
+</nav>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&text=Choosing%20Metrics" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&title=Choosing%20Metrics" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&is_video=false&description=Choosing%20Metrics" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Choosing%20Metrics&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&title=Choosing%20Metrics" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&title=Choosing%20Metrics" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&name=Choosing%20Metrics&description=%26lsquo%3bTis%20the%20college%20and%20job%20application%20season%20of%20the%20year.%20If%20only%20schools%20and%20companies%20have%20crystal%20balls%20to%20see%20into%20each%20candidate%26rsquo%3bs%20future%20achievements%2c%20they%20need%20not%20interview%20people%3b%20since%20they%20do%20not%20have%20such%20things%2c%20SAT%20scores%2c%20GPA%2c%20internships%2c%20and%20other%20quantifiable%20metrics%20are%20used%20to%20aid%20decisions.%20Simplified%20metrics%20are%20by%20no%20means%20ideal%20%e2%80%94%20As%20Goodhart%20put%20it%20%28often%20paraphrased%29%2c%20%26ldquo%3bWhen%20a%20measure%20becomes%20a%20metric%2c%20it%20ceases%20to%20be%20a%20good%20measure." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmetrics%2f&t=Choosing%20Metrics" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2022  Yuan Meng 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

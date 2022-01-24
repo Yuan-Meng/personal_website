@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yuan Meng</title>
+    <link>https://www.yuan-meng.com/</link>
+    <description>Recent content on Yuan Meng</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Yuan Meng</copyright>
+    <lastBuildDate>Wed, 19 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Set Up Python Environment for CogSci 131</title>
+      <link>https://www.yuan-meng.com/posts/python_env/</link>
+      <pubDate>Wed, 19 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/python_env/</guid>
+      <description>CogSci 131 (Computational Modeling of Cognition) is one of my favorite classes at Berkeley when I took it with Prof. Tom Griffiths in 2016. Now I&amp;rsquo;m teaching it in my last semester. Before getting to the fun parts (e.g., implementing recurrent nets and classic RL algorithms like SARSA using vanilla NumPy), one needs to set up the right Python environment. I hope this tutorial can save students some headaches.
+Option #1: Conda Virtual Environment To avoid nightmares down the line👇, use virtual environments for your local stuff.</description>
+    </item>
+    
+    <item>
+      <title>New Year Resolutions</title>
+      <link>https://www.yuan-meng.com/posts/resolutions-2022/</link>
+      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/resolutions-2022/</guid>
+      <description>Piled Higher and Deeper: https://phdcomics.com/comics.php?f=1670
+  Resolutions are meant to be broken, but like everything good in life, it&amp;rsquo;s better to try and fail than never to have attempted at all. So here&amp;rsquo;s my attempt for 2022.
+1. Be a better modeler 2021 felt quite surreal &amp;mdash; I got my first job offer as a machine learning data scientist, something I&amp;rsquo;d been dreaming of for nearly two years. In 2022, I wanna up my ante in the modeling game by working through (a subset of) the following:</description>
+    </item>
+    
+    <item>
+      <title>A Minimalist Setup for Zoom Guitar Lessons</title>
+      <link>https://www.yuan-meng.com/posts/guitar/</link>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/guitar/</guid>
+      <description>Goals + Overview (macOS) I&amp;rsquo;ve been taking guitar lessons over Zoom since the pandemic. As an electric player, I initially found it challenging to split audio inputs/outputs multiple ways:
+ Input #1: Microphone &amp;ndash; so I can talk to my teacher Input #2: Guitar &amp;ndash; no need to explain 🎸🤟 :) Output #1: Headphone &amp;ndash; so I hear guitar effects created by my amp simulator Output #2: Zoom &amp;ndash; so my teacher hears the same effects, not just dry signals  After some research, I found a setup that feels simple and intuitive to me.</description>
+    </item>
+    
+    <item>
+      <title>Causal Inference in Data Science</title>
+      <link>https://www.yuan-meng.com/posts/causality/</link>
+      <pubDate>Fri, 12 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/causality/</guid>
+      <description>What do you see? 👀
+ You&amp;rsquo;re probably thinking, &amp;ldquo;The red block stopped, right after which the green block started to move coincidentally.&amp;quot;
+Nice try&amp;hellip; I know what you&amp;rsquo;re thinking, &amp;ldquo;The red block madethe green one move&amp;rdquo;.
+Why Ask Why? We can&amp;rsquo;t help but think about causation Your stats professor can say &amp;ldquo;correlation is not causation&amp;rdquo; like a broken record, but we can&amp;rsquo;t help but think about causation. Even 12-month-old babies don&amp;rsquo;t think the motions of the two blocks are merely correlated.</description>
+    </item>
+    
+    <item>
+      <title>Latest Hits in Cognitively Inpsired AI</title>
+      <link>https://www.yuan-meng.com/posts/cocosci/</link>
+      <pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/cocosci/</guid>
+      <description>This paper collection reflects some of the most exiting trends in computational cognitive science and cognitively inspired AI, in my opinion.
+ Overview How can AI and cognitive science shed light on each other&amp;rsquo;s biggest challenges?
+ Lake, B. M., Ullman, T. D., Tenenbaum, J. B., &amp;amp; Gershman, S. J. (2017). Building machines that learn and think like people. Behavioral and Brain Sciences, 40. (PDF) Ullman, T. D., &amp;amp; Tenenbaum, J.</description>
+    </item>
+    
+    <item>
+      <title>Choosing Metrics</title>
+      <link>https://www.yuan-meng.com/posts/metrics/</link>
+      <pubDate>Sat, 06 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/metrics/</guid>
+      <description>&amp;lsquo;Tis the college and job application season of the year. If only schools and companies have crystal balls to see into each candidate&amp;rsquo;s future achievements, they need not interview people; since they do not have such things, SAT scores, GPA, internships, and other quantifiable metrics are used to aid decisions. Simplified metrics are by no means ideal — As Goodhart put it (often paraphrased), &amp;ldquo;When a measure becomes a metric, it ceases to be a good measure.</description>
+    </item>
+    
+  </channel>
+</rss>

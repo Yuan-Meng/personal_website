@@ -502,7 +502,7 @@ Why Ask Why? We can&rsquo;t help but think about causation Your stats professor 
 <li>
 <p><strong>Create a synthetic control</strong>: After finding the weights (e.g., Rio: .6; Lima: .4), we can used the weighted average of the donor pool to project the post-treatment outcome in the treated unit if  the treatment didn&rsquo;t occur, $\sum_{j=2}^{J+1} w_j Y_{jt}$ 👉 <em>drum roll</em>&hellip; this weighted average is called the &ldquo;synthetic control&rdquo; and represents our best guess for how things could have been in untreated São Paulo. At any point $t$ after the launch, the difference between the actual and the synthetic São Paulo is the treatment effect at $t$, $Y_{1t}^{treated} - \sum_{j=2}^{J+1} w_j Y_{jt}$</p>
 <figure><img src="https://www.dropbox.com/s/tebslmo8g1agtlm/synthetic_controk.png?raw=1"
-         alt="Uber used the synthetic control method to measure how much giving drivers heads up about cash trips impacted # of cash trips per driver" width="700"/><figcaption>
+         alt="Uber used the synthetic control method to measure how much giving drivers heads up about cash trips impacted # of cash trips per driver" width="600"/><figcaption>
             <p>Uber used the synthetic control method to measure how much giving drivers heads up about cash trips impacted # of cash trips per driver</p>
         </figcaption>
 </figure>
@@ -514,7 +514,7 @@ Why Ask Why? We can&rsquo;t help but think about causation Your stats professor 
 </ol>
 <p>Compared to previous methods, synthetic control is quite complex and many things can go wrong (check out <a href="https://economics.mit.edu/files/17847">Abadie, 2021</a> for more details):</p>
 <ol>
-<li><strong>Donor pool selection</strong>: If untreated units are dissimilar to the treated unit, we cannot create good counterfactuals (most weights are 0). Again, matching comes handy.</li>
+<li><strong>Donor pool</strong>: If untreated units are dissimilar to the treated unit, we cannot create good counterfactuals (most weights are 0). Again, matching comes handy.</li>
 <li><strong>Overfitting</strong>: In a short pre-treatment period with too many untreated units, we&rsquo;re bound to &ldquo;overfit&rdquo; &mdash; the synthetic control may mimic the treated unit too exactly rather than giving us a robust projection of the possible trend.</li>
 <li><strong>Data peaking</strong>: When choosing the donor pool and optimizing weights, we may peek at the post-treatment data and end up finding false positive treatment effects.</li>
 <li><strong>Question types</strong>: If you wish to answer questions about individual users, synthetic control is not the right method. And if you make a small UI change, synthetic control is also not great for detecting such weak signals.</li>
