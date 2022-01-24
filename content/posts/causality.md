@@ -234,7 +234,7 @@ For DoorDash, late orders are the worst --- "hangery" customers may order less o
 We can tweak this idea a little bit to make it work: Instead of comparing all customers who didn't get a refund vs. all customers who did, we can compare those around 30-minute cutoff. For instance, A might get a refund for a 30.1-minute order whereas B gets nothing for a 29.9-minute later order. One should not feel angrier than the other just because of the 0.2-minute difference in lateness, so if we do observe a difference in LTV between A and B, then it may well be attributed to the refund. This method is called the regression discontinuity design (RDD). 
 
 
-Say DoorDash plotted the data and found a upward "jump" after the cutoff, this suggests that the refund reduced late orders' damage to LTV to some degree. 
+Say DoorDash plotted the data and found a downward "jump" after the cutoff, this suggests that the refund reduced late orders' damage to LTV to some degree. 
 
 {{< figure src="https://www.dropbox.com/s/vz60f040euu0465/rdd.png?raw=1" width="400" caption="DoorDash uses regression discontinuity design (RDD) to measure the impact of auto-refunding on customer LTVs when orders arrive late.">}}
 
