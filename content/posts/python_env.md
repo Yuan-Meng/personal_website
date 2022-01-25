@@ -34,7 +34,7 @@ To avoid nightmares down the line👇, use virtual environments for your local s
 
 3. **Activate environment**: In the same directory, run `conda activate cogsci131`
 
-4. **Install packages**: For this course (or cognitive science in general), you most likely need to `conda install pandas numpy scipy matplotlib seaborn jupyterlab`
+4. **Install packages**: For this course (or cognitive science in general), you most likely need to `conda install pandas numpy scipy matplotlib seaborn jupyterlab pandoc`
     - After all the installations are completed, you should be able to launch [Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html) from this environment: `jupyter lab`
     {{< figure src="https://www.dropbox.com/s/i83bax801n4lnmm/jupyterlab.png?raw=1" width="500" caption="Jupyter Lab opens a web browser 👉 you can start a kernel and create a notebook from there" >}}
 5. (Optional) **Export environment**: If for some reason you need to recreate the above environment (nuked it or changed computers), you can export the settings to a [YAML](https://en.wikipedia.org/wiki/YAML) file (`conda env export > cogsci131.yml`) and create a new environment from the saved file (`conda create --name cogsci131 --file cogsci131.yml`)
