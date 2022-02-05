@@ -538,7 +538,7 @@ Why Ask Why? We can&rsquo;t help but think about causation Your stats professor 
 <li><strong>As good as random</strong>: Treatment assignment of &ldquo;near-winners&rdquo; (A) and &ldquo;near-losers&rdquo; (B) is as good as random 👉 this is the &ldquo;natural experiment&rdquo; here.</li>
 </ul>
 <p>Both assumptions are reasonable in the refund case, so discontinuity can be attributed to the treatment. In other cases, we may see a naturally &ldquo;jumpy&rdquo; relationship around the cutoff. For instance, if GPA determines whether students can get a merit-based scholarship (eligible if GPA $\geq$ 80%), those just below the cutoff (e.g., 79.9%) may beg the teacher for a &ldquo;mercy pass&rdquo;, but not those just above (80.1%). Students who still nearly lose may have even lower grades to begin with, or didn&rsquo;t argue for grades, making them less comparable with the near-winners.</p>
-<p>This example sounds straightforward. In reality, there can be complications:</p>
+<p>This example sounds straightforward. I created a little <a href="https://rdd-demo.netlify.app/">presentation</a> for how you can implement this analysis and here&rsquo;s a <a href="https://colab.research.google.com/drive/1QHi9egj3uXEqcD7_EtRxOVnxM26IzKAC?usp=sharing">Colab notebook</a> you can play with (adapted from Matheus Facure&rsquo;s <a href="https://matheusfacure.github.io/python-causality-handbook/16-Regression-Discontinuity-Design.html">book chapter</a>).In reality, there are various complications:</p>
 <ol>
 <li>The cutoff isn&rsquo;t always deterministic, making the discontinuity less clean:
 <ul>

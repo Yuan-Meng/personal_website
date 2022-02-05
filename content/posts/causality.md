@@ -245,7 +245,7 @@ To reach the above conclusion, we made two assumptions:
 
 Both assumptions are reasonable in the refund case, so discontinuity can be attributed to the treatment. In other cases, we may see a naturally "jumpy" relationship around the cutoff. For instance, if GPA determines whether students can get a merit-based scholarship (eligible if GPA $\geq$ 80\%), those just below the cutoff (e.g., 79.9\%) may beg the teacher for a "mercy pass", but not those just above (80.1\%). Students who still nearly lose may have even lower grades to begin with, or didn't argue for grades, making them less comparable with the near-winners. 
 
-This example sounds straightforward. In reality, there can be complications:
+This example sounds straightforward. I created a little [presentation](https://rdd-demo.netlify.app/) for how you can implement this analysis and here's a [Colab notebook](https://colab.research.google.com/drive/1QHi9egj3uXEqcD7_EtRxOVnxM26IzKAC?usp=sharing) you can play with (adapted from Matheus Facure's [book chapter](https://matheusfacure.github.io/python-causality-handbook/16-Regression-Discontinuity-Design.html)).In reality, there are various complications:
 1. The cutoff isn't always deterministic, making the discontinuity less clean:
     - **Sharp (deterministic)**: Orders $\geq$ 30 minutes late definitely receive a refund and those $<$ 30 minutes late definitely don't 
     - **Fuzzy (probabilistic)**: The admission office has a suggested SAT cutoff, but students with lower scores might still get in through special programs
