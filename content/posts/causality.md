@@ -170,7 +170,7 @@ Why do events have to meet both criteria? We can think of some counterexamples:
 
 Let's look at some classic examples in tech. In the old days, Meta users could only like a post but not express other emotions such as anger or sadness. If someone posted about a loved one passing away, it seemed inappropriate to like it, yet many might not want to leave a comment (e.g., too effortful, not close enough). Meta data scientists hypothesized that, if more reactions were allowed, people would be more willing to engage with posts. Because of the "spillover effect" mentioned before, a regular A/B test wasn't a good idea (e.g., if a treatment user reacted to a post by control user, the latter would not be able to see it and engage back). 
 
-To avoid bad user experience and contaminated results, Meta did a geo experiment ([talk](https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/)). Let's they rolled out this new "Reactions" feature to Canada (treated) but not to the US (untreated) and measured the number of posts reacted to (including likes) per user before and after the rollout. Below are results I made up.
+To avoid bad user experience and contaminated results, Meta did a geo experiment ([talk](https://developers.facebook.com/videos/f8-2017/how-we-shipped-reactions/)). Say they rolled out this new "Reactions" feature to Canada (treated) but not to the US (untreated) and measured the number of posts reacted to (including likes) per user before and after the rollout. Below are results I made up.
 
 {{< figure src="https://www.dropbox.com/s/qt9aoe34zc60fv7/diff-in-diff.png?raw=1" width="400" caption="\# of posts reacted to per user before and after launching Reactions">}}
 
