@@ -13,7 +13,7 @@ keywords:
 # Seriously, Read *The Ph.D. Grind*
 Everyone doing a Ph.D. or considering doing one should read [*The Ph.D. Grind*](https://drive.google.com/file/d/1fspvXpE9jE_xMjHbwt0RSIsZOWd1j9FH/view?usp=sharing). Don't wait --- you'll learn the much-needed "rational optimism" for this crazy ride. 
 
-I only came across this gem in my semester year of Ph.D. but was immediately captured by Dr. Philip Guo's reflections on his first year at Stanford: 
+I only came across this gem in my final semester year of Ph.D. but was immediately captured by Dr. Philip Guo's reflections on his first year at Stanford: 
 
 > *"I procrastinate more than I had ever done in my life thus far: I watched lots of TV shows, took many naps, and wasted countless hours messing around online. Unlike my friends with nine-to-five jobs, there was no boss to look over my shoulder day to day, so I let my mind roam free without any structure in my life [...] Having full intellectual freedom was actually a curse, since I was not yet prepared to handle it."* (p. 16-17)
 
