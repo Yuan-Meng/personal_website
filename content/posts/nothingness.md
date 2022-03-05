@@ -11,7 +11,7 @@ keywords:
 ---
 
 # Seriously, Read *The Ph.D. Grind*
-Everyone doing a Ph.D. or considering doing one should read [*The Ph.D. Grind*](https://www.scholat.com/teamwork/teamworkdownloadscholar.html?id=4924&teamId=1158). Don't wait --- you'll learn the much-needed "rational optimism" for this crazy ride. 
+Everyone doing a Ph.D. or considering doing one should read [*The Ph.D. Grind*](https://drive.google.com/file/d/1fspvXpE9jE_xMjHbwt0RSIsZOWd1j9FH/view?usp=sharing). Don't wait --- you'll learn the much-needed "rational optimism" for this crazy ride. 
 
 I only came across this gem in my semester year of Ph.D. but was immediately captured by Dr. Philip Guo's reflections on his first year at Stanford: 
 
