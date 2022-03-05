@@ -21,7 +21,7 @@ Or his third year, for that matter:
 
 > *"For most students in my department, nobody would notice or care if they took one day off, so by extension, why not take two days off, a whole week off, or even a whole month off? Therefore, it's unsurprising that many Ph.D. students who drop out do so around their third year."* (p. 37)
 
-I was shocked, not by the seeming "absurdity" (*"Wait what, do Ph.D. students really waste their life away?"*), but by such honesty --- damn, did someone install a CCTV and watch me during my first three years? 
+I was shocked, not by the seeming "absurdity" (*"Wait what, do Ph.D. students really waste their life away?!"*), but by such honesty --- damn, did someone install a CCTV and watch me during my first three years? 
 
 For years on end, I thought I was the only one. I've kept it a secret out of shame: I don't recall how my early days of grad school went, because I was, more often than not, doing nothing than pushing my research program forward. In my mind, that was infinitely worse than trying one's best but failing. Since I couldn't put words to my struggle, I thought I wasn't worth the help. 
 
