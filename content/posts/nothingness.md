@@ -31,7 +31,7 @@ Why wasn't I doing something? I don't know: It's a mystery to me as well. Back i
 
 > *"You insist that there is something in a machine cannot do. If you will tell me precisely what it is that a machine cannot do, then I can always make a machine which will do just that!"* --- von Neumann (1948)
 
-It was strange that the moment I arrived at Berkeley, I felt lost. All of a sudden, I became quite and unmotivated. I went to classes and rushed home. I watched more movies a month than I read papers. Research felt more like a chore than fun.
+It was strange that the moment I arrived at Berkeley, I felt lost. All of a sudden, I became quiet and unmotivated. I went to classes and rushed home. I watched more movies a month than I read papers. Research felt more like a chore than fun.
 
 Was it because I moved to a foreign country and had to read, write, and joke in a second language? Was it because I'd never worked with infants and inherited a complex infant study right from the start? Was it because of the casual racism here and there (e.g., being asked to come up with an "English name", being told my answer didn't matter in a trivia game with American students when it turned out to be correct...) that made me feel small? Was it because I felt intimidated by legends who graduated from Berkeley psych and figured I was too far behind?...
 
