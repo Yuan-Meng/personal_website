@@ -228,7 +228,7 @@ Two candidates could've gone through exactly the same preparation yet come away 
 
         I learned this trick from Emma's videos. Giving a high-level summary at the beginning of each "chapter" in an interview not only makes your answer easy to follow but also allows the interviewer to correct your oversights and lead you towards a promising direction. 
 
-    4. **Propose tests and fixes**: Finally, you want to walk through each hypothesis, in a descending order of priority --- *"First, let's check the cables, because they're the most common reason and the easiest to fix." "We can first check if the cables are lose. If the buzz persists after we push them all the way in, then we can try new cables."* *"If we still hear the buzz, we can check if it's the amp, speaker, or the guitar. We can try a different one for each to see if the buzz would disappear."*
+    4. **Propose tests and fixes**: Finally, you want to walk through each hypothesis, in a descending order of priority --- *"First, let's check the cables, because they're the most common culprit and the easiest to fix." "We can first check if the cables are loose. If the buzz persists after we push them all the way in, then we can try new cables."* *"If we still hear the buzz, we can check if it's the amp, speaker, or the guitar. We can try a different one for each to see if the buzz would disappear."*
 
         Every hypothesis should be backed up by some distinct patterns in your data ("If $X$ is true, then we'd see $Y$"). Refrain from throwing out random guesses that you cannot tie back to (hypothetical) data somehow.
 
