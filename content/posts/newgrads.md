@@ -1,6 +1,6 @@
 ---
 title: (Quirky) Roadmap for New Grad Data Scientists 
-date: 2022-03-11
+date: 2022-03-13
 math: true
 tags:
     - career
