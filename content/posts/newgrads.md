@@ -244,6 +244,7 @@ Two candidates could've gone through exactly the same preparation yet come away 
 ---
 # Have Fun
 
+## Fun is all you can control
 Before my very first onsite, I confided in a friend, *"I've wanted to be a data scientist for two years now and it may just come true. It feels so heavy."* I didn't sleep at all that night and didn't get the job later (not causally related...). 
 
 Because of the validation I got from my internship host and knowing what I'd learned over the years, I didn't doubt my ability to do data science. But the rejection made me worried about my arrangement with my advisor (regardless of the outcome, I must focus on research in November) and if I could find a job in time.
@@ -256,6 +257,7 @@ Then I watched a Hilary Hahn documentary where she talked about stage fright (sp
 
 Her words shifted my perspective. If I couldn't get a job in November, so what? I'd make time for job search while doing my dissertation. The only thing I could control was to give my interviewers thoughtful answers, and hopefully, an "entertaining" performance. I got offers from after the later interviews. 
 
+## No fun without friends
 In the end, I want to thank many DS friends who made this journey much more fun than it could've been. Yishu --- thank you for saying you already thought of me as a data scientist long before I even had got the chance to land an internship. Emma --- I absolutely don't recall anything we said, but musing about data science with you was a great enjoyment. My mock interview buddies --- I found interview preps hard but never dull because of you and may our friendship continue as our careers grow. 
 
 <!-- - **Gamify the process**: While preparing for A/B testing interviews, I thought about edge cases where it fails, learned "non-traditional methods" in those cases, and later turned my notes into a causal inference [post](https://www.yuan-meng.com/posts/causality/). After my last interview, I reached out to Emma, asking if she'd talk about this topic (at that time, I didn't think I'd be the one making it). Looking back, I'd been waiting to reach out the moment I saw her videos; causal inference was an "excuse". I was dying to hear how a person making thoughtful product content thinks about products. Thinking again, that's also why I was exited about interviews --- I wanted to hear how data scientists think about their companies' products after working on them day in and day out. Another quirky piece of advice: **The new grad interview season is long and hard**, so if you can **turn it into a game you enjoy**, go for it. -->
