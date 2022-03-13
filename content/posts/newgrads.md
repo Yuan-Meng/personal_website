@@ -230,7 +230,7 @@ Two candidates could've gone through exactly the same preparation yet come away 
 
     4. **Propose tests and fixes**: Finally, you want to walk through each hypothesis, in a descending order of priority --- *"First, let's check the cables, because they're the most common culprit and the easiest to fix." "We can first check if the cables are loose. If the buzz persists after we push them all the way in, then we can try new cables."* *"If we still hear the buzz, we can check if it's the amp, speaker, or the guitar. We can try a different one for each to see if the buzz would disappear."*
 
-        Every hypothesis should be backed up by some distinct patterns in your data ("If $X$ is true, then we'd see $Y$"). Refrain from throwing out random guesses that you cannot tie back to (hypothetical) data somehow.
+        Every hypothesis should be backed up by some distinct patterns in your data ("If $X$ is true, then we'd see $Y$"). Refrain from throwing out random guesses that you cannot tie back to (hypothetical) data somehow. Don't propose a ["Carl Sagan's dragon"](https://rationalwiki.org/wiki/The_Dragon_in_My_Garage) (an invisible, immaterial dragon🐲 that breathes heatless and also invisible fire...) that you can never empirically verify. 
 
     Try this for a problem that you often run into in real life (e.g., some say skincare is a multi-variate causal inference problem that requires this sort of methodical reasoning😳). If you can solve it logically, you won't have communication problems in interviews; if you can't, practice until it becomes a habit.
 
