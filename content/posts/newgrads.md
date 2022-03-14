@@ -249,7 +249,7 @@ Before my very first onsite, I confided in a friend, *"I've wanted to be a data 
 
 Because of the validation I got from my internship host and knowing what I'd learned over the years, I didn't doubt my ability to do data science. But the rejection made me worried about my arrangement with my advisor (regardless of the outcome, I must focus on research in November) and if I could find a job in time.
 
-Then I watched a Hilary Hahn documentary where she talked about stage fright (spoiler: the violin goddess has never had stage fright):
+Then I watched a Hilary Hahn documentary where she talked about stage fright (spoiler: the violin goddess has never had a stage fright):
 
 > If you're afraid you're not gonna do well enough, you'll just replicate what you think people want you to do. Replicating is never the way to convince people you know what you're doing.
 > You just have to be very well prepared, as prepared as you can be, but you're never completely ready --- you just do your best.
@@ -258,4 +258,4 @@ Then I watched a Hilary Hahn documentary where she talked about stage fright (sp
 Her words shifted my perspective. If I couldn't get a job in November, so what? I'd make time for job search while doing my dissertation. The only thing I could control was to give my interviewers thoughtful answers, and hopefully, an "entertaining" performance. I got offers from after the later interviews. 
 
 ## No fun without friends
-In the end, I want to thank many DS friends who made this journey much more fun than it could've been. Yishu --- thank you for saying you already thought of me as a data scientist long before I even had got the chance to land an internship. Emma --- I remember all your advice during the interviews and absolutely anything afterwards, but musing about data science with you was a great enjoyment. My mock interview buddies --- I found interview preps hard but never dull because of you and may our friendship continue as our careers grow. 
+In the end, I want to thank many DS friends who made this journey much more fun than it could've been. Yishu --- thank you for saying you already thought of me as a data scientist long before I even had got the chance to land an internship. Emma --- I remember all your advice when I was interviewing and absolutely nothing afterwards, but musing about data science with you was a great enjoyment. My mock interview buddies --- I found interview preps hard but never dull because of you and may our friendship continue as our careers grow. 
