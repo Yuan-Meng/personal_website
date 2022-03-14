@@ -13,7 +13,7 @@ keywords:
 ---
 
 # New Grad Timeline
-Since last November, I regularly get questions about how to get data science jobs. I've hesitated to give advice because no advice applies to everyone. As more people ask, however, I want to write a post for those in my shoes: **(PhD) students applying to ML DS or product DS roles at tech companies through university recruiting.** 
+Since last November, I regularly get questions about how to get data science jobs. I've hesitated to give advice because no advice applies to everyone. As more people ask, however, I want to write a post for those in my shoes: **(PhD) students applying to machine learning or product DS roles at tech companies through university recruiting.** 
 
 ## What's special about university recruiting
 Every year around August, you'll start to see openings with "New Grad", "University Grad", "Masters/PhD Graduate", etc. in job titles. Take advantage of them if you're a current student. University recruiting is special in several regards: 
@@ -36,7 +36,7 @@ If you graduate in December 202X, your timeline is similar to those graduating i
 # Track #1: Machine Learning
 
 ## **TL;DR**
-> If you want a career in ML, nowadays you likely need to master state-of-the-art models (Research Scientist, Applied Scientist, or Machine Learning Scientist), software engineering (Machine Learning Engineer or Software Engineer, Machine Learning), or both --- the days when data scientists could simply hand an out-of-box model in a Jupyter notebook to an ML engineer to productionize may be gone at many tech companies. 
+If you want a career in ML nowadays, there are more opportunities in non-tech industries (e.g., banks, insurance, healthcare, consulting, telecommunication, etc.). To work at an ML person at a tech company, you likely need to master state-of-the-art models (Research Scientist, Applied Scientist, or Machine Learning Scientist), software engineering (Machine Learning Engineer or Software Engineer, Machine Learning), or both --- the days when data scientists could simply hand an out-of-box model in a Jupyter notebook to an ML engineer to productionize may be gone in tech.
 
 
 ## 500 names of ML data scientists 🦄
@@ -82,7 +82,7 @@ Between the day I first imported a Scikit-Learn model (October 2019) and when I 
 # Track #2: Product Analytics
 
 ## **TL:DR**
-> At big tech companies and established startups, if the job title "Data Scientist" is not suffixed by "Machine Learning", "Algorithms", or "Engineering", it most likely refers to product analysts. The analytics track is by far the most common way for new grads (or anyone, for that matter) to land a DS job. In this quirky roadmap, shall I offer some quirky advice: **All new grads looking for DS jobs, regardless of the track, should learn product knowledge**, because 1) you can't count on getting an ML offer given the rarity, and 2) product sense goes a long way in ML interviews as well (a model is only useful insofar as it solves a business problem and you need product sense to understand what it is). 
+At big tech companies and established startups, if the job title "Data Scientist" is not suffixed by "Machine Learning", "Algorithms", "Engineering", or the likes, it most likely refers to product analysts. The analytics track is by far the most common way for new grads (or anyone, for that matter) to land a DS job. In this quirky roadmap, shall I offer some quirky advice: **All new grads looking for DS jobs, regardless of the track, should learn product knowledge**, because 1) you can't count on getting an ML offer given the rarity, and 2) product sense goes a long way in ML interviews as well (a model is only useful insofar as it solves a business problem and you need product sense to understand what it is). 
  
 
 ## Ubiquity and range of product DS
@@ -132,6 +132,10 @@ Many people ([Emma](https://www.youtube.com/c/DataInterviewPro), [课代表立�
         A perennial question is how many mock interviews one should do. It doesn't matter; some do dozens while others three --- it's the end result you strive for. Ask yourself, given any arbitrary product, can you quickly ask the right questions in order to figure out how it works, who it serves, when it succeeds, and how it might fail? Given example results, can you gauge how well it's doing? When goals clash, can you seek a good trade-off?... If these thoughts and ideas come naturally to you, then doing more only gives you a diminishing return. On the other hand, if people often say you need to think more thoroughly and organize your thoughts more clearly, then you'd probably benefit from practicing more with people. Do what you need.
 
 # Interview Preparation 
+
+Right around when I was interviewing, the Netflix show *Squid Game* went viral. I was joking to friends how DS interviews are just like the game: Candidates play 6-ish rounds of high-stake games (e.g., SQL, product, stats, ML, coding, behavior) and those not "eliminated" by the end get the offer. I doubt if anyone can tell you accurately the bare minimum preparation it takes to get a DS job, because we were doing as much as possibly can to "be safe". Take all advice with many grains of salt.
+
+{{< figure src="https://www.dropbox.com/s/6i0q18n08mbdgir/squid_game.jpg?raw=1" width="300" caption="A *Squid Game* lantern I drew last October, a week before my first offer.">}}
 
 ## Knowing the basics $\gg$ memorizing answers
 
