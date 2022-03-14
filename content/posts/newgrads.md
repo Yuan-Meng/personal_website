@@ -135,7 +135,7 @@ Many people ([Emma](https://www.youtube.com/c/DataInterviewPro), [课代表立�
 
 ## The *"Squid Game"*
 
-Right around when I was interviewing, the Netflix show *Squid Game* went viral. I was joking to friends how DS interviews are just like the game: Candidates play 6-ish rounds of high-stake games (e.g., SQL, product, stats, ML, coding, behavior) and those not "eliminated" by the end get the offer. I doubt if anyone can tell you accurately the bare minimum preparation it takes to get a DS job, because we were doing as much as possibly can to "be safe". Take all advice with many grains of salt.
+Right around when I was interviewing, the Netflix show *Squid Game* went viral. I was joking to friends how DS interviews are just like the game: Candidates play 6-ish rounds of high-stake games (e.g., SQL, product, stats, ML, coding, behavior) and those not "eliminated" by the end get the offer. I doubt if anyone can tell you accurately the bare minimum preparation it takes to get a DS job, because we were doing as much as possibly can to "be safe" (unless 艺高人胆大🤑, which I'm not). Take all advice with many grains of salt.
 
 {{< figure src="https://www.dropbox.com/s/6i0q18n08mbdgir/squid_game.jpg?raw=1" width="300" caption="A *Squid Game* lantern I drew last October, a week before my first offer.">}}
 
