@@ -13,7 +13,9 @@ keywords:
 ---
 
 # New Grad Timeline
-Since last November, I regularly get questions about how to get data science jobs. I've hesitated to give advice because no advice applies to everyone. As more people ask, however, I want to write a post for those in my shoes: **(PhD) students applying to machine learning or product DS roles at tech companies through university recruiting.** 
+Since last November, I regularly get questions about how to get data science jobs. I've hesitated to give advice because no advice applies to everyone. As more people ask, however, I want to write a post for those in my shoes: 
+
+> **(PhD) students applying to machine learning or product DS roles at tech companies through university recruiting.** 
 
 ## What's special about university recruiting
 Every year around August, you'll start to see openings with "New Grad", "University Grad", "Masters/PhD Graduate", etc. in job titles. Take advantage of them if you're a current student. University recruiting is special in several regards: 
