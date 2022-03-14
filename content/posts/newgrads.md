@@ -201,7 +201,7 @@ to which she generously agreed. My October schedule alternated between two modes
 
 ## Optimize your timeline
 
-As shown in the screenshot above, I withdrew from Google, Two Sigma, and Uber because there was no way I could finish. I completed the first 4 in early November and scheduled the rest from late November and early December. I did that because I wanted to leave more time for each company. That probably wasn't necessary: Even though each company has different business models and its own concerns, stats is stats and metrics are metrics --- the basics are the same everywhere, so you may only need 3-5 days for each additional place to prepare for company-specific questions. 
+As shown in the screenshot above, I withdrew from Google, Two Sigma, and Uber because there was no way I could finish. I completed the first 4 in early November and scheduled the rest from late November to early December. I did that because I wanted to leave more time for each company. That probably wasn't necessary: Even though each company has different business models and its own concerns, stats is stats and metrics are metrics --- the basics are the same everywhere, so you may only need 3-5 days for each additional place to prepare for company-specific questions. 
 
 Knowing what I know now, below is what I should have done:
 - **Finish phone interviews in early to mid-September**: Phone interviews are not meant to be hard --- they serve as smokescreens to weed out people who really don't know the basics (e.g., don't know $t-$tests). Don't drag out this step. 
