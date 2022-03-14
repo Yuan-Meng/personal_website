@@ -133,6 +133,8 @@ Many people ([Emma](https://www.youtube.com/c/DataInterviewPro), [课代表立�
 
 # Interview Preparation 
 
+## The *"Squid Game"*
+
 Right around when I was interviewing, the Netflix show *Squid Game* went viral. I was joking to friends how DS interviews are just like the game: Candidates play 6-ish rounds of high-stake games (e.g., SQL, product, stats, ML, coding, behavior) and those not "eliminated" by the end get the offer. I doubt if anyone can tell you accurately the bare minimum preparation it takes to get a DS job, because we were doing as much as possibly can to "be safe". Take all advice with many grains of salt.
 
 {{< figure src="https://www.dropbox.com/s/6i0q18n08mbdgir/squid_game.jpg?raw=1" width="300" caption="A *Squid Game* lantern I drew last October, a week before my first offer.">}}
@@ -172,7 +174,6 @@ In mid-September, I got a few more onsites. Another good piece of advice I got f
 I got myself about a month's time to prepare for the onsites. Companies usually do onsite prep calls and share materials telling candidates exactly how many rounds there will be and what each round entails. Piece by piece, I prepared for each round at each place and felt ready a day or two before each onsite (4-5 rounds).
 
 ## Organize your time and learning
-
 
 As interviews piled up and the content diversified, I was overwhelmed by stress (couldn't sleep or eat well; constantly irritated...). So I made a risky move, asking my PhD advisor for a month off from research, 
 
