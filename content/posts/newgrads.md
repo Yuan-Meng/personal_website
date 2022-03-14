@@ -156,7 +156,7 @@ I passed both interviews in early September and was moved forward to onsite. Aro
 
 In mid-September, I got a few more onsites. Another good piece of advice I got from Emma is that you don't have to schedule interviews right away if you're not ready. Recruiters get paid only when you accept an offer (usually $\propto$ your compensation), so they're motivated to help you get ready. I was worried about headcounts at Quora and Figma since there might not be as many openings as would be at larger companies. I asked both recruiters explicitly and figured out a timeline together:
 
-> "Before I provide my availability, I wonder what would be an ideal date range on your end. Is preferable that I interview in late September, or is early to mid-October still a good time? Asking since I wish to be as prepared as possible but don't want to miss out on this opportunity (which I really appreciate) because of headcount-related issues.""
+> "Before I provide my availability, I wonder what would be an ideal date range on your end. Is preferable that I interview in late September, or is early to mid-October still a good time? Asking since I wish to be as prepared as possible but don't want to miss out on this opportunity (which I really appreciate) because of headcount-related issues."
 
 I got myself about a month's time to prepare for the onsites. Companies usually do onsite prep calls and share materials telling candidates exactly how many rounds there will be and what each round entails. Piece by piece, I prepared for each round at each place and felt ready a day or two before each onsite (4-5 rounds).
 
