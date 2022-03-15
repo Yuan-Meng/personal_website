@@ -40,7 +40,7 @@ If you graduate in December 202X, your timeline is similar to those graduating i
 ## **TL;DR**
 If you want a career in ML nowadays, there are more opportunities in non-tech industries (e.g., banks, insurance, healthcare, consulting, telecommunication, etc.). To work as an ML person at a tech company, you likely need to master state-of-the-art models (Research Scientist, Applied Scientist, or Machine Learning Scientist), software engineering (Machine Learning Engineer or Software Engineer, Machine Learning), or both --- the days when data scientists could simply hand an out-of-box model in a Jupyter notebook to an ML engineer to productionize may be gone in tech. 
 
-Increasingly more candidates have exactly the same ML skills (e.g., LightGBM, PyTorch, transformers) on paper --- I think what sets you part is your judgment and hard-won practical skills (e.g., feature engineering, model tuning and evaluation).
+Increasingly more candidates have exactly the same ML skills (e.g., LightGBM, PyTorch, transformers) on paper --- what sets you part is your judgment and hard-won practical skills (e.g., feature engineering, model tuning and evaluation). Harsh as it may sound, companies pay you for your ability to navigate through difficult choices, not just the ability to import libraries. 
 
 
 ## 500 names of ML data scientists 🦄
@@ -87,7 +87,7 @@ Regardless of the title, an ML practitioner can't escape any of the following, I
     - **Write clean code**: As a student, you may not realize the importance of writing clean code. I've seen many Jupyter notebooks (including my own before 2019) with unreadable spaghetti code. That won't fly in MLE/SWE interviews where coding style is an essential part of the rubrics --- after all, companies don't want to bring in someone who might mess up their code base. And I've heard of engineers and data scientists getting poor performance reviews because of bad styling habits. So it's a huge plus, if not a necessity, that you pay attention to cleanness. Modulate your code so that each function preferably does one simple thing (or two), use [descriptive variable names](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/intro-to-clean-code/expressive-variable-names-make-code-easier-to-read/), follow the [PEP 8 style guide](https://peps.python.org/pep-0008/), be "Pythonic" (e.g., use list or dictionary comprehensives instead of C-style for-loops, learn object-oriented programming), use comments when necessary (doesn't mean you write essays), etc.. Highly recommend [*Python Tricks*](https://realpython.com/products/python-tricks-book/) to Python folks. 
 
 
-Between the day I first imported a Scikit-Learn model (October 2019) and when I got an offer as an ML data scientist (November 2021), 2 years had passed. In those two years, I did dozens of toy projects, deployed 4-5 personal projects, and worked on a researchy DL project in my internship. There's a reason why people joke about ML being "modern fortune-telling": From data validation + wrangling, feature engineering, to modeling selection, tuning, evaluation, and deployment, should anything go wrong, predictions would be nonsense. ML is a craft to patiently cultivate. 
+Between the day I first imported a Scikit-Learn model (October 2019) and when I got an offer as an ML data scientist (November 2021), 2 years had passed. In those two years, I did dozens of toy projects, deployed 4-5 personal projects, and worked on a researchy DL project in my internship. There's a reason why people joke about ML being "modern fortune-telling" ("炼仙丹"): From data validation + wrangling, feature engineering, to modeling selection, tuning, evaluation, and deployment, should anything go wrong, predictions would be nonsense. ML is a craft to patiently cultivate. 
  
 
 # Track #2: Product Analytics
@@ -148,7 +148,9 @@ Many people ([Emma](https://www.youtube.com/c/DataInterviewPro), [课代表立�
 
 ## The *"Squid Game"*
 
-Right around when I was interviewing, the Netflix show *Squid Game* went viral. I was joking to friends how DS interviews are just like the game: Candidates play 6-ish rounds of high-stake games (e.g., SQL, product, stats, ML, coding, behavior) and those not "eliminated" by the end get the offer. I doubt if anyone can tell you accurately the bare minimum preparation it takes to get a DS job, because we were doing as much as possibly can to "be safe" (unless 艺高人胆大🤑, which I'm not). Take all advice with many grains of salt.
+Right around when I was interviewing, the Netflix show *Squid Game* went viral. I was joking to friends how DS interviews are just like the game: Candidates play 6-ish rounds of high-stake games (e.g., SQL, product, stats, ML, coding, behavior) and those not "eliminated" by the end get the offer. I doubt if anyone can tell you accurately the bare minimum preparation it takes to get a DS job, because we were doing as much as possibly can to "be safe" (unless 艺高人胆大🤑, which I'm not). 
+
+Take all advice with many grains of salt.
 
 {{< figure src="https://www.dropbox.com/s/6i0q18n08mbdgir/squid_game.jpg?raw=1" width="300" caption="A *Squid Game* lantern I drew last October, a week before my first offer.">}}
 
