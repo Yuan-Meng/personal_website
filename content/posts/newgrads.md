@@ -38,7 +38,7 @@ If you graduate in December 202X, your timeline is similar to those graduating i
 # Track #1: Machine Learning
 
 ## **TL;DR**
-If you want a career in ML nowadays, there are more opportunities in non-tech industries (e.g., banks, insurance, healthcare, consulting, telecommunication, etc.). To work at an ML person at a tech company, you likely need to master state-of-the-art models (Research Scientist, Applied Scientist, or Machine Learning Scientist), software engineering (Machine Learning Engineer or Software Engineer, Machine Learning), or both --- the days when data scientists could simply hand an out-of-box model in a Jupyter notebook to an ML engineer to productionize may be gone in tech. 
+If you want a career in ML nowadays, there are more opportunities in non-tech industries (e.g., banks, insurance, healthcare, consulting, telecommunication, etc.). To work as an ML person at a tech company, you likely need to master state-of-the-art models (Research Scientist, Applied Scientist, or Machine Learning Scientist), software engineering (Machine Learning Engineer or Software Engineer, Machine Learning), or both --- the days when data scientists could simply hand an out-of-box model in a Jupyter notebook to an ML engineer to productionize may be gone in tech. 
 
 Increasingly more candidates have exactly the same ML skills (e.g., LightGBM, PyTorch, transformers) on paper --- I think what sets you part is your judgment and hard-won practical skills (e.g., feature engineering, model tuning and evaluation).
 
