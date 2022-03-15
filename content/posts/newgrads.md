@@ -40,7 +40,7 @@ If you graduate in December 202X, your timeline is similar to those graduating i
 ## **TL;DR**
 If you want a career in ML nowadays, there are more opportunities in non-tech industries (e.g., banks, insurance, healthcare, consulting, telecommunication, etc.). To work as an ML person at a tech company, you likely need to master state-of-the-art models (Research Scientist, Applied Scientist, or Machine Learning Scientist), software engineering (Machine Learning Engineer or Software Engineer, Machine Learning), or both --- the days when data scientists could simply hand an out-of-box model in a Jupyter notebook to an ML engineer to productionize may be gone in tech. 
 
-Increasingly more candidates have exactly the same ML skills (e.g., LightGBM, PyTorch, transformers) on paper --- I guess what sets you part is your judgment and hard-won practical skills (e.g., feature engineering, model tuning and evaluation). Harsh as it may sound, companies pay you for your ability to navigate through difficult choices, not just the ability to import libraries. 
+Increasingly more candidates have exactly the same ML skills (e.g., LightGBM, PyTorch, transformers) on paper --- I guess what sets you part is your judgment and hard-won practical skills (e.g., feature engineering, model tuning and evaluation). Harsh as it may sound, companies pay you for your ability to navigate through difficult choices and bring in revenues, not just the ability to import libraries. 
 
 
 ## 500 names of ML data scientists 🦄
