@@ -89,7 +89,7 @@ Regardless of the title, an ML practitioner can't escape any of the following, I
     - **Write clean code**: As a student, you may not realize the importance of writing clean code. I've seen many Jupyter notebooks (including my own before 2019) with unreadable spaghetti code. That won't fly in MLE/SWE interviews where coding style is an essential part of the rubrics --- after all, companies don't want to bring in someone who might mess up their code base. And I've heard of engineers and data scientists getting poor performance reviews because of bad styling habits. So it's a huge plus, if not a necessity, that you pay attention to cleanness. Modulate your code so that each function preferably does one simple thing (or two), use [descriptive variable names](https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/intro-to-clean-code/expressive-variable-names-make-code-easier-to-read/), follow the [PEP 8 style guide](https://peps.python.org/pep-0008/), be "Pythonic" (e.g., use list or dictionary comprehensives instead of C-style for-loops, learn object-oriented programming), use comments when necessary (doesn't mean you write essays), etc.. Highly recommend [*Python Tricks*](https://realpython.com/products/python-tricks-book/) to Python folks. 
 
 
-Between the day I first imported a Scikit-Learn model (October 2019) and when I got an offer as an ML data scientist (November 2021), 2 years had passed. In those two years, I did dozens of toy projects, deployed 4-5 personal projects, and worked on a researchy DL project in my internship. There's a reason why people joke about ML being "modern fortune-telling" ("炼仙丹"): From data validation + wrangling, feature engineering, to modeling selection, tuning, evaluation, and deployment, should anything go wrong, predictions would be nonsense. ML is a craft to patiently cultivate (this may be why you see many product DS but few ML DS YouTube channels --- ML has fewer spots and is harder to master all of a sudden).
+Between the day I first imported a Scikit-Learn model (October 2019) and when I got an offer as an ML data scientist (November 2021), 2 years had passed. In those two years, I did dozens of toy projects, deployed 4-5 personal projects, and worked on a researchy DL project in my internship. There's a reason why people joke about ML being "modern fortune-telling" ("炼仙丹"): From data validation + wrangling, feature engineering, to modeling selection, tuning, evaluation, and deployment, should anything go wrong, predictions would be nonsense. ML is a craft to patiently cultivate (this may be why you see many product DS YouTube channels but few ML DS channels --- not only does ML have fewer spots, but it's also harder to master all of a sudden).
  
 
 # Track #2: Product Analytics
@@ -275,7 +275,6 @@ Two candidates could've gone through exactly the same preparation yet come away 
 
     As for authenticity, whether it makes you a better candidate or not, I don't know, but it's less mentally taxing to be who you are. In the "Q&A" part of an onsite interview, I asked the interviewer for tips since I heard the hiring manager in the next around is famously sharp and scarily smart. Turned out the interviewer was nervous for the same reason when they were a new grad. I might have wasted a chance to "show my company research", but that was honestly what I wanted to ask and the interviewer's answer made me much more relaxed.
 
----
 # Have Fun
 
 ## Fun is all you can control
@@ -293,3 +292,8 @@ Her words shifted my perspective. If I couldn't get a job in November, so what? 
 
 ## No fun without friends
 In the end, I want to thank many DS friends who made this journey much more fun than it could've been. Yishu --- thank you for saying you already thought of me as a data scientist long before I even landed an internship, and for your friendship in good and bad times. Emma --- I remember all your advice when I was interviewing and absolutely nothing from our chats afterwards, but musing about data science with you was a great enjoyment. My mock interview buddies --- I found interview preps hard but never dull because of you and may our friendships continue as our careers grow. 
+
+---
+**Fun fact**: During my pandemic job search, I'd often take a walk after dinner and listen to *The River* by Bruce Springsteen. The lyrics couldn't be more fitting:
+
+> I got a job working construction <br/> For the Johnstown Company <br/> But lately there ain't been much work <br/> On account of the economy <br/> Now all them things that seemed so important <br/> Well, mister, they vanished right into the air <br/> [...] <br/> Is a dream a lie if it don't come true <br/> Or is it something worse? <br/> That sends me down to the river <br/> Though I know the river is dry <br/> --- Bruce Springsteen, *The River*

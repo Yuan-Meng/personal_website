@@ -87,3 +87,6 @@ weight = 2
   [[params.social]]
     name = "email"
     link = "yuan_meng@berkeley.edu"  # no need for "mailto:" in the head
+
+  [markup.goldmark.renderer]
+  unsafe= true
