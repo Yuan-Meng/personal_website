@@ -18,7 +18,7 @@ Since last November, I regularly get questions about how to get data science job
 > **(PhD) students applying to machine learning or product data scientist roles at tech companies through university recruiting.** 
 
 ## What's special about university recruiting
-> **July to October is high time to start**: Some may tell you to apply at the beginning of each year (January to March) when companies have more headcounts. They are speaking for experienced hires. If you aim specifically for new grad roles, ignore that advice and start applying before the Fall!
+> **July to October is high time to start**: Some say companies have more headcounts at the beginning of each year --- that's **just not true for university recruiting**. Most new grads get hired in the Fall (August to December), much fewer next Spring. Apply early, even if you need to get ready later!
 
 Every year around **August**, you'll start to see openings with "New Grad", "University Grad", "Masters/PhD Graduate", etc. in job titles. Take advantage of them if you're a current student. University recruiting is special in several regards: 
 1. **Companies don't expect you to start right away.** If you're 3+ months away from graduating, you likely won't be considered for "normal" positions. Only to new grad roles can you apply more than half a year before you start. (Data points: Recruiters at Waymo and Amex reached out to me in June 2021. When I told them I graduate in May 2022, they said they'd only consider those starting soon-ish.)
