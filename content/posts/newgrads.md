@@ -202,7 +202,7 @@ As interviews piled up and the content diversified, I was overwhelmed by stress 
 to which she generously agreed. My October schedule alternated between two modes:
 1. **Review a topic** (70\%, $>$ 3 days from onsite): For each type of interview, I created a [Notion](https://www.notion.so/) page and spent 3-7 days filling it with content. Several were created back in September (e.g., A/B testing, SQL, product) and most in October (e.g., behavior, Pandas, ML design, probability + stats, applied data). Some of the best ones were later turned into blog posts and YouTube videos.
 
-    {{< figure src="https://www.dropbox.com/s/sw3yngowl0l8y3i/topics.png?raw=1" width="350" >}}
+    {{< figure src="https://www.dropbox.com/s/sw3yngowl0l8y3i/topics.png?raw=1" width="350 caption="(Playing in my head was the Nirvana song *Lithium*: 'I like it, I'm not gonna crack...')" >}}
 
     For procedural knowledge like SQL and Pandas, I usually Google around for a good problem set (e.g., Pandas: [`pandas_exercise`](https://github.com/guipsamora/pandas_exercises), SQL: [StrataScratch](https://www.stratascratch.com/)) to work through. Afterwards, I'd reflect on how I like to approach an arbitrary problem during interviews, extract patterns (e.g., when to use window functions), and analyze problems that I not only got wrong but still found challenging. 
 
@@ -244,7 +244,7 @@ Two candidates could've gone through exactly the same preparation yet come away 
 2. **Logic and clarity**: Do you have that friend who just won't get to the point, jumping from one story to another, forgetting how it all started? Don't be that friend in interviews. Your interviewer is a busy data scientist taking an hour out of their day to interview you and dying to go back to work. Make it easy. 
 
 
-    {{< figure src="https://www.dropbox.com/s/8kp1o2eq33k7kzs/answers_first.jpg?raw=1" width="300" caption="This comic probably contains all the 'interview skills' you need.">}}
+    {{< figure src="https://www.dropbox.com/s/8kp1o2eq33k7kzs/answers_first.jpg?raw=1" width="400" caption="This comic probably contains all the 'interview skills' you need.">}}
 
     Logical thinking in interviews is the same as logical thinking in everyday life. As a guitar player, I want to illustrate this point using a common headache I face: *"My guitar is buzzing. Why the heck? How can I make it stop?"*
 
@@ -298,4 +298,4 @@ In the end, I want to thank many DS friends who made this journey much more fun 
 
 > I got a job working construction <br/> For the Johnstown Company <br/> But lately there ain't been much work <br/> On account of the economy <br/> Now all them things that seemed so important <br/> Well, mister, they vanished right into the air <br/> 
 > 
-> Is a dream a lie if it don't come true <br/> Or is it something worse <br/> That sends me down to the river <br/> Though I know the river is dry <br/> --- Bruce Springsteen, *The River*
+> Is a dream a lie if it don't come true <br/> Or is it something worse <br/> That sends me down to the river <br/> Though I know the river is dry <br/> --- Bruce Springsteen, *The River* (written during the early 1980s recession)
