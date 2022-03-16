@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data science on Yuan Meng</title>
+    <link>https://www.yuan-meng.com/tags/data-science/</link>
+    <description>Recent content in data science on Yuan Meng</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Yuan Meng</copyright>
+    <lastBuildDate>Sun, 13 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/tags/data-science/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>(Quirky) Roadmap for New Grad Data Scientists</title>
+      <link>https://www.yuan-meng.com/posts/newgrads/</link>
+      <pubDate>Sun, 13 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/newgrads/</guid>
+      <description>New Grad Timeline Since last November, I regularly get questions about how to get data science jobs. I&amp;rsquo;ve hesitated to give advice because no advice applies to everyone. As more people ask, however, I want to write a post for those in my shoes:
+ (PhD) students applying to machine learning or product data scientist roles at tech companies through university recruiting.
+ What&amp;rsquo;s special about university recruiting  July to October is high time to start: Some say companies have more headcounts at the beginning of each year &amp;mdash; that&amp;rsquo;s just not true for university recruiting.</description>
+    </item>
+    
+  </channel>
+</rss>
