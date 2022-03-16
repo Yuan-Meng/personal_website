@@ -296,4 +296,6 @@ In the end, I want to thank many DS friends who made this journey much more fun 
 ---
 **Fun fact**: During my pandemic job search, I'd often take a walk after dinner and listen to *The River* by Bruce Springsteen. The lyrics couldn't be more fitting:
 
-> I got a job working construction <br/> For the Johnstown Company <br/> But lately there ain't been much work <br/> On account of the economy <br/> Now all them things that seemed so important <br/> Well, mister, they vanished right into the air <br/> [...] <br/> Is a dream a lie if it don't come true <br/> Or is it something worse? <br/> That sends me down to the river <br/> Though I know the river is dry <br/> --- Bruce Springsteen, *The River*
+> I got a job working construction <br/> For the Johnstown Company <br/> But lately there ain't been much work <br/> On account of the economy <br/> Now all them things that seemed so important <br/> Well, mister, they vanished right into the air <br/> 
+> 
+> Is a dream a lie if it don't come true <br/> Or is it something worse <br/> That sends me down to the river <br/> Though I know the river is dry <br/> --- Bruce Springsteen, *The River*
