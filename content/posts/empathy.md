@@ -15,7 +15,7 @@ keywords:
 
 I don't remember my friend's exact words --- she said something along the lines of "the greatest pain is someone's indifference to your pain". 
 
-My dad's been dying, for a year and a half now. The family friends who told me --- I know that they care, but I know that they don't know how I feel. And I don't expect them to. The same goes for friends I made later in life. 
+My dad's been dying of ALS, for a year and a half now. The family friends who told me --- I know that they care, but I know that they don't know how I feel. And I don't expect them to. The same goes for friends I made later in life. 
 
 I had only hoped for one person to understand, in the very beginning. Boy, that went well. When they told me about a death in their family, I couldn't quite relate, but as the AI that I was (am?), I asked/read around to choose what to say and do. I wanted to help, but didn't want to "cheer up" someone from grieving. I did the best I could. Then a few months later, when I told them about my dad's disease, I got "I'm in a happy place now, sorry I don't feel anything." I had no idea if that was normal or fucking cold (or maybe the two aren't mutually exclusive). I talked to an evolutionary anthropology friend about empathy. Is it necessary that we know how another feels? And is it even possible? I recall that we seemed to agree, even when we can't mentally simulate another person's feelings, it doesn't mean we don't care or can't do anything for them. It's the action we take that counts.
 
