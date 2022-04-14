@@ -100,6 +100,12 @@
         
         
         <li>
+          <a class="icon" href="https://www.yuan-meng.com/posts/empathy/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
           <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
             <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
           </a>
@@ -238,7 +244,7 @@
         <div class="article-read-time">
           <i class="far fa-clock"></i>
           
-          40 minute read
+          41 minute read
         </div>
         
         
@@ -298,6 +304,7 @@
 <li><strong>Better late than never</strong>: Bob&rsquo;s timeline is an average-case scenario (best case: got a return offer and don&rsquo;t need to interview at all). What if you start preparing or applying &ldquo;too late&rdquo;, like I did for my internship? For <a href="https://www.yuan-meng.com/posts/nothingness/">various reasons</a>, I only started applying to Summer 2021 internships in late February 2021 and got an offer in the eleventh hour of mid-May. It makes your odds worse, no doubt, but better late than never (as that RedHook song goes, <em>&ldquo;These bad decisions haunt me, but they make good stories&rdquo;</em>).</li>
 <li><strong>Everyone&rsquo;s background differs</strong>: Steps 2-5 in are pretty set, but how long does it take to build an attractive resume for internship apps (step 1)? It depends on what you already know and have done. If you&rsquo;re well-versed in scientific computing (stats, ML, programming) and experiment designs and have DS projects you&rsquo;re proud of and ready to show, you can just polish your resume and apply. If you&rsquo;ve never trained models, run experiments, or analyzed data, it may take 1-2 years to learn and do stuff. Most cases are somewhere in between (e.g., most STEM students know stats quite well but don&rsquo;t use SQL on a regular basis).</li>
 </ol>
+<p>Make no mistake, data science is a hard field to go from zero to hero. I&rsquo;ve had my fair share of naysayers saying <em>&ldquo;Every CS/stats kid wants a DS job now. Why can you get it?&quot;</em> To that I wanna respond with a Tool song, <em>&ldquo;I want what I want.&quot;</em> If you love <a href="https://www.yuan-meng.com/posts/newgrads/#track-1-machine-learning">modeling</a> or <a href="https://www.yuan-meng.com/posts/newgrads/#track-2-product-analytics">analytics</a> (or both), I&rsquo;ll show you how to learn things bit by bit.</p>
 <h1 id="track-1-machine-learning">Track #1: Machine Learning</h1>
 <h2 id="tldr"><strong>TL;DR</strong></h2>
 <p>If you want a career in ML nowadays, there are more opportunities in non-tech industries (e.g., banks, insurance, healthcare, consulting, telecommunication, etc.). To work as an ML person at a tech company, you likely need to master state-of-the-art models (Research Scientist, Applied Scientist, or Machine Learning Scientist), software engineering (Machine Learning Engineer or Software Engineer, Machine Learning), or both &mdash; the days when data scientists could simply hand an out-of-box model in a Jupyter notebook to an ML engineer to productionize may be gone in tech.</p>
@@ -364,6 +371,9 @@
 <p><strong>Write clean code</strong>: As a student, you may not realize the importance of writing clean code. I&rsquo;ve seen many Jupyter notebooks (including my own before 2019) with unreadable spaghetti code. That won&rsquo;t fly in MLE/SWE interviews where coding style is an essential part of the rubrics &mdash; after all, companies don&rsquo;t want to bring in someone who might mess up their code base. And I&rsquo;ve heard of engineers and data scientists getting poor performance reviews because of bad styling habits. So it&rsquo;s a huge plus, if not a necessity, that you pay attention to cleanness. Modulate your code so that each function preferably does one simple thing (or two), use <a href="https://www.earthdatascience.org/courses/intro-to-earth-data-science/write-efficient-python-code/intro-to-clean-code/expressive-variable-names-make-code-easier-to-read/">descriptive variable names</a>, follow the <a href="https://peps.python.org/pep-0008/">PEP 8 style guide</a>, be &ldquo;Pythonic&rdquo; (e.g., use list or dictionary comprehensives instead of C-style for-loops, learn object-oriented programming), use comments when necessary (doesn&rsquo;t mean you write essays), etc.. Highly recommend <a href="https://realpython.com/products/python-tricks-book/"><em>Python Tricks</em></a> to Python folks.</p>
 </li>
 </ul>
+</li>
+<li>
+<p><strong>Interpretability, fairness, and privacy</strong>: Great, you&rsquo;ve learned the end-to-end model training pipeline, but do you know how your black-box model makes predictions (interpretability: <a href="https://christophm.github.io/interpretable-ml-book/"><em>Interpretable Machine Learning</em></a>)? Do you know whether it treats different demographics &ldquo;fairly&rdquo; (fairness: <a href="https://fairmlbook.org/"><em>Fairness and Machine Learning</em></a>, <a href="https://www.amazon.com/Ethical-Algorithm-Science-Socially-Design/dp/0190948205"><em>The Ethical Algorithm</em></a>, <a href="https://arxiv.org/abs/1808.00023">Corbett-Davies &amp; Goel, 2018</a>)? How do you build reasonably good models when certain identifiable information is taken out (privacy: <a href="http://www.gautamkamath.com/CS860-fa2020.html">CS 860 @Waterloo</a>)? As a responsible ML practitioner, it&rsquo;s good to know these. If you&rsquo;re interviewing with companies (e.g., fintech, banks, insurance, Apple) where these issues are super prominent or under heavy regulations, I&rsquo;m guessing (I don&rsquo;t know) you may get related interview questions.</p>
 </li>
 </ol>
 <p>Between the day I first imported a Scikit-Learn model (October 2019) and when I got an offer as an ML data scientist (November 2021), 2 years had passed. In those two years, I did dozens of toy projects, deployed 4-5 personal projects, and worked on a researchy DL project in my internship. There&rsquo;s a reason why people joke about ML being &ldquo;modern fortune-telling&rdquo; (&ldquo;炼仙丹&rdquo;): From data validation + wrangling, feature engineering, to modeling selection, tuning, evaluation, and deployment, should anything go wrong, predictions would be nonsense. ML is a craft to patiently cultivate (this may be why you see many product DS YouTube channels but few ML DS channels &mdash; not only does ML have fewer spots, but it&rsquo;s also harder to master all of a sudden).</p>
