@@ -2,25 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.yuan-meng.com/posts/thanks/</loc>
+    <lastmod>2022-06-01T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://www.yuan-meng.com/categories/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
+    <lastmod>2022-06-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/phd/</loc>
+    <lastmod>2022-06-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/posts/</loc>
+    <lastmod>2022-06-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/categories/reflections/</loc>
+    <lastmod>2022-06-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/</loc>
+    <lastmod>2022-06-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/</loc>
+    <lastmod>2022-06-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/empathy/</loc>
     <lastmod>2022-04-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/posts/empathy/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/posts/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/categories/reflections/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/</loc>
     <lastmod>2022-04-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/posts/newgrads/</loc>
@@ -39,9 +45,6 @@
     <lastmod>2022-03-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/categories/papers/</loc>
-    <lastmod>2022-03-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/phd/</loc>
     <lastmod>2022-03-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/reflection/</loc>

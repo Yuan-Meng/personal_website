@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Yuan Meng</copyright>
-    <lastBuildDate>Sat, 09 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Acknowledgments</title>
+      <link>https://www.yuan-meng.com/posts/thanks/</link>
+      <pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/thanks/</guid>
+      <description>Growing up as a shy child, I always felt like an observer of human behavior, an outsider, rather than a participant. Finding Gödel, Escher, Bach on my dad&amp;rsquo;s bookshelf and reading it at a young age gave me a certain comfort, that for all its complexities and paradoxes, the human mind is perhaps understandable through some kind of mathematical formulations. Years later, when Fei came to Beijing Normal University to give a lecture series, I learned for the first time about computational cognitive science that does just that (if you will allow the gross simplification).</description>
+    </item>
+    
     <item>
       <title>How Could Anyone Know How Another Feels?</title>
       <link>https://www.yuan-meng.com/posts/empathy/</link>
