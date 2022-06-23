@@ -62,10 +62,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # create a new model
 lr = SGDRegressor(learning_rate="optimal", max_iter=10000)
-
 # fit model to training data
 lr.fit(X_train, y_train)
-
 # use fitted model to predict test data
 y_pred = lr.predict(X_test)
 
@@ -87,15 +85,12 @@ class LinearRegression:
     def fit(self, X, y):
         # number of observations, number of features
         self.n_obs, self.n_features = X.shape
-
         # initialize weights and bias
         self.w = np.zeros(self.n_features)
         self.b = 0
-
         # read data and labels from input
         self.X = X
         self.y = y
-
         # use gradient descent to update weights
         for i in range(self.epoch):
             self.update_weights()
@@ -105,13 +100,10 @@ class LinearRegression:
     def update_weights(self):
         # use current parameters to predict
         y_pred = self.predict(self.X)
-
         # compute gradients with respect weights
         grad_w = -2 * np.dot(self.X.T, (self.y - y_pred)) / self.n_obs
-
         # compute gradient with respect to bias
         grad_b = -2 * np.sum(self.y - y_pred) / self.n_obs
-
         # update parameters by substracting lr * gradients
         self.w = self.w - self.lr * grad_w
         self.b = self.b - self.lr * grad_b
@@ -169,17 +161,14 @@ class LinearRegression:
         # read data and labels from input
         self.X = X
         self.y = y
-
         # create a vector of all 1's to X
         X = copy.deepcopy(X) # keep original X intact
         dummy = np.ones(shape=X.shape[0])[..., None] # vector of 1's
         X = np.concatenate((dummy, X), 1) # add to X
-
         # use OLS to estimate betas
         xT = X.transpose()
         inversed = np.linalg.inv(xT.dot(X))
         betas = inversed.dot(xT).dot(y)
-
         # bias is the first column
         self.b = betas[0]
         # weights are the rest
