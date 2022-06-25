@@ -188,13 +188,13 @@ class LinearRegression:
 
 {{< figure src="https://www.dropbox.com/s/4z9itvfdv8uzl4h/rmse_lr_ols.png?raw=1" width="450">}}
 
-In this case, the OLS model is a bit worse (higher RMSE) than the gradient descent version, but it works faster on small datasets and doesn't require us to find the best learning rate.
+In this case, OLS is a bit worse (higher RMSE) than gradient descent, but it works faster on small datasets and doesn't require us to find the best learning rate.
 
 # Logistic Regression
 
-Some say the name "logistic regression" is a tad misleading because it's a classification method. However, I think the name appropriately highlights the connection between logistic regression and linear regression. In logistic regression, we still use real-valued features (e.g., income, age, one-hot encoded move genres) to first predict some real-valued output. However, the direct output doesn't carry much meaning --- we want to transform it into a probability ([0, 1]) and make a decision based on the probability ($p \geq 0.5$: will buy popcorn; $p < 0.5$: won't buy popcorn). 
+Some say the name "logistic regression" is a tad misleading because it's a classification method. However, I think the name appropriately highlights the connection between logistic regression and linear regression. In logistic regression, we still use real-valued features (e.g., income, age, one-hot encoded move genres) to first predict some real-valued output. However, the direct output doesn't carry much meaning --- we want to transform it into a probability ([0, 1]) and make a decision based on thAT probability ($p \geq 0.5$: will buy popcorn; $p < 0.5$: won't buy popcorn). 
 
-- The part same as in linear regression: $z = \mathbf{w}^T \mathbf{x} + b$
+- The part same as in linear regression: $z = \mathbf{w}^T \mathbf{x} + b$ (for one observation)
 - Transformation using the logistic function: $p = \frac{1}{1 + \exp(-z)}$
 - Make a decision: $\hat{y} = 1$ if $p \geq t$ and 0 if $p < t$ ($t$ is the decision threshold)
 
