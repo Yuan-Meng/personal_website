@@ -163,8 +163,8 @@ class LinearRegression:
         self.y = y
         # create a vector of all 1's to X
         X = copy.deepcopy(X) # keep original X intact
-        dummy = np.ones(shape=X.shape[0])[..., None] # vector of 1's
-        X = np.concatenate((dummy, X), 1) # add to X
+        dummy = np.ones(X.shape[0]) # create a vector of 1's
+        X = np.concatenate((dummy, X), 1) # add it to X
         # use OLS to estimate betas
         xT = X.transpose()
         inversed = np.linalg.inv(xT.dot(X))
