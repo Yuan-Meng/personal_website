@@ -22,7 +22,7 @@ This may sound scary if you've only used libraries to train models without under
 
 Linear regression uses a vector of real-valued inputs $\mathbf{x} \in \mathbb{R}^D$ (e.g., age, years of education, one-hot encoded job categories) to predict a real-value output $y \in \mathbb{R}$ (e.g., income): $\hat{y_i} = \mathbf{w}^T \mathbf{x} + b = w_1 x_1 + w_2 x_2 + \ldots + b$ (predicted income for person $i$). 
 
-In the formula above, $\mathbf{w}$ are "regression coefficients" (statistics) or "weights" (ML), which quantify how much each feature impacts the outcome with all else being held constant. The bias term $b$ ("intercept" in stats) is the outcome value when all features are 0 --- or, we can understand it as a force that moves $\hat{y}$ up and down.
+In the formula above, $\mathbf{w}$ is "regression coefficients" (statistics) or "weights" (ML), which quantify how much each feature impacts the outcome with all else being held constant. The bias term $b$ ("intercept" in stats) is the outcome value when all features are 0 --- or, we can understand it as a force that moves $\hat{y}$ up and down.
 
 We can use several methods to solve for $\mathbf{w}$ and $\mathrm{b}$, such as Ordinary Least Squares (OLS) and gradient descent. Since the latter method applies to a wide range of supervised learning algorithms, not just linear regression, I'll implement it first.
 
