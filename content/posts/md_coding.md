@@ -188,7 +188,7 @@ class LinearRegression:
 
 {{< figure src="https://www.dropbox.com/s/4z9itvfdv8uzl4h/rmse_lr_ols.png?raw=1" width="450">}}
 
-The OLS model is a bit worse than the gradient descent version, but it works faster on small datasets and doesn't require us to find the best learning rate.
+In this case, the OLS model is a bit worse (higher RMSE) than the gradient descent version, but it works faster on small datasets and doesn't require us to find the best learning rate.
 
 # Logistic Regression
 
