@@ -181,9 +181,9 @@ class LinearRegression:
 ```
 
 - **Initialization** (`__init__`): OLS doesn't have any hyperparamters, so we can use `pass` to skip hyperparameter initialization.
-- **Model fitting** (`fit`): As mentioned, we need to transform $\mathbf{X}$ by adding a new column, but we don't want to mess with the original matrix. We can create a copy of the original (need the `copy` library) and transform the copy instead. The centerpiece the `.fit` method is just translating $(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{y}$ into code. 
+- **Model fitting** (`fit`): As mentioned, we need to transform $\mathbf{X}$ by adding a new column, but we don't want to mess with the original matrix. We can create a copy of the original (need the `copy` library) and transform the copy instead. The centerpiece of the `.fit` method is translating $(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{y}$ into code. 
 
-    Unless we also want to transform new data $\mathbf{X}$ when making predictions for observations in it, we can extract the bias ($\beta_0$) and the weights ($\beta_j$, where $j=1, 2, \ldots, m$) from fitted $\beta$ and apply $\mathbf{X}\cdot \mathbf{w} + b$ on the untransformed matrix.
+    Unless we also want to transform new data $\mathbf{X}$ when making new predictions, we can extract the bias ($\beta_0$) and the weights ($\beta_j$, where $j=1, 2, \ldots, m$) from fitted $\beta$ and apply $\mathbf{X}\cdot \mathbf{w} + b$ on the untransformed matrix.
 - **Model prediction** (`predict`): This part is the same as in gradient descent.
 
 {{< figure src="https://www.dropbox.com/s/4z9itvfdv8uzl4h/rmse_lr_ols.png?raw=1" width="450">}}
