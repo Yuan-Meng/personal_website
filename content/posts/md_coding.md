@@ -352,11 +352,11 @@ class KNeighborsClassifier:
         return y_train_sorted[: self.n_neighbors]
 ```
 
-- **Initialization** (`__init__`): The only hyperparameter I used here is the number of neighbors. In reality, you can also change the distance metric, whether all neighbors weigh equally into the final prediction, and so on.
+- **Initialization** (`__init__`): The only hyperparameter used here is the number of neighbors. In reality, you can also change the distance metric, whether all neighbors weigh equally into the final prediction, and so on.
 - **Modeling fitting** (`.fit`): Not much is going on when we "fit" the model --- we just read in the training data and labels, without modifying any parameters (none exists).
-- **Modeing prediction** (`.predict`): The prediction process is quite computationally expensive. First, we need to loop over all test data. For each point in the test data, we loop over all the training data to compute pairwise distances and sort training labels by distances to get the nearest neighbors. Finally, we find the mode label for each test data point to classify it.
+- **Modeing prediction** (`.predict`): The prediction process is quite computationally expensive. First, we need to loop over all test data. For each point in the test dataset, we loop over all the training data to compute pairwise distances and sort training labels by distances to get the nearest neighbors. Finally, we find the mode label for each test data point to classify it.
 
-For the iris dataset, the results are too perfect when $k=3$ --- small k values often lead to overfitting (because we're mimicking training data too closely) whereas large values often lead the opposite problem.
+For the iris dataset, the results are "too perfect" when $k=3$ --- this is not a coincidence: Small k values often lead to overfitting (because we're mimicking the training data too closely) whereas large values often lead the opposite problem.
 
 {{< figure src="https://www.dropbox.com/s/1zvxthu70cehs55/knn.png?raw=1" width="400">}}
 
