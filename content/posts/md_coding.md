@@ -14,9 +14,9 @@ include_toc: true
 ---
 
 
-Coding interviews can mean different things for "traditional" software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientist, research engineer, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview. 
+Coding interviews can mean different things for "traditional" software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientists, research engineers, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview. 
 
-This may sound scary if you've only used libraries to train models without understanding how learning algorithms work under the hood. Moreover, there are way too many algorithms to memorize. The good news is, there are are only 4 algorithms: **Linear regression**, **logistic regression**, **k-nearest neighbors** (k-NN), and **k-means**. Let's implement each of them using vanilla NumPy (and some built-in libraries).
+This may sound scary if you've only used libraries to train models without understanding how learning algorithms work under the hood. Moreover, there are way too many algorithms to memorize. The good news is, there are are only 4 algorithms commonly asked in interviews: **Linear regression**, **logistic regression**, **k-nearest neighbors** (k-NN), and **k-means**. You're probably not gonna code a transformer on the fly in 45 minutes. Let's implement each of them using vanilla NumPy (and some built-in libraries).
 
 # Linear Regression
 
