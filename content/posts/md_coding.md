@@ -200,7 +200,7 @@ Some say the name "logistic regression" is a tad misleading because it's a class
 
 Rather than using MSE as the cost function, we can use cross entropy ([explained](https://youtu.be/6ArSys5qHAU) by StatQuest): $\frac{\sum_{i}^{n} y_i \log(\hat{y_i})}{n}$, where $y_i$ is the actual outcome (0 or 1) and $\hat{y_i}$ the predicted outcome. We don't want to use classification metrics (e.g., accuracy, precision, recall) as the cost function because they don't have sensitive gradients.
 
-Unlike linear regression, OLS is no longer appropriate for logistic regression because it make predict values greater than 1 or less than 0. We can still use gradient descent to find the best $\mathbf{w}$ and $b$. I'll skip Scikit-Learn because it's just a matter of importing different functions.
+Unlike linear regression, OLS is no longer appropriate for logistic regression, because it may predict values greater than 1 or less than 0. However, we can still use gradient descent to find the best $\mathbf{w}$ and $b$ values. I'll skip the Scikit-Learn implementation because it's just a matter of importing different models.
 
 First, we can use `make_classification` to generate some toy data:
 
