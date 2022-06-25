@@ -295,7 +295,7 @@ weighted avg       0.93      0.93      0.92       200
 
 # K-NN
 
-Unlike linear regression or logistic regression, the k-nearest neighbors (k-NN) algorithm is a non-parametric method in that it makes no assumptions about population distributions. Rather, k-NN makes predictions by *memorizing* the training data: When a new observation comes in, we compute its *distance* (e.g., Euclidean, Manhattan, etc.) from all the training data to find its k-nearest neighbors. We can use cross-validation to find the best k. For classification, we can take a majority vote on the neighbors' labels to predict the label of the new observation. For regression, we can take the average target value of the neighbors to for the prediction. I'll just implement a k-NN classifier, which you can easily change into a regressor.
+Unlike linear regression or logistic regression, the k-nearest neighbors (k-NN) algorithm is a non-parametric method in that it makes no assumptions about population distributions. Rather, k-NN makes predictions by *memorizing* the training data: When a new observation comes in, we compute its *distance* (e.g., Euclidean, Manhattan, etc.) from all the training data to find its k-nearest neighbors. We can use cross-validation to find the best k. For classification, we can take a majority vote on k neighbors' labels to predict the label of the new observation. For regression, we can take the average target value of k neighbors to make a prediction. I'll just implement a k-NN classifier, which you can easily change into a regressor.
 
 The code below is adapted from a GeeksforGeeks [post](https://www.geeksforgeeks.org/implementation-of-k-nearest-neighbors-from-scratch-using-python/).
 
