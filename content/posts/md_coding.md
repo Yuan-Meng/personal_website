@@ -16,7 +16,7 @@ include_toc: true
 
 Coding interviews can mean different things for "traditional" software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientist, research engineer, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview. 
 
-This may sound scary if you've only used libraries to train models without understanding how learning algorithms work under the hood. Moreover, there are way too many algorithms to memorize. The good news is, there are are only 4 algorithms: **Linear regression**, **logistic regression**, **k-nearest neighbors** (k-NN), and **k-means**. Let's implement each of them using the popular Scikit-Learn library or vanilla NumPy (you can PyTorch in interviews if you're super familiar with the syntax).
+This may sound scary if you've only used libraries to train models without understanding how learning algorithms work under the hood. Moreover, there are way too many algorithms to memorize. The good news is, there are are only 4 algorithms: **Linear regression**, **logistic regression**, **k-nearest neighbors** (k-NN), and **k-means**. Let's implement each of them using vanilla NumPy (and some built-in libraries).
 
 # Linear Regression
 
@@ -293,8 +293,166 @@ Compared to regression metrics, classification metrics are way more complex. Wit
 weighted avg       0.93      0.93      0.92       200
 ```
 
-
-
 # K-NN
 
+Unlike linear regression or logistic regression, the k-nearest neighbors (k-NN) algorithm is a non-parametric method in that it makes no assumptions about population distributions. Rather, k-NN makes predictions by *memorizing* the training data: When a new observation comes in, we compute its *distance* (e.g., Euclidean, Manhattan, etc.) from all the training data to find its k-nearest neighbors. We can use cross-validation to find the best k. For classification, we can take a majority vote on the neighbors' labels to predict the label of the new observation. For regression, we can take the average target value of the neighbors to for the prediction. I'll just implement a k-NN classifier, which you can easily change into a regressor.
+
+The code below is adapted from a GeeksforGeeks [post](https://www.geeksforgeeks.org/implementation-of-k-nearest-neighbors-from-scratch-using-python/).
+
+```python
+# import library (to get mode)
+from scipy.stats import mode
+
+class KNeighborsClassifier:
+    def __init__(self, n_neighbors):
+        # set hyperparameter value
+        self.n_neighbors = n_neighbors
+
+    def fit(self, X_train, y_train):
+        # read train data and labels
+        self.X_train = X_train
+        self.y_train = y_train
+        # number of train observations
+        self.n_train = X_train.shape[0]
+
+        return self
+
+    def predict(self, X_test):
+        # read test data
+        self.X_test = X_test
+        # number of test observations
+        self.n_test = X_test.shape[0]
+        # collect predicted labels
+        y_pred = np.zeros(self.n_test)
+        # loop over all points in test data
+        for i in range(self.n_test):
+            # find k nearest neighbors of given point
+            p = self.X_test[i]
+            neighbors = np.zeros(self.n_neighbors)
+            neighbors = self.find_neighbors(p)
+            # take a majority vote on the final label
+            y_pred[i] = mode(neighbors)[0][0]
+        # return predicted labels
+        return y_pred
+
+    def euclidean(self, p1, p2):
+        # compute Eucleadian distance between two points
+        return np.sqrt(np.sum((p1 - p2) ** 2))
+
+    def find_neighbors(self, p):
+        # compute distance between given point and all train points
+        distances = np.zeros(self.n_train)
+        # loop over all points in training data
+        for i in range(self.n_train):
+            distance = self.euclidean(p, self.X_train[i])
+            distances[i] = distance
+        # sort training labels by distance (ascending)
+        _, y_train_sorted = zip(*sorted(zip(distances, y_train)))
+        # return top k labeles
+        return y_train_sorted[: self.n_neighbors]
+```
+
+- **Initialization** (`__init__`): The only hyperparameter I used here is the number of neighbors. In reality, you can also change the distance metric, whether all neighbors weigh equally into the final prediction, and so on.
+- **Modeling fitting** (`.fit`): Not much is going on when we "fit" the model --- we just read in the training data and labels, without modifying any parameters (none exists).
+- **Modeing prediction** (`.predict`): The prediction process is quite computationally expensive. First, we need to loop over all test data. For each point in the test data, we loop over all the training data to compute pairwise distances and sort training labels by distances to get the nearest neighbors. Finally, we find the mode label for each test data point to classify it.
+
+For the iris dataset, the results are too perfect when $k=3$ --- small k values often lead to overfitting (because we're mimicking training data too closely) whereas large values often lead the opposite problem.
+
+{{< figure src="https://www.dropbox.com/s/1zvxthu70cehs55/knn.png?raw=1" width="400">}}
+
+```
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       1.00      1.00      1.00         9
+           2       1.00      1.00      1.00        11
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+```
+
 # K-Means
+
+K-means is a clustering algorithm, which is not to be confused with k-NN, a supervised algorithm that we just coded. The idea behind k-means is that we first determine how many clusters there are (by visualizing the data or using cross-validation) and choose random points to be the centers of the clusters (centroids). Then we assign a cluster label to each point based on the closet centroid and then choose the average location of each cluster as the new centroid. We repeat this process for a given number of times to find final locations of the centroids. 
+
+The trained model is the locations of the centroids: When a new observation comes in, whichever centroid that's closest to it determines its clsuter label.
+
+```python
+class KMeans:
+    def __init__(self, n_clusters=3, epoch=100):
+        # initialize hyperparameter values
+        self.n_clusters = n_clusters
+        self.epoch = epoch
+
+    def fit(self, X_train):
+        # read in the data
+        self.X_train = X_train
+        # number of training observations
+        self.n_train = X_train.shape[0]
+        # initialize with random centroids (cannot exceed training boundaries)
+        min_, max_ = np.min(self.X_train, axis=0), np.max(self.X_train, axis=0)
+        centroids = [
+            np.random.uniform(min_, max_) for _ in range(self.n_clusters)
+        ] # this generates n_clusters points with the correct dimensions
+
+        # train for given number of epochs
+        for i in range(self.epoch):
+            centroids = self.update_centroids(centroids)
+        # add final centroids to model attributes
+        self.centroids = centroids
+        return self
+
+    def update_centroids(self, centroids):
+        # store cluster labels of training data
+        clusters = np.zeros(self.n_train)
+        # assign each training data point to closest centroid
+        for i in range(self.n_train):
+            p = self.X_train[i]  # isolate a data point
+            dists = [self.euclidean(p, centroid) for centroid in centroids]
+            clusters[i] = np.argmin(dists)  # index of closest centroid is cluster label
+        # update centroids by averaging points in given cluster
+        for i in range(self.n_clusters):
+            # all points assigned to given cluster
+            points = self.X_train[np.array(clusters) == i]
+            # update new centroid to be the average point
+            centroids[i] = points.mean(axis=0)
+
+        return centroids
+
+    def euclidean(self, p1, p2):
+        # compute Eucleadian distance between two points
+        return np.sqrt(np.sum((p1 - p2) ** 2))
+
+    def predict(self, X_test):
+        # read test data
+        self.X_test = X_test
+        # number of test observations
+        self.n_test = X_test.shape[0]
+        # store cluster labels of test data
+        clusters = np.zeros(self.n_test)
+        # assign each test data point to closest centroid
+        for i in range(self.n_test):
+            p = self.X_test[i]
+            dists = [self.euclidean(p, centroid) for centroid in self.centroids]
+            clusters[i] = np.argmin(dists)
+        # return predicted clusters of test data
+        return clusters
+```
+
+- **Initialization** (`__init__`): We need two hyperparameters --- the number of clusters and the number of epochs. 
+- **Model training** (`.fit`): Unlike supervised learning algorithm, k-means only takes one argument, which is the feature array (`X_train`), but not the label vector (`y_train`). This is because the goal of clustering is no longer to predict ground truth labels, but to find *intrinsic structures* in the data. 
+
+    One thing to note is that we can't just initialize centroids with whatever values we want --- they should lie inside the training data, so we can find the best centroid locations faster. The `update_centroids` function updates the centroid locations in each epoch: It first clusters each training data point with the closest centroid to it; after going through all training data, it returns the average points of each of the k clusters as the new centroid locations.
+- **Model prediction** (`.predict`): The prediction part is quite like training, except that we don't update centroid locations anymore. Rather, we use the locations found during training to assign cluster labels to each test data point.
+
+Since we don't know the ground truth anymore, evaluating clustering results is quite complex. You can read about different evaluation metrics for clustering in this Wikipedia [article](https://en.wikipedia.org/wiki/Cluster_analysis#Evaluation_and_assessment). Some popular ones are the rand index (when you actually have the labels) and the silhouette coefficient (when you truly don't have labels).
+
+# Resources
+
+While learning to write the 4 algorithms above from scratch, I read many blog posts and tutorials. However, the code in these articles is often more convoluted than one manage during interviews. I (re-)wrote these algorithms in as clean and straightforward a manner as possible, so that you and I can hopefully reproduce them from understanding and memory. To learn more, check out the resources below:
+
+1. [*The StatQuest Illustrated Guide To Machine Learning*](https://www.amazon.com/StatQuest-Illustrated-Guide-Machine-Learning/dp/B09ZCKR4H6) by StatQuest 👉 If you're new to ML, I highly recommend this lovely little book for building vivid intuitions about how ML algorithms work in general. Even thought I've been doing ML stuff for a while, I still had several aha moments while reading.
+2. Source code of Scikit-Learn ([GitHub](https://github.com/scikit-learn/scikit-learn/tree/main/sklearn)) 👉 Of course, the model implementations in Scikit-Learn are much more thorough than what you're expected to write during interviews, but it's illuminating to learn from how it's done in practice.
+3. The [Machine Learning series](https://www.geeksforgeeks.org/machine-learning/?ref=shm) on GeeksforGeeks 👉 I learned most of my implementations from GeeksforGeeks (tweaked the code quite a bit to make it more accessible). It's totally a candy shop for ML kids.
+4. [*Machine Learning Algorithms From Scratch*](https://machinelearningmastery.com/machine-learning-algorithms-from-scratch/) by Jason Brownlee 👉 I haven't read this book and I'm pretty sure you can learn all this stuff without buying this book. But if somehow you're in a hurry and need to quick access to implementations of common algorithms, I guess you can check out this one.
