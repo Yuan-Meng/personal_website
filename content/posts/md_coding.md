@@ -118,7 +118,7 @@ class LinearRegression:
 A few things to highlight:
 
 - **Initialization** (`__init__`): In the Scikit-Learn example earlier, we only provided hyperparameter values when initializing the model. If values are not provided, we use default values. We can mimic that pattern in our custom class. Here we got two hyperparameters: Learning rate (`lr`) and the number of iterations (`epoch`).
-- **Model fitting** (`fit`): The `.fit` method takes two arguments, the data (a $n \times m$ array, where $n$ is the number of observations and $m$ is the number of features) and the target (a $n$-vector). Modeling fitting doesn't return any values --- rather $\mathbf{w}$ and $b$ are modified *in place* using gradient descent. 
+- **Model fitting** (`fit`): The `.fit` method takes two arguments, the data (a $n \times m$ array, where $n$ is the number of observations and $m$ is the number of features) and the target (a $n$-vector). Modeling fitting doesn't return any values --- rather, $\mathbf{w}$ and $b$ are modified *in place* using gradient descent. 
 
     The helper function `update_weights` is where we implement gradient descent. Note that it calls the `.predit` method each time to generate predictions using current parameter values. After calculating gradients of $\mathbf{w}$ and $b$ by translating the two formulas into code, we finally use them to update the two parameters. This process repeats for the number of epochs specified (`epoch`).
 - **Model prediction** (`predict`): The `.predict` method uses the best parameter values we found in `.fit` to generate predictions for new data, $\mathbf{y} = \mathbf{X} 
