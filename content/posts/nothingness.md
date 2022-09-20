@@ -11,17 +11,20 @@ keywords:
 ---
 
 # Seriously, Read *The Ph.D. Grind*
-Everyone doing a Ph.D. or considering doing one should read [*The Ph.D. Grind*](https://drive.google.com/file/d/1fspvXpE9jE_xMjHbwt0RSIsZOWd1j9FH/view?usp=sharing). Don't wait --- you'll learn the much-needed "rational optimism" for this crazy ride. 
+Everyone doing a Ph.D. or considering doing one should read *The Ph.D. Grind*. Don't wait --- you'll learn the much-needed "rational optimism" for this crazy ride. 
 
-I only came across this gem in my final semester year of Ph.D. but was immediately captured by Dr. Philip Guo's reflections on his first year at Stanford: 
+
+I only came across this gem in my final semester year of Ph.D. but Dr. Philip Guo's reflections of his first year in grad school immediately resonated with my own. I, too, procrastinated heavily for the first time in my life and felt I somehow lost my sense of direction. As he put, "Having full intellectual freedom was actually a curse, since I was not yet prepared to handle it."
+
+<!-- I only came across this gem in my final semester year of Ph.D. but was immediately captured by Dr. Philip Guo's reflections on his first year at Stanford: 
 
 > *"I procrastinate more than I had ever done in my life thus far: I watched lots of TV shows, took many naps, and wasted countless hours messing around online. Unlike my friends with nine-to-five jobs, there was no boss to look over my shoulder day to day, so I let my mind roam free without any structure in my life [...] Having full intellectual freedom was actually a curse, since I was not yet prepared to handle it."* (p. 16-17)
 
 Or his third year, for that matter:
 
-> *"For most students in my department, nobody would notice or care if they took one day off, so by extension, why not take two days off, a whole week off, or even a whole month off? Therefore, it's unsurprising that many Ph.D. students who drop out do so around their third year."* (p. 37)
+> *"For most students in my department, nobody would notice or care if they took one day off, so by extension, why not take two days off, a whole week off, or even a whole month off? Therefore, it's unsurprising that many Ph.D. students who drop out do so around their third year."* (p. 37) -->
 
-I was shocked, not by the seeming "absurdity" (*"Wait what, do Ph.D. students really waste their life away?!"*), but by such honesty --- damn, did someone install a CCTV and watch me during my first three years? 
+<!-- I was shocked, not by the seeming "absurdity" (*"Wait what, do Ph.D. students really waste their life away?!"*), but by such honesty --- damn, did someone install a CCTV and watch me during my first three years?  -->
 
 For years on end, I thought I was the only one. I've kept it a secret out of shame: I don't recall how my early days of grad school went, because I was, more often than not, doing nothing than pushing my research program forward. In my mind, that was infinitely worse than trying one's best but failing. Since I couldn't put words to my struggle, I thought I wasn't worth the help. 
 

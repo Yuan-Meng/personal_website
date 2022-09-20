@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>algorithms on Yuan Meng</title>
+    <link>https://www.yuan-meng.com/tags/algorithms/</link>
+    <description>Recent content in algorithms on Yuan Meng</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Yuan Meng</copyright>
+    <lastBuildDate>Wed, 22 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/tags/algorithms/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Code ML Algorithms From Scratch</title>
+      <link>https://www.yuan-meng.com/posts/md_coding/</link>
+      <pubDate>Wed, 22 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/md_coding/</guid>
+      <description>Coding interviews can mean different things for &amp;ldquo;traditional&amp;rdquo; software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientists, research engineers, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview.
+This may sound scary if you&amp;rsquo;ve only used libraries to train models without understanding how learning algorithms work under the hood.</description>
+    </item>
+    
+  </channel>
+</rss>
