@@ -1,6 +1,6 @@
 ---
 title: The Future Is Now
-date: 2023-04-30
+date: 2023-05-06
 tags:
     - birthday
     - work 
@@ -18,7 +18,7 @@ When I was 19, all I wanted was to be a cognitive scientist, to understand how i
 
 Yet when the future is here, I forgot what truly exited me --- somewhere along the PhD grind, I traded curiosity for "publish or perish". Choosing again, I'd still leave academia, but I do envy friends still in grad school, because the future of science is in your hands now. This may be easy for me to say: Even if all your experiments fail, you'd still have a job, but the joy of discovery is only now.  
 
-I wish I could take my own advice... Last 10 months as a data scientist, I also start to sense my excitement for ML fading and overtaken by the pressure to perform --- and layoff fears. The daily tasks and deadlines that have occupied my time also have occupied my mind. Apart from getting things done, I seem to have forgotten what I used to love, whom I used to love, and maybe even who I used to be. The tunnel vision may be exactly what I/we need to survive in desperate times, but desperate times will one day be over --- when it does, I wonder what will be left of me. 
+I wish I could take my own advice... Last 10 months as a data scientist, I also start to sense my excitement for ML fading, overtaken by the pressure to perform --- and layoff fears. The daily tasks and deadlines that have occupied my time also have occupied my mind. Apart from getting things done, I seem to have forgotten what I used to love, whom I used to love, and maybe even who I used to be. The tunnel vision may be exactly what I/we need to survive in desperate times, but desperate times will one day be over --- when it does, I wonder what will be left of me. 
 
 To end on a slightly more optimistic note --- my biggest birthday wish (besides survival...) is to "daydream" more about who I want to be for when the good days come. 
 
