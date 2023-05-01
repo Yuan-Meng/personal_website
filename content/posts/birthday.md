@@ -14,7 +14,7 @@ keywords:
 
 The future is now <br/> Now I'm disappearing <br/><br/>--- The Offspring, *The Future Is Now* (2012)
 
-When I was 19, all I wanted was to be a cognitive scientist, to understand how it is that from the chaos of our brain emerged thoughts, concepts, and consciousness. Right when I was applying to graduate school at 21, DeepMind's AlphaGo had just started making rounds in tech news, and there had never been a more exciting time for cognitively inspired AI... that is, up until the LLM frenzy now.
+When I was 19, all I wanted was to be a cognitive scientist, to understand how it is that from the chaos of our brain emerged thoughts, concepts, and consciousness. Right when I was applying to graduate school, DeepMind's AlphaGo had just started making rounds in tech news, and there had never been a more exciting time for cognitively inspired AI... that is, up until the LLM frenzy now.
 
 10 years later when the future is here, I forgot what truly exited me --- somewhere along the PhD grind, I traded curiosity for "publish or perish". Choosing again, I'd still leave academia, but I envy friends still in grad school, because the future of science is in your hands. Easy as it may be for me to say: Even if all your experiments fail, you'd still have a job, but the joy of discovery is only now.  
 
