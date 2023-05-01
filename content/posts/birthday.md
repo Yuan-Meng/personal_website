@@ -1,6 +1,6 @@
 ---
 title: The Future Is Now
-date: 2023-05-06
+date: 2023-05-01
 tags:
     - birthday
     - work 
