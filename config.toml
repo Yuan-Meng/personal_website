@@ -45,7 +45,7 @@ weight = 2
   showAllPostsArchive = true # default
 
   # Home page settings
-  description = "Hi, this is Yuan. I'm a machine learning data scientist at DoorDash working on search, taxonomy, and catalog. In a former life as a computational cognitive scientist, I studied common sense reasoning (causal inference, social cognition) in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, and metal guitar. Use 重庆话 when I do mental math."
+  description = "Hi, this is Yuan. I'm a Software Engineer, Machine Learning at DoorDash working on search, taxonomy, and catalog. In a former life as a computational cognitive scientist, I studied common sense reasoning (causal inference, social cognition) in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, and metal guitar. Use 重庆话 when I do mental math."
   showAllPostsOnHomePage = false # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
   tagsOverview = false # show tags overview by default.
