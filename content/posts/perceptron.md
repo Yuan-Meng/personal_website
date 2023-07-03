@@ -11,7 +11,7 @@ keywords:
 include_toc: true
 ---
 
-Ten years after the ImageNet Challenge thawed the last AI winter, ChaptGPT and generative AI have become part of our everyday life and colloquial, like (almost) no one has imagined just 2 years back. As increasingly more folks aspire to foray into the field of ML/AI, I can't help but think about a lesson from my guitar teacher:
+Ten years after the ImageNet Challenge thawed the last AI winter, ChaptGPT and generative AI have become part of our everyday life and colloquial language, like (almost) no one has imagined just 2 years back. As increasingly more folks aspire to foray into the field of ML/AI, I can't help but think about a lesson from my guitar teacher:
 
 > Everyone wants to start playing the songs they love right off the bat, but without nailing seemingly "boring" building blocks such as scales, harmonies, and rhythms, the songs you love will sound like a nightmare...
 
