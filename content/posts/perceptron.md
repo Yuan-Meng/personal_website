@@ -180,7 +180,7 @@ def train_perceptron(digit1, digit2, n_samples=25, epoch=200):
     return accuracies, W
 ```
 
-As you may have noticed from above, after each loop, we check the model accuracy, which is defined as # of correctly classified examples / # of samples classified. 
+As you may have noticed from above, after each loop, we check the model accuracy, which is defined as # of correctly classified examples / # of examples classified. 
 
 ```python3
 def compute_accuracy(W, images, labels):
@@ -196,7 +196,7 @@ def compute_accuracy(W, images, labels):
     return n_correct / len(images)
 ```
 
-Since the Perceptron algorithm is quite simple, training is lightening fast --- we can train for 500 epochs in a matter of minutes. Training GPT may take months.
+Since the Perceptron algorithm is quite simple, training is lightning fast --- we can train for 500 epochs in a matter of minutes. Training GPT may take months.
 
 ```python3
 # train on 25 examples for given number of epochs
