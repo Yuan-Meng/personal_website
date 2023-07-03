@@ -24,7 +24,7 @@ Which of 2 images below is a "7" and which one is an "L"?
 
 {{< figure src="https://www.dropbox.com/s/g01sb2n1eelrum7/7_or_l.png?raw=1" width="600">}}
 
-To us humans, answer this question is a piece of cake: The left image is "L" and the right "7". But how is it that we know (except for saying "intuitions")?
+To us humans, answering this question is a piece of cake: The left image is "L" and the right "7". But how is it that we know (except for saying "intuitions")?
 
 ## How do humans see, in plain English?
 
