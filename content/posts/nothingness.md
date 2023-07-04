@@ -56,7 +56,7 @@ From June to August 2021, I had an awesome internship experience: Warm colleague
 
 {{< figure src="https://www.dropbox.com/s/hsh1yxtiw9nkpl9/agenda.png?raw=1" width="350">}}
 
-In September 2021, I started interviewing for full-time jobs and got my first offer that October. After getting several offers, I started to get questions about how I managed --- after all, the final year of Ph.D. felt like two full-time jobs and the job search was another one top. The truth is, I still waste time all the time; I'm just no longer that 22-year-old kid who'd do nothing at all if they couldn't do their best. I've learned that **doing 1% is infinitely better than doing nothing**.
+In September 2021, I started interviewing for full-time jobs and got my first offer that October. After getting several offers, I started to get questions about how I managed --- after all, the final year of Ph.D. felt like two full-time jobs and the job search was another one on top. The truth is, I still waste time all the time; I'm just no longer that 22-year-old kid who'd do nothing at all if they couldn't do their best. I've learned that **doing 1% is infinitely better than doing nothing**.
 
 That's the laundry list. Here's the TL;DR: Doing nothing is the hardest thing --- you feel you got nothing to say about your struggles and that you're beyond salvation for not trying. You know what, you're hella brave to admit that. Don't be ashamed. Ask for help. Do something, anything, and keep building. Better days are ahead.
 
