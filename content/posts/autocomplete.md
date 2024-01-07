@@ -27,6 +27,11 @@ The "why" for autocompletion is rather self-evident because, if done right, it m
 - **Users**: Saves keystrokes + speeds up typing + discovers relevant search terms not previously thought of 👉 less search friction
 - **Search engines**: Reduces the probability of typos and ill-formed queries compared to if the user types the full query 👉 better query performance
 
+Without autocompletion, Yahoo! users shall spend roughly twice the time typing in the search bar, if they don't abandon search at all.
+
+## A Note on Related Tasks
+Autocompletion is a type of *query reformulation*, which also includes query suggestion, query expansion, and query correction. However, the goal and the usage of autocompletion is quite different from the latter three. The latter three take place *after* a query is submitted and aim to improve otherwise suboptimal query performance (e.g., the user didn't have the right "vocabulary" or typed something too specific). By contrast, autocompletion happens *before* query submission as users type and its purpose is to save keystrokes and ease the submission process.
+
 # Build A Simple Autocompletion Engine
 
 The "million-dollar question" is the "how" --- how do we know what the user meant to type without them typing the whole thing? 
@@ -35,7 +40,6 @@ The "million-dollar question" is the "how" --- how do we know what the user mean
 
 ## Retrieval
 [Tries](https://en.wikipedia.org/wiki/Trie) ("prefix trees") are a common data structure to store associations between a prefix and its query completions. A trie can be pre-built from the past query log, which will be used to retrieve a list of query completions given a prefix. 
-
 
 ## Ranking
 Which completions to show in what order can determined by **heuristics-based approaches** as well as **learning to rank (LTR) models**. Most search engines only show a handful of completions --- the user's intended query should appear at the top.
@@ -78,7 +82,7 @@ Differently from document ranking, query suggestions are mostly concerned with f
 Above is the bare bone of an autocompletion engine, which can be further improved:
 - **Computational efficiency**: Running BFS/DFS on vanilla tries may result in slow performance, especially given the vast query space for each prefix. We can optimize the trie data structure itself (e.g., Completion Trie, RMQ Trie, Score-Decomposed Trie, etc.) or the search algorithm (e.g., A* search).
 - **Error-tolerance**: Users may have misspellings in the prefix --- spell-checking or fuzzy match is needed to ensure misspelled queries can have completions.
-- **Multi-objective**: In e-commerce search, after clicking on a query completion, we eventually want users to convert on a product. A multi-objective model should also optimize for subsequent engagement (e.g., clicks, add to cart, conversions) following query submission, 
+- **Multi-objective**: In e-commerce search, after a user submits a query completion, we ultimately want them to convert on a product. A multi-objective model also optimizes for subsequent engagement (e.g., clicks, add to cart, conversions) following query submission. This was described in an [Instacart post](https://www.instacart.com/company/how-its-made/how-instacart-uses-machine-learning-driven-autocomplete-to-help-people-fill-their-carts/).
 
 # Presentation of Completions
 
