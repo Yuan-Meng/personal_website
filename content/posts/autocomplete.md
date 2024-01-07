@@ -86,7 +86,7 @@ Above is the bare bone of an autocompletion engine, which can be further improve
 
 # Presentation of Completions
 
-Last but not least, autocompletion needs to be represented to users. The canonical way is to display completions as a vertical list below the search bar. If you're highly confident about the top completion, you may put it directly in the search bar, a method called "ghosting" ([Ramachandran \& Murthy, 2019](https://www.amazon.science/publications/ghosting-contextualized-query-auto-completion-on-amazon-search#:~:text=Ghosting%3A%20Contextualized%20query%20auto%2Dcompletion%20on%20Amazon%20Search,-By%20Lakshmi%20Ramachandran&text=Query%20auto%2Dcompletion%20presents%20a,i.e.%2C%20within%20the%20search%20box.)). In either case, the completed text is usually highlighted we can distinguish it from the user input. 
+Last but not least, autocompletion needs to be presented to users. The canonical way is to display completions as a vertical list below the search bar. If you're highly confident about the top completion, you may put it directly in the search bar, a method called "ghosting" ([Ramachandran \& Murthy, 2019](https://www.amazon.science/publications/ghosting-contextualized-query-auto-completion-on-amazon-search#:~:text=Ghosting%3A%20Contextualized%20query%20auto%2Dcompletion%20on%20Amazon%20Search,-By%20Lakshmi%20Ramachandran&text=Query%20auto%2Dcompletion%20presents%20a,i.e.%2C%20within%20the%20search%20box.)). In either case, the completed text is usually highlighted we can distinguish it from the user input. 
 
 {{< figure src="https://www.dropbox.com/scl/fi/dvtlbvufymae0zn9zhggh/Screenshot-2024-01-06-at-10.25.44-PM.png?rlkey=olkouuxlhgsv39as3lvipcdos&raw=1" width="600" >}}
 
