@@ -27,10 +27,10 @@ The "why" for autocompletion is rather self-evident because, if done right, it m
 - **Users**: Saves keystrokes + speeds up typing + discovers relevant search terms not previously thought of 👉 less search friction
 - **Search engines**: Reduces the probability of typos and ill-formed queries compared to if the user types the full query 👉 better query performance
 
-Without autocompletion, Yahoo! users shall spend roughly twice the time typing in the search bar, if they don't abandon search at all.
+Without autocompletion, Yahoo! users will spend roughly twice the time typing in the search bar, if they don't abandon search at all.
 
 ## A Note on Related Tasks
-Autocompletion is a type of *query reformulation*, which also includes query suggestion, query expansion, and query correction. However, the goal and the usage of autocompletion is quite different from the latter three. The latter three take place *after* a query is submitted and aim to improve otherwise suboptimal query performance (e.g., the user didn't have the right "vocabulary" or typed something too specific). By contrast, autocompletion happens *before* query submission as users type and its purpose is to save keystrokes and ease the submission process.
+Autocompletion is a type of *query reformulation*, along with query suggestion, query expansion, and query correction. However, the goal and the usage of autocompletion are quite different from the latter three. The latter three take place *after* a query is submitted and aim to improve otherwise suboptimal query performance (e.g., the user didn't have the right "vocabulary" or typed something too specific). By contrast, autocompletion happens *before* query submission as users type and its purpose is to save keystrokes and ease the submission process.
 
 # Build A Simple Autocompletion Engine
 
@@ -42,7 +42,7 @@ The "million-dollar question" is the "how" --- how do we know what the user mean
 [Tries](https://en.wikipedia.org/wiki/Trie) ("prefix trees") are a common data structure to store associations between a prefix and its query completions. A trie can be pre-built from the past query log, which will be used to retrieve a list of query completions given a prefix. 
 
 ## Ranking
-Which completions to show in what order can determined by **heuristics-based approaches** as well as **learning to rank (LTR) models**. Most search engines only show a handful of completions --- the user's intended query should appear at the top.
+Which completions to show in what order can be determined by **heuristics-based approaches** as well as **learning to rank (LTR) models**. Most search engines only show a handful of completions --- the user's intended query should appear at the top.
 
 ### Heuristic-Based
 Successful completions are ones that eventually get submitted by the user. Heuristic-based approaches rank each query completion $q_c$ by the probability that it might get submitted, given the prefix $p$, the time $t$, and the user $u$ --- $P(q_c | p, t, u)$.
