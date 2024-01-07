@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "styles.css",
-	"sourceRoot": "/Users/apple/Desktop/My folders/DS/showing/website/ds",
+	"sourceRoot": "/Users/apple/Documents/My folders/DS/showing/website/personal_website",
 	"sources": [
 		"themes/cactus/assets/scss/style.scss",
 		"themes/cactus/assets/scss/_variables.scss",

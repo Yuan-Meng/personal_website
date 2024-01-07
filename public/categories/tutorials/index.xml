@@ -7,13 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Yuan Meng</copyright>
-    <lastBuildDate>Wed, 22 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/categories/tutorials/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/categories/tutorials/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Teaching A Peceptron to See</title>
+      <link>https://www.yuan-meng.com/posts/perceptron/</link>
+      <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/perceptron/</guid>
+      <description>Ten years after the ImageNet Challenge thawed the last AI winter, ChaptGPT and generative AI have become part of our everyday life and colloquial language, like (almost) no one has imagined just 2 years back. As increasingly more folks aspire to foray into the field of ML/AI, I can&amp;rsquo;t help but think about a lesson from my guitar teacher:
+ Everyone wants to start playing the songs they love right off the bat, but without nailing seemingly &amp;ldquo;boring&amp;rdquo; building blocks such as scales, harmonies, and rhythms, the songs you love will sound like a nightmare&amp;hellip;</description>
+    </item>
+    
     <item>
       <title>Code ML Algorithms From Scratch</title>
-      <link>https://www.yuan-meng.com/posts/md_coding/</link>
+      <link>https://www.yuan-meng.com/md_coding/</link>
       <pubDate>Wed, 22 Jun 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://www.yuan-meng.com/posts/md_coding/</guid>
+      <guid>https://www.yuan-meng.com/md_coding/</guid>
       <description>Coding interviews can mean different things for &amp;ldquo;traditional&amp;rdquo; software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientists, research engineers, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview.
 This may sound scary if you&amp;rsquo;ve only used libraries to train models without understanding how learning algorithms work under the hood.</description>
     </item>

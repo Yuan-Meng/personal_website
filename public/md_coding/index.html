@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <script type="text/javascript" src="https://latest.cactus.chat/cactus.js"></script>
+  <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Code ML Algorithms From Scratch | Yuan Meng</title>
+  <link rel = 'canonical' href = 'https://www.yuan-meng.com/md_coding/'>
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a Software Engineer, Machine Learning at DoorDash working on search, taxonomy, and catalog. In a former life as a Computational Cognitive Scientist, I studied common sense reasoning (causal inference, social cognition) in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, metal guitar, and 🐱. Use 重庆话 when I do mental math.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Code ML Algorithms From Scratch" />
+<meta property="og:description" content="Coding interviews can mean different things for &ldquo;traditional&rdquo; software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientists, research engineers, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview.
+This may sound scary if you&rsquo;ve only used libraries to train models without understanding how learning algorithms work under the hood." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.yuan-meng.com/md_coding/" /><meta property="article:section" content="" />
+<meta property="article:published_time" content="2022-06-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-06-22T00:00:00+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Code ML Algorithms From Scratch"/>
+<meta name="twitter:description" content="Coding interviews can mean different things for &ldquo;traditional&rdquo; software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientists, research engineers, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview.
+This may sound scary if you&rsquo;ve only used libraries to train models without understanding how learning algorithms work under the hood."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.yuan-meng.com/css/styles.94f653e9e151e28067a7c5dbbc4600cbd5a3c721e79faaf971e523c40f3b249b8e4f20bb57810dfffa8d559ca5c140fd56eb4cd9c0853113ad08e66afdb08bdd.css" integrity="sha512-lPZT6eFR4oBnp8XbvEYAy9WjxyHnn6r5ceUjxA87JJuOTyC7V4EN//qNVZylwUD9VutM2cCFMROtCOZq/bCL3Q=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.yuan-meng.com/images/favicon.ico" />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+    <header id="header">
+  <a href="https://www.yuan-meng.com">
+  
+    <div id="logo" style="background-image: url(https://www.yuan-meng.com/images/logo.png)"></div>
+  
+  <div id="title">
+    <h1>Yuan Meng</h1>
+  </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x" aria-hidden="true"></i></a>
+      </li>
+      
+        <li><a href="/">About</a></li>
+      
+        <li><a href="/posts">Writings</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+
+
+    
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <div class="content" itemprop="articleBody">
+  
+    <p>Coding interviews can mean different things for &ldquo;traditional&rdquo; software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientists, research engineers, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview.</p>
+<p>This may sound scary if you&rsquo;ve only used libraries to train models without understanding how learning algorithms work under the hood. Moreover, there are way too many algorithms to memorize. The good news is, only 4 algorithms are commonly asked in interviews: <strong>Linear regression</strong>, <strong>logistic regression</strong>, <strong>k-nearest neighbors</strong> (k-NN), and <strong>k-means</strong>. You&rsquo;re probably not gonna code a transformer on the fly in 45 minutes. Let&rsquo;s implement each using vanilla NumPy (and some built-in libraries).</p>
+<h1 id="linear-regression">Linear Regression</h1>
+<p>Linear regression uses a vector of real-valued inputs $\mathbf{x} \in \mathbb{R}^D$ (e.g., age, years of education, one-hot encoded job categories) to predict a real-value output $y \in \mathbb{R}$ (e.g., income): $\hat{y_i} = \mathbf{w}^T \mathbf{x} + b = w_1 x_1 + w_2 x_2 + \ldots + b$ (predicted income for person $i$).</p>
+<p>In the formula above, $\mathbf{w}$ is &ldquo;regression coefficients&rdquo; (statistics) or &ldquo;weights&rdquo; (ML), which quantify how much each feature impacts the outcome with all else being held constant. The bias term $b$ (&ldquo;intercept&rdquo; in stats) is the outcome value when all features are 0 &mdash; or, we can understand it as a force that moves $\hat{y}$ up and down.</p>
+<p>We can use several methods to solve for $\mathbf{w}$ and $\mathrm{b}$, such as Ordinary Least Squares (OLS) and gradient descent. Since the latter method applies to a wide range of supervised learning algorithms, not just linear regression, I&rsquo;ll implement it first.</p>
+<h2 id="gradient-descent">Gradient Descent</h2>
+<p>When using gradient descent, we can initialize $\mathbf{w}$ and $b$ with random values, get terrible results at first, and then gradually learn from our mistakes. If using gradient descent, below are the building blocks of a linear regressor:</p>
+<ol>
+<li>
+<p><strong>Cost function</strong>: Mean squared error (MSE), $J(\mathbf{w}, b) = \frac{\sum_{i}^{n} (y_i - \hat{y_i})^2}{n}$, can measure how &ldquo;off&rdquo; the model predictions are. $y_i$ is the observed value of observation $i$, $\hat{y_i}$ is the predicted value of $i$, and $n$ is the number of observations in the dataset. The objective is to find values of $\mathbf{w}$ and $b$ that minimize $J(\mathbf{w}, b)$.</p>
+</li>
+<li>
+<p><strong>Optimization routine</strong>: If you wanna brush of your memory of gradient descent, I strongly suggestion YouTube videos by <a href="https://youtu.be/sDv4f4s2SB8">StatQuest</a> and <a href="https://youtu.be/IHZwWFHWa-w">3Blue1Brown</a>.</p>
+<p>A gradient is the partial derivative of a function with respect to a parameter. For visualization purposes, say we only have one parameter and the picture below shows how the cost function changes with different parameter values. If the gradient is negative, we wanna move a bit to the right; if positive, a bit to the left. When the gradient is 0, it means we&rsquo;re at a minimum, global or local.</p>
+<figure><img src="https://www.dropbox.com/s/rn0va0kzagzhu6g/gradient.jpg?raw=1" width="400"/>
+</figure>
+
+<p>Luckily, we don&rsquo;t have to code up different scenarios: By <strong>subtracting</strong> gradients from parameter values, we&rsquo;ll naturally move to the right when gradients are negative and to the left when they&rsquo;re positive. One thing to note is that if we move too much at a time, we may well shoot past the minima &mdash; instead, we can adjust the step size using a learning rate parameter, which is usually a small number (e.g., 0.01, 0.001). However, if the learning rate is too small (e.g., 0.000001), training can take a long time and we may get stuck in local minima. We can use cross-validation to find an ideal learning rate.</p>
+<p>For each set of parameter values, each observation has its own gradients. In canonical gradient descent, we need to calculate the gradients of all observations. Let $\mathbf{X}$ be the feature matrix of $n$ observations and $\mathbf{y}$ the outcome vector; below are gradients with regard $\mathbf{w}$ and $b$ (see the <a href="https://www.analyticsvidhya.com/blog/2021/04/gradient-descent-in-linear-regression/#:~:text=Gradient%20Descent%20Algorithm.-,Gradient%20Descent%20Algorithm,a%20smaller%20number%20of%20iterations.&amp;text=For%20some%20combination%20of%20m,us%20our%20best%20fit%20line.">derivation</a>):</p>
+<ul>
+<li>With regard to $\mathbf{w}$: $\frac{\partial J(\mathbf{w}, b)}{\partial \mathbf{w}} = \frac{-2 \mathbf{X}^T \cdot (\mathbf{y}-\hat{\mathbf{y}})}{n}$</li>
+<li>With regard to $b$: $\frac{\partial J(\mathbf{w}, b)}{\partial b} = \frac{-2 \sum_{i}^{n} y_i - \hat{y_i}}{n}$</li>
+</ul>
+</li>
+<li>
+<p><strong>Stopping criteria</strong>: We can stop when gradients are 0 (or sufficiently small), or if we&rsquo;ve run the algorithm after a fixed number of epochs.</p>
+</li>
+</ol>
+<p>Scikit-Learn doesn&rsquo;t actually implement gradient descent for linear regression. <code>SGDRegressor</code> uses stochastic gradient descent (SGD) to optimize parameter values. Instead of using all observations each time, SGD randomly chooses one observation per epoch to compute gradients, which speeds up learning and introduces randomness to the learning process. For large datasets, this added randomness is useful for avoiding getting stuck at local minima. For small datasets, it&rsquo;s a nightmare.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#6272a4"># import libraries</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span style="color:#ff79c6">from</span> sklearn <span style="color:#ff79c6">import</span> datasets
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span style="color:#ff79c6">from</span> sklearn.model_selection <span style="color:#ff79c6">import</span> train_test_split
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span style="color:#ff79c6">from</span> sklearn.linear_model <span style="color:#ff79c6">import</span> SGDRegressor
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span style="color:#6272a4"># load the diabetes dataset for demonstration</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>X, y <span style="color:#ff79c6">=</span> datasets<span style="color:#ff79c6">.</span>load_diabetes(return_X_y<span style="color:#ff79c6">=</span><span style="color:#ff79c6">True</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span style="color:#6272a4"># use 80% for training and 20% for test</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>X_train, X_test, y_train, y_test <span style="color:#ff79c6">=</span> train_test_split(
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>    X, y, test_size<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0.2</span>, random_state<span style="color:#ff79c6">=</span><span style="color:#bd93f9">42</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span style="color:#6272a4"># create a new model</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>lr <span style="color:#ff79c6">=</span> SGDRegressor(learning_rate<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;optimal&#34;</span>, max_iter<span style="color:#ff79c6">=</span><span style="color:#bd93f9">10000</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span style="color:#6272a4"># fit model to training data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>lr<span style="color:#ff79c6">.</span>fit(X_train, y_train)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span style="color:#6272a4"># use fitted model to predict test data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>y_pred <span style="color:#ff79c6">=</span> lr<span style="color:#ff79c6">.</span>predict(X_test)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>
+</code></pre></div><p><strong>Spoiler</strong>: The diabetes dataset only has 442 data points, which turns out far from enough for the SGD regressor to converge💀.</p>
+<p>In interviews, you&rsquo;re most likely not allowed to use high-level libraries such as Scikit-Learn. We can write a custom <code>LinearRegression</code> class using just NumPy (for vectorized operations). The example below is adapted from <a href="https://www.geeksforgeeks.org/linear-regression-implementation-from-scratch-using-python/">GeeksforGeeks</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">LinearRegression</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#ff79c6">def</span> __init__(self, lr<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0.01</span>, epoch<span style="color:#ff79c6">=</span><span style="color:#bd93f9">10</span>):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>        <span style="color:#6272a4"># set hyperparameter values</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        self<span style="color:#ff79c6">.</span>lr <span style="color:#ff79c6">=</span> lr  <span style="color:#6272a4"># learning rate</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        self<span style="color:#ff79c6">.</span>epoch <span style="color:#ff79c6">=</span> epoch  <span style="color:#6272a4"># number of epochs</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">fit</span>(self, X, y):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>        <span style="color:#6272a4"># number of observations, number of features</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>        self<span style="color:#ff79c6">.</span>n_obs, self<span style="color:#ff79c6">.</span>n_features <span style="color:#ff79c6">=</span> X<span style="color:#ff79c6">.</span>shape
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        <span style="color:#6272a4"># initialize weights and bias</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        self<span style="color:#ff79c6">.</span>w <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>zeros(self<span style="color:#ff79c6">.</span>n_features)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        self<span style="color:#ff79c6">.</span>b <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        <span style="color:#6272a4"># read data and labels from input</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        self<span style="color:#ff79c6">.</span>X <span style="color:#ff79c6">=</span> X
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>        self<span style="color:#ff79c6">.</span>y <span style="color:#ff79c6">=</span> y
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>        <span style="color:#6272a4"># use gradient descent to update weights</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>        <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(self<span style="color:#ff79c6">.</span>epoch):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>            self<span style="color:#ff79c6">.</span>update_weights()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>        <span style="color:#ff79c6">return</span> self
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">update_weights</span>(self):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span>        <span style="color:#6272a4"># use current parameters to predict</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>        y_pred <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>predict(self<span style="color:#ff79c6">.</span>X)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>        <span style="color:#6272a4"># compute gradients with respect weights</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>        grad_w <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">2</span> <span style="color:#ff79c6">*</span> np<span style="color:#ff79c6">.</span>dot(self<span style="color:#ff79c6">.</span>X<span style="color:#ff79c6">.</span>T, (self<span style="color:#ff79c6">.</span>y <span style="color:#ff79c6">-</span> y_pred)) <span style="color:#ff79c6">/</span> self<span style="color:#ff79c6">.</span>n_obs
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span>        <span style="color:#6272a4"># compute gradient with respect to bias</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span>        grad_b <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">2</span> <span style="color:#ff79c6">*</span> np<span style="color:#ff79c6">.</span>sum(self<span style="color:#ff79c6">.</span>y <span style="color:#ff79c6">-</span> y_pred) <span style="color:#ff79c6">/</span> self<span style="color:#ff79c6">.</span>n_obs
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span>        <span style="color:#6272a4"># update parameters by substracting lr * gradients</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span>        self<span style="color:#ff79c6">.</span>w <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>w <span style="color:#ff79c6">-</span> self<span style="color:#ff79c6">.</span>lr <span style="color:#ff79c6">*</span> grad_w
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span>        self<span style="color:#ff79c6">.</span>b <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>b <span style="color:#ff79c6">-</span> self<span style="color:#ff79c6">.</span>lr <span style="color:#ff79c6">*</span> grad_b
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span>        <span style="color:#ff79c6">return</span> self
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">predict</span>(self, X):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span>        <span style="color:#6272a4"># use current parameters to make predictions</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span>        <span style="color:#ff79c6">return</span> X<span style="color:#ff79c6">.</span>dot(self<span style="color:#ff79c6">.</span>w) <span style="color:#ff79c6">+</span> self<span style="color:#ff79c6">.</span>b
+</code></pre></div><p>A few things to highlight:</p>
+<ul>
+<li>
+<p><strong>Initialization</strong> (<code>__init__</code>): In the Scikit-Learn example earlier, we only provided hyperparameter values when initializing the model. If values are not provided, we use default values. We can mimic that pattern in our custom class. Here we got two hyperparameters: Learning rate (<code>lr</code>) and the number of iterations (<code>epoch</code>).</p>
+</li>
+<li>
+<p><strong>Model fitting</strong> (<code>fit</code>): The <code>.fit</code> method takes two arguments, the data (a $n \times m$ array, where $n$ is the number of observations and $m$ is the number of features) and the target (a $n$-vector). Modeling fitting doesn&rsquo;t return any values &mdash; rather, $\mathbf{w}$ and $b$ are modified <em>in place</em> using gradient descent.</p>
+<p>The helper function <code>update_weights</code> is where we implement gradient descent. Note that it calls the <code>.predit</code> method each time to generate predictions using current parameter values. After calculating gradients of $\mathbf{w}$ and $b$ by translating the two corresponding formulas to code, we use them to update parameter values. This process repeats for the number of epochs specified (<code>epoch</code>).</p>
+</li>
+<li>
+<p><strong>Model prediction</strong> (<code>predict</code>): The <code>.predict</code> method uses the best parameter values we found in <code>.fit</code> to generate predictions for new data, $\mathbf{y} = \mathbf{X}
+\cdot \mathbf{w} + b$.</p>
+</li>
+</ul>
+<p>The root-mean-square error (RMSE, which is the square root of MSE) is a common metric to evaluate regression models. Unlike classification metrics (e.g., precision, recall, F-1 score, AUC), the absolute value of RMSE doesn&rsquo;t tell us much about how good a model is. We need to compare RMSE of several models to find the winner.</p>
+<figure><img src="https://www.dropbox.com/s/ncsm5un9asyynpj/rmse_lr_gd.png?raw=1" width="450"/>
+</figure>
+
+<h2 id="ols">OLS</h2>
+<p>Former Quora data scientist Zi Chong Kao has an extraordinary <a href="https://kaomorphism.com/socraticregression/ols.html">geometric explanation</a> of the Ordinary Least Squares (OLS) method. Like gradient descent, the goal of OLS is to minimize prediction errors. The slight difference is that instead of minimizing MSE, OLS minimizes the sum of squared residuals  (SSR), $\lVert \mathbf{y} - \mathbf{X}\mathbf{\beta} \rVert ^2$.</p>
+<p>Here we&rsquo;re using a new formula $\mathbf{\hat{y}} = \mathbf{X}\mathbf{\beta}$, which is similar to the one before, $\mathbf{\hat{y}} = \mathbf{X} \cdot \mathbf{w} + b$, except that now we added a column all 1&rsquo;s to the beginning of the original feature matrix $\mathbf{X}$. Long story short, this transformation simplifies the closed-form solution of the best $\beta$ (see <a href="https://web.stanford.edu/~mrosenfe/soc_meth_proj3/matrix_OLS_NYU_notes.pdf">OLS in Matrix Form</a>)): $(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{y}$. Know that $\beta_0 = b$.</p>
+<p>Fun fact: OLS is the method used by <code>LinearRegression</code> in Scikit-Learn.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span style="color:#6272a4"># import library</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span style="color:#ff79c6">from</span> sklearn.linear_model <span style="color:#ff79c6">import</span> LinearRegression
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span style="color:#6272a4"># create a new model</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span>lr <span style="color:#ff79c6">=</span> LinearRegression()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span style="color:#6272a4"># fit model to training data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span>lr<span style="color:#ff79c6">.</span>fit(X_train, y_train)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span style="color:#6272a4"># use fitted model to predict test data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span>y_pred <span style="color:#ff79c6">=</span> lr<span style="color:#ff79c6">.</span>predict(X_test)
+</code></pre></div><p>Counterintuitively, I find gradient descent easier to implement than OLS, mostly due to the transformation (e.g., adding an $n$-vector of 1&rsquo;s to $\mathbf{X}$) required by the latter. The code below is simplified from blogposts by <a href="https://developer.ibm.com/articles/linear-regression-from-scratch/">IBM</a> and <a href="https://datascienceplus.com/linear-regression-from-scratch-in-python/">datascience+</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">import</span> copy
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">LinearRegression</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>    <span style="color:#ff79c6">def</span> __init__(self):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        <span style="color:#6272a4"># no hyperparameters to intialize</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>        <span style="color:#ff79c6">pass</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">fit</span>(self, X, y):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>        <span style="color:#6272a4"># read data and labels from input</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        self<span style="color:#ff79c6">.</span>X <span style="color:#ff79c6">=</span> X
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        self<span style="color:#ff79c6">.</span>y <span style="color:#ff79c6">=</span> y
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        <span style="color:#6272a4"># create a vector of all 1&#39;s to X</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        X <span style="color:#ff79c6">=</span> copy<span style="color:#ff79c6">.</span>deepcopy(X) <span style="color:#6272a4"># keep original X intact</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        dummy <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>ones(X<span style="color:#ff79c6">.</span>shape[<span style="color:#bd93f9">0</span>]) <span style="color:#6272a4"># create a vector of 1&#39;s</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>        X <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>concatenate((dummy, X), <span style="color:#bd93f9">1</span>) <span style="color:#6272a4"># add it to X</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>        <span style="color:#6272a4"># use OLS to estimate betas</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>        xT <span style="color:#ff79c6">=</span> X<span style="color:#ff79c6">.</span>transpose()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>        inversed <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>linalg<span style="color:#ff79c6">.</span>inv(xT<span style="color:#ff79c6">.</span>dot(X))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>        betas <span style="color:#ff79c6">=</span> inversed<span style="color:#ff79c6">.</span>dot(xT)<span style="color:#ff79c6">.</span>dot(y)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>        <span style="color:#6272a4"># bias is the first column</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>        self<span style="color:#ff79c6">.</span>b <span style="color:#ff79c6">=</span> betas[<span style="color:#bd93f9">0</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>        <span style="color:#6272a4"># weights are the rest</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span>        self<span style="color:#ff79c6">.</span>w <span style="color:#ff79c6">=</span> betas[<span style="color:#bd93f9">1</span>:]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>        <span style="color:#ff79c6">return</span> self
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>    
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">predict</span>(self, X):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span>        <span style="color:#ff79c6">return</span> X<span style="color:#ff79c6">.</span>dot(self<span style="color:#ff79c6">.</span>w) <span style="color:#ff79c6">+</span> self<span style="color:#ff79c6">.</span>b
+</code></pre></div><ul>
+<li>
+<p><strong>Initialization</strong> (<code>__init__</code>): OLS doesn&rsquo;t have any hyperparamters, so we can use <code>pass</code> to skip hyperparameter initialization.</p>
+</li>
+<li>
+<p><strong>Model fitting</strong> (<code>fit</code>): As mentioned, we need to transform $\mathbf{X}$ by adding a new column, but we don&rsquo;t want to mess with the original matrix. We can create a copy of the original (need the <code>copy</code> library) and transform the copy instead. The centerpiece of the <code>.fit</code> method is translating $(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{y}$ into code.</p>
+<p>Unless we also want to transform new data $\mathbf{X}$ when making new predictions, we can extract the bias ($\beta_0$) and the weights ($\beta_j$, where $j=1, 2, \ldots, m$) from fitted $\beta$ and apply $\mathbf{X}\cdot \mathbf{w} + b$ to the untransformed matrix.</p>
+</li>
+<li>
+<p><strong>Model prediction</strong> (<code>predict</code>): This part is the same as in gradient descent.</p>
+</li>
+</ul>
+<figure><img src="https://www.dropbox.com/s/4z9itvfdv8uzl4h/rmse_lr_ols.png?raw=1" width="450"/>
+</figure>
+
+<p>In this case, OLS is a bit worse (higher RMSE) than gradient descent, but it works faster on small datasets and doesn&rsquo;t require us to find the best learning rate.</p>
+<h1 id="logistic-regression">Logistic Regression</h1>
+<p>Some say the name &ldquo;logistic regression&rdquo; is a tad misleading because it&rsquo;s a classification method. However, I think the name appropriately highlights the connection between logistic regression and linear regression. In logistic regression, we still use real-valued features (e.g., income, age, one-hot encoded move genres) to first predict some real-valued output. However, the direct output doesn&rsquo;t carry much meaning &mdash; we want to transform it into a probability ([0, 1]) and make a decision based on thAT probability ($p \geq 0.5$: will buy popcorn; $p &lt; 0.5$: won&rsquo;t buy popcorn).</p>
+<ul>
+<li>The part same as in linear regression: $z = \mathbf{w}^T \mathbf{x} + b$ (for one observation)</li>
+<li>Transformation using the logistic function: $p = \frac{1}{1 + \exp(-z)}$</li>
+<li>Make a decision: $\hat{y} = 1$ if $p \geq t$ and 0 if $p &lt; t$ ($t$ is the decision threshold)</li>
+</ul>
+<p>Rather than using MSE as the cost function, we can use cross entropy (<a href="https://youtu.be/6ArSys5qHAU">explained</a> by StatQuest): $\frac{\sum_{i}^{n} y_i \log(\hat{y_i})}{n}$, where $y_i$ is the actual outcome (0 or 1) and $\hat{y_i}$ the predicted outcome. We don&rsquo;t want to use classification metrics (e.g., accuracy, precision, recall) as the cost function because they don&rsquo;t have sensitive gradients.</p>
+<p>Unlike linear regression, OLS is no longer appropriate for logistic regression, because it may predict values greater than 1 or less than 0. However, we can still use gradient descent to find the best $\mathbf{w}$ and $b$ values. I&rsquo;ll skip the Scikit-Learn implementation because it&rsquo;s just a matter of importing different models.</p>
+<p>First, we can use <code>make_classification</code> to generate some toy data:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#6272a4"># create some toy data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span style="color:#ff79c6">from</span> sklearn.datasets <span style="color:#ff79c6">import</span> make_classification
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>X, y <span style="color:#ff79c6">=</span> make_classification(
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>    n_samples<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1000</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>    n_features<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>    n_redundant<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>    n_informative<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>    random_state<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>    n_clusters_per_class<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span>,
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span style="color:#6272a4"># use 80% for training and 20% for test</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>X_train, X_test, y_train, y_test <span style="color:#ff79c6">=</span> train_test_split(
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>    X, y, test_size<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0.2</span>, random_state<span style="color:#ff79c6">=</span><span style="color:#bd93f9">42</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>
+</code></pre></div><p>Under cross entropy, the gradients of the parameters are almost the same as when we used MSE, except that now we don&rsquo;t have the scalar 2:</p>
+<ul>
+<li>With regard to $\mathbf{w}$: $\frac{\partial J(\mathbf{w}, b)}{\partial \mathbf{w}} = \frac{-\mathbf{X}^T \cdot (\mathbf{y}-\hat{\mathbf{y}})}{n}$</li>
+<li>With regard to $b$: $\frac{\partial J(\mathbf{w}, b)}{\partial b} = \frac{-\sum_{i}^{n} y_i - \hat{y_i}}{n}$</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">LogisticRegression</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#ff79c6">def</span> __init__(self, lr<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0.01</span>, epoch<span style="color:#ff79c6">=</span><span style="color:#bd93f9">10</span>):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>        <span style="color:#6272a4"># set hyperparameter values</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        self<span style="color:#ff79c6">.</span>lr <span style="color:#ff79c6">=</span> lr  <span style="color:#6272a4"># learning rate</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        self<span style="color:#ff79c6">.</span>epoch <span style="color:#ff79c6">=</span> epoch  <span style="color:#6272a4"># number of epochs</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">fit</span>(self, X, y):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>        <span style="color:#6272a4"># number of observations, number of features</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>        self<span style="color:#ff79c6">.</span>n_obs, self<span style="color:#ff79c6">.</span>n_features <span style="color:#ff79c6">=</span> X<span style="color:#ff79c6">.</span>shape
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        <span style="color:#6272a4"># initialize weights and bias</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        self<span style="color:#ff79c6">.</span>w <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>zeros(self<span style="color:#ff79c6">.</span>n_features)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        self<span style="color:#ff79c6">.</span>b <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        <span style="color:#6272a4"># read data and labels from input</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        self<span style="color:#ff79c6">.</span>X <span style="color:#ff79c6">=</span> X
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>        self<span style="color:#ff79c6">.</span>y <span style="color:#ff79c6">=</span> y
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>        <span style="color:#6272a4"># use gradient descent to update weights</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>        <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(self<span style="color:#ff79c6">.</span>epoch):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>            self<span style="color:#ff79c6">.</span>update_weights()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>        <span style="color:#ff79c6">return</span> self
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">update_weights</span>(self):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span>        <span style="color:#6272a4"># use current parameters to predict</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>        y_pred <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>predict(self<span style="color:#ff79c6">.</span>X)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>        <span style="color:#6272a4"># calculate gradients with respect to weights</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>        grad_w <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span>np<span style="color:#ff79c6">.</span>dot(self<span style="color:#ff79c6">.</span>X<span style="color:#ff79c6">.</span>T, (self<span style="color:#ff79c6">.</span>y <span style="color:#ff79c6">-</span> y_pred)) <span style="color:#ff79c6">/</span> self<span style="color:#ff79c6">.</span>n_obs
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span>        <span style="color:#6272a4"># calculate gradients with respect to bias</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span>        grad_b <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span>np<span style="color:#ff79c6">.</span>sum(self<span style="color:#ff79c6">.</span>y <span style="color:#ff79c6">-</span> y_pred) <span style="color:#ff79c6">/</span> self<span style="color:#ff79c6">.</span>n_obs
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span>        <span style="color:#6272a4"># update parameters by substracting lr * gradients</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span>        self<span style="color:#ff79c6">.</span>w <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>w <span style="color:#ff79c6">-</span> self<span style="color:#ff79c6">.</span>lr <span style="color:#ff79c6">*</span> grad_w
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span>        self<span style="color:#ff79c6">.</span>b <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>b <span style="color:#ff79c6">-</span> self<span style="color:#ff79c6">.</span>lr <span style="color:#ff79c6">*</span> grad_b
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span>        <span style="color:#ff79c6">return</span> self
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">sigmoid</span>(self, z):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span>        <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">/</span> (<span style="color:#bd93f9">1</span> <span style="color:#ff79c6">+</span> np<span style="color:#ff79c6">.</span>exp(<span style="color:#ff79c6">-</span>z))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">predict</span>(self, X):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span>        <span style="color:#6272a4"># linear part</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span>        z <span style="color:#ff79c6">=</span> X<span style="color:#ff79c6">.</span>dot(self<span style="color:#ff79c6">.</span>w) <span style="color:#ff79c6">+</span> self<span style="color:#ff79c6">.</span>b
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span>        <span style="color:#6272a4"># sigmoid -&gt; transform [0, 1]</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span>        p <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>sigmoid(z)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span>        <span style="color:#6272a4"># make decisions</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span>        <span style="color:#ff79c6">return</span> np<span style="color:#ff79c6">.</span>where(p <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0.5</span>, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">1</span>)
+</code></pre></div><p>The implementation is similar to that of linear exception, except that we need extra steps to turn real-valued predictions into binary (0 or 1) decisions.</p>
+<p>Compared to regression metrics, classification metrics are way more complex. With the same decision threshold, we can derive accuracy, precision, recall, F1-score, and some more obscure ones (e.g., specificity) from the confusion matrix. To find a good threshold, we can use ROC AUC or Precision-Recall AUC. To learn these metrics in detail, I highly recommend StatQuest&rsquo;s <a href="https://www.amazon.com/StatQuest-Illustrated-Guide-Machine-Learning/dp/B09ZCKR4H6">new book</a>. The results look quite good.</p>
+<figure><img src="https://www.dropbox.com/s/nu0oz8ejg3n3udo/logistic_gd.png?raw=1" width="400"/>
+</figure>
+
+<pre tabindex="0"><code>              precision    recall  f1-score   support
+
+           0       0.90      0.97      0.93       108
+           1       0.96      0.87      0.91        92
+
+    accuracy                           0.93       200
+   macro avg       0.93      0.92      0.92       200
+weighted avg       0.93      0.93      0.92       200
+</code></pre><h1 id="k-nn">K-NN</h1>
+<p>Unlike linear regression or logistic regression, the k-nearest neighbors (k-NN) algorithm is a non-parametric method in that it makes no assumptions about population distributions. Rather, k-NN makes predictions by <em>memorizing</em> the training data: When a new observation comes in, we compute its <em>distance</em> (e.g., Euclidean, Manhattan, etc.) from all the training data to find its k-nearest neighbors. We can use cross-validation to find the best k. For classification, we can take a majority vote on k neighbors' labels to predict the label of the new observation. For regression, we can take the average target value of k neighbors to make a prediction. I&rsquo;ll just implement a k-NN classifier, which you can easily change into a regressor.</p>
+<p>The code below is adapted from a GeeksforGeeks <a href="https://www.geeksforgeeks.org/implementation-of-k-nearest-neighbors-from-scratch-using-python/">post</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#6272a4"># import library (to get mode)</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span style="color:#ff79c6">from</span> scipy.stats <span style="color:#ff79c6">import</span> mode
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">KNeighborsClassifier</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>    <span style="color:#ff79c6">def</span> __init__(self, n_neighbors):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>        <span style="color:#6272a4"># set hyperparameter value</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>        self<span style="color:#ff79c6">.</span>n_neighbors <span style="color:#ff79c6">=</span> n_neighbors
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">fit</span>(self, X_train, y_train):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        <span style="color:#6272a4"># read train data and labels</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        self<span style="color:#ff79c6">.</span>X_train <span style="color:#ff79c6">=</span> X_train
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        self<span style="color:#ff79c6">.</span>y_train <span style="color:#ff79c6">=</span> y_train
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        <span style="color:#6272a4"># number of train observations</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        self<span style="color:#ff79c6">.</span>n_train <span style="color:#ff79c6">=</span> X_train<span style="color:#ff79c6">.</span>shape[<span style="color:#bd93f9">0</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>        <span style="color:#ff79c6">return</span> self
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">predict</span>(self, X_test):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>        <span style="color:#6272a4"># read test data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>        self<span style="color:#ff79c6">.</span>X_test <span style="color:#ff79c6">=</span> X_test
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>        <span style="color:#6272a4"># number of test observations</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>        self<span style="color:#ff79c6">.</span>n_test <span style="color:#ff79c6">=</span> X_test<span style="color:#ff79c6">.</span>shape[<span style="color:#bd93f9">0</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span>        <span style="color:#6272a4"># collect predicted labels</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>        y_pred <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>zeros(self<span style="color:#ff79c6">.</span>n_test)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>        <span style="color:#6272a4"># loop over all points in test data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>        <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(self<span style="color:#ff79c6">.</span>n_test):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span>            <span style="color:#6272a4"># find k nearest neighbors of given point</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span>            p <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>X_test[i]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span>            neighbors <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>zeros(self<span style="color:#ff79c6">.</span>n_neighbors)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span>            neighbors <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>find_neighbors(p)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span>            <span style="color:#6272a4"># take a majority vote on the final label</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span>            y_pred[i] <span style="color:#ff79c6">=</span> mode(neighbors)[<span style="color:#bd93f9">0</span>][<span style="color:#bd93f9">0</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span>        <span style="color:#6272a4"># return predicted labels</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span>        <span style="color:#ff79c6">return</span> y_pred
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">euclidean</span>(self, p1, p2):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span>        <span style="color:#6272a4"># compute Eucleadian distance between two points</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span>        <span style="color:#ff79c6">return</span> np<span style="color:#ff79c6">.</span>sqrt(np<span style="color:#ff79c6">.</span>sum((p1 <span style="color:#ff79c6">-</span> p2) <span style="color:#ff79c6">**</span> <span style="color:#bd93f9">2</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">find_neighbors</span>(self, p):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span>        <span style="color:#6272a4"># compute distance between given point and all train points</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span>        distances <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>zeros(self<span style="color:#ff79c6">.</span>n_train)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span>        <span style="color:#6272a4"># loop over all points in training data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span>        <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(self<span style="color:#ff79c6">.</span>n_train):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span>            distance <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>euclidean(p, self<span style="color:#ff79c6">.</span>X_train[i])
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span>            distances[i] <span style="color:#ff79c6">=</span> distance
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span>        <span style="color:#6272a4"># sort training labels by distance (ascending)</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span>        _, y_train_sorted <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">zip</span>(<span style="color:#ff79c6">*</span><span style="color:#8be9fd;font-style:italic">sorted</span>(<span style="color:#8be9fd;font-style:italic">zip</span>(distances, y_train)))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span>        <span style="color:#6272a4"># return top k labeles</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span>        <span style="color:#ff79c6">return</span> y_train_sorted[: self<span style="color:#ff79c6">.</span>n_neighbors]
+</code></pre></div><ul>
+<li><strong>Initialization</strong> (<code>__init__</code>): The only hyperparameter used here is the number of neighbors. In reality, you can also change the distance metric, whether all neighbors weigh equally into the final prediction, and so on.</li>
+<li><strong>Modeling fitting</strong> (<code>.fit</code>): Not much is going on when we &ldquo;fit&rdquo; the model &mdash; we just read in the training data and labels, without modifying any parameters (none exists).</li>
+<li><strong>Modeing prediction</strong> (<code>.predict</code>): The prediction process is quite computationally expensive. First, we need to loop over all test data. For each point in the test dataset, we loop over all the training data to compute pairwise distances and sort training labels by distances to get the nearest neighbors. Finally, we find the mode label for each test data point to classify it.</li>
+</ul>
+<p>For the iris dataset, the results are &ldquo;too perfect&rdquo; when $k=3$ &mdash; this is not a coincidence: Small k values often lead to overfitting (because we&rsquo;re mimicking the training data too closely) whereas large values often lead the opposite problem.</p>
+<figure><img src="https://www.dropbox.com/s/1zvxthu70cehs55/knn.png?raw=1" width="400"/>
+</figure>
+
+<pre tabindex="0"><code>              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       1.00      1.00      1.00         9
+           2       1.00      1.00      1.00        11
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+</code></pre><h1 id="k-means">K-Means</h1>
+<p>K-means is a clustering algorithm, which is not to be confused with k-NN, a supervised algorithm that we just coded. The idea behind k-means is that we first determine how many clusters there are (by visualizing the data or using cross-validation) and choose random points to be the centers of the clusters (centroids). Then we assign a cluster label to each point based on the closet centroid and then choose the average location of each cluster as the new centroid. We repeat this process for a given number of times to find final locations of the centroids.</p>
+<p>The trained model is the locations of the centroids: When a new observation comes in, whichever centroid that&rsquo;s closest to it determines its clsuter label.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">KMeans</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#ff79c6">def</span> __init__(self, n_clusters<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3</span>, epoch<span style="color:#ff79c6">=</span><span style="color:#bd93f9">100</span>):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>        <span style="color:#6272a4"># initialize hyperparameter values</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        self<span style="color:#ff79c6">.</span>n_clusters <span style="color:#ff79c6">=</span> n_clusters
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        self<span style="color:#ff79c6">.</span>epoch <span style="color:#ff79c6">=</span> epoch
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">fit</span>(self, X_train):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>        <span style="color:#6272a4"># read in the data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>        self<span style="color:#ff79c6">.</span>X_train <span style="color:#ff79c6">=</span> X_train
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        <span style="color:#6272a4"># number of training observations</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        self<span style="color:#ff79c6">.</span>n_train <span style="color:#ff79c6">=</span> X_train<span style="color:#ff79c6">.</span>shape[<span style="color:#bd93f9">0</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        <span style="color:#6272a4"># initialize with random centroids (cannot exceed training boundaries)</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        min_, max_ <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>min(self<span style="color:#ff79c6">.</span>X_train, axis<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>), np<span style="color:#ff79c6">.</span>max(self<span style="color:#ff79c6">.</span>X_train, axis<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        centroids <span style="color:#ff79c6">=</span> [
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>            np<span style="color:#ff79c6">.</span>random<span style="color:#ff79c6">.</span>uniform(min_, max_) <span style="color:#ff79c6">for</span> _ <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(self<span style="color:#ff79c6">.</span>n_clusters)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>        ] <span style="color:#6272a4"># this generates n_clusters points with the correct dimensions</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>        <span style="color:#6272a4"># train for given number of epochs</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>        <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(self<span style="color:#ff79c6">.</span>epoch):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>            centroids <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>update_centroids(centroids)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>        <span style="color:#6272a4"># add final centroids to model attributes</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>        self<span style="color:#ff79c6">.</span>centroids <span style="color:#ff79c6">=</span> centroids
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span>        <span style="color:#ff79c6">return</span> self
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">update_centroids</span>(self, centroids):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>        <span style="color:#6272a4"># store cluster labels of training data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span>        clusters <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>zeros(self<span style="color:#ff79c6">.</span>n_train)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span>        <span style="color:#6272a4"># assign each training data point to closest centroid</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span>        <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(self<span style="color:#ff79c6">.</span>n_train):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span>            p <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>X_train[i]  <span style="color:#6272a4"># isolate a data point</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span>            dists <span style="color:#ff79c6">=</span> [self<span style="color:#ff79c6">.</span>euclidean(p, centroid) <span style="color:#ff79c6">for</span> centroid <span style="color:#ff79c6">in</span> centroids]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span>            clusters[i] <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>argmin(dists)  <span style="color:#6272a4"># index of closest centroid is cluster label</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span>        <span style="color:#6272a4"># update centroids by averaging points in given cluster</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span>        <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(self<span style="color:#ff79c6">.</span>n_clusters):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span>            <span style="color:#6272a4"># all points assigned to given cluster</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span>            points <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>X_train[np<span style="color:#ff79c6">.</span>array(clusters) <span style="color:#ff79c6">==</span> i]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span>            <span style="color:#6272a4"># update new centroid to be the average point</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span>            centroids[i] <span style="color:#ff79c6">=</span> points<span style="color:#ff79c6">.</span>mean(axis<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span>        <span style="color:#ff79c6">return</span> centroids
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">euclidean</span>(self, p1, p2):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span>        <span style="color:#6272a4"># compute Eucleadian distance between two points</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span>        <span style="color:#ff79c6">return</span> np<span style="color:#ff79c6">.</span>sqrt(np<span style="color:#ff79c6">.</span>sum((p1 <span style="color:#ff79c6">-</span> p2) <span style="color:#ff79c6">**</span> <span style="color:#bd93f9">2</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">predict</span>(self, X_test):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span>        <span style="color:#6272a4"># read test data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span>        self<span style="color:#ff79c6">.</span>X_test <span style="color:#ff79c6">=</span> X_test
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span>        <span style="color:#6272a4"># number of test observations</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span>        self<span style="color:#ff79c6">.</span>n_test <span style="color:#ff79c6">=</span> X_test<span style="color:#ff79c6">.</span>shape[<span style="color:#bd93f9">0</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span>        <span style="color:#6272a4"># store cluster labels of test data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52</span>        clusters <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>zeros(self<span style="color:#ff79c6">.</span>n_test)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53</span>        <span style="color:#6272a4"># assign each test data point to closest centroid</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54</span>        <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(self<span style="color:#ff79c6">.</span>n_test):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55</span>            p <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>X_test[i]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56</span>            dists <span style="color:#ff79c6">=</span> [self<span style="color:#ff79c6">.</span>euclidean(p, centroid) <span style="color:#ff79c6">for</span> centroid <span style="color:#ff79c6">in</span> self<span style="color:#ff79c6">.</span>centroids]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57</span>            clusters[i] <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>argmin(dists)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58</span>        <span style="color:#6272a4"># return predicted clusters of test data</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59</span>        <span style="color:#ff79c6">return</span> clusters
+</code></pre></div><ul>
+<li>
+<p><strong>Initialization</strong> (<code>__init__</code>): We need two hyperparameters &mdash; the number of clusters and the number of epochs.</p>
+</li>
+<li>
+<p><strong>Model training</strong> (<code>.fit</code>): Unlike supervised learning algorithm, k-means only takes one argument, which is the feature array (<code>X_train</code>), but not the label vector (<code>y_train</code>). This is because the goal of clustering is no longer to predict ground truth labels, but to find <em>intrinsic structures</em> in the data.</p>
+<p>One thing to note is that we can&rsquo;t just initialize centroids with whatever values we want &mdash; they should lie inside the training data, so we can find the best centroid locations faster. The <code>update_centroids</code> function updates the centroid locations in each epoch: It first clusters each training data point with the closest centroid to it; after going through all training data, it returns the average points of each of the k clusters as the new centroid locations.</p>
+</li>
+<li>
+<p><strong>Model prediction</strong> (<code>.predict</code>): The prediction part is quite like training, except that we don&rsquo;t update centroid locations anymore. Rather, we use the locations found during training to assign cluster labels to each test data point.</p>
+</li>
+</ul>
+<p>Since we don&rsquo;t know the ground truth anymore, evaluating clustering results is quite complex. You can read about different evaluation metrics for clustering in this Wikipedia <a href="https://en.wikipedia.org/wiki/Cluster_analysis#Evaluation_and_assessment">article</a>. Some popular ones are the rand index (when you actually have the labels) and the silhouette coefficient (when you truly don&rsquo;t have labels).</p>
+<h1 id="resources">Resources</h1>
+<p>While learning to write the 4 algorithms above from scratch, I read many blog posts and tutorials. However, the code in these articles is often more convoluted than one manage during interviews. I (re-)wrote these algorithms in as clean and straightforward a manner as possible, so that you and I can hopefully reproduce them from understanding and memory. To learn more, check out the resources below:</p>
+<ol>
+<li><a href="https://www.amazon.com/StatQuest-Illustrated-Guide-Machine-Learning/dp/B09ZCKR4H6"><em>The StatQuest Illustrated Guide To Machine Learning</em></a> by StatQuest 👉 If you&rsquo;re new to ML, I highly recommend this lovely little book for building vivid intuitions about how ML algorithms work in general. Even though I&rsquo;ve been doing ML stuff for a while, I still had several aha moments from my read.</li>
+<li>Source code of Scikit-Learn (<a href="https://github.com/scikit-learn/scikit-learn/tree/main/sklearn">GitHub</a>) 👉 Of course, the model implementations in Scikit-Learn are much more thorough than what you&rsquo;re expected to write during interviews, but it&rsquo;s illuminating to learn from how it&rsquo;s done in practice.</li>
+<li>The <a href="https://www.geeksforgeeks.org/machine-learning/?ref=shm">Machine Learning series</a> on GeeksforGeeks 👉 I learned most of my implementations from GeeksforGeeks (tweaked the code quite a bit to make it more accessible). It&rsquo;s totally a candy shop for ML kids.</li>
+<li><a href="https://machinelearningmastery.com/machine-learning-algorithms-from-scratch/"><em>Machine Learning Algorithms From Scratch</em></a> by Jason Brownlee 👉 I haven&rsquo;t read this book and I&rsquo;m pretty sure you can learn all this stuff without buying this book. But if somehow you&rsquo;re in a hurry and need to quick access to implementations of common algorithms, I guess you can check this one out.</li>
+</ol>
+
+  
+  </div>
+</article>
+
+
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2024  Yuan Meng 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+</html>

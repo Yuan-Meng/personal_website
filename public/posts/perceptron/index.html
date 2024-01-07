@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <script type="text/javascript" src="https://latest.cactus.chat/cactus.js"></script>
+  <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Teaching A Peceptron to See | Yuan Meng</title>
+  <link rel = 'canonical' href = 'https://www.yuan-meng.com/posts/perceptron/'>
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a Software Engineer, Machine Learning at DoorDash working on search, taxonomy, and catalog. In a former life as a Computational Cognitive Scientist, I studied common sense reasoning (causal inference, social cognition) in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, metal guitar, and 🐱. Use 重庆话 when I do mental math.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Teaching A Peceptron to See" />
+<meta property="og:description" content="Ten years after the ImageNet Challenge thawed the last AI winter, ChaptGPT and generative AI have become part of our everyday life and colloquial language, like (almost) no one has imagined just 2 years back. As increasingly more folks aspire to foray into the field of ML/AI, I can&rsquo;t help but think about a lesson from my guitar teacher:
+ Everyone wants to start playing the songs they love right off the bat, but without nailing seemingly &ldquo;boring&rdquo; building blocks such as scales, harmonies, and rhythms, the songs you love will sound like a nightmare&hellip;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.yuan-meng.com/posts/perceptron/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-07-02T00:00:00+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Teaching A Peceptron to See"/>
+<meta name="twitter:description" content="Ten years after the ImageNet Challenge thawed the last AI winter, ChaptGPT and generative AI have become part of our everyday life and colloquial language, like (almost) no one has imagined just 2 years back. As increasingly more folks aspire to foray into the field of ML/AI, I can&rsquo;t help but think about a lesson from my guitar teacher:
+ Everyone wants to start playing the songs they love right off the bat, but without nailing seemingly &ldquo;boring&rdquo; building blocks such as scales, harmonies, and rhythms, the songs you love will sound like a nightmare&hellip;"/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.yuan-meng.com/css/styles.94f653e9e151e28067a7c5dbbc4600cbd5a3c721e79faaf971e523c40f3b249b8e4f20bb57810dfffa8d559ca5c140fd56eb4cd9c0853113ad08e66afdb08bdd.css" integrity="sha512-lPZT6eFR4oBnp8XbvEYAy9WjxyHnn6r5ceUjxA87JJuOTyC7V4EN//qNVZylwUD9VutM2cCFMROtCOZq/bCL3Q=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.yuan-meng.com/images/favicon.ico" />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://www.yuan-meng.com/posts/birthday/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&text=Teaching%20A%20Peceptron%20to%20See" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&title=Teaching%20A%20Peceptron%20to%20See" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&is_video=false&description=Teaching%20A%20Peceptron%20to%20See" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Teaching%20A%20Peceptron%20to%20See&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&title=Teaching%20A%20Peceptron%20to%20See" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&title=Teaching%20A%20Peceptron%20to%20See" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&name=Teaching%20A%20Peceptron%20to%20See&description=Ten%20years%20after%20the%20ImageNet%20Challenge%20thawed%20the%20last%20AI%20winter%2c%20ChaptGPT%20and%20generative%20AI%20have%20become%20part%20of%20our%20everyday%20life%20and%20colloquial%20language%2c%20like%20%28almost%29%20no%20one%20has%20imagined%20just%202%20years%20back.%20As%20increasingly%20more%20folks%20aspire%20to%20foray%20into%20the%20field%20of%20ML%2fAI%2c%20I%20can%26rsquo%3bt%20help%20but%20think%20about%20a%20lesson%20from%20my%20guitar%20teacher%3a%0a%20Everyone%20wants%20to%20start%20playing%20the%20songs%20they%20love%20right%20off%20the%20bat%2c%20but%20without%20nailing%20seemingly%20%26ldquo%3bboring%26rdquo%3b%20building%20blocks%20such%20as%20scales%2c%20harmonies%2c%20and%20rhythms%2c%20the%20songs%20you%20love%20will%20sound%20like%20a%20nightmare%26hellip%3b" aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&t=Teaching%20A%20Peceptron%20to%20See" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#seeing-7-vs-l">Seeing &ldquo;7&rdquo; vs. &ldquo;L&rdquo;</a>
+      <ul>
+        <li><a href="#how-do-humans-see-in-plain-english">How do humans see, in plain English?</a></li>
+        <li><a href="#but-how-can-a-machine-see">But how can a machine see?</a></li>
+        <li><a href="#wait-how-do-we-learn-the-weights">Wait&hellip; how do we &ldquo;learn&rdquo; the weights?</a></li>
+      </ul>
+    </li>
+    <li><a href="#code-up-a-perceptron">Code Up A Perceptron</a>
+      <ul>
+        <li><a href="#read-image-inputs">Read image inputs</a></li>
+        <li><a href="#classify-0-vs-1">Classify 0 vs. 1</a></li>
+        <li><a href="#interpret-learned-weights">Interpret learned weights</a></li>
+        <li><a href="#generalize-to-all-image-pairs">Generalize to all image pairs</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Teaching A Peceptron to See
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2023-07-02 00:00:00 &#43;0000 UTC" itemprop="datePublished">2023-07-02</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          9 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/tutorials">tutorials</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/dl-foundations" rel="tag">DL foundations</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>Ten years after the ImageNet Challenge thawed the last AI winter, ChaptGPT and generative AI have become part of our everyday life and colloquial language, like (almost) no one has imagined just 2 years back. As increasingly more folks aspire to foray into the field of ML/AI, I can&rsquo;t help but think about a lesson from my guitar teacher:</p>
+<blockquote>
+<p>Everyone wants to start playing the songs they love right off the bat, but without nailing seemingly &ldquo;boring&rdquo; building blocks such as scales, harmonies, and rhythms, the songs you love will sound like a nightmare&hellip;</p>
+</blockquote>
+<p>Not to sound discouraging (yup, when people say &ldquo;not to do X&rdquo;, they&rsquo;re doing exactly X&hellip;), but I think those who can ride the AI wave are those who take their time to build from the foundations. Let&rsquo;s begin with the oldest and simplest neural net: The <em>Perceptron,</em> (<a href="https://psycnet.apa.org/record/1959-09865-001">Rosenblatt, 1959</a>).</p>
+<h1 id="seeing-7-vs-l">Seeing &ldquo;7&rdquo; vs. &ldquo;L&rdquo;</h1>
+<p>Which of 2 images below is a &ldquo;7&rdquo; and which one is an &ldquo;L&rdquo;?</p>
+<figure><img src="https://www.dropbox.com/s/g01sb2n1eelrum7/7_or_l.png?raw=1" width="600"/>
+</figure>
+
+<p>To us humans, answering this question is a piece of cake: The left image is &ldquo;L&rdquo; and the right &ldquo;7&rdquo;. But how is it that we know (except for saying &ldquo;intuitions&rdquo;)?</p>
+<h2 id="how-do-humans-see-in-plain-english">How do humans see, in plain English?</h2>
+<p>We can divide each image into 4 <a href="https://en.wikipedia.org/wiki/Pixel">pixels</a> and check whether each pixel is filled (1) or empty (0), based on which we can come up with rules to classify images:</p>
+<ul>
+<li>&ldquo;L&rdquo;: top right is empty (0) +  lower left is filled (1)</li>
+<li>&ldquo;7&rdquo;: lower left is empty (0) + top right is filled (1)</li>
+</ul>
+<h2 id="but-how-can-a-machine-see">But how can a machine see?</h2>
+<p>However, machines don&rsquo;t have eyes and, more importantly, it&rsquo;d be cumbersome to write bespoke rules for each and every use case. As a common strategy in machine learning, we can <em>somehow</em> map an input vector (in this case, a 4-vector with pixel values) to an output vector (a 2-vector with probabilities of the 2 classes).</p>
+<figure><img src="https://www.dropbox.com/s/4j6l220txor8bkj/vec_2_output.png?raw=1" width="600"/>
+</figure>
+
+<ul>
+<li>$\mathbf{x}$: a vector encoding the value of each pixel 👉 already known (the green arrow indicates the direction from the first to the last pixel)</li>
+<li>$\mathbf{w}$: a vector encoding the weight of each pixel 👉 unknown</li>
+</ul>
+<p>There are an infite number of rules that can map $\mathbf{x}$ and $\mathbf{w}$ to class labels. Let&rsquo;s use the sign of their dot product $\mathbf{w}^T \mathbf{x}$ (<code>np.dot(x, w)</code>) to determine the class label 👉 negative: 0 (&ldquo;L&rdquo;) vs. positive: 1 (&ldquo;7&rdquo;); which class is positive is arbitrary.</p>
+<p>In our case, weights of pixels 1 and 3 can be 0 &mdash; these 2 are the same regardless of the label, so they are not really &ldquo;pulling the punches&rdquo; towards classification. Pixels 2 and 4 are likely negative in the &ldquo;L&rdquo; picture but positive in the &ldquo;7&rdquo; picture &mdash; which are in the direction of the desired dot product sign in each image.</p>
+<h2 id="wait-how-do-we-learn-the-weights">Wait&hellip; how do we &ldquo;learn&rdquo; the weights?</h2>
+<p>Ummm, aren&rsquo;t we back the realm of relying on human eyes to see the images and human brains to hand-engineer rules? We don&rsquo;t have to &mdash; we can initialize $\mathbf{w}$ with 4 random floats, say <code>[0.5, 0.9, -0.3, 0.5]</code>, and &ldquo;learn from mistakes&rdquo;.</p>
+<ul>
+<li>
+<p>Attempt #1: Say the first training example is an &ldquo;L&rdquo;. Using the random weights above, we get $\mathbf{w}^T \mathbf{x} = 0.5 \times 1 + 0.9 \times 0 -0.3 \times 1 + 0.5 \times 1 = 0.7$. Because the dot product is positive, we predict &ldquo;7&rdquo;, which is <em>incorrect</em>.</p>
+<figure><img src="https://www.dropbox.com/s/8145o7xczyogveb/class_l.png?raw=1" width="250"/>
+</figure>
+
+<ul>
+<li>Correction: Because the dot product is <em>too large</em> (should be &lt; 0 to classify the image as &ldquo;L&rdquo;!), we <em>decrease</em> the weights $\mathbf{w}$.</li>
+<li>New weights: A crude way to do so is subtract $\mathbf{x}$ from $\mathbf{w}$ (let&rsquo;s save gradient descent for the future&hellip;) 👉 $\mathbf{w} = \mathbf{w}-\mathbf{x} \ = [0.5 - 1, 0.9 - 0, -0.3 - 1, 0.5 - 1] \ = [-0.5, 0.9, -1.3, -0.5]$</li>
+</ul>
+</li>
+<li>
+<p>Attempt #2: The second training example is a &ldquo;7&rdquo;. Using updates weights, we get $\mathbf{w}^T \mathbf{x} = -0.5 \times 1 + 0.9 \times 1 -1.3 \times 0 - 0.5 \times 1 = -0.1$. Since the dot product is negative, we predict &ldquo;L&rdquo;, which is <em>incorrect</em> again.</p>
+<figure><img src="https://www.dropbox.com/s/5w9x132qak8coy2/class_7.png?raw=1" width="250"/>
+</figure>
+
+<ul>
+<li>Correction: Because the dot product is <em>too small</em> (should be &gt; 0 to classify the image as &ldquo;7&rdquo;), we <em>increase</em> the weights $\mathbf{w}$.</li>
+<li>New weights: $\mathbf{w} = \mathbf{w}-\mathbf{x} \ = [-0.5 + 1, 0.9 + 1, -1.3 + 0, - 0.5 + 1] \ = [0.5, 1.9, -1.3, 0.5]$</li>
+</ul>
+</li>
+<li>
+<p>Final &amp; successful attempt: The third training example is an &ldquo;L&rdquo;. Using the newest weights, we get $\mathbf{w}^T \mathbf{x} = 0.5 \times 1 + 1.9 \times 0 -1.3 \times 1 + 0.5 \times 1 = -0.3$. Since the dot product is negative, we correctly predict &ldquo;L&rdquo;!</p>
+<figure><img src="https://www.dropbox.com/s/8145o7xczyogveb/class_l.png?raw=1" width="250"/>
+</figure>
+
+</li>
+</ul>
+<p>To achieve good performance, neural networks usually train for (far) more than 3 examples. Early stopping can be applied when model hasn&rsquo;t improved for a while.</p>
+<blockquote>
+<p>(The <a href="https://dl101-perceptron.netlify.app">slides</a> above are adapted from the Spring 2022 offering of UC Berkeley&rsquo;s CogSci 131 taught by me.)</p>
+</blockquote>
+<h1 id="code-up-a-perceptron">Code Up A Perceptron</h1>
+<p>In the L vs. 7 toy example, each image only has 4 pixels. To practice what we&rsquo;ve learned, let&rsquo;s solve a slightly more complex problem: Classifying images of handwritten digits (e.g., a 28 $\times$ 28 image of &ldquo;1&rdquo;) into numerical labels (1).</p>
+<figure><img src="https://www.dropbox.com/s/t47mo4pezekikii/MnistExamplesModified.png?raw=1" width="600"/>
+</figure>
+
+<blockquote>
+<p>(All images and code snippets used below can be found in this <a href="https://github.com/Yuan-Meng/dl101_notebooks">repo</a>.)</p>
+</blockquote>
+<h2 id="read-image-inputs">Read image inputs</h2>
+<p>If using a convolutional neural net (check out this great intuitive <a href="https://www.youtube.com/watch?v=KuXjwB4LzSA">explanation</a> by 3Blue1Brown), you may want to keep input images as 28 $\times$ 28 matrices. In this case, however, we can just flatten each image into a 28 $\times$ 28 = 784 vector.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#6272a4"># dimension of all images</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>DIM <span style="color:#ff79c6">=</span> (<span style="color:#bd93f9">28</span>, <span style="color:#bd93f9">28</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span style="color:#6272a4"># flattened image dimension</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>N <span style="color:#ff79c6">=</span> DIM[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">*</span> DIM[<span style="color:#bd93f9">1</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">load_image_files</span>(n, path<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;images/&#34;</span>):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>    <span style="color:#f1fa8c">&#34;&#34;&#34;loads images of given digit and returns a list of vectors&#34;&#34;&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>    <span style="color:#6272a4"># initialize empty list to collect vectors</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>    images <span style="color:#ff79c6">=</span> []
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>    <span style="color:#6272a4"># read files in the path</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>    <span style="color:#ff79c6">for</span> f <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">sorted</span>(os<span style="color:#ff79c6">.</span>listdir(os<span style="color:#ff79c6">.</span>path<span style="color:#ff79c6">.</span>join(path, <span style="color:#8be9fd;font-style:italic">str</span>(n)))):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        p <span style="color:#ff79c6">=</span> os<span style="color:#ff79c6">.</span>path<span style="color:#ff79c6">.</span>join(path, <span style="color:#8be9fd;font-style:italic">str</span>(n), f)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        <span style="color:#ff79c6">if</span> os<span style="color:#ff79c6">.</span>path<span style="color:#ff79c6">.</span>isfile(p):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>            i <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>loadtxt(p)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>            <span style="color:#6272a4"># check image dimension</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>            <span style="color:#ff79c6">assert</span> i<span style="color:#ff79c6">.</span>shape <span style="color:#ff79c6">==</span> DIM
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>            <span style="color:#6272a4"># flatten i into a single vector</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>            images<span style="color:#ff79c6">.</span>append(i<span style="color:#ff79c6">.</span>flatten())
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>    <span style="color:#ff79c6">return</span> images
+</code></pre></div><h2 id="classify-0-vs-1">Classify 0 vs. 1</h2>
+<p>As a starter, let&rsquo;s classify 0 vs. 1. First off, let&rsquo;s translate some conceptual operations mentioned in the 7 vs. L example into helper functions.</p>
+<ul>
+<li>Use dot product to classify one image: Given a <em>known</em> weight vector, we can compute $\mathbf{w}^T \mathbf{x}$ and return 0 or 1 as the classification result</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">classify_image</span>(W, image):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>    <span style="color:#f1fa8c">&#34;&#34;&#34;use weight matrix W to determine digit in image&#34;&#34;&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span>    <span style="color:#6272a4"># if dot product &gt; 0, return 1; otherwise 0</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span>    y <span style="color:#ff79c6">=</span> (np<span style="color:#ff79c6">.</span>dot(image, W) <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">0</span>)<span style="color:#ff79c6">.</span>astype(<span style="color:#8be9fd;font-style:italic">int</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span>    <span style="color:#ff79c6">return</span> y
+</code></pre></div><ul>
+<li>Update weights upon feedback from each true label: Subtract $\mathbf{x}$ from $\mathbf{w}$ in the case of false positive (should be 0 but predicted 1) and add $\mathbf{x}$ to $\mathbf{w}$ in case of false negative (should be 1 but predicted 0)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">update_weights</span>(W, images, labels):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#f1fa8c">&#34;&#34;&#34;updates weight matrix W based on training (image,label) pairs&#34;&#34;&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>    <span style="color:#6272a4"># loop through images and labels</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>    <span style="color:#ff79c6">for</span> image, label <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">zip</span>(images, labels):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>        <span style="color:#6272a4"># predict image label</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>        pred_label <span style="color:#ff79c6">=</span> classify_image(W, image)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>        <span style="color:#6272a4"># update only if prediction is wrong</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>        <span style="color:#ff79c6">if</span> pred_label <span style="color:#ff79c6">!=</span> label:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>            <span style="color:#6272a4"># predicted 0 but label is 1</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>            <span style="color:#ff79c6">if</span> label <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>                W <span style="color:#ff79c6">+=</span> image
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>            <span style="color:#6272a4"># predicted 1 but label is 0</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>            <span style="color:#ff79c6">else</span>:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>                W <span style="color:#ff79c6">-=</span> image
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>    <span style="color:#6272a4"># return updated weights</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>    <span style="color:#ff79c6">return</span> W
+</code></pre></div><p>Finally, we can write the training function that takes 4 arguments: Name of 1st digit (class 0), name of 2nd digit (class 1), # of training examples per class, and # of epochs (i.e., how many times we want to repeat the full training loop).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">train_perceptron</span>(digit1, digit2, n_samples<span style="color:#ff79c6">=</span><span style="color:#bd93f9">25</span>, epoch<span style="color:#ff79c6">=</span><span style="color:#bd93f9">200</span>):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#f1fa8c">&#34;&#34;&#34;train perceptron on (image, label) pairs for given steps&#34;&#34;&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>    <span style="color:#6272a4"># load images of two digits to compare</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>    img1 <span style="color:#ff79c6">=</span> load_image_files(digit1)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>    img2 <span style="color:#ff79c6">=</span> load_image_files(digit2)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>    <span style="color:#6272a4"># initialize empty list to collect accuarcies</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>    accuracies <span style="color:#ff79c6">=</span> []
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>    <span style="color:#6272a4"># initilaize random weights from standard normal</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>    W <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>random<span style="color:#ff79c6">.</span>normal(<span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">1</span>, size<span style="color:#ff79c6">=</span>N)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>    <span style="color:#6272a4"># iterate through each epoch</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>    <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> tqdm(<span style="color:#8be9fd;font-style:italic">range</span>(epoch)):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>        <span style="color:#6272a4"># randomly sample images for &#39;0&#39;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>        sample1 <span style="color:#ff79c6">=</span> random<span style="color:#ff79c6">.</span>sample(img1, n_samples)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>        <span style="color:#6272a4"># randomly sample images for &#39;1&#39;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>        sample2 <span style="color:#ff79c6">=</span> random<span style="color:#ff79c6">.</span>sample(img2, n_samples)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>        <span style="color:#6272a4"># train on chosen samples</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>        W <span style="color:#ff79c6">=</span> update_weights(W, sample1 <span style="color:#ff79c6">+</span> sample2, [<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">*</span> n_samples <span style="color:#ff79c6">+</span> [<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">*</span> n_samples)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span>        <span style="color:#6272a4"># evaluate performance on all images</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>        accuracy <span style="color:#ff79c6">=</span> compute_accuracy(W, img1 <span style="color:#ff79c6">+</span> img2, [<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">*</span> <span style="color:#8be9fd;font-style:italic">len</span>(img1) <span style="color:#ff79c6">+</span> [<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">*</span> <span style="color:#8be9fd;font-style:italic">len</span>(img2))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>        accuracies<span style="color:#ff79c6">.</span>append(accuracy)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span>    <span style="color:#6272a4"># return accuracies and final weights</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span>    <span style="color:#ff79c6">return</span> accuracies, W
+</code></pre></div><p>As you may have noticed from above, after each loop, we check the model accuracy, which is defined as # of correctly classified examples / # of examples classified.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">compute_accuracy</span>(W, images, labels):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#f1fa8c">&#34;&#34;&#34;computes accuracy on a list of images&#34;&#34;&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>    <span style="color:#6272a4"># initialize count at 0</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>    n_correct <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>    <span style="color:#6272a4"># loop through image list</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>    <span style="color:#ff79c6">for</span> i, image <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">enumerate</span>(images):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>        <span style="color:#6272a4"># increment count by each time we correctly classify an image</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>        n_correct <span style="color:#ff79c6">+=</span> (labels[i] <span style="color:#ff79c6">==</span> classify_image(W, image))<span style="color:#ff79c6">.</span>astype(<span style="color:#8be9fd;font-style:italic">int</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>    <span style="color:#6272a4"># accuracy is total correct / total</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>    <span style="color:#ff79c6">return</span> n_correct <span style="color:#ff79c6">/</span> <span style="color:#8be9fd;font-style:italic">len</span>(images)
+</code></pre></div><p>Since the Perceptron algorithm is quite simple, training is lightning fast &mdash; we can train for 500 epochs in a matter of minutes. Training GPT may take months.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#6272a4"># train on 25 examples for given number of epochs</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>n_samples, epochs <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">25</span>, <span style="color:#bd93f9">500</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>accuracies, trained_W <span style="color:#ff79c6">=</span> train_perceptron(<span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">1</span>, n_samples, epochs)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span style="color:#6272a4"># plot accuracy as a function of epoch</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>fig, ax <span style="color:#ff79c6">=</span> plt<span style="color:#ff79c6">.</span>subplots(figsize<span style="color:#ff79c6">=</span>(<span style="color:#bd93f9">10</span>, <span style="color:#bd93f9">8</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>ax<span style="color:#ff79c6">.</span>plot(<span style="color:#8be9fd;font-style:italic">range</span>(epochs), accuracies)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>ax<span style="color:#ff79c6">.</span>set_xlabel(<span style="color:#f1fa8c">&#34;epoch&#34;</span>, fontsize<span style="color:#ff79c6">=</span><span style="color:#bd93f9">20</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>ax<span style="color:#ff79c6">.</span>set_ylabel(<span style="color:#f1fa8c">&#34;mean accuracy&#34;</span>, fontsize<span style="color:#ff79c6">=</span><span style="color:#bd93f9">20</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>ax<span style="color:#ff79c6">.</span>set_title(<span style="color:#f1fa8c">&#34;training accuracy&#34;</span>, fontsize<span style="color:#ff79c6">=</span><span style="color:#bd93f9">25</span>)
+</code></pre></div><p>We almost achieved perfect (but not 100%) accuracy on 0 vs. 1 classification.</p>
+<figure><img src="https://www.dropbox.com/s/x6iymtu1r1bkb1l/accuracy.png?raw=1" width="600"/>
+</figure>
+
+<h2 id="interpret-learned-weights">Interpret learned weights</h2>
+<p>People say neural nets are black boxes, which may well be true in the case of complex networks. In our example, learned weights may simply represent the <em>exclusive disjunction</em> of where &ldquo;0&rdquo; pixels and &ldquo;1&rdquo; pixels are in the input images.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span style="color:#6272a4"># reshape weights back to 28 * 28</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>trained_W_2d <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>reshape(trained_W, DIM)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span style="color:#6272a4"># plot weight matrix</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span>fig, ax <span style="color:#ff79c6">=</span> plt<span style="color:#ff79c6">.</span>subplots(figsize<span style="color:#ff79c6">=</span>(<span style="color:#bd93f9">10</span>, <span style="color:#bd93f9">10</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span>ax<span style="color:#ff79c6">.</span>imshow(trained_W_2d)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span>ax<span style="color:#ff79c6">.</span>axis(<span style="color:#f1fa8c">&#34;off&#34;</span>)
+</code></pre></div><figure><img src="https://www.dropbox.com/s/xsnzjcmmp8lpvst/learned_weights.png?raw=1" width="300"/>
+</figure>
+
+<h2 id="generalize-to-all-image-pairs">Generalize to all image pairs</h2>
+<p>Finally, if we can classify 0 vs. 1 and check model performance, we can do the same for each digit pair (e.g., 0 vs. 1, 1 vs. 2&hellip;). The code below trains one classifier for each digit pair and track each classifier&rsquo;s accuracy after the last epoch.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_accuracy_matrix</span>(n_num):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#f1fa8c">&#34;&#34;&#34;get maxtrix with classification accuracy&#34;&#34;&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>    <span style="color:#6272a4"># initialize matrix with all 1&#39;s</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>    acc_matrix <span style="color:#ff79c6">=</span> np<span style="color:#ff79c6">.</span>ones([n_num, n_num])
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>    <span style="color:#6272a4"># loop through digit pairs</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>    <span style="color:#ff79c6">for</span> digit1 <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(n_num <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>        <span style="color:#ff79c6">for</span> digit2 <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(digit1 <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>, n_num):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>            <span style="color:#6272a4"># get accuracies after 100 epochs</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>            acc, _ <span style="color:#ff79c6">=</span> train_perceptron(digit1, digit2, <span style="color:#bd93f9">25</span>, <span style="color:#bd93f9">100</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>            <span style="color:#6272a4"># replace value in matrix with final accuracy</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>            acc_matrix[digit1, digit2] <span style="color:#ff79c6">=</span> acc[<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>            acc_matrix[digit2, digit1] <span style="color:#ff79c6">=</span> acc[<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>    <span style="color:#6272a4"># return matrix</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>    <span style="color:#ff79c6">return</span> acc_matrix
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">plot_accuracy_matrix</span>(acc_matrix, n_num):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>    <span style="color:#f1fa8c">&#34;&#34;&#34;plot classification accuracy using a heatmap&#34;&#34;&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span>    <span style="color:#6272a4"># generate heatmap</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>    fig, ax <span style="color:#ff79c6">=</span> plt<span style="color:#ff79c6">.</span>subplots(figsize<span style="color:#ff79c6">=</span>(<span style="color:#bd93f9">8</span>, <span style="color:#bd93f9">8</span>))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>    g <span style="color:#ff79c6">=</span> ax<span style="color:#ff79c6">.</span>imshow(acc_matrix, cmap<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Blues&#34;</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>    ax<span style="color:#ff79c6">.</span>set_xticks(<span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">0</span>, n_num))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span>    ax<span style="color:#ff79c6">.</span>set_yticks(<span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">0</span>, n_num))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span>    ax<span style="color:#ff79c6">.</span>set_title(<span style="color:#f1fa8c">&#34;accuracy matrix&#34;</span>, fontsize<span style="color:#ff79c6">=</span><span style="color:#bd93f9">20</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span>    <span style="color:#6272a4"># add color bar</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span>    fig<span style="color:#ff79c6">.</span>colorbar(g, ax<span style="color:#ff79c6">=</span>ax)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span style="color:#6272a4"># plot accuracy between each digit pair </span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span>acc_matrix <span style="color:#ff79c6">=</span> get_accuracy_matrix(<span style="color:#bd93f9">10</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span>plot_accuracy_matrix(acc_matrix, <span style="color:#bd93f9">10</span>)
+</code></pre></div><p>As we can imagine, 5 and 8 are pretty hard to tell apart as written digits, so are 7 vs. 9 and 6 vs. 9, but the rest of digit pairs have high accuracy.</p>
+<figure><img src="https://www.dropbox.com/s/2wswgf7xg769x2x/acc_matrix.png?raw=1" width="500"/>
+</figure>
+
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">About</a></li>
+         
+          <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#seeing-7-vs-l">Seeing &ldquo;7&rdquo; vs. &ldquo;L&rdquo;</a>
+      <ul>
+        <li><a href="#how-do-humans-see-in-plain-english">How do humans see, in plain English?</a></li>
+        <li><a href="#but-how-can-a-machine-see">But how can a machine see?</a></li>
+        <li><a href="#wait-how-do-we-learn-the-weights">Wait&hellip; how do we &ldquo;learn&rdquo; the weights?</a></li>
+      </ul>
+    </li>
+    <li><a href="#code-up-a-perceptron">Code Up A Perceptron</a>
+      <ul>
+        <li><a href="#read-image-inputs">Read image inputs</a></li>
+        <li><a href="#classify-0-vs-1">Classify 0 vs. 1</a></li>
+        <li><a href="#interpret-learned-weights">Interpret learned weights</a></li>
+        <li><a href="#generalize-to-all-image-pairs">Generalize to all image pairs</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&text=Teaching%20A%20Peceptron%20to%20See" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&title=Teaching%20A%20Peceptron%20to%20See" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&is_video=false&description=Teaching%20A%20Peceptron%20to%20See" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Teaching%20A%20Peceptron%20to%20See&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&title=Teaching%20A%20Peceptron%20to%20See" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&title=Teaching%20A%20Peceptron%20to%20See" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&name=Teaching%20A%20Peceptron%20to%20See&description=Ten%20years%20after%20the%20ImageNet%20Challenge%20thawed%20the%20last%20AI%20winter%2c%20ChaptGPT%20and%20generative%20AI%20have%20become%20part%20of%20our%20everyday%20life%20and%20colloquial%20language%2c%20like%20%28almost%29%20no%20one%20has%20imagined%20just%202%20years%20back.%20As%20increasingly%20more%20folks%20aspire%20to%20foray%20into%20the%20field%20of%20ML%2fAI%2c%20I%20can%26rsquo%3bt%20help%20but%20think%20about%20a%20lesson%20from%20my%20guitar%20teacher%3a%0a%20Everyone%20wants%20to%20start%20playing%20the%20songs%20they%20love%20right%20off%20the%20bat%2c%20but%20without%20nailing%20seemingly%20%26ldquo%3bboring%26rdquo%3b%20building%20blocks%20such%20as%20scales%2c%20harmonies%2c%20and%20rhythms%2c%20the%20songs%20you%20love%20will%20sound%20like%20a%20nightmare%26hellip%3b" aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fperceptron%2f&t=Teaching%20A%20Peceptron%20to%20See" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2024  Yuan Meng 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

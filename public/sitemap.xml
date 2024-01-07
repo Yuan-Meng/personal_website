@@ -2,13 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.yuan-meng.com/categories/</loc>
+    <lastmod>2023-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/dl-foundations/</loc>
+    <lastmod>2023-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/posts/</loc>
+    <lastmod>2023-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/</loc>
+    <lastmod>2023-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/posts/perceptron/</loc>
+    <lastmod>2023-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/categories/tutorials/</loc>
+    <lastmod>2023-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/</loc>
+    <lastmod>2023-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/birthday/</loc>
+    <lastmod>2023-05-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/posts/birthday/</loc>
+    <lastmod>2023-05-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/categories/reflections/</loc>
+    <lastmod>2023-05-06T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://www.yuan-meng.com/tags/algorithms/</loc>
     <lastmod>2022-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.yuan-meng.com/categories/</loc>
-    <lastmod>2022-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/posts/md_coding/</loc>
+    <loc>https://www.yuan-meng.com/md_coding/</loc>
     <lastmod>2022-06-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/data-science/</loc>
@@ -17,25 +44,10 @@
     <loc>https://www.yuan-meng.com/tags/ml/</loc>
     <lastmod>2022-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.yuan-meng.com/posts/</loc>
-    <lastmod>2022-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/</loc>
-    <lastmod>2022-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/categories/tutorials/</loc>
-    <lastmod>2022-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/</loc>
-    <lastmod>2022-06-22T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://www.yuan-meng.com/tags/empathy/</loc>
     <lastmod>2022-04-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/posts/empathy/</loc>
-    <lastmod>2022-04-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/categories/reflections/</loc>
     <lastmod>2022-04-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/posts/newgrads/</loc>
