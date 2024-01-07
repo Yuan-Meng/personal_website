@@ -78,7 +78,7 @@ Differently from document ranking, query suggestions are mostly concerned with f
 - **_eSaved_**: The normalized amount of keystrokes saved due to query suggestions.
 - **Diversity**: Redundant query suggestions (e.g., "apple pie" and "apple pies") should be penalized. One example diversity metric is $\alpha$-nDCG, which assigns a higher gain to each additional query with more "new aspects".
 
-# Further Improvements
-Described above is the bare bone of an autocompletion engine, which can be further improved:
+# Performance Improvements
+Above is the bare bone of an autocompletion engine, which can be further improved:
 - **Computational efficiency**: Running BFS/DFS on vanilla tries may result in slow performance, especially given the vast query space for each prefix. We can optimize the trie data structure itself (e.g., Completion Trie, RMQ Trie, Score-Decomposed Trie, etc.) or the search algorithm (e.g., A* search).
 - **Error-tolerance**: Users may have misspellings in the prefix --- spell-checking or fuzzy match is needed to ensure misspelled queries can have completions.
