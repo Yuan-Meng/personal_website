@@ -14,7 +14,7 @@ keywords:
 include_toc: true
 ---
 
-Autocompletion dates back half a century ago ([Longuet-Higgins & Ortony, 1968](https://www.doc.ic.ac.uk/~shm/MI/mi3.html)), designed to save keystrokes as people type and help those with physical disabilities type faster. In information retrieval, the incomplete user input is the **"query prefix"** and suggested ways of extending the prefix into a full query are **"query completions"**. This feature is essential to modern text editors and search engines.
+Autocompletion dates back half a century ago ([Longuet-Higgins & Ortony, 1968](https://www.doc.ic.ac.uk/~shm/MI/mi3.html)), initially designed to save keystrokes as people type and help those with physical disabilities type faster. The incomplete user input is the **"query prefix"** and suggested ways of extending the prefix into a full query are **"query completions"**. This feature is essential to modern text editors and search engines.
 
 {{< figure src="https://www.dropbox.com/scl/fi/a112bhnp4bctso6fwn72x/Screenshot-2024-01-06-at-4.27.56-PM.png?rlkey=bphpjszgirskda9i142icb5os&raw=1" width="450" >}}
 
@@ -31,7 +31,7 @@ The "why" for autocompletion is rather self-evident because, if done right, it m
 
 The "million-dollar question" is the "how" --- how do we know what the user meant to type without them typing the whole thing? 
 
-{{< figure src="https://www.dropbox.com/scl/fi/8raqtvfpf88y71yjdc9zk/Screenshot-2024-01-06-at-6.16.17-PM.png?rlkey=vkjii3k3q8rqqaagu3ctwtp72&raw=1" width="600" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/8raqtvfpf88y71yjdc9zk/Screenshot-2024-01-06-at-6.16.17-PM.png?rlkey=vkjii3k3q8rqqaagu3ctwtp72&raw=1" width="650" >}}
 
 ## Retrieval
 [Tries](https://en.wikipedia.org/wiki/Trie) ("prefix trees") are a common data structure to store associations between a prefix and its query completions. A trie can be pre-built from the past query log, which will be used to retrieve a list of query completions given a prefix. 
@@ -82,3 +82,16 @@ Differently from document ranking, query suggestions are mostly concerned with f
 Above is the bare bone of an autocompletion engine, which can be further improved:
 - **Computational efficiency**: Running BFS/DFS on vanilla tries may result in slow performance, especially given the vast query space for each prefix. We can optimize the trie data structure itself (e.g., Completion Trie, RMQ Trie, Score-Decomposed Trie, etc.) or the search algorithm (e.g., A* search).
 - **Error-tolerance**: Users may have misspellings in the prefix --- spell-checking or fuzzy match is needed to ensure misspelled queries can have completions.
+
+# Presentation of Completions
+
+Last but not least, autocompletion needs to be represented to users. The canonical way is to display completions as a vertical list below the search bar. If you're highly confident about the top completion, you may put it directly in the search bar, a method called "ghosting" ([Ramachandran \& Murthy, 2019](https://www.amazon.science/publications/ghosting-contextualized-query-auto-completion-on-amazon-search#:~:text=Ghosting%3A%20Contextualized%20query%20auto%2Dcompletion%20on%20Amazon%20Search,-By%20Lakshmi%20Ramachandran&text=Query%20auto%2Dcompletion%20presents%20a,i.e.%2C%20within%20the%20search%20box.)). In either case, the completed text is usually highlighted we can distinguish it from the user input. 
+
+{{< figure src="https://www.dropbox.com/scl/fi/dvtlbvufymae0zn9zhggh/Screenshot-2024-01-06-at-10.25.44-PM.png?rlkey=olkouuxlhgsv39as3lvipcdos&raw=1" width="600" >}}
+
+
+Compared to document retrieval, search engines have even more limited real estate to show autocomplete suggestions and a stricter requirement on the position of the intended query (i.e., even if the intended query is included in the list, it only gets clicked ~13\% of the time if ranked below top 2, [Li et al., 2015](http://www.yichang-cs.com/yahoo/SIGIR15_QAC.pdf)). In other words, precision matters even more in query suggestions than document retrieval.
+
+Rather than simply organizing results by submission probability, sometimes it makes sense to organize by intent (see the graph below) or the nature of the prefix (e.g., if a prefix is a geolocation, completions can be ordered by region).
+
+{{< figure src="https://www.dropbox.com/scl/fi/snj71a8tgxp1x6xy1pxor/Screenshot-2024-01-06-at-10.41.17-PM.png?rlkey=9mzmbtk4olk8950epfpaycl6c&raw=1" width="450" >}}
