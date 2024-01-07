@@ -47,7 +47,6 @@ Successful completions are ones that eventually get submitted by the user. Heuri
     - **Short vs. long windows**: Search may trend in the short term (i.e., a star's name trends after a movie release) or have long-term cyclic patterns (e.g., people search "NeurIPS" more in May and December, prior to the submission deadline and the conference date, respectively). Combining both trends lead to better completions than only considering either one. 
 - **User**: You and I may mean very different things when typing "cat" (e.g., I'm buying "cat food" for my kids 🐱 whereas you're looking up your aunt Cathy) --- a user's past searches, previous queries in the same session, and engagement with query suggestions can be used to personalize their query completions.
 
-
 ### Learning to Rank
 In document retrieval (DR), learning to rank (LTR) refers to learning a function $f(q, D)$ that scores a list documents $D = \\{d_1, d_2, \ldots, d_n\\}$ given a query $q$. In query autocompletion (QAC), documents are not yet in consideration; instead, we learn a function $f(p, Q)$ that scores a list of queries $D = \\{q_1, q_2, \ldots, q_n\\}$ given a prefix $p$.
 
@@ -59,13 +58,10 @@ The table below shows example data for training DR LTR vs. QAC. The format is hi
 
 {{< figure src="https://www.dropbox.com/scl/fi/vys6354sbbm0cdqfxhyj0/Screenshot-2024-01-06-at-9.39.03-PM.png?rlkey=cke9l5u1fer3h69e5bhicvvdb&raw=1" width="600" >}}
 
-
-
 Below are some key ranking signals (many shared by heuristic-based approaches):
 - **Popularity features**: Observed popularity from historical searches; future popularity predicted from recent trend and cyclic behavior
 - **Semantic features**: Users might want query completions that are *similar* (however defined) to submitted queries in the same session. 
 - **User features**: User features such as location, demographics, search history, past reformulation behavior, etc. can affect query completions.
-
 
 ## Evaluation
 A search engine can complete queries however we want, but how do we know if the list of query completions returned to users is any good? On an abstract level, a good list is one where the user's **intended query** is ranked at the top. 
@@ -82,6 +78,7 @@ Differently from document ranking, query suggestions are mostly concerned with f
 Above is the bare bone of an autocompletion engine, which can be further improved:
 - **Computational efficiency**: Running BFS/DFS on vanilla tries may result in slow performance, especially given the vast query space for each prefix. We can optimize the trie data structure itself (e.g., Completion Trie, RMQ Trie, Score-Decomposed Trie, etc.) or the search algorithm (e.g., A* search).
 - **Error-tolerance**: Users may have misspellings in the prefix --- spell-checking or fuzzy match is needed to ensure misspelled queries can have completions.
+- **Multi-objective**: In e-commerce search, after clicking on a query completion, we eventually want users to convert on a product. A multi-objective model should also optimize for subsequent engagement (e.g., clicks, add to cart, conversions) following query submission, 
 
 # Presentation of Completions
 
