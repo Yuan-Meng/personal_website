@@ -52,7 +52,7 @@ Successful completions are ones that eventually get submitted by the user. Heuri
 
 - **Popularity**: Some completions appear more frequently than others. Frequency could be from past searches or future searches predicted by time-series models.
     - **Short vs. long windows**: Search may trend in the short term (i.e., a star's name trends after a movie release) or have long-term cyclic patterns (e.g., people search "NeurIPS" more in May and December, prior to the submission deadline and the conference date, respectively). Combining both trends lead to better completions than only considering either one. 
-- **User**: You and I may mean very different things when typing "cat" (e.g., I'm buying "cat **food" for my kids 🐱 whereas you're looking up your aunt "Cat**hy**") --- a user's past searches, previous queries in the same session, and engagement with query suggestions can be used to personalize their query completions.
+- **User**: You and I may mean very different things when typing "cat" (e.g., I'm buying "cat **food**" for my kids 🐱 whereas you're looking up your aunt "Cat**hy**") --- a user's past searches, previous queries in the same session, and engagement with query suggestions can be used to personalize their query completions.
 
 ### Learning to Rank
 In document retrieval (DR), learning to rank (LTR) refers to learning a function $f(q, D)$ that scores a list documents $D = \\{d_1, d_2, \ldots, d_n\\}$ given a query $q$. In query autocompletion (QAC), documents are not yet in consideration; instead, we learn a function $f(p, Q)$ that scores a list of queries $D = \\{q_1, q_2, \ldots, q_n\\}$ given a prefix $p$.
