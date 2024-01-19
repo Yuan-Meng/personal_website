@@ -3,13 +3,12 @@ title: Code ML Algorithms From Scratch
 date: 2022-06-22
 math: true
 tags:
-    - ML
-    - data science
+    - machine learning
     - algorithms
 categories:
 - tutorials
 keywords:
-    - ML, data science, algorithms
+    - machine learning, algorithms
 include_toc: true
 ---
 

@@ -9,14 +9,15 @@
   <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Learning Learning to Rank (LTR) | Yuan Meng</title>
+  <title> An Evolution of Learning to Rank | Yuan Meng</title>
   <link rel = 'canonical' href = 'https://www.yuan-meng.com/posts/ltr/'>
-  <meta name="description" content="Hi, this is Yuan. I&#39;m a Software Engineer, Machine Learning at DoorDash working on search, taxonomy, and catalog. In a former life as a Computational Cognitive Scientist, I studied common sense reasoning (causal inference, social cognition) in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, metal guitar, and 🐱. Use 重庆话 when I do mental math.">
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a Machine Learning Engineer on DoorDash&#39;s Search team, where I work on query understanding and learn to learn to rank... Previously as a Computational Cognitive Scientist, I studied common sense causal and social reasoning in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (ranking, generative models, fairness), cognitively inspired AI, metal guitar, and 🐱. Use 重庆话 when I do mental math.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="all,follow">
   <meta name="googlebot" content="index,follow,snippet,archive">
-  <meta property="og:title" content="Learning Learning to Rank (LTR)" />
-<meta property="og:description" content="" />
+  <meta property="og:title" content="An Evolution of Learning to Rank" />
+<meta property="og:description" content="First Thing First  Enigmas of the universe  Cannot be known without a search  &mdash; Epica, Omega (2021)
+ In The Rainmaker (1997), the freshly graduated lawyer Rudy Baylor faced off against a giant insurance firm in his debut case, almost getting buried by mountains of case files that the corporate lawyers never expected him to sift through. If only Rudy had a search engine that retrieves all files mentioning suspicious denials and ranks them from most to least relevant, the case prep would&rsquo;ve been a breeze." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.yuan-meng.com/posts/ltr/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-01-17T00:00:00+00:00" />
@@ -24,8 +25,9 @@
 
 
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Learning Learning to Rank (LTR)"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="An Evolution of Learning to Rank"/>
+<meta name="twitter:description" content="First Thing First  Enigmas of the universe  Cannot be known without a search  &mdash; Epica, Omega (2021)
+ In The Rainmaker (1997), the freshly graduated lawyer Rudy Baylor faced off against a giant insurance firm in his debut case, almost getting buried by mountains of case files that the corporate lawyers never expected him to sift through. If only Rudy had a search engine that retrieves all files mentioning suspicious denials and ranks them from most to least relevant, the case prep would&rsquo;ve been a breeze."/>
 
   
   
@@ -80,7 +82,7 @@
          
         <li><a href="/">About</a></li>
          
-        <li><a href="/posts">Writings</a></li>
+        <li><a href="/posts">All Writings</a></li>
         
       </ul>
     </span>
@@ -126,42 +128,42 @@
     </a>
   </li>
   <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&text=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Twitter">
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&text=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Twitter">
       <i class="fab fa-twitter " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Linkedin">
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Linkedin">
       <i class="fab fa-linkedin " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&is_video=false&description=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Pinterest">
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&is_video=false&description=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Pinterest">
       <i class="fab fa-pinterest " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="mailto:?subject=Learning%20Learning%20to%20Rank%20%28LTR%29&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f" aria-label="Email">
+    <a class="icon" href="mailto:?subject=An%20Evolution%20of%20Learning%20to%20Rank&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f" aria-label="Email">
       <i class="fas fa-envelope " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Pocket">
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Pocket">
       <i class="fab fa-get-pocket " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="reddit">
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="reddit">
       <i class="fab fa-reddit " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&name=Learning%20Learning%20to%20Rank%20%28LTR%29&description=" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&name=An%20Evolution%20of%20Learning%20to%20Rank&description=First%20Thing%20First%20%20Enigmas%20of%20the%20universe%20%20Cannot%20be%20known%20without%20a%20search%20%20%26mdash%3b%20Epica%2c%20Omega%20%282021%29%0a%20In%20The%20Rainmaker%20%281997%29%2c%20the%20freshly%20graduated%20lawyer%20Rudy%20Baylor%20faced%20off%20against%20a%20giant%20insurance%20firm%20in%20his%20debut%20case%2c%20almost%20getting%20buried%20by%20mountains%20of%20case%20files%20that%20the%20corporate%20lawyers%20never%20expected%20him%20to%20sift%20through.%20If%20only%20Rudy%20had%20a%20search%20engine%20that%20retrieves%20all%20files%20mentioning%20suspicious%20denials%20and%20ranks%20them%20from%20most%20to%20least%20relevant%2c%20the%20case%20prep%20would%26rsquo%3bve%20been%20a%20breeze." aria-label="Tumblr">
       <i class="fab fa-tumblr " aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&t=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Hacker News">
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&t=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Hacker News">
       <i class="fab fa-hacker-news " aria-hidden="true"></i>
     </a>
   </li>
@@ -170,7 +172,41 @@
     </div>
     
     <div id="toc">
-      <nav id="TableOfContents"></nav>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#first-thing-first">First Thing First</a>
+      <ul>
+        <li><a href="#problem-formulation-of-ltr">Problem Formulation of LTR</a></li>
+        <li><a href="#what-is-the-right-order">What is the &ldquo;Right&rdquo; Order?</a>
+          <ul>
+            <li><a href="#pointwise">Pointwise</a></li>
+            <li><a href="#pairwise">Pairwise</a></li>
+            <li><a href="#listwise">Listwise</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#rank-without-learning">Rank without Learning</a>
+      <ul>
+        <li><a href="#tf-idf">TF-IDF</a></li>
+        <li><a href="#bm25">BM25</a></li>
+      </ul>
+    </li>
+    <li><a href="#learning-to-rank">Learning to Rank</a>
+      <ul>
+        <li><a href="#classic-ml">Classic ML</a></li>
+        <li><a href="#deep-learning">Deep Learning</a></li>
+        <li><a href="#llm-as-re-ranking-agent">LLM as Re-Ranking Agent</a></li>
+      </ul>
+    </li>
+    <li><a href="#learn-more">Learn More</a>
+      <ul>
+        <li><a href="#papers">Papers</a></li>
+        <li><a href="#blogposts">Blogposts</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
     </div>
     
   </span>
@@ -180,7 +216,7 @@
   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
     <header>
       <h1 class="posttitle" itemprop="name headline">
-        Learning Learning to Rank (LTR)
+        An Evolution of Learning to Rank
       </h1>
       <div class="meta">
         
@@ -194,7 +230,7 @@
         <div class="article-read-time">
           <i class="far fa-clock"></i>
           
-          0 minute read
+          3 minute read
         </div>
         
         
@@ -227,7 +263,66 @@
   
     
     <div class="content" itemprop="articleBody">
-      
+      <h1 id="first-thing-first">First Thing First</h1>
+<blockquote>
+<p>Enigmas of the universe <br/> Cannot be known without a search <br/> &mdash; Epica, <a href="https://open.spotify.com/track/34Oz0bzAq7E1aUnKksPfJJ?si=9eabd1446a6a4ccc"><em>Omega</em></a> (2021)</p>
+</blockquote>
+<p>In <em><a href="https://en.wikipedia.org/wiki/The_Rainmaker_(1997_film)">The Rainmaker (1997)</a></em>,  the freshly graduated lawyer Rudy Baylor faced off against a giant insurance firm in his debut case, almost getting buried by mountains of case files that the corporate lawyers never expected him to sift through. If only Rudy had a search engine that <em>retrieves</em> all files mentioning suspicious denials and <em>ranks</em> them from most to least relevant, the case prep would&rsquo;ve been a breeze.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/fto9nalobh5ku9nb2yh19/Screenshot-2024-01-18-at-12.32.46-AM.png?rlkey=l7z94c0rfv940tv2xp8u2wdym&amp;raw=1"
+         alt="Search process overview: Indexing, matching, ranking (Relevant Search)" width="600"/><figcaption>
+            <p>Search process overview: Indexing, matching, ranking (<a href="https://www.manning.com/books/relevant-search"><em>Relevant Search</em></a>)</p>
+        </figcaption>
+</figure>
+
+<p>For a holistic view of search applications, I highly recommend the timeless <em>Relevant Search</em> (<a href="https://github.com/o19s/relevant-search-book">repo</a>). Raw documents go through <em>analysis</em> to get indexed into searchable fields (e.g., case name, case year, location, etc.). At search time, a user-issued query (e.g., &ldquo;leukemia&rdquo;) undergoes the same analysis to <em>retrieve</em> matching documents. Top documents are <em>ranked</em> in descending order of relevance before being returned. This post focuses on ranking, especially <em>learning to rank</em> (LTR).</p>
+<h2 id="problem-formulation-of-ltr">Problem Formulation of LTR</h2>
+<blockquote>
+<p>&ldquo;<span style="background-color: #FDB515"><strong>Ranking is nothing but to select a permutation</strong></span> $\pi_i \in \Pi_i$ for the given query $q_i$ and the associated documents $D_i$ using the scores given by the ranking model $f(q_i, D_i)$.&rdquo; &mdash; <a href="https://www.jstage.jst.go.jp/article/transinf/E94.D/10/E94.D_10_1854/_article"><em>A Short Introduction to LTR</em></a>, Li (2011)</p>
+</blockquote>
+<p>A LTR model learns how to sort documents by relevance for a query. During training, it sees many instances of how documents are ordered (by human label or user feedback) for each query; once trained, LTR can order new documents for new queries. To create ordering, LTR learns a function $f(q, D)$ that scores a list of documents $D$ given a query $q$. A single training instance consists of the following components:</p>
+<ul>
+<li>A query $q_i$ and a list of documents $D_i = \{d_{i, 1}, d_{i, 2}, &hellip;, d_{i, n}\}$;</li>
+<li>The relevance score of each document given the query $Y = \{y_{i, 1}, y_{i, 2}, &hellip;, y_{i, n}\}$;</li>
+<li>A feature vector for each query-document pair, $x_{i, j} = \phi(q_i, d_{i, j})$</li>
+</ul>
+<p>Even if you don&rsquo;t work at a company with search engines, you can still play with publicly available <a href="https://paperswithcode.com/datasets?task=learning-to-rank#:~:text=Learning%20to%20Rank%20Challenge%20dataset,search%20engine%2C%20spanning%2029%2C921%20queries.&amp;text=Publicly%20available%20dataset%20of%20naturally,purpose%20of%20automatic%20claim%20verification.">LTR datasets</a>. Below is the schema of the famous <a href="https://paperswithcode.com/dataset/learning-to-rank-challenge">The Yahoo! Learning to Rank Challenge</a> dataset. More recently at NeurIPS 2022, Baidu Search released a <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C5&amp;q=ALargeScaleSearchDatasetfor+UnbiasedLearningtoRank&amp;btnG=#:~:text=Create%20alert-,%5BPDF%5D%20neurips.cc,-A%20large%20scale">dataset</a> with richer features and presentation information. Try them out!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span>FeaturesDict <span style="color:#ff79c6">=</span> {
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>    <span style="color:#f1fa8c">&#39;query_id&#39;</span>: [], <span style="color:#6272a4"># list of strings</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span>    <span style="color:#f1fa8c">&#39;doc_id&#39;</span>: torch<span style="color:#ff79c6">.</span>Tensor()<span style="color:#ff79c6">.</span>type(torch<span style="color:#ff79c6">.</span>int64),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span>    <span style="color:#f1fa8c">&#39;float_features&#39;</span>: torch<span style="color:#ff79c6">.</span>Tensor()<span style="color:#ff79c6">.</span>type(torch<span style="color:#ff79c6">.</span>float64),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span>    <span style="color:#f1fa8c">&#39;label&#39;</span>: torch<span style="color:#ff79c6">.</span>Tensor()<span style="color:#ff79c6">.</span>type(torch<span style="color:#ff79c6">.</span>float64),
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span>}
+</code></pre></div><blockquote>
+<p><span style="background-color: #00A598"><strong>Work in progress&hellip; Now that I&rsquo;ve written this, I have to finish&hellip;🤑</strong></span></p>
+</blockquote>
+<h2 id="what-is-the-right-order">What is the &ldquo;Right&rdquo; Order?</h2>
+<p>When training LTR, &ldquo;out-of-order&rdquo; predictions are penalized. &ldquo;Out-of-orderness&rdquo;, or ranking errors, can be defined in 3 ways, leading to 3 types of scoring functions.</p>
+<h3 id="pointwise">Pointwise</h3>
+<p>The pointwise approach doesn&rsquo;t have the concept of &ldquo;out-of-orderness&rdquo;, but focuses on getting individual query-document relevance right. If you predict a document to be relevant to a query when it is not (or the reverse), then your ranker is wrong.</p>
+<p>Scored this way, LTR is equivalent to any regular regression model.</p>
+<h3 id="pairwise">Pairwise</h3>
+<p>If you predict that document $d_i$ is more relevant to a query than $d_j$ when it is the opposite, then your ranker is wrong.</p>
+<h3 id="listwise">Listwise</h3>
+<p>If you predict the list of documents $D$ should be ordered in one way when in fact it should be ordered in another, then your ranker is wrong.</p>
+<h1 id="rank-without-learning">Rank without Learning</h1>
+<p>Shocking as it may sound, ranking is not always done in the machine learning way.</p>
+<h2 id="tf-idf">TF-IDF</h2>
+<h2 id="bm25">BM25</h2>
+<h1 id="learning-to-rank">Learning to Rank</h1>
+<h2 id="classic-ml">Classic ML</h2>
+<h2 id="deep-learning">Deep Learning</h2>
+<h2 id="llm-as-re-ranking-agent">LLM as Re-Ranking Agent</h2>
+<h1 id="learn-more">Learn More</h1>
+<h2 id="papers">Papers</h2>
+<ol>
+<li>Li, H. (2011). <a href="https://www.semanticscholar.org/paper/A-Short-Introduction-to-Learning-to-Rank-Li/d74a1419d75e8743eb7e3da2bb425340c7753342"><em>A short introduction to learning to rank. IEICE TRANSACTIONS on Information and Systems, 94</em></a>(10), 1854-1862.</li>
+</ol>
+<h2 id="blogposts">Blogposts</h2>
+<ol start="2">
+<li><a href="https://everdark.github.io/k9/notebooks/ml/learning_to_rank/learning_to_rank.html"><em>Introduction to Learning to Rank</em></a> by Kyle Chung (2019)</li>
+<li><a href="https://txt.cohere.com/using-llms-for-search/"><em>Using LLMs for Search with Dense Retrieval and Reranking</em></a> by Cohere (2023)</li>
+</ol>
+
     </div>
   </article>
 
@@ -247,14 +342,48 @@
          
           <li><a href="/">About</a></li>
          
-          <li><a href="/posts">Writings</a></li>
+          <li><a href="/posts">All Writings</a></li>
         
       </ul>
     </div>
 
     
     <div id="toc-footer" style="display: none">
-      <nav id="TableOfContents"></nav>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#first-thing-first">First Thing First</a>
+      <ul>
+        <li><a href="#problem-formulation-of-ltr">Problem Formulation of LTR</a></li>
+        <li><a href="#what-is-the-right-order">What is the &ldquo;Right&rdquo; Order?</a>
+          <ul>
+            <li><a href="#pointwise">Pointwise</a></li>
+            <li><a href="#pairwise">Pairwise</a></li>
+            <li><a href="#listwise">Listwise</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#rank-without-learning">Rank without Learning</a>
+      <ul>
+        <li><a href="#tf-idf">TF-IDF</a></li>
+        <li><a href="#bm25">BM25</a></li>
+      </ul>
+    </li>
+    <li><a href="#learning-to-rank">Learning to Rank</a>
+      <ul>
+        <li><a href="#classic-ml">Classic ML</a></li>
+        <li><a href="#deep-learning">Deep Learning</a></li>
+        <li><a href="#llm-as-re-ranking-agent">LLM as Re-Ranking Agent</a></li>
+      </ul>
+    </li>
+    <li><a href="#learn-more">Learn More</a>
+      <ul>
+        <li><a href="#papers">Papers</a></li>
+        <li><a href="#blogposts">Blogposts</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
     </div>
     
 
@@ -272,42 +401,42 @@
     </a>
   </li>
   <li>
-    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&text=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Twitter">
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&text=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Twitter">
       <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Linkedin">
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Linkedin">
       <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&is_video=false&description=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Pinterest">
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&is_video=false&description=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Pinterest">
       <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="mailto:?subject=Learning%20Learning%20to%20Rank%20%28LTR%29&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f" aria-label="Email">
+    <a class="icon" href="mailto:?subject=An%20Evolution%20of%20Learning%20to%20Rank&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f" aria-label="Email">
       <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Pocket">
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Pocket">
       <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="reddit">
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&title=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="reddit">
       <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&name=Learning%20Learning%20to%20Rank%20%28LTR%29&description=" aria-label="Tumblr">
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&name=An%20Evolution%20of%20Learning%20to%20Rank&description=First%20Thing%20First%20%20Enigmas%20of%20the%20universe%20%20Cannot%20be%20known%20without%20a%20search%20%20%26mdash%3b%20Epica%2c%20Omega%20%282021%29%0a%20In%20The%20Rainmaker%20%281997%29%2c%20the%20freshly%20graduated%20lawyer%20Rudy%20Baylor%20faced%20off%20against%20a%20giant%20insurance%20firm%20in%20his%20debut%20case%2c%20almost%20getting%20buried%20by%20mountains%20of%20case%20files%20that%20the%20corporate%20lawyers%20never%20expected%20him%20to%20sift%20through.%20If%20only%20Rudy%20had%20a%20search%20engine%20that%20retrieves%20all%20files%20mentioning%20suspicious%20denials%20and%20ranks%20them%20from%20most%20to%20least%20relevant%2c%20the%20case%20prep%20would%26rsquo%3bve%20been%20a%20breeze." aria-label="Tumblr">
       <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
     </a>
   </li>
   <li>
-    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&t=Learning%20Learning%20to%20Rank%20%28LTR%29" aria-label="Hacker News">
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fltr%2f&t=An%20Evolution%20of%20Learning%20to%20Rank" aria-label="Hacker News">
       <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
     </a>
   </li>
@@ -343,7 +472,7 @@
          
         <li><a href="/">About</a></li>
          
-        <li><a href="/posts">Writings</a></li>
+        <li><a href="/posts">All Writings</a></li>
         
       </ul>
     </nav>

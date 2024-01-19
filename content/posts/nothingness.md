@@ -3,11 +3,11 @@ title: "The Ph.D. Grind: Doing Nothing Is the Hardest Thing"
 date: 2022-03-04
 tags:
     - phd
-    - reflection
+    - reflections
 categories:
 - papers
 keywords:
-    - phd, reflection
+    - phd, reflections
 ---
 
 # Seriously, Read *The Ph.D. Grind*

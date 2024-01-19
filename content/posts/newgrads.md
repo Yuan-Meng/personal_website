@@ -5,11 +5,12 @@ math: true
 tags:
     - career
     - data science
+    - machine learning
     - interview 
 categories:
 - advice
 keywords:
-    - career, data science, interview 
+    - career, data science, machine learning, interview 
 include_toc: true
 ---
 

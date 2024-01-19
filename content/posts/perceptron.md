@@ -3,11 +3,11 @@ title: Teaching A Peceptron to See
 date: 2023-07-02
 math: true
 tags:
-    - DL foundations
+    - machine learning
 categories:
 - tutorials
 keywords:
-    - DL foundations
+    - machine learning
 include_toc: true
 ---
 

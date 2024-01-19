@@ -2,11 +2,11 @@
 title: Brithday Wish 
 date: 2023-05-06
 tags:
-    - birthday
+    - reflections
 categories:
 - reflections
 keywords:
-    - birthday
+    - reflections
 ---
 
 Survival was *the* theme of this past year. When I expressed layoff worries in February 2022 (after Googling consequences of interest rate hikes as an econ noob...), friends joked that I was a "Golden State Worrier". After the chips were down last November, the shock was not one bit absorbed by anticipation. Seeing coworkers I just spoke and worked side by side with disappearing was unreal and painful. Since then I can't quite recall the last time I felt truly exited or relaxed --- I seem to overdo what I can to feel a tiny bit safer. 
