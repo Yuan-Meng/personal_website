@@ -48,7 +48,7 @@ weight = 2
   description = "Hi, this is Yuan. I'm a Machine Learning Engineer on DoorDash's Search team, where I work on query understanding and learn to learn to rank... Previously as a Computational Cognitive Scientist, I studied common sense causal and social reasoning in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (ranking, generative models, fairness), cognitively inspired AI, metal guitar, and 🐱. Use 重庆话 when I do mental math."
   showAllPostsOnHomePage = false # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
-  tagsOverview = true # show tags overview by default.
+  tagsOverview = false # show tags overview by default.
   showProjectsList = false # show projects list by default (if projects data file exists).
   projectsUrl = "https://github.com/Yuan-Meng" # title link for projects list
 
