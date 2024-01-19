@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>learning to rank on Yuan Meng</title>
+    <link>https://www.yuan-meng.com/tags/learning-to-rank/</link>
+    <description>Recent content in learning to rank on Yuan Meng</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Yuan Meng</copyright>
+    <lastBuildDate>Wed, 17 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/tags/learning-to-rank/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Learning to Rank (LTR)</title>
+      <link>https://www.yuan-meng.com/posts/ltr/</link>
+      <pubDate>Wed, 17 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/ltr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Autocompletion for Search Enginees</title>
+      <link>https://www.yuan-meng.com/posts/autocomplete/</link>
+      <pubDate>Sat, 06 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/autocomplete/</guid>
+      <description>Autocompletion dates back half a century ago (Longuet-Higgins &amp;amp; Ortony, 1968), initially designed to save keystrokes as people type and help those with physical disabilities type faster. The incomplete user input is the &amp;ldquo;query prefix&amp;rdquo; and suggested ways of extending the prefix into a full query are &amp;ldquo;query completions&amp;rdquo;. This feature is essential to modern text editors and search engines.
+ This blog post summarizes key ideas from the survey paper A Survey of Query Auto Completion in Information Retrieval, recommended by my Search teammate at DoorDash.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -7,7 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Yuan Meng</copyright>
-    <lastBuildDate>Sun, 02 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 17 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Learning to Rank (LTR)</title>
+      <link>https://www.yuan-meng.com/posts/ltr/</link>
+      <pubDate>Wed, 17 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/ltr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Autocompletion for Search Enginees</title>
+      <link>https://www.yuan-meng.com/posts/autocomplete/</link>
+      <pubDate>Sat, 06 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/autocomplete/</guid>
+      <description>Autocompletion dates back half a century ago (Longuet-Higgins &amp;amp; Ortony, 1968), initially designed to save keystrokes as people type and help those with physical disabilities type faster. The incomplete user input is the &amp;ldquo;query prefix&amp;rdquo; and suggested ways of extending the prefix into a full query are &amp;ldquo;query completions&amp;rdquo;. This feature is essential to modern text editors and search engines.
+ This blog post summarizes key ideas from the survey paper A Survey of Query Auto Completion in Information Retrieval, recommended by my Search teammate at DoorDash.</description>
+    </item>
+    
     <item>
       <title>Teaching A Peceptron to See</title>
       <link>https://www.yuan-meng.com/posts/perceptron/</link>
@@ -25,6 +44,16 @@
       
       <guid>https://www.yuan-meng.com/posts/birthday/</guid>
       <description>Survival was the theme of this past year. When I expressed layoff worries in February 2022 (after Googling consequences of interest rate hikes as an econ noob&amp;hellip;), friends joked that I was a &amp;ldquo;Golden State Worrier&amp;rdquo;. After the chips were down last November, the shock was not one bit absorbed by anticipation. Seeing coworkers I just spoke and worked side by side with disappearing was unreal and painful. Since then I can&amp;rsquo;t quite recall the last time I felt truly exited or relaxed &amp;mdash; I seem to overdo what I can to feel a tiny bit safer.</description>
+    </item>
+    
+    <item>
+      <title>Code ML Algorithms From Scratch</title>
+      <link>https://www.yuan-meng.com/posts/md_coding/</link>
+      <pubDate>Wed, 22 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/md_coding/</guid>
+      <description>Coding interviews can mean different things for &amp;ldquo;traditional&amp;rdquo; software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientists, research engineers, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview.
+This may sound scary if you&amp;rsquo;ve only used libraries to train models without understanding how learning algorithms work under the hood.</description>
     </item>
     
     <item>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <script type="text/javascript" src="https://latest.cactus.chat/cactus.js"></script>
+  <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Autocompletion for Search Enginees | Yuan Meng</title>
+  <link rel = 'canonical' href = 'https://www.yuan-meng.com/posts/autocomplete/'>
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a Software Engineer, Machine Learning at DoorDash working on search, taxonomy, and catalog. In a former life as a Computational Cognitive Scientist, I studied common sense reasoning (causal inference, social cognition) in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (predictive modeling, generative models, fairness), cognitively inspired AI, metal guitar, and 🐱. Use 重庆话 when I do mental math.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Autocompletion for Search Enginees" />
+<meta property="og:description" content="Autocompletion dates back half a century ago (Longuet-Higgins &amp; Ortony, 1968), initially designed to save keystrokes as people type and help those with physical disabilities type faster. The incomplete user input is the &ldquo;query prefix&rdquo; and suggested ways of extending the prefix into a full query are &ldquo;query completions&rdquo;. This feature is essential to modern text editors and search engines.
+ This blog post summarizes key ideas from the survey paper A Survey of Query Auto Completion in Information Retrieval, recommended by my Search teammate at DoorDash." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.yuan-meng.com/posts/autocomplete/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-01-06T00:00:00+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Autocompletion for Search Enginees"/>
+<meta name="twitter:description" content="Autocompletion dates back half a century ago (Longuet-Higgins &amp; Ortony, 1968), initially designed to save keystrokes as people type and help those with physical disabilities type faster. The incomplete user input is the &ldquo;query prefix&rdquo; and suggested ways of extending the prefix into a full query are &ldquo;query completions&rdquo;. This feature is essential to modern text editors and search engines.
+ This blog post summarizes key ideas from the survey paper A Survey of Query Auto Completion in Information Retrieval, recommended by my Search teammate at DoorDash."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.yuan-meng.com/css/styles.94f653e9e151e28067a7c5dbbc4600cbd5a3c721e79faaf971e523c40f3b249b8e4f20bb57810dfffa8d559ca5c140fd56eb4cd9c0853113ad08e66afdb08bdd.css" integrity="sha512-lPZT6eFR4oBnp8XbvEYAy9WjxyHnn6r5ceUjxA87JJuOTyC7V4EN//qNVZylwUD9VutM2cCFMROtCOZq/bCL3Q=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.yuan-meng.com/images/favicon.ico" />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://www.yuan-meng.com/posts/perceptron/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://www.yuan-meng.com/posts/ltr/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&text=Autocompletion%20for%20Search%20Enginees" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&title=Autocompletion%20for%20Search%20Enginees" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&is_video=false&description=Autocompletion%20for%20Search%20Enginees" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Autocompletion%20for%20Search%20Enginees&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&title=Autocompletion%20for%20Search%20Enginees" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&title=Autocompletion%20for%20Search%20Enginees" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&name=Autocompletion%20for%20Search%20Enginees&description=Autocompletion%20dates%20back%20half%20a%20century%20ago%20%28Longuet-Higgins%20%26amp%3b%20Ortony%2c%201968%29%2c%20initially%20designed%20to%20save%20keystrokes%20as%20people%20type%20and%20help%20those%20with%20physical%20disabilities%20type%20faster.%20The%20incomplete%20user%20input%20is%20the%20%26ldquo%3bquery%20prefix%26rdquo%3b%20and%20suggested%20ways%20of%20extending%20the%20prefix%20into%20a%20full%20query%20are%20%26ldquo%3bquery%20completions%26rdquo%3b.%20This%20feature%20is%20essential%20to%20modern%20text%20editors%20and%20search%20engines.%0a%20This%20blog%20post%20summarizes%20key%20ideas%20from%20the%20survey%20paper%20A%20Survey%20of%20Query%20Auto%20Completion%20in%20Information%20Retrieval%2c%20recommended%20by%20my%20Search%20teammate%20at%20DoorDash." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&t=Autocompletion%20for%20Search%20Enginees" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-autocomplete">Why Autocomplete?</a>
+      <ul>
+        <li><a href="#a-note-on-related-tasks">A Note on Related Tasks</a></li>
+      </ul>
+    </li>
+    <li><a href="#build-a-simple-autocompletion-engine">Build A Simple Autocompletion Engine</a>
+      <ul>
+        <li><a href="#retrieval">Retrieval</a></li>
+        <li><a href="#ranking">Ranking</a>
+          <ul>
+            <li><a href="#heuristic-based">Heuristic-Based</a></li>
+            <li><a href="#learning-to-rank">Learning to Rank</a></li>
+          </ul>
+        </li>
+        <li><a href="#evaluation">Evaluation</a></li>
+      </ul>
+    </li>
+    <li><a href="#performance-improvements">Performance Improvements</a></li>
+    <li><a href="#presentation-of-completions">Presentation of Completions</a></li>
+  </ul>
+</nav>
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Autocompletion for Search Enginees
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2024-01-06 00:00:00 &#43;0000 UTC" itemprop="datePublished">2024-01-06</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          6 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/papers">papers</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/search" rel="tag">search</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/information-retrieval" rel="tag">information retrieval</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/autocomplete" rel="tag">autocomplete</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/learning-to-rank" rel="tag">learning to rank</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <p>Autocompletion dates back half a century ago (<a href="https://www.doc.ic.ac.uk/~shm/MI/mi3.html">Longuet-Higgins &amp; Ortony, 1968</a>), initially designed to save keystrokes as people type and help those with physical disabilities type faster. The incomplete user input is the <strong>&ldquo;query prefix&rdquo;</strong> and suggested ways of extending the prefix into a full query are <strong>&ldquo;query completions&rdquo;</strong>. This feature is essential to modern text editors and search engines.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/a112bhnp4bctso6fwn72x/Screenshot-2024-01-06-at-4.27.56-PM.png?rlkey=bphpjszgirskda9i142icb5os&amp;raw=1" width="450"/>
+</figure>
+
+<p>This blog post summarizes key ideas from the survey paper <a href="https://www.nowpublishers.com/article/Details/INR-055"><em>A Survey of Query Auto Completion in Information Retrieval</em></a>, recommended by my Search teammate at DoorDash.</p>
+<h1 id="why-autocomplete">Why Autocomplete?</h1>
+<p>The &ldquo;why&rdquo; for autocompletion is straightforward &mdash; if done right, it makes search far more efficient (when was the last time you typed a 10-word query in Google?):</p>
+<ul>
+<li><strong>Users</strong>: Saves keystrokes + speeds up typing + discovers relevant search terms not previously thought of 👉 less search friction</li>
+<li><strong>Search engines</strong>: Reduces the probability of typos and ill-formed queries compared to if the user types the full query 👉 better query performance</li>
+</ul>
+<p>A Yahoo! paper (<a href="https://dl.acm.org/doi/10.1145/2766462.2767697">Zhang et al., 2015</a>) estimates that autocompletion saves searchers ~50% of the keystrokes. Autocompletion is such an integral part of modern search engines that you may only notice when it&rsquo;s missing (like in the screenshot where I searched in Nudie Jeans and wondered, <em>&ldquo;Ummm, what was the fit called again?&quot;</em>).</p>
+<figure><img src="https://www.dropbox.com/scl/fi/4i5k24vi8ydoze478txvh/Screenshot-2024-01-07-at-11.20.34-AM.png?rlkey=u4rmkkreop5vdp9ugv7k8f580&amp;raw=1" width="450"/>
+</figure>
+
+<h2 id="a-note-on-related-tasks">A Note on Related Tasks</h2>
+<p>Query autocompletion is one type of <em>query reformulation</em>; other query reformulation tasks include query suggestion, query expansion, and query correction. However, the goal and the usage of autocompletion are quite different from the latter three. The latter three usually take place <em>after</em> a query is submitted and aim to improve suboptimal query performance (e.g., the user didn&rsquo;t have the right &ldquo;vocabulary&rdquo; or typed something too specific so the search result page showed few or irrelevant results). By contrast, autocompletion occurs <em>before</em> query submission as users are typing and its main purpose is to save keystrokes and ease the submission process.</p>
+<h1 id="build-a-simple-autocompletion-engine">Build A Simple Autocompletion Engine</h1>
+<p>The &ldquo;million-dollar question&rdquo; is the &ldquo;how&rdquo; &mdash; how do we know what the user meant to type without them typing the whole thing? 🔮</p>
+<figure><img src="https://www.dropbox.com/scl/fi/8raqtvfpf88y71yjdc9zk/Screenshot-2024-01-06-at-6.16.17-PM.png?rlkey=vkjii3k3q8rqqaagu3ctwtp72&amp;raw=1" width="650"/>
+</figure>
+
+<h2 id="retrieval">Retrieval</h2>
+<p><a href="https://en.wikipedia.org/wiki/Trie">Tries</a> (&ldquo;prefix trees&rdquo;) are a common data structure to store associations between a prefix and its query completions. A trie can be pre-built from the past query log, which will be used to retrieve a list of query completions given a prefix.</p>
+<h2 id="ranking">Ranking</h2>
+<p>Which completions to show in what order can be determined by <strong>heuristics-based approaches</strong> as well as <strong>learning to rank (LTR) models</strong>. Most search engines only show a handful of completions &mdash; the user&rsquo;s intended query should appear at the top.</p>
+<h3 id="heuristic-based">Heuristic-Based</h3>
+<p>Successful completions are ones that eventually get submitted by the user. Heuristic-based approaches rank each query completion $q_c$ by the probability that it might get submitted, given the prefix $p$, the time $t$, and the user $u$ &mdash; $P(q_c | p, t, u)$.</p>
+<ul>
+<li><strong>Popularity</strong>: Some completions appear more frequently than others. Frequency could be from past searches or future searches predicted by time-series models.
+<ul>
+<li><strong>Short vs. long windows</strong>: Search may trend in the short term (i.e., a star&rsquo;s name trends after a movie release) or have long-term cyclic patterns (e.g., people search &ldquo;NeurIPS&rdquo; more in May and December, prior to the submission deadline and the conference date, respectively). Combining both trends lead to better completions than only considering either one.</li>
+</ul>
+</li>
+<li><strong>User</strong>: You and I may mean very different things when typing &ldquo;cat&rdquo; (e.g., I&rsquo;m buying &ldquo;cat <strong>food</strong>&rdquo; for my kids 🐱 whereas you&rsquo;re looking up your aunt &ldquo;Cat<strong>hy</strong>&quot;) &mdash; a user&rsquo;s past searches, previous queries in the same session, and engagement with query suggestions can be used to personalize their query completions.</li>
+</ul>
+<h3 id="learning-to-rank">Learning to Rank</h3>
+<p>In document retrieval (DR), learning to rank (LTR) refers to learning a function $f(q, D)$ that scores a list documents $D = \{d_1, d_2, \ldots, d_n\}$ given a query $q$. In query autocompletion (QAC), documents are not yet in consideration; instead, we learn a function $f(p, Q)$ that scores a list of queries $D = \{q_1, q_2, \ldots, q_n\}$ given a prefix $p$.</p>
+<p>Labels for QAC LTR are simpler than the usual 5-point relevance scale (&ldquo;Bad&rdquo;, &ldquo;Fair&rdquo;, &ldquo;Good&rdquo;, &ldquo;Excellent&rdquo;, &ldquo;Perfect&rdquo;) used for DR LTR &mdash; users show <em>binary</em> preferences towards query completions by &ldquo;submitting (1)&rdquo; vs. &ldquo;not submitting (0)&rdquo;. The table below summarizes different features, labels, and evaluation metrics used for DR LTR vs. QAC LTR, two similar tasks each with their own peculiarities.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/avkov0mnxdyw8vbpbw5y5/Screenshot-2024-01-06-at-8.36.54-PM.png?rlkey=73zcq6c6034maoq0xz9ggh6ar&amp;raw=1" width="600"/>
+</figure>
+
+<p>The table below shows example data for training DR LTR vs. QAC. The format is highly similar between the two. As we can see, each prefix (grouping ID) is observed with multiple query completions, each with a feature vector and a binary label.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/vys6354sbbm0cdqfxhyj0/Screenshot-2024-01-06-at-9.39.03-PM.png?rlkey=cke9l5u1fer3h69e5bhicvvdb&amp;raw=1" width="600"/>
+</figure>
+
+<p>Below are some key ranking signals (many shared by heuristic-based approaches):</p>
+<ul>
+<li><strong>Popularity features</strong>: Observed popularity from historical searches; future popularity predicted from recent trend and cyclic behavior.</li>
+<li><strong>Semantic features</strong>: Users might want query completions that are <em>similar</em> (however defined) to submitted queries in the same session.</li>
+<li><strong>User features</strong>: User features such as location, demographics, search history, past reformulation behavior, etc. can affect query completions.</li>
+</ul>
+<h2 id="evaluation">Evaluation</h2>
+<p>How do we know if the list of query completions returned to users is any good? On a high level, a good list ranks the user&rsquo;s <strong>intended query</strong> at the top.</p>
+<p>Differently from document retrieval, query autocompletion is mostly concerned with finding a single best solution. Also, all else being equal, better suggestions should save more keystrokes. Metrics below capture these requirements and purposes:</p>
+<ul>
+<li><strong>Mean Reciprocal Rank (MRR)</strong>: On average, how early does the first relevant completion appear? The formula is $\frac{1}{P}\sum_{p = 1}^{P}\frac{1}{\mathrm{rank}_p}$, where $p$ is a specific prefix, $P$ is the eval prefix set, and $\mathrm{rank}_p$ is the rank of the 1st relevant query for $p$.</li>
+<li><strong>Success Rate at Top K (SR@K)</strong>: % of time the intended query is found in top $K$ query completions for a given prefix, estimated from the prefix eval set.</li>
+<li><strong><em>pSaved</em></strong>: The probability of using a query completion while submitting a query.</li>
+<li><strong><em>eSaved</em></strong>: The normalized amount of keystrokes saved due to query completions.</li>
+<li><strong>Diversity</strong>: Redundant query completions (e.g., &ldquo;apple pie&rdquo; and &ldquo;apple pies&rdquo;) should be penalized. One example diversity metric is $\alpha$-nDCG, which assigns a higher gain to each additional query with more &ldquo;new aspects&rdquo;.</li>
+</ul>
+<h1 id="performance-improvements">Performance Improvements</h1>
+<p>Above is the bare bone of an autocompletion engine, which can be further improved:</p>
+<ul>
+<li><strong>Computational efficiency</strong>: Running BFS/DFS on vanilla tries may result in slow performance, especially given the vast query space for each prefix. We can optimize the trie data structure itself (e.g., Completion Trie, RMQ Trie, Score-Decomposed Trie, etc.) or the search algorithm (e.g., A* search).</li>
+<li><strong>Error-tolerance</strong>: Users may have misspellings in the prefix &mdash; spell-checking or fuzzy match is needed to ensure misspelled queries can have completions.</li>
+<li><strong>Multi-objective</strong>: In e-commerce search, after a user submits a query completion, we ultimately want them to convert on a product. A multi-objective model also optimizes for subsequent engagement (e.g., clicks, add to cart, conversions) following query submission. This was described in an <a href="https://www.instacart.com/company/how-its-made/how-instacart-uses-machine-learning-driven-autocomplete-to-help-people-fill-their-carts/">Instacart post</a>.</li>
+</ul>
+<h1 id="presentation-of-completions">Presentation of Completions</h1>
+<p>Last but not least, autocompletion needs to be presented to users. The canonical way is to display completions as a vertical list below the search bar. If you&rsquo;re highly confident about the top completion, you may put it directly in the search bar, a method called &ldquo;ghosting&rdquo; (<a href="https://www.amazon.science/publications/ghosting-contextualized-query-auto-completion-on-amazon-search#:~:text=Ghosting%3A%20Contextualized%20query%20auto%2Dcompletion%20on%20Amazon%20Search,-By%20Lakshmi%20Ramachandran&amp;text=Query%20auto%2Dcompletion%20presents%20a,i.e.%2C%20within%20the%20search%20box.">Ramachandran &amp; Murthy, 2019</a>). The completed text is usually highlighted so that we can distinguish it from the user input.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/dvtlbvufymae0zn9zhggh/Screenshot-2024-01-06-at-10.25.44-PM.png?rlkey=olkouuxlhgsv39as3lvipcdos&amp;raw=1" width="600"/>
+</figure>
+
+<p>Compared to document retrieval, search engines have even more limited real estate to show autocomplete suggestions and a stricter requirement on the position of the intended query (i.e., even if the intended query is included in the list, it only gets clicked ~13% of the time if ranked below top 2, <a href="http://www.yichang-cs.com/yahoo/SIGIR15_QAC.pdf">Li et al., 2015</a>). In other words, precision matters even more in autocompletion than in document retrieval.</p>
+<p>Rather than simply organizing results by submission probability, sometimes it makes sense to organize them by intent (see the graph below) or the nature of the prefix (e.g., if a prefix is a geolocation, completions can be ordered by region).</p>
+<figure><img src="https://www.dropbox.com/scl/fi/snj71a8tgxp1x6xy1pxor/Screenshot-2024-01-06-at-10.41.17-PM.png?rlkey=9mzmbtk4olk8950epfpaycl6c&amp;raw=1" width="450"/>
+</figure>
+
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">About</a></li>
+         
+          <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#why-autocomplete">Why Autocomplete?</a>
+      <ul>
+        <li><a href="#a-note-on-related-tasks">A Note on Related Tasks</a></li>
+      </ul>
+    </li>
+    <li><a href="#build-a-simple-autocompletion-engine">Build A Simple Autocompletion Engine</a>
+      <ul>
+        <li><a href="#retrieval">Retrieval</a></li>
+        <li><a href="#ranking">Ranking</a>
+          <ul>
+            <li><a href="#heuristic-based">Heuristic-Based</a></li>
+            <li><a href="#learning-to-rank">Learning to Rank</a></li>
+          </ul>
+        </li>
+        <li><a href="#evaluation">Evaluation</a></li>
+      </ul>
+    </li>
+    <li><a href="#performance-improvements">Performance Improvements</a></li>
+    <li><a href="#presentation-of-completions">Presentation of Completions</a></li>
+  </ul>
+</nav>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&text=Autocompletion%20for%20Search%20Enginees" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&title=Autocompletion%20for%20Search%20Enginees" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&is_video=false&description=Autocompletion%20for%20Search%20Enginees" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Autocompletion%20for%20Search%20Enginees&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&title=Autocompletion%20for%20Search%20Enginees" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&title=Autocompletion%20for%20Search%20Enginees" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&name=Autocompletion%20for%20Search%20Enginees&description=Autocompletion%20dates%20back%20half%20a%20century%20ago%20%28Longuet-Higgins%20%26amp%3b%20Ortony%2c%201968%29%2c%20initially%20designed%20to%20save%20keystrokes%20as%20people%20type%20and%20help%20those%20with%20physical%20disabilities%20type%20faster.%20The%20incomplete%20user%20input%20is%20the%20%26ldquo%3bquery%20prefix%26rdquo%3b%20and%20suggested%20ways%20of%20extending%20the%20prefix%20into%20a%20full%20query%20are%20%26ldquo%3bquery%20completions%26rdquo%3b.%20This%20feature%20is%20essential%20to%20modern%20text%20editors%20and%20search%20engines.%0a%20This%20blog%20post%20summarizes%20key%20ideas%20from%20the%20survey%20paper%20A%20Survey%20of%20Query%20Auto%20Completion%20in%20Information%20Retrieval%2c%20recommended%20by%20my%20Search%20teammate%20at%20DoorDash." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fautocomplete%2f&t=Autocompletion%20for%20Search%20Enginees" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2024  Yuan Meng 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>
