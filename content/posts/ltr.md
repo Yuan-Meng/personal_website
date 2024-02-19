@@ -28,6 +28,7 @@ For a holistic view of search applications, I highly recommend the timeless *Rel
 
 ## Problem Formulation of LTR
 
+
 > "<span style="background-color: #FDB515">**Ranking is nothing but to select a permutation**</span> $\pi_i \in \Pi_i$ for the given query $q_i$ and the associated documents $D_i$ using the scores given by the ranking model $f(q_i, D_i)$." --- [*A Short Introduction to LTR*](https://www.jstage.jst.go.jp/article/transinf/E94.D/10/E94.D_10_1854/_article), Li (2011)
 
 LTR learns how to sort a list of documents retrieved for a query in descending order of relevance. During training, it sees many instances of how documents are ordered for different queries; once trained, LTR can order new documents for new queries, using a learned function $f(q, D)$ that scores documents $D$ given a query $q$. 
@@ -129,7 +130,7 @@ Like other GBDT models, LambdaMART assigns higher weights to document pairs with
 
 ## Deep Learning
 
-It's interesting that in CV, DL replaced non-DL methods (e.g., [hierarchical Bayes](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=d44cbf0e2997f63e45b7d409a3c25918562480ed)) as the mainstream after the [ImageNet breakthrough](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks) in 2012, whereas LTR saw a transition from DL ([RankNet (2005)](https://www.microsoft.com/en-us/research/blog/ranknet-a-ranking-retrospective/), [LambdaRank (2007)](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/lambdarank.pdf)) to non-DL ([LambdaMART (2010)](https://scholar.google.com/scholar?cites=12943173042546364194&as_sdt=2005&sciodt=0,5&hl=en)). Early neural LTR typically uses a feed-forward network with fully connected layers, which doesn't play to DL's strength: Learning high-order feature interactions. Moreover, early neural LTR didn't put much focus on feature transformation, which profoundly impacts neural nets. [Google researchers (2021)](https://openreview.net/pdf?id=Ut1vF_q_vC) demonstrated that using newer architectures on transformed data, neural LTR was able to beat LightGBM.
+It's interesting that in CV, DL replaced non-DL methods (e.g., [hierarchical Bayes](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=d44cbf0e2997f63e45b7d409a3c25918562480ed)) as the mainstream after the [ImageNet breakthrough](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks) in 2012, whereas LTR saw a transition from DL ([RankNet (2005)](https://www.microsoft.com/en-us/research/blog/ranknet-a-ranking-retrospective/), [LambdaRank (2007)](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/lambdarank.pdf)) to non-DL ([LambdaMART (2010)](https://scholar.google.com/scholar?cites=12943173042546364194&as_sdt=2005&sciodt=0,5&hl=en)). Early neural LTR typically uses a feed-forward network with fully connected layers, which doesn't play to DL's strength: Learning higher-order feature interactions. Moreover, early neural LTR didn't put much focus on feature transformation, which can profoundly impact neural nets. [Google researchers (2021)](https://openreview.net/pdf?id=Ut1vF_q_vC) demonstrated that using newer architectures on transformed data, neural LTR was able to beat LightGBM.
 
 - **Normalization**: The feature vector $\mathbf{x}$ goes through "log1p" transformation, $\mathbf{x} = \log_e(1 + |\mathbf{x}|) \odot \mathrm{sign}(\mathbf{x})$, where $\odot$ is element-wise multiplication.
 - **Gaussian noise**: A random Gaussian noise is injected to every element of the feature vector $\mathbf{x}$, $\mathbf{x} = \mathbf{x} + \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$, to augment input data.
@@ -139,17 +140,94 @@ On Web30K and Istella benchmarks, the neural LTR outperformed LightGBM (still lo
 
 {{< figure src="https://www.dropbox.com/scl/fi/qlv1h1710sg2gjek4lnyd/Screenshot-2024-02-17-at-11.29.21-PM.png?rlkey=z1r26whv0r9qdeprhi3a08vy8&raw=1" width="650" >}}
 
-Smashing benchmarks may not be so exciting if that's all LTR can do --- the Airbnb trilogy ([2019](https://arxiv.org/abs/1810.09591), [2020](https://arxiv.org/abs/2002.05515), [2023](https://arxiv.org/pdf/2305.18431)) demonstrated the power of DL in commercial search engines. Not only did offline nDCG and online conversions increase, but DL allows ML engineers to shift focus from Kaggle-style feature engineering to deeper questions about ranking: What's the right learning *objective* to optimize for (multi-task, multi-objective learning)? How to better *represent* user/query/docs (two-tower)? 
-
-
-<span style="background-color: #FDB515">**TODO: Read and summarize Airbnb + Google papers**</span>
-
+Smashing benchmarks may not be so exciting if that's all LTR can do --- the Airbnb trilogy ([2019](https://arxiv.org/abs/1810.09591), [2020](https://arxiv.org/abs/2002.05515), [2023](https://arxiv.org/pdf/2305.18431)) proved out the power of DL in commercial search engines. Not only did offline nDCG and online conversions increase, but DL allows ML engineers to shift the focus from Kaggle-style feature engineering to deeper questions about ranking: What's the right *objective* to optimize for (multi-task, multi-objective learning)? How to better *represent* user/query/docs (two-tower architecture)? 
 
 ### Fully-Connected DNNs
 
+> <span style="background-color: #FF5A5F">"Deep learning was steep learning for us."</span> --- Haldar et al. (2019) @Airbnb
+
+In 2016, the Search team at Airbnb saw a long spell of neutral experiments adding new features to GBDT models and turned to DL for breakthroughs. The journey took 2 years. The final model was a DNN with 2 hidden layers trained on LambdaRank loss: 
+
+- Input layer with 195 features
+- 1st hidden layer with 127 fully connected RELUs
+- 2nd hidden layer with 83 fully connected RELUs
+- Output is scores of a pair of booked vs. unbooked listings
+
+On the way to this seemingly straightforward model, many (failed) paths were tread.
+1. **Architectural complexity**: Deep NN outperformed bespoke simple NNs in this case
+   - **Simple NN with pointwise loss**: To validation the NN pipeline was production ready, the Airbnb Search team started with a simple NN that had a single hidden layer trained on the pointwise L2 regression loss: Booked listings were assigned a value of 1.0 whereas unbooked ones 0.0. The model created tiny gains in offline nDCG and online bookings. 
+   - **Simple NN with LambdaRank loss**: Keeping the architecture the same while shifting to pairwise LambdaRank loss increased the gains.
+   - **Simple NN with GBDT + FM inputs**: The team experimented with a more complex structure where outputs from GBDT and factorization machine (FM) were fed as inputs to the NN with a single layer. The index of active leaf nodes from GBDT were used as categorical features whereas the predicted booking probability from FM were used as a numerical feature. While this model saw both offline and online improvements, it was a maintenance hell. 
+   {{< figure src="https://www.dropbox.com/scl/fi/j375s9ewt1kg8e4y8hanz/Screenshot-2024-02-18-at-3.55.43-PM.png?rlkey=mnpiad7a6ytaa8kb18id1py4a&raw=1" width="500" >}}
+2. **Feature engineering**: While Deep NNs are known for automatic feature extraction, they could still benefit from careful feature selection and transformations
+   - **Do not use listing IDs**: It is a common practice in DL to encode high-cardinality categorical features such as IDs as lower-dimensional embeddings and learn these embedding values via backpropagation. However, using listing IDs as a feature led to overfitting, because Airbnb has this unique problem that listings, by design, can only be booked at most 365 times a year, so the model doesn't have much to learn about each listing. 
+   - **Examine feature distributions**: NNs are sensitive to feature scales, so it's standard practice to transform feature values into the $\\{-1, 1\\}$ range before feeding them to the model. Mostly normally distributed features were transformed into z-scores, $\frac{x - \mu}{\sigma}$. Features with power law distributions were log-transformed, $\log \frac{1 + x}{1 + \mathrm{median}}$. Plotting feature distributions also helped detect bugs such as monthly prices being logged as daily prices in some locations, breaking otherwise smooth distributions. 
+3. **Multi-task learning**: Learning doesn't always transfer the way you think it does
+   - **Long views didn't translate to bookings**: As mentioned, bookings are far and few between, but long views occur much more frequently and are correlated with bookings. So perhaps a multi-task model trained to predict both long view and booking probabilities can transfer its learning from the former to the latter. Moreover, this may enable us to learn listing embeddings because now each listing has sufficient long views. However, this multi-task model hurt the online booking rate --- a likely explanation is that listings users like to view but don't book are often high-end stays with high prices, have long descriptions, or just look peculiar. 
+   {{< figure src="https://www.dropbox.com/scl/fi/gus99d010m8s0w27d3so9/Screenshot-2024-02-18-at-4.01.50-PM.png?rlkey=5aolyb4f1v3hmtrja2t7rbkjj&raw=1" width="450" >}}
+
+Airbnb's journey has since inspired many companies to pursue the neural LTR path. DL isn't just a fad, but it truly frees ML engineers from manual feature engineering and lets the model learn feature interactions and entity representations from data, and encourages deeper thinking about learning objectives and representations.
+
 ### Two-Tower Architecture
 
+{{< figure src="https://www.dropbox.com/scl/fi/gvhfjp5agwwt9phvfaj5a/Screenshot-2024-02-18-at-4.43.14-PM.png?rlkey=vsnlbs8uhck391keqgftcuhrc&raw=1" width="700" >}}
+
+Growing up, *The Two Towers* is the second installment of my favorite trilogy *The Lord of the Rings* --- as it happens, it's also the [second](https://arxiv.org/pdf/2002.05515) in the Airbnb's neural LTR journey, addressing the tricky issue of balancing relevance and listing prices. 
+
+At Airbnb, the final booking price often fell on the lower side of the median price on the search result page, suggesting many guests preferred a lower price than shown. Every method of directly enforcing a lower price hurt bookings, including:
+
+{{< figure src="https://www.dropbox.com/scl/fi/umzbo6fekj5orpdpl714n/Screenshot-2024-02-18-at-6.53.41-PM.png?rlkey=o5gu10mo3rq1s3h9lk2c3hpoo&raw=1" width="500" >}}
+
+- **Remove price as a model feature and add it to output**: $DNN_\theta (u, q, l_{\mathrm{no\\,price}}) - \tanh(w \cdot \mathcal{P} + b)$, where $\mathcal{P} = \log \frac{1 + \mathrm{price}}{1 + \mathrm{price}_{\mathrm{median}}}$. The first term is the DNN output without the price feature, and the second term increases monotonically with price --- all else being equal, more expensive listings will have lower scores and get down-ranked. This model reduced the average price but severely degraded bookings. An explanation is that price has interactions with many features --- i.e., what's considered expensive depends on the location, the number of guests/nights, the time of year, etc. --- removing it led to under-fitting.
+- **DNN partially monotonic w.r.t. price**: The team added price (more precisely $\mathrm{P}$) back as a feature and tweaked the DNN architecture so that the final output was monotonic with respect to price. However, like the previous approach, listings with absolute high prices were down-ranked, regardless of the context.
+    {{< figure src="https://www.dropbox.com/scl/fi/857s23p25v54vyiondf3e/Screenshot-2024-02-18-at-5.21.45-PM.png?rlkey=ku61eh7y36c185s143kl8p88b&raw=1" width="500" >}}
+- **Adding a price loss**: Apart from predicting the booking probability, this version also predicted the price. The total loss is a linear combination of the booking loss and the price loss. This model didn't generalize well online because it didn't accurately predict the price of entirely new inventory.
+
+The heart of is the problem is, the team just assumed *"cheaper is better"* when really the holy grail was *"finding the right price for a trip"*. Some guests like lavish places; bigger places and longer stays in hot destinations are naturally more expensive. To capture guest preferences and listing attributes, we need a good presentation of each entity, for which the [two-tower architecture](https://daiwk.github.io/assets/youtube-multitask.pdf) is a natural choice.
+
+
+- **Architecture**: The model consists of a query-user tower and a listing tower
+    {{< figure src="https://www.dropbox.com/scl/fi/blpclk9skdzujlvydn1of/Screenshot-2024-02-18-at-5.34.11-PM.png?rlkey=a3iim7bj9b7aseg6vfw5dyko5&raw=1" width="500" >}}
+    - **Query-user tower**: Has all query and user features --- each query-user combination has an "ideal listing" (100-vector)
+    - **Listing tower**: Has all listing features as 100-vectors
+- **Training data**: In typical [contrastive representation learning](https://lilianweng.github.io/posts/2021-05-31-contrastive/), each training instance consists of a triplet of items --- an anchor item, a positive example (same label as anchor), and a negative example (different labels from anchor). The goal of learning is to pull the positive example closer to the anchor and push the negative example away from the anchor in the embedding space. This case is slightly different: The triplet consists of a query-user combination, a booked listing, and an unbooked listing, not 3 listings. The goal is similar. 
+- **Triplet loss**: $\mathcal{L}_{\mathrm{triplet}} = \max(0, d(a,p) − d(a,n) + \mathrm{margin})$, where $d(a,p)$ is the distance between the anchor $a$ and the positive $n$, $d(a, n)$ the distance between $a$ and the negative $n$, and $\mathrm{margin}$ defines how much further $n$ needs to be from $a$ than $p$ needs to be from $a$. If $n$ is much further from $a$ than $p$ is, the loss will be 0; if both close to $a$ or $p$ is even further, the loss is positive. 
+- **Inference**: Trained on $\mathcal{L}_{\mathrm{triplet}}$, the model learns a 100-d dimension embedding of each query-user combination and each listing. At inference time, dot products between query-user and listing embeddings are used to score and rank listings. 
+
+While low price was not enforced by the two-tower model, the average price in search results decreased, without hurting bookings --- by learning query/user/listing representations, the model found "the right price for the right trip".
+
+This paper additionally addressed 2 common issues in search engines in clever ways:
+- **Cold start**: The team focused on cold-starting new listings. Rather than using magical numbers to boost new listings and decaying the boosting factor by # impressions and recency, the team build a model to infer missing engagement features for new listings (e.g., based on listings in the neighborhood) --- after all, that's the biggest difference between new listings and existing ones. The model resulted in a staggering 14\% increase in new listing bookings.
+- **Position bias**: Directly adding position as a feature and setting it to 0 at inference time may result in the model over-fitting to position. Adding a dropout (probabilistically setting some positions to 0) reduced over-fitting.
+
 ### Multi-Task Learning
+
+Most recently, the Airbnb Search team switched to a [multi-task](http://localhost:1313/posts/ltr/#two-tower-architecture:~:text=Optimizing%20Airbnb%20search%20journey%20with%20multi%2Dtask%20learning.) "Journey Ranker", a new industry gold standard. The motivation came from a unique Airbnb user problem: Guests often go through a long journey (click $\rightarrow$ view listing details, or "long click" $\rightarrow$ visit payment page $\rightarrow$ request stay $\rightarrow$ pay) before booking, and it can be frustrating to have the host reject the booking or either party decides to cancel later on. The North Star of Airbnb Search is *uncancelled bookings* and the multi-task learner traces the long-winded journey to optimize for this goal. 
+
+{{< figure src="https://www.dropbox.com/scl/fi/axrtofg2fg0fxta1ooa50/Screenshot-2024-02-18-at-7.57.46-PM.png?rlkey=unrsmgwy797gwvhs7wxhm0kot&raw=1" width="1500" >}}
+
+Listing and context (user, query) features go through separate MLP layers to create embeddings, which are then fed to both the "base module" and the "twiddler module":
+- **Base module**: Predicts probability of the final positive outcome (uncancelled booking) by chaining probabilities of 6 positive milestones ($\mathrm{c}$: click; $\mathrm{lc}$: long click, $\mathrm{pp}$: payment page, $\mathrm{req}$: request, $\mathrm{book}$: booking, $\mathrm{unc}$: uncancelled booking) 👉 $p(\mathrm{unc}) = p(\mathrm{c}) \cdot p(\mathrm{lc} | \mathrm{c}) \cdot p(\mathrm{pp} | \mathrm{lc}) \cdot p(\mathrm{req} | \mathrm{pp}) \cdot p(\mathrm{book} | \mathrm{req}) \cdot p(\mathrm{unc} | \mathrm{book})$
+   - **Hard parameter sharing**: Representation is shared by all 6 task heads
+   - **Final loss**: Sum of each individual task $t$'s loss, $\mathcal{L}_{base} = \sum_t \mathcal{L}_t$
+   - **Task loss**: $\mathcal{L}_t = \sum_u \sum_s l_t (s|\theta) \cdot w_t$, where $u \in U$ is a user, $s \in S_u$ is a search by $u$, and $l_t (s|\theta)$ is a standard ranking loss. To prevent common tasks (e.g., clicks) from dominating the final loss, a weight $w_t$ is assigned to each task, which can be the inverse of ${p(\mathrm{unc} | t)}$ --- the observed probability that there will be an uncancelled booking if the task is completed.
+- **Twiddler module**: A booking could be cancelled by the user or by the host, which is not captured in the base module. The twiddler module is dedicated to predicting negative milestones, including host rejection, guest cancellation, and host cancellation. The outputs are 3 predicted probabilities. 
+    - **Why build this module**: One reason is given --- bookings can fail in multiple ways, yet the base module meshes them together and only predicts the final success probability. Moreover, negative milestones are rare --- the authors found having a separate module was better for battling class imbalance.
+    - **Final loss**: Also sum of each individual task $t$'s loss, $\mathcal{L}_{twiddler} = \sum_t \mathcal{L}_t$
+    - **Task loss**: Binary classification loss for each of the negative milestones
+
+The combination module combines outputs from the base and the twiddler modules to output a relevance score. It learns the weights used in the linear combination, $y_{combo} = y_{base} \cdot \alpha_{base} + \sum_{t \in twiddler} y_t \cdot \alpha_t$, while parameters in previous modules are frozen. The final loss of the multi-task learner is the sum of losses in the 3 modules.
+
+The multi-task ranker simultaneously reduced cancellations and improved search relevance. Advantages compared to past Airbnb models predicting 0/1 booking labels:
+- **Quantity**: Bookings are sparse, whereas data from earlier milestones are larger in quantity and informative to the final outcome 
+- **Diversity**: The model sees searches from a variety of bookers and non-bookers
+- **Intermediate predictions**: Intermediate outputs may be used as stand-alone predictions or inputs to other models
+
+{{< figure src="https://www.dropbox.com/scl/fi/4mju0ar1xt2yc7luwzsqf/Screenshot-2024-02-18-at-8.49.58-PM.png?rlkey=ks6whiwvl64uu95lcizx9aigh&raw=1" width="750" >}}
+
+One thing to note is that the Airbnb paper adopted hard parameter sharing, where a single input representation is shared by all tasks. If some tasks are not highly correlated, the model performance will be compromised. Researchers from YouTube published a [paper](https://daiwk.github.io/assets/youtube-multitask.pdf) using a Multi-gate Mixture-of-Expert (MMoE) layer to determine which tasks should share parameters and which ones should not. Looking back, Airbnb's [first attempt](http://localhost:1313/posts/ltr/#fully-connected-dnns) at multi-task learning might have suffered from not highly correlated tasks (bookings vs. long  views), for which MMoE could be a solution. 
+
+{{< figure src="https://www.dropbox.com/scl/fi/l5r5b72lxslifojmyx587/Screenshot-2024-02-18-at-9.07.46-PM.png?rlkey=8y52i0i8t5b4xu106f5vqz1co&raw=1" width="500" >}}
 
 
 ## LLM Re-Rankers
@@ -168,9 +246,11 @@ Smashing benchmarks may not be so exciting if that's all LTR can do --- the Airb
 9. Tan, Chun How, Austin Chan, Malay Haldar, Jie Tang, Xin Liu, Mustafa Abdool, Huiji Gao, Liwei He, and Sanjeev Katariya. [*Optimizing Airbnb search journey with multi-task learning.*](https://arxiv.org/pdf/2305.18431) *arXiv*.
 10. Wang X., Li C., Golbandi, N., Bendersky, M., and Najork, M. (2018). [*The LambdaLoss framework for ranking metric optimization.*](https://dl.acm.org/doi/pdf/10.1145/3269206.3271784) *CIKM*.
 11. Yan, L., Qin, Z., Zhuang, H., Wang, X., Bendersky, M., & Najork, M. (2022). [*Revisiting two-tower models for unbiased learning to rank*.](https://dl.acm.org/doi/pdf/10.1145/3477495.3531837) *SIGIR*.
+12. Zhao, Z., Hong, L., Wei, L., Chen, J., Nath, A., Andrews, S., Kumthekar, A., Sathiamoorthy, M., Yi, X., and Chi, E., (2019). [*Recommending what video to watch next: A multitask ranking system*](https://daiwk.github.io/assets/youtube-multitask.pdf). *RecSys*.
 
 ## Blogposts
 1. [*Introduction to Learning to Rank*](https://everdark.github.io/k9/notebooks/ml/learning_to_rank/learning_to_rank.html) by Kyle Chung (2019)
-2. [*The inner workings of the lambdarank objective in LightGBM*](https://ffineis.github.io/blog/2021/05/01/lambdarank-lightgbm.html) by Frank Fineis (2021)
-2. [*Deep Multi-task Learning and Real-time Personalization for Closeup Recommendations*](https://medium.com/pinterest-engineering/deep-multi-task-learning-and-real-time-personalization-for-closeup-recommendations-1030edfe445f) by Pinterest (2023)
-3. [*Using LLMs for Search with Dense Retrieval and Reranking*](https://txt.cohere.com/using-llms-for-search/) by Cohere (2023)
+2. [*The inner workings of the LambdaRank objective in LightGBM*](https://ffineis.github.io/blog/2021/05/01/lambdarank-lightgbm.html) by Frank Fineis (2021)
+3. [*Contrastive Representation Learning*](https://lilianweng.github.io/posts/2021-05-31-contrastive/) by Lilian Weng
+4. [*Deep Multi-task Learning and Real-time Personalization for Closeup Recommendations*](https://medium.com/pinterest-engineering/deep-multi-task-learning-and-real-time-personalization-for-closeup-recommendations-1030edfe445f) by Pinterest (2023)
+5. [*Using LLMs for Search with Dense Retrieval and Reranking*](https://txt.cohere.com/using-llms-for-search/) by Cohere (2023)
