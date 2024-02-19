@@ -179,7 +179,7 @@ At Airbnb, the final booking price often fell on the lower side of the median pr
 {{< figure src="https://www.dropbox.com/scl/fi/umzbo6fekj5orpdpl714n/Screenshot-2024-02-18-at-6.53.41-PM.png?rlkey=o5gu10mo3rq1s3h9lk2c3hpoo&raw=1" width="500" >}}
 
 - **Remove price as a model feature and add it to output**: $DNN_\theta (u, q, l_{\mathrm{no\\,price}}) - \tanh(w \cdot \mathcal{P} + b)$, where $\mathcal{P} = \log \frac{1 + \mathrm{price}}{1 + \mathrm{price}_{\mathrm{median}}}$. The first term is the DNN output without the price feature, and the second term increases monotonically with price --- all else being equal, more expensive listings will have lower scores and get down-ranked. This model reduced the average price but severely degraded bookings. An explanation is that price has interactions with many features --- i.e., what's considered expensive depends on the location, the number of guests/nights, the time of year, etc. --- removing it led to under-fitting.
-- **DNN partially monotonic w.r.t. price**: The team added price (more precisely $\mathrm{P}$) back as a feature and tweaked the DNN architecture so that the final output was monotonic with respect to price. However, like the previous approach, listings with absolute high prices were down-ranked, regardless of the context.
+- **DNN partially monotonic w.r.t. price**: The team added price (more precisely $\mathcal{P}$) back as a feature and tweaked the DNN architecture so that the final output was monotonic with respect to price. However, like the previous approach, listings with absolute high prices were down-ranked, regardless of the context.
     {{< figure src="https://www.dropbox.com/scl/fi/857s23p25v54vyiondf3e/Screenshot-2024-02-18-at-5.21.45-PM.png?rlkey=ku61eh7y36c185s143kl8p88b&raw=1" width="500" >}}
 - **Adding a price loss**: Apart from predicting the booking probability, this version also predicted the price. The total loss is a linear combination of the booking loss and the price loss. This model didn't generalize well online because it didn't accurately predict the price of entirely new inventory.
 
@@ -225,13 +225,32 @@ The multi-task ranker simultaneously reduced cancellations and improved search r
 
 {{< figure src="https://www.dropbox.com/scl/fi/4mju0ar1xt2yc7luwzsqf/Screenshot-2024-02-18-at-8.49.58-PM.png?rlkey=ks6whiwvl64uu95lcizx9aigh&raw=1" width="750" >}}
 
-One thing to note is that the Airbnb paper adopted hard parameter sharing, where a single input representation is shared by all tasks. If some tasks are not highly correlated, the model performance will be compromised. Researchers from YouTube published a [paper](https://daiwk.github.io/assets/youtube-multitask.pdf) using a Multi-gate Mixture-of-Expert (MMoE) layer to determine which tasks should share parameters and which ones should not. Looking back, Airbnb's [first attempt](http://localhost:1313/posts/ltr/#fully-connected-dnns) at multi-task learning might have suffered from not highly correlated tasks (bookings vs. long  views), for which MMoE could be a solution. 
+One thing to note is that the Airbnb paper adopted hard parameter sharing, where a single input representation is shared by all tasks. If some tasks are not highly correlated, the model performance will be compromised. Researchers from YouTube published a [paper](https://daiwk.github.io/assets/youtube-multitask.pdf) using a Multi-Gate Mixture-of-Expert (MMoE) layer to determine which tasks should share parameters and which ones should not. Looking back, Airbnb's [first attempt](http://localhost:1313/posts/ltr/#fully-connected-dnns) at multi-task learning might have suffered from not highly correlated tasks (bookings vs. long  views), for which MMoE could be a solution. 
 
 {{< figure src="https://www.dropbox.com/scl/fi/l5r5b72lxslifojmyx587/Screenshot-2024-02-18-at-9.07.46-PM.png?rlkey=8y52i0i8t5b4xu106f5vqz1co&raw=1" width="500" >}}
 
 
 ## LLM Re-Rankers
-<span style="background-color: #FDB515">**TODO: Read and summarize Google + Cohere papers**</span>
+> "Ranking documents using Large Language Models (LLMs) by directly feeding the query and candidate documents into the prompt is an interesting (😂) and practical problem." --- [Qin et al. (2023)](https://arxiv.org/pdf/2306.17563)
+
+Ranking seems like a bad use case for LLMs since documents are enormous and relevance is personal and contextual. Upon second thought, why not --- LTR was trained on human ratings before large-scale search logs and is still evaluated by humans. 
+
+Early attempts focused on pointwise (e.g., [Liang et al. 2022](https://arxiv.org/pdf/2211.09110.pdf?trk=public_post_comment-text)) and listwise (e.g., [Sun et al., 2023](https://arxiv.org/pdf/2304.09542)) prompting, which proved difficult for LLMs:
+
+{{< figure src="https://www.dropbox.com/scl/fi/0j6q19dgfsd1mcsqa4nvf/Screenshot-2024-02-18-at-10.03.08-PM.png?rlkey=l0c47a2ukifracu9h01ocvifj&raw=1" width="600" >}}
+
+- **Pointwise**: The prompt asks LLMs to assign a relevance rating to each query-document pair. This approach is not logically sound. First of all, LLMs are unable to provide *calibrated* probabilities across prompts which we can use to *sort* documents in an optimal order. Secondly, some models (GPT-4) don't output probabilities at all. Lastly, absolute probabilities are not even necessary for LTR, which relies on the relative probabilities of documents. 
+- **Listwise**: Asking LLMs to re-rank the document list seems to address all issues above; in reality, LLMs sometimes miss or repeat documents, generate nonsensical ordering, rank the same list differently when prompted again, or refuse to rank. So far, only GPT-4 does well but it's cost prohibitive. 
+
+Pairwise prompting recently proposed by Google Search researchers led to a performance breakthrough. The LLM is given a pair of documents for each query and either prompted to choose the more relevant document (generation) or assign scores to both (scoring). To mitigate order effect, each pair is shown twice in reverse ordering. 
+
+{{< figure src="https://www.dropbox.com/scl/fi/6r18o2vg18tw4hkn45qmu/Screenshot-2024-02-18-at-10.04.38-PM.png?rlkey=e8shfiv0je8x0xuqkehmvqvmq&raw=1" width="600" >}}
+
+To get the list order, the $O(N^2)$ brute-force solution is to rank all pairs (twice per pair, if we want to mitigate order effect). Efficient sorting algorithms such as Quicksort and Heapsort reduce time complexity to $O(N \log N)$. The sliding window approach does a single scan through the document list, swapping each consecutive pair *iff* LLM disagrees with the initial ranking, reducing time complexity to $O(N)$. 
+
+{{< figure src="https://www.dropbox.com/scl/fi/bvztqkag49xd2l38wcco4/Screenshot-2024-02-18-at-10.58.06-PM.png?rlkey=sc1d8y5ak2f9m5qtgwbfpe5ps&raw=1" width="600" >}}
+
+This model outperformed other GPT-based models, as well as BERT-based cross-encoder re-rankers *at that time*. Later models such as [RankZepher](https://arxiv.org/pdf/2312.02724?trk=public_post_comment-text) were able to perform listwise ranking using smaller LLMs distilled from GPT 3.5/4 (is that even allowed? 😂). These LLM re-rankers are often compared to the BM25 baseline and other LLM re-rankers, but not GBDT or neural LTR. I guess when you have a small search engine (perhaps for a personal/startup project), it's easier to get off the ground using an LLM re-ranker when GBDT and neural LTR can be quite data hungry.
 
 # Learn More
 ## Papers
