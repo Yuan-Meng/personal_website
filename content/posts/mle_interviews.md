@@ -17,7 +17,7 @@ include_toc: true
 
 Nearly 2 years ago, I wrote a [blog post](https://www.yuan-meng.com/posts/newgrads/) on how to find jobs as a new grad data scientist (as a twist of fate, I never worked as a product data scientist but instead became an ML engineer at DoorDash). Back in 2021, I cared a ton about interview skills, answer "frameworks", and whatnot, which may still come handy at New Grad or Early Career levels. For experienced hires, however, I think of interviews as some sort of marriage proposal --- *it's something you can rehearse but can never force*.
 
-If your resume is strong, you may get a date or two (e.g., recruiter call/HM chat/phone screen), but for the company to say "yes" (the offer), the expertise you bring to the table has to fit their roadmap and the person that you are must fit the company/team culture --- otherwise, the marriage will be painful (and short). 
+If your resume is strong enough, you may get a date or two (e.g., recruiter call/HM chat/phone screen), but for the company to say "yes" (the offer), the expertise you bring to the table has to fit their roadmap and the person that you are must fit the company/team culture --- otherwise, the marriage will be painful (and short). 
 
 Of course, you can and should prepare for interviews --- just like people spent days or even months preparing for the very moment to propose, but a strong foundation should've already been built over the years through thick (ML counterpart: when your models succeed) and thin (ML counterpart: when you learn from failures). 
 
@@ -64,7 +64,7 @@ I used to open a Google doc for each company I interviewed with and quickly noti
 
 {{< figure src="https://www.dropbox.com/scl/fi/gabmdr5f1oey5skstxkh6/Screenshot-2024-03-15-at-11.29.21-PM.png?rlkey=cf4m9kphy4b80w4prppzp5u92&raw=1" width="450" caption="I created Notion pages to collect knowledge for each MLE interview round" >}}
 
-I can't share my notes since they contain NDA content --- you should create your notes own anyways, because deep learning (no puns intended) doesn't come from reading someone's notes; rather, notes are a means to consolidate your learning from the source (e.g., textbooks, SOTA papers, talks, engineering blogs, code, etc.).
+I can't share my notes since they contain NDA content --- you should create your own notes anyways, because deep learning (no puns intended) doesn't come from reading someone else's notes; rather, notes are a means to consolidate your learning from the source (e.g., textbooks, SOTA papers, talks, engineering blogs, code, etc.).
 
 ### Block Time on Your Calendar
 
@@ -141,7 +141,7 @@ After that, I recommend doing Blind 75 and NeetCode 150, two problem collections
  {{< figure src="https://www.dropbox.com/scl/fi/rxbnz4jpmzd8q22a7ccyx/Screenshot-2024-03-16-at-12.41.08-AM.png?rlkey=dpmx3aseb5ijp84eo61z64o26&raw=1" width="450" >}}
 
 
-I was terrible when doing my first 100-200 questions, often having no clue or struggling to translate my thoughts into code. After 300-400 questions, I started to get the hang of it, often having a strong sense of the solution by recognizing patterns in the prompt/test cases. When solving the problem, I also have an intuition about whether I'm going in the right direction or not (e.g., adding more and more auxiliary data structures or special cases is a strong sign of going awry). Think of LC problems as training data for the AI that is you --- too few, you don't get the chance to observe representative patterns and learn useful tricks. 
+I was terrible when doing my first 100-200 questions, often having no clues or struggling to translate my thoughts into code. After 300-400 questions, I started to get the hang of it, often having a strong sense of the solution by recognizing patterns in the prompt/test cases. When solving the problem, I also have an intuition about whether I'm going in the right direction or not (e.g., adding more and more auxiliary data structures or special cases is a strong sign of going awry). Think of LC problems as training data for the AI that is you --- too few, you don't get the chance to observe representative patterns and learn useful tricks. 
 
 However, the "learning algorithm" also matters. I like how Chris Jereza [put it](https://www.youtube.com/watch?v=lDTKnzrX6qU) --- many people have seen so many LC questions yet still fail to recognize common tricks and patterns, just like many go to the gym so often yet still fail to get fit --- *mastery is not just determined by how many questions you did, but also by intensity and reflection*. I track problems I solved in Notion, mark my level of mastery (so I can re-do problems for which I had "no clue" or "bugs"), and summarize key insights for each problem in one or two sentences. For each company I interviewed with, I manually added questions from LC --- the long-term benefits far outweigh the extra time in the beginning. You can modify my [template](https://www.notion.so/yuanm/7667ceebb8dd4f3f840d96e43c9733c1?v=a9389f5990ed4cc691e326f92488624f&pvs=4) to your liking. 
 
@@ -211,11 +211,11 @@ For each entry, I write a one- or two-sentence TL;DR, and after clicking on the 
 
 ### Ranking
 
-Ranking is the revenue-generator of consumer-facing companies --- without search/discovery/ads, companies can't make money. This is why ranking is one of the most impactful and exiting domains and has the most job openings (arguable tied with NLP). 
+Ranking is the revenue-generator of consumer-facing companies --- without search/discovery/ads, companies can't make money. This is why ranking is one of the most impactful and exiting domains and has the most job openings (arguably tied with NLP). 
 
 I recently summarized classic search ranking papers in a blog post, [An Evolution of Learning to Rank](https://www.yuan-meng.com/posts/ltr/). You can find the original papers in the ["Learn More"](https://www.yuan-meng.com/posts/ltr/#learn-more) section. 
 
-The sibling of search is recommendation, where users don't submit a query yet we still want to read their minds and show appealing contents to them. To gain a deep understanding of this domain, my friend recommended [深度学习推荐系统](https://www.amazon.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%85%A8%E5%BD%A9%EF%BC%89-%E5%8D%9A%E6%96%87%E8%A7%86%E7%82%B9%E5%87%BA%E5%93%81-%E7%8E%8B%E5%96%86/dp/7121384647/ref=sr_1_1?crid=XZSJ6ZW1282A&dib=eyJ2IjoiMSJ9.BxuHruDCtEpyjInRfwvRFn7pyNHfnLqM9I7MhiVO4QjP5NwIPzDAXhfcdM4N-9cc.-Amg_ZFv605zkwdYZmfQJIg4d3GGoacM4rlgWcwz29c&dib_tag=se&keywords=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F&qid=1710629348&sprefix=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%2Caps%2C141&sr=8-1) by Zhe Wang, who used to be the Head of Engineering at TikTok. This book not only reviews the evolution of recommendation models from traditional collaborative filtering to emerging deep learning architectures, but also speaks from practical experience of productionizing such models. Unfortunately for non-Chinese speakers, this book is only written in Chinese. I also find Gaurav Chakravorty's [blog](https://substack.com/@recsysml) and [repo](https://github.com/gauravchak) a gold mine of practical rec models knowledge. For instance, in this [two-tower model repo](https://github.com/gauravchak/two_tower_models), Gaurav started with a bare bone structure and gradually components such as user history embeddings, position debiasing, and a light ranker, which is highly educational.
+Recommendation is the sibling of search, where users don't submit a query yet we still read their minds and show appealing contents to them. To gain a deep understanding of this domain, my friend recommended [深度学习推荐系统](https://www.amazon.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%85%A8%E5%BD%A9%EF%BC%89-%E5%8D%9A%E6%96%87%E8%A7%86%E7%82%B9%E5%87%BA%E5%93%81-%E7%8E%8B%E5%96%86/dp/7121384647/ref=sr_1_1?crid=XZSJ6ZW1282A&dib=eyJ2IjoiMSJ9.BxuHruDCtEpyjInRfwvRFn7pyNHfnLqM9I7MhiVO4QjP5NwIPzDAXhfcdM4N-9cc.-Amg_ZFv605zkwdYZmfQJIg4d3GGoacM4rlgWcwz29c&dib_tag=se&keywords=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F&qid=1710629348&sprefix=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%2Caps%2C141&sr=8-1) by Zhe Wang, who used to be the Head of Engineering at TikTok. This book not only reviews the evolution of recommendation models from traditional collaborative filtering to emerging deep learning architectures, but also speaks from practical experience of productionizing such models. Unfortunately for non-Chinese speakers, this book is only written in Chinese. I also find Gaurav Chakravorty's [blog](https://substack.com/@recsysml) and [repo](https://github.com/gauravchak) a gold mine of practical rec models knowledge. For instance, in this [two-tower model repo](https://github.com/gauravchak/two_tower_models), Gaurav started with a bare bone structure and gradually introduced components such as user history embeddings, position debiasing, and a light ranker, which is highly educational.
 
 I don't know much about ads, which has extra concerns (e.g., calibration, bidding) on top of search/recs. I've turned down recruiters reaching out for ads positions.
 
@@ -244,9 +244,23 @@ Any example you provide should be a true reflection of your character, but think
 
 ### Project Deep Dive
 
-For companies 
+In some sense, the project deep dive is like an extended version of "tell me about the project you're most proud of", but goes into all technical details imaginable ---
 
-slides 
-talk to friends 
+- **Background**: What business problem was the model trying to solve? 
+- **Solution \& alternatives**: How did you solve the problem? Which alternatives did you consider? What were the trade-offs? How did you get the team onboard? 
+- **Challenges**: Which technical challenges did you face? Cross-functionally?
+- **Impact**: In the end, what impact did you create? How did you measure it?
+- **Reflection**: What were you most proud of and what would you change?
+
+Choose a successful project you drove from end to end, or the lack of ownership or impact will backfire. Not only that, choose a project for which you made wise decisions by carefully considering all alternatives and thoughtfully balancing all sides (e.g., business goals, urgency, engineering excellence, infra...). If you made a big mistake (e.g., only involving a function until it was too late, making hasty decisions without thinking ahead) in a project, talk about other projects --- this is your chance to showcase your technical + XFN collab prowess, not a post mortem.
+
+To prepare for this round, I re-read my self-review from perf cycles and made slides for each significant project I've done. I highly recommend finding a friend not even in your field and practicing the delivery of your stories.  
 
 # The "Moment of Truth"
+
+Back in school, I often lost sleep the night before the interview, fearing any wrong word I said could cost me the job. Nowadays I work, sleep, and play with cats as usual before interviews, knowing results are determined long before then. If I am "the one", then all I need is to chat with the interviewer about topics we both love and feel passionate about. For instance, I can spot a ranking expert from a brief conversation --- even if they occasionally stammer or forget one or two minute details --- so can my interviewer. If I make grave mistakes or can't recover what I forget from first-principle thinking, then I'm not the one and not hiring me is for the best. It's kinda like being rejected after a few dates isn't pleasant, but it's orders of magnitude better than being married to someone profoundly incompatible.
+
+If you know me by now, you might've guessed that I created an interview progress tracker, using one table to track the stage (**scheduling**: sent availability but coordinator hasn't finalized the schedule; **in progress**: interview scheduled for a future date; **done**: completed the given interview round) of each round (e.g., recruiter/HM chat, phone screen, onsite) with each company and another table to track what each round entails. When interviewing with a specific company, I filter down to the rounds asked by that company and review the corresponding Notion Pages. 
+
+{{< figure src="https://www.dropbox.com/scl/fi/bp78z6q27pa5cvotn342k/Screenshot-2024-03-16-at-11.44.33-PM.png?rlkey=wgymx513hyfu6t1wbo2zutvr1&raw=1" width="1000" >}}
+
