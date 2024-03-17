@@ -72,7 +72,7 @@ I practice LC-style coding for one hour before work and 2 hours after work. I re
 
 You should find a schedule that suits your lifestyle. Or perhaps, you thrive without schedules, like some of my friends do. The bottom line is, ML interview prep takes a ton of time and you need to learn how to fit it into your normal work/life. 
 
-{{< figure src="https://www.dropbox.com/scl/fi/g1m9j7z63j51hbfa2q9fi/Screenshot-2024-03-15-at-11.39.04-PM.png?rlkey=zg36o6hys6yhpnd4qi8i2xd6j&raw=1" width="1200" caption="I blocked time for LC practice and NL/ranking readings in Notion Calendar" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/g1m9j7z63j51hbfa2q9fi/Screenshot-2024-03-15-at-11.39.04-PM.png?rlkey=zg36o6hys6yhpnd4qi8i2xd6j&raw=1" width="1200" caption="I blocked time for LC practice and NLP/ranking readings in Notion Calendar" >}}
 
 
 ## Coding
@@ -180,7 +180,7 @@ All supervised learning models share the 3 following components ([Burkov, 2019](
 - **Optimization criterion**: Objectives the training process seeks to optimize for
 - **Optimization routine**: Approaches (e.g., gradient descent, SGD, momentum, Adam) to leveraging training data to find a solution to the optimization criterion  
 
-The so-called "ML breadth" interview usually revolves these concepts. For instance, how do we know if model training has converged (by looking at train/valid losses)? What is the so-called bias-variance trade-off? How do we tell if a model is under-fitting or over-fitting? If a model is over-fitting, how can we regularize it (e.g., L1/L2 regularization, early stopping, dropout...)? When training very deep neural nets, how do we prevent vanishing or exploding gradients? How do we choose the right optimizers and schedulers? How do we properly initialize model weights?... 
+The so-called "ML breadth" interview usually revolves around these concepts. For instance, how do we know if model training has converged (by looking at train/valid losses)? What is the so-called bias-variance trade-off? How do we tell if a model is under-fitting or over-fitting? If a model is over-fitting, how can we regularize it (e.g., L1/L2 regularization, early stopping, dropout...)? When training very deep neural nets, how do we prevent vanishing or exploding gradients? How do we choose the right optimizers and schedulers? How do we properly initialize model weights?... 
 
 You can find the answers to these questions in countless textbooks, YouTube videos, tech blogs, interview guides, etc.. I like learning things systemically (as opposed to in a piecemeal manner) and below are books and online resources I like the best. 
 
@@ -191,11 +191,13 @@ You can find the answers to these questions in countless textbooks, YouTube vide
 3. **Go deep into theory**: Last but not least, Kevin Murphy wrote 3 epic books on machine learning theory, the most recent ones being [Probabilistic Machine Learning: An Introduction (2022)](https://probml.github.io/pml-book/book1.html) and [Probabilistic Machine Learning: Advanced Topics (2023)](https://probml.github.io/pml-book/book2.html). Even for concepts you and I can't be more familiar with such attention, he still shed fresh light on them every now and then (see my [post](https://www.yuan-meng.com/posts/attention_as_dict/) on the "attention as soft dictionary lookup" analogy). An an ML who wishes to connect the dots scattered over the years, I think Kevin's books are the dream. 
     {{< figure src="https://www.dropbox.com/scl/fi/f2624w8e5dxe77cko9791/Screenshot-2024-03-16-at-2.57.10-PM.png?rlkey=8a51dwek7aiqdwtbn8a6ix0ao&raw=1" width="500" caption="[Table of Content](https://probml.github.io/pml-book/book2.html#toc) of Probabilistic Machine Learning: Advanced Topics" >}}
 
-I don't specifically prepare for ML Breadth interviews or keep Notion notes --- I did that 2 years ago (see my [old notes](https://www.notion.so/yuanm/core-ml-1930f2267ce942c984b005c1bb62d429?pvs=4)). Chip Huyen curated some [questions](https://huyenchip.com/ml-interviews-book/contents/8.1.2-questions.html) in her ML interview book, which you can go over before an interview to refresh your memories.
+<!-- I don't specifically prepare for ML Breadth interviews or keep Notion notes --- I did that 2 years ago (see my [old notes](https://www.notion.so/yuanm/core-ml-1930f2267ce942c984b005c1bb62d429?pvs=4)).  -->
+
+Chip Huyen curated some [questions](https://huyenchip.com/ml-interviews-book/contents/8.1.2-questions.html) in her ML interview book and a Roblox Principal MLE also wrote a [nice article](https://medium.com/@reachpriyaa/how-to-crack-machine-learning-interviews-at-faang-78a2882a05c5) that contains many actual questions I've encountered, which you can go over before an ML Breadth interview to refresh your memories.
 
 ## ML Depth 
 
-If you interview with Meta, you'll get the chance to choose a team later, but in today's market, most MLE candidates interview with specific teams that look for specific talents. As a domain expert, you need to know the gold standard in your chosen field(s) and the new bells and whistles. For me, it's ranking and NLP.
+If you interview with Meta or the likes, you'll get the chance to choose a team later, but in today's market, most MLE candidates interview with specific teams that look for specific talents. As a domain expert, you need to know the gold standard in your chosen field(s) and the new bells and whistles. For me, it's ranking and NLP.
 
 ### Paper Tracker
 
@@ -211,7 +213,7 @@ For each entry, I write a one- or two-sentence TL;DR, and after clicking on the 
 
 ### Ranking
 
-Ranking is the revenue-generator of consumer-facing companies --- without search/discovery/ads, companies can't make money. This is why ranking is one of the most impactful and exiting domains and has the most job openings (arguably tied with NLP). 
+Ranking is the revenue-generator of consumer-facing companies --- without search/discovery/ads, companies can't make money. This is why ranking is one of the most impactful and exciting domains and has the most job openings (arguably tied with NLP). 
 
 I recently summarized classic search ranking papers in a blog post, [An Evolution of Learning to Rank](https://www.yuan-meng.com/posts/ltr/). You can find the original papers in the ["Learn More"](https://www.yuan-meng.com/posts/ltr/#learn-more) section. 
 
