@@ -1,6 +1,6 @@
 ---
 title: (Opinionated) Guide to ML Engineer Job Hunting
-date: 2024-03-15
+date: 2024-03-16
 math: true
 tags:
     - career
