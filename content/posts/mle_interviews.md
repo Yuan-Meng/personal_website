@@ -193,7 +193,7 @@ You can find the answers to these questions in countless textbooks, YouTube vide
 
 <!-- I don't specifically prepare for ML Breadth interviews or keep Notion notes --- I did that 2 years ago (see my [old notes](https://www.notion.so/yuanm/core-ml-1930f2267ce942c984b005c1bb62d429?pvs=4)).  -->
 
-Chip Huyen curated some [questions](https://huyenchip.com/ml-interviews-book/contents/8.1.2-questions.html) in her ML interview book and a Roblox Principal MLE also wrote a [nice article](https://medium.com/@reachpriyaa/how-to-crack-machine-learning-interviews-at-faang-78a2882a05c5) that contains many actual questions I've encountered, which you can go over before an ML Breadth interview to refresh your memories.
+Chip Huyen curated some [questions](https://huyenchip.com/ml-interviews-book/contents/8.1.2-questions.html) in her ML interview book and a Roblox Principal MLE also wrote a [nice article](https://medium.com/@reachpriyaa/how-to-crack-machine-learning-interviews-at-faang-78a2882a05c5) that contains many actual questions I've encountered, which you can go over before an ML breadth interview to refresh your memories.
 
 ## ML Depth 
 
