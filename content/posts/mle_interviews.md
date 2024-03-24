@@ -79,8 +79,9 @@ You should find a schedule that suits your lifestyle. Or perhaps, you thrive wit
 
 ### Classic DS\&A
 
+As the NeetCode guy Navdeep Singh [put it](https://www.youtube.com/watch?v=2V7yPrxJ8Ck), the only way to solve LC problems is to have seen the problems beforehand; it's unrealistic to derive neat algorithms on the spot and companies are fooling themselves to think they are testing candidates on pure problem-solving skills. If you can't change the game, you gotta play along.
 
-Before grinding LC, take [NeetCode's](https://neetcode.io/courses) beginner and advanced courses, where the incredible [Navdeep Singh](https://www.youtube.com/c/neetcode/about) explains all the data structures and algorithms you'll ever need for coding interviews. Each lesson typically lasts between 10 to 25 minutes and includes 3 to 5 practice questions. The courses are paid, but for the cost of 3-4 take-out orders, you get the best way to organize your learning and practice.
+Before grinding LC, take [NeetCode's](https://neetcode.io/courses) beginner and advanced courses, where he explains almost all the data structures and algorithms you'll ever need for coding interviews. Each lesson typically lasts between 10 to 25 minutes and includes 3 to 5 practice questions. The courses are paid, but for the cost of 3-4 take-out orders, you get the best way to organize your learning and practice.
 
  {{< figure src="https://www.dropbox.com/scl/fi/b59qf2upsoz3pu4rvsi6s/Screenshot-2024-03-16-at-12.18.14-AM.png?rlkey=gjprpbxezvo4uzjt6d53w2qpp&raw=1" width="600" >}}
 
