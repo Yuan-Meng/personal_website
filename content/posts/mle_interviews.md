@@ -79,7 +79,7 @@ You should find a schedule that suits your lifestyle. Or perhaps, you thrive wit
 
 ### Classic DS\&A
 
-As the NeetCode guy Navdeep Singh [put it](https://www.youtube.com/watch?v=2V7yPrxJ8Ck), the only way to solve LC problems is to have seen the algorithms beforehand; it's unrealistic to derive neat algorithms on the spot and companies are fooling themselves to think they are testing candidates on pure problem-solving skills. If you can't change the game, you gotta play along.
+As the NeetCode guy Navdeep Singh [put it](https://www.youtube.com/watch?v=2V7yPrxJ8Ck), the only way to solve LC problems is to have seen the algorithms beforehand; it's unrealistic to derive neat algorithms on the spot and companies are fooling themselves into thinking they are testing candidates on pure problem-solving skills. If you can't change the game, you gotta play along.
 
 Before grinding LC, take [NeetCode's](https://neetcode.io/courses) beginner and advanced courses, where he explains almost all the data structures and algorithms you'll ever need for coding interviews. Each lesson typically lasts between 10 to 25 minutes and includes 3 to 5 practice questions. The courses are paid, but for the cost of 3-4 take-out orders, you get the best way to organize your learning and practice.
 
@@ -153,7 +153,9 @@ I highly recommend doing a few mock interviews before the real interview, becaus
 
 ### ML Coding
 
-Some companies ask ML candidates to code an ML algorithm from scratch. The original motivation is to see if the candidate can translate their understanding into code; in practice, it's a memorization game --- you can prepare for common algorithms in advance. You can find my implementations of classic ML (e.g., KNN, K-means, linear regression, and logistic regression) in my [blog post](https://www.yuan-meng.com/posts/md_coding/). Candidates may also be asked to implement a component from a neural net. For instance, NLP candidates may be asked to implement multi-headed attention, which you can find in my other [post](https://www.yuan-meng.com/posts/attention_as_dict/). 
+Some companies ask ML candidates to code an ML algorithm from scratch. The original motivation is to see if the candidate can translate their ML knowledge into code; in reality, it's another memorization game, just like LC --- it was even the NeetCode guy who compiled the most comprehensive list of [ML coding questions](https://neetcode.io/practice?subpage=practice&tab=coreSkills&topic=Machine%20Learning) I saw. For detailed explanations, you can find my [blog post](https://www.yuan-meng.com/posts/md_coding/) on classic ML implementations (e.g., KNN, K-means, linear regression, and logistic regression). Candidates may also be asked to implement a component from a neural net. For instance, NLP candidates may be asked to implement multi-headed attention, which you can find in my other [post](https://www.yuan-meng.com/posts/attention_as_dict/).
+
+ {{< figure src="https://www.dropbox.com/scl/fi/oug6tfhoga0gsom6zq4cn/Screenshot-2024-03-23-at-7.00.24-PM.png?rlkey=vs20ujbofoncvy54t93siub1o&raw=1" width="1200" >}}
 
 It's rarer but you may also be asked to implement eval metric calculations given true labels and predicted labels, so prepare for the common ones (e.g., AUC, nDCG).
 
