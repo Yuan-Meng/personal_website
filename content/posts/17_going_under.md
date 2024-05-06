@@ -15,4 +15,6 @@ When I was seventeen, it felt like the whole world was going to end. I was proba
 
 People joke about rock stars dying young — I always thought I was gonna join the "[27 Club](https://en.wikipedia.org/wiki/27_Club)", if not earlier. My life is far from perfect, yet I've made friends with whom I could be myself and traveled places where I felt calm, inspired, or mesmerized. People say age is just a number, which is only partially true --- we all die before X years old --- this number isn't just a symbol, but truly brings us biologically closer to the end. I'm mindful of this ultimatum, but getting more comfortable seeking what I carve with years --- be it knowledge, love, or wonders, I shall steer myself there.
 
+{{< figure src="https://www.dropbox.com/scl/fi/fyk4hthoqcs3akptgeyk0/2214FF5A-E95E-466F-BAA7-E4C9E30AE9E0_1_105_c.jpeg?rlkey=398dsj8afidjbscihtwqa5vrw&st=hgdbt7ee&raw=1" width="1000" caption="Taking a stroll in Silver Lake in a moonless night" >}}
+
 > You have brains in your head <br/> You have feet in your shoes <br/> You can steer yourself any direction you choose <br/> --- Dr. Seuss, *[Oh, the Places You'll Go!](https://en.wikipedia.org/wiki/Oh,_the_Places_You%27ll_Go!)*
