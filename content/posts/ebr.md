@@ -83,7 +83,6 @@ Finding top-$k$ points "closest" to the query point first requires a distance fu
   <p>A proper metric 1) is non-negative, 2) symmetrical (i.e., $\delta(u, v) = \delta(u, v)$), and 3) satisfies the triangle inequality $\delta(u, v) \leq \delta(u, w) + \delta(w, v)$. Per these criteria, the inner product is not proper, because it is not non-negative and doesn't satisfy the triangle inequality, $\langle {u,v} \rangle \neq \langle {u,w} \rangle + \langle {w,v} \rangle$. In fact, we can't even guarantee that a vector maximizes the inner product with itself. That said, in a high enough dimension where data points $\mathcal{X}$ are i.i.d. in each dimension, we'd likely encounter "coincidences" with high confidence that $\langle {u,u} \rangle$ is greater than any $\langle {u,v} \rangle$ where $v \neq u$.</p>
 </details>
 
-
 The 3 distance functions lead to 3 common types of vector retrieval: 
 
 - **$k$-Nearest Neighbor Search ($k$-NN)**: Minimizes Euclidean, $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} \lVert q - u \rVert_2^2$;
@@ -99,7 +98,6 @@ When to use which? As with all ML problems, it depends on your data and use case
 | Euclidean Distance | Spatial databases, clustering    | Measures absolute differences; intuitive in low-dimensional spaces | Best when scale and actual size differences are crucial |
 | Cosine Similarity  | Text retrieval, document similarity | Focuses on direction rather than magnitude; effective in high dimensions | Ideal for normalized data where orientation matters    |
 | Inner Product      | Neural networks, collaborative filtering | Direct measure of alignment; computationally efficient with matrix operations | Useful when projection similarity is more relevant than geometric closeness |
-
 
 ## Approximate Retrieval Algorithms
 
@@ -251,9 +249,17 @@ For clustering algorithms to work, the data we search over must follow a multi-m
 
 <!-- ### Sampling Algorithms -->
 
-# Optimization Techniques
+# Optimization Tricks
+
+The search algorithms above aim to reduce the search space with some optimality guarantee, whereas the optimization tricks below aim to save the embedding storage.
 
 ## Quantization
+
+When using clustering algorithms such as FAISS, we can think of each of the $C$ centroids as a "codeword" and the $2^C$ combinations they form as the "codebook". Each vector can be encoded using $\log_2 C$ bits --- this is called **Vector Quantization**. Before quantization, $O(md)$ space is required to store the embeddings ($m$: number of embeddings; $d$: embedding dimension), but only $O(Cd + m\log_2 C)$ space is needed afterward ($O(Cd)$: stores centroids). A larger $C$ reduces the approximation error but requires more space; conversely, a smaller $C$ saves space but increases the error. 
+
+Today, a more popular quantization method is **Product Quantization**, which divides a high-dimensional vector (e.g., 128) into $L$ orthogonal subspaces (e.g., 8 subspaces, each of dimension 16), performs Vector Quantization on each subspace, and concatenates the quantized subspaces. This approach is particularly beneficial when the embedding dimension $d$ is high so a large number of centroids are needed to cover the space $\mathbb{R}^d$. In contrast, only a small number of centroids is required to cover each subspace --- even with $L$ subspaces, the total number of centroids still remains fewer than what we would need if we were to quantize the entire vector directly.
+
+<!-- Today, a more popular quantization method is **Product Quantization**, which breaks up a vector into $L$ orthogonal subspaces and performs vector quantization on each subspace separately. This is particularly useful when the embedding dimension $d$ is high and a large number of centroids are required to cover the space $\mathbb{R}^d$. By contrast, we only need a small number of centroids to cover each subspace and the total number of centroids would still be fewer than if we quantize the whole vector. -->
 
 ## Sketching 
 
