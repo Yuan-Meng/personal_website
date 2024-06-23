@@ -249,19 +249,21 @@ For clustering algorithms to work, the data we search over must follow a multi-m
 
 <!-- ### Sampling Algorithms -->
 
-# Optimization Tricks
+# Embedding Storage Optimization
 
 The search algorithms above aim to reduce the search space with some optimality guarantee, whereas the optimization tricks below aim to save the embedding storage.
 
 ## Quantization
 
-When using clustering algorithms such as FAISS, we can think of each of the $C$ centroids as a "codeword" and the $2^C$ combinations they form as the "codebook". Each vector can be encoded using $\log_2 C$ bits --- this is called **Vector Quantization**. Before quantization, $O(md)$ space is required to store the embeddings ($m$: number of embeddings; $d$: embedding dimension), but only $O(Cd + m\log_2 C)$ space is needed afterward ($O(Cd)$: stores centroids). A larger $C$ reduces the approximation error but requires more space; conversely, a smaller $C$ saves space but increases the error. 
+When using clustering algorithms such as FAISS, we can think of each of the $C$ centroids as a "codeword" and the $2^C$ combinations they form as the "codebook". Each vector can be encoded using $\log_2 C$ bits --- this is called **Vector Quantization**. Before quantization, $O(md)$ space is required to store the embeddings ($m$: number of embeddings; $d$: embedding dimension), but only $O(Cd + m\log_2 C)$ space is needed afterward ($O(Cd)$: stores original centroids). A larger $C$ reduces the approximation error but requires more space; conversely, a smaller $C$ saves space but increases the error. 
 
-Today, a more popular quantization method is **Product Quantization**, which divides a high-dimensional vector (e.g., 128) into $L$ orthogonal subspaces (e.g., 8 subspaces, each of dimension 16), performs Vector Quantization on each subspace, and concatenates the quantized subspaces. This approach is particularly beneficial when the embedding dimension $d$ is high so a large number of centroids are needed to cover the space $\mathbb{R}^d$. In contrast, only a small number of centroids is required to cover each subspace --- even with $L$ subspaces, the total number of centroids still remains fewer than what we would need if we were to quantize the entire vector directly.
-
-<!-- Today, a more popular quantization method is **Product Quantization**, which breaks up a vector into $L$ orthogonal subspaces and performs vector quantization on each subspace separately. This is particularly useful when the embedding dimension $d$ is high and a large number of centroids are required to cover the space $\mathbb{R}^d$. By contrast, we only need a small number of centroids to cover each subspace and the total number of centroids would still be fewer than if we quantize the whole vector. -->
+Today, a more popular quantization method is **Product Quantization**, which divides a high-dimensional vector (e.g., 128) into $L$ orthogonal subspaces (e.g., 8 subspaces, each of dimension 16), performs Vector Quantization on each subspace, and concatenates the quantized subspaces. This approach is particularly beneficial when the embedding dimension $d$ is so high that many centroids are needed to cover the space $\mathbb{R}^d$. In contrast, we may only need a small number of centroids to cover each subspace, so that even with $L$ subspaces, the total number of centroids still remains fewer than what we would need if we were to quantize the entire vector directly.
 
 ## Sketching 
+
+Sketching is a type of algorithms that map a higher-dimensional vector to a lower-dimensional vector, $\phi : \mathbb{R}^d \to \mathbb{R}^{d_\circ}$ ($d_\circ < d$), after which certain properties of interest (e.g., the Euclidean distance or the inner product between any pair of points) are preserved with high probability. Then, instead of searching over original vectors, we search over their sketches $\phi(u)$ for $u \in \mathcal{X}$ to solve top-$k$ retrieval problems.
+
+That is the theory, at least. For certain type of problems, sketching can result in unacceptable errors. I recommend that you read Ethan N. Epperly's [blog post](https://huggingface.co/blog/ethanepperly/does-sketching-work) and [paper](https://arxiv.org/abs/2311.04362) for a detailed analysis of common sketching algorithms and sketching errors.  
 
 ## Feature Multiplexing
 
@@ -278,3 +280,4 @@ Today, a more popular quantization method is **Product Quantization**, which div
 6. [Locality Sensitive Hashing (LSH): The Illustrated Guide](https://www.pinecone.io/learn/series/faiss/locality-sensitive-hashing/) by Pinecone
 7. [Hierarchical Navigable Small Worlds (HNSW)](https://www.pinecone.io/learn/series/faiss/hnsw/) by Pinecone
 8. [FAISS: The Missing Manual](https://www.pinecone.io/learn/series/faiss/) by Pinecone
+9. [Does Sketching Work?](https://huggingface.co/blog/ethanepperly/does-sketching-work) by Ethan N. Epperly (2023)
