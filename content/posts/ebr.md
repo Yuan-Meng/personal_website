@@ -78,6 +78,11 @@ Finding top-$k$ points "closest" to the query point first requires a distance fu
 - **Cosine similarity** (↑): 1 - angular distance from each point to the query point;
 - **Inner product** (↑): Imagine a hyperplane orthogonal to the query point passing through a document point — the shortest distance from this hyperplane to the query point is the inner product between the query-document pair.
 
+<details>
+  <summary><b>Proper vs. improper metrics</b></summary>
+  <p>A proper metric 1) is non-negative, 2) symmetrical (i.e., $\delta(u, v) = \delta(u, v)$), and 3) satisfies the triangle inequality $\delta(u, v) \leq \delta(u, w) + \delta(w, v)$. Per these criteria, the inner product is not proper, because it is not non-negative and doesn't satisfy the triangle inequality, $\langle {u,v} \rangle \neq \langle {u,w} \rangle + \langle {w,v} \rangle$. In fact, we can't even guarantee that a vector maximizes the inner product with itself. That said, in a high enough dimension where data points $\mathcal{X}$ are i.i.d. in each dimension, we'd likely encounter "coincidences" with high confidence that $\langle {u,u} \rangle$ is greater than any $\langle {u,v} \rangle$ where $v \neq u$.</p>
+</details>
+
 
 The 3 distance functions lead to 3 common types of vector retrieval: 
 
@@ -95,8 +100,6 @@ When to use which? As with all ML problems, it depends on your data and use case
 | Cosine Similarity  | Text retrieval, document similarity | Focuses on direction rather than magnitude; effective in high dimensions | Ideal for normalized data where orientation matters    |
 | Inner Product      | Neural networks, collaborative filtering | Direct measure of alignment; computationally efficient with matrix operations | Useful when projection similarity is more relevant than geometric closeness |
 
-
-<!-- Some metrics are "proper" and some not. A proper metric 1) is non-negative, 2) symmetrical ($\delta(u, v) = \delta(u, v)$), and 3) satisfies the triangle inequality, $\delta(u, v) \leq \delta(u, w) + \delta(w, v)$. The inner product is not proper because it is not non-negative and doesn't satisfy the triangle inequality, $\langle {u,v} \rangle \neq \langle {u,w} \rangle + \langle {w,v} \rangle$. In fact, we can't even guarantee that a vector maximizes the inner product with itself. That said, in a high enough dimension where data points $\mathcal{X}$ are *i.i.d.* in each dimension, we'd likely encounter "coincidences" with high confidence that $\langle {u,u} \rangle$ is greater than any $\langle {u,v} \rangle$ where $u \neq u$. -->
 
 ## Approximate Retrieval Algorithms
 
@@ -240,10 +243,13 @@ With long-distance edges, the average number of hops required to go from one nod
 
 ### Clustering (e.g., FAISS)
 
-Why not cluster vectors first, so that at retrieval time, we first find the cluster to which the query vector $q$ belongs, and then search top $k$ within that cluster?
+The motivation behind clustering is similar to that behind hashing, but instead of using a hash function to map vectors into buckets, we can use a clustering function (e.g., KMeans) to map vectors into clusters, $\xi : \mathbb{R}^d \to [C]$. At retrieval time, we apply a routing function, $\tau : \mathbb{R}^d \to [C]^{l}$, to return top-$l$ clusters whose centroids are the closest to the query vector $q$, and then search for top-$k$ neighbors over the union of top-$l$ clusters. This is the main idea behind [Facebook AI Similarity Search (FAISS)](https://www.pinecone.io/learn/series/faiss/faiss-tutorial/), perhaps the most popular approximate retrieval algorithm today.
 
-### Sampling Algorithms
+{{< figure src="https://www.dropbox.com/scl/fi/ka38302lxoo46pnd2xswg/Screenshot-2024-06-23-at-1.36.11-PM.png?rlkey=s1tvwknbb82a2ktzl3ttlvb51&st=s5cqpozw&raw=1" width="600">}}
 
+For clustering algorithms to work, the data we search over must follow a multi-modal distribution --- which is fortunately usually the case with real-world data.
+
+<!-- ### Sampling Algorithms -->
 
 # Optimization Techniques
 
