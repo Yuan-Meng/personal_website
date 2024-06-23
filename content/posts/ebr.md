@@ -1,5 +1,5 @@
 ---
-title: "An Intro to Embedding-Based Retrieval"
+title: "An Introduction to Embedding-Based Retrieval"
 date: 2024-06-22
 math: true
 tags:
@@ -129,7 +129,7 @@ Branch-and-bound is one of the earliest algorithms for top-$k$ vector retrieval.
 
 Different instantiations of branch-and-bound algorithms differ in how they split a collection or conduct certification. In general, brand-and-bound algorithms work poorly on high-dimensional data as the number of leaves that may be visited during certification grows exponentially with the embedding dimension $d$. Modern approximate nearest neighbor retrieval services rarely rely on branch-and-bound.
 
-### Locality Sensitive Hashing
+### Locality Sensitive Hashing (LSH)
 
 Locality Sensitive Hashing (LSH) reduces the nearest neighbor search space by hashing each vector into a single bucket, $h: \mathbb{R}^d \rightarrow \[b\]$, and searching exhaustively within the bucket. The choice of the hash function $h$ is critical because this algorithm only works if $\epsilon$-approximate $k$ nearest neighbors are hashed into the same bucket. 
 
@@ -138,7 +138,7 @@ To reduce the reliance on one hash function, we can independently apply $L$ hash
 {{< figure src="https://www.dropbox.com/scl/fi/ibe1tr26h3k3pszf0lf17/Screenshot-2024-06-22-at-11.36.15-PM.png?rlkey=niw2bpqcztfc6xbevjmei8jni&st=klehneyl&raw=1" width="600">}}
 
 
-### Graph Algorithms
+### Graph Algorithms (e.g., HNSW)
 
 Graph algorithms perform random walks from one vector to another via connected edges $(u, v) \in \mathcal{E}$, hopefully getting closer to the optimal solution with every hop. 
 
@@ -146,7 +146,99 @@ The graph $G(\mathcal{V}, \mathcal{E})$ is constructed during pre-processing of 
 - **Nodes $\mathcal{V}$**: Each vector $u \in \mathcal{X}$ is a node in the graph $G$ --- i.e., $|\mathcal{V}| = |\mathcal{X}|$
 - **Edges $\mathcal{E}$**: Simply connecting every node by an edge results in high space + time complexity --- how we can construct a sparse graph that solves the top-$k$ vector retrieval problem is an active research topic.
 
-### Clustering 
+Whatever graph we decide to construct, it needs to support "best-first search", a greedy algorithm for finding top-$k$ nearest neighbors:
+
+- **Entry**: To begin, enter the graph from an arbitrary node $u$;
+- **Distance comparison**: Compare the distance from the node to query $q$ with the distance from each of the node's neighbors $N(u)$ to $q$;
+  - **Terminate**: If no $N(u)$ is closer to $q$, then $u$ is a top-$k$ nearest neighbor;
+  - **Hop**: If a $N(u)$ is closer to $q$ than $u$, then hop to the closest neighbor; 
+- **Iteration**: Repeat until the terminal condition is met.
+
+{{< figure src="https://www.dropbox.com/scl/fi/s5j2ithac4ukhiys5hcj7/Screenshot-2024-06-23-at-9.31.14-AM.png?rlkey=vn5kkouxd4w9ilqvzrpgi8u3x&st=e71z747p&raw=1" width="600">}}
+
+Below is a toy implementation to sketch out the algorithm we just described:
+
+```python
+import heapq
+import math
+
+def euclidean_distance(point1, point2):
+    # calculate Euclidean distance between two points in space
+    return math.sqrt(sum((a - b) ** 2 for a, b in zip(point1, point2)))
+
+def best_first_search(graph, coords, start_node, query_point, k):
+    # priority queue: [(negative distance to query point, current node)]
+    priority_queue = [(euclidean_distance(query_point, coords[start_node]), start_node)]
+
+    # track visited nodes to avoid revisiting
+    visited = set()
+    visited.add(start_node)
+
+    # collect top-k nodes without storing distances
+    result = []
+
+    while priority_queue and len(result) < k:
+        # get current node to visit
+        current_distance, current_node = heapq.heappop(priority_queue)
+
+        # assume it's a top-k solution
+        is_candidate = True
+        # visit each of the node's neighbors
+        for neighbor in graph[current_node]:
+            if neighbor not in visited:
+                # compute distance to the query
+                dist = euclidean_distance(query_point, coords[neighbor])
+                heapq.heappush(priority_queue, (dist, neighbor))
+                visited.add(neighbor)
+                # current node is not a candidate if a neighbor is closer
+                if dist < current_distance:
+                    is_candidate = False
+
+        # if node is closest to query, add to result list
+        if is_candidate:
+            result.append(current_node)
+
+            # if we already have k results, we can stop
+            if len(result) >= k:
+                break
+
+    return result
+
+# example graph in the form of an adjacency list
+graph = {
+    "A": ["B", "C"],
+    "B": ["A", "D", "E"],
+    "C": ["A", "F"],
+    "D": ["B"],
+    "E": ["B"],
+    "F": ["C"],
+}
+# coordinates for each node
+coords = {"A": [0, 0], "B": [1, 1], "C": [2, 2], "D": [5, 5], "E": [3, 3], "F": [4, 4]}
+
+top_k_nodes = best_first_search(graph, coords, "A", [1, 2], 3)
+# output: ['B', 'C', 'E']
+```
+
+If a graph cannot get us spatially closer to the solution with each hop, then it doesn't support best-first search. A widely used graph that does support best-first search is the [Delaunay graph](https://en.wikipedia.org/wiki/Delaunay_triangulation), which can be created from the [Voronoi diagram](https://en.wikipedia.org/wiki/Voronoi_diagram). 
+
+- **Voronoi diagram**: The space $\mathbb{R}^d$ is partitioned into unique regions $\mathcal{R} = \bigcup_{u \in \mathcal{X}} \mathcal{R}_u$, where each region $\mathcal{R}_u$ is owned by $u \in \mathcal{X}$ and consists of $u$'s nearest neighbors;
+- **Delaunay graph**: An undirected graph that connects nodes $u$ and $v$ in the Voronoi diagram if their Voronoi regions have a non-empty intersection, $\mathcal{R}_u \cap \mathcal{R}_u \neq  \emptyset$.
+
+{{< figure src="https://www.dropbox.com/scl/fi/xlvcadtk361kqxpyuxt0p/Screenshot-2024-06-23-at-9.29.58-AM.png?rlkey=w9hwdwwkdj6ot2g5dkhcpjmjj&st=jvgy6y7w&raw=1" width="600">}}
+
+If we pick an entry node far from the answer, then we must traverse all Voronoi regions in between to get there. To speed up traversal, we can add long-range edges between non-Voronoi neighbors to skip over certain regions. The question is, which long-range edges should we add? In his seminal *Nature* paper, [Kleinberg (2000)](https://www.nature.com/articles/35022643) proposed a probabilistic approach based on the lattice network:
+
+- **Lattice network**: Every node has a directed edge to every node on a $m \times m$ grid;
+- **Node distance**: The distance between two nodes $u$ and $v$ are defined by their Manhattan distance, $\delta (u, v) = \lVert u - v \rVert_1$;
+- **Edge probability**: Form a long-distance edge between $u$ and $v$ with probability proportional to $\delta (u, v)^{- \alpha}$, where $\alpha \geq$ is a hyperparameter that controls the bias to forming a long-range connection (higher $\alpha$ favors longer distances).
+
+{{< figure src="https://www.dropbox.com/scl/fi/rovai3146q4nvklhda978/Screenshot-2024-06-23-at-11.30.52-AM.png?rlkey=9rubh46vnleftougo1ytos5sf&st=1d2jinnh&raw=1" width="600">}}
+
+With long-distance edges, the average number of hops required to go from one node to another significantly drops --- an observation dubbed as the "small world phenomenon". The resulting Navigable Small World (NSW) graphs are the basic of the Hierarchical Navigable Small World (HNSW) algorithm that allows for remarkably fast nearest neighbor search. You can find more details on HNSW in this Pinecone [post](https://www.pinecone.io/learn/series/faiss/hnsw/).
+
+
+### Clustering (e.g., FAISS)
 
 Why not cluster vectors first, so that at retrieval time, we first find the cluster to which the query vector $q$ belongs, and then search top $k$ within that cluster?
 
@@ -171,4 +263,6 @@ Why not cluster vectors first, so that at retrieval time, we first find the clus
 ## Blog Posts
 4. [Contrastive Representation Learning](https://lilianweng.github.io/posts/2021-05-31-contrastive/) by Lilian Weng (2021)
 5. [Embedding-Based Retrieval for Search & Recommendation](https://medium.com/better-ml/embedding-learning-for-retrieval-29af1c9a1e65) by Jaideep Ray (2021)
-5. [Locality Sensitive Hashing (LSH): The Illustrated Guide](https://www.pinecone.io/learn/series/faiss/locality-sensitive-hashing/) by Pinecone
+6. [Locality Sensitive Hashing (LSH): The Illustrated Guide](https://www.pinecone.io/learn/series/faiss/locality-sensitive-hashing/) by Pinecone
+7. [Hierarchical Navigable Small Worlds (HNSW)](https://www.pinecone.io/learn/series/faiss/hnsw/) by Pinecone
+8. [FAISS: The Missing Manual](https://www.pinecone.io/learn/series/faiss/) by Pinecone
