@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <script type="text/javascript" src="https://latest.cactus.chat/cactus.js"></script>
+  <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Sift Through the Haystack: Vector Retrieval | Yuan Meng</title>
+  <link rel = 'canonical' href = 'https://www.yuan-meng.com/posts/vector_retrieval/'>
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a Machine Learning Engineer on DoorDash&#39;s Search team, where I work on query understanding and learn to learn to rank... Previously as a Computational Cognitive Scientist, I studied common sense causal and social reasoning in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (ranking, generative models, fairness), cognitively inspired AI, metal guitar, and 🐱. I use 重庆话 when I do mental math.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Sift Through the Haystack: Vector Retrieval" />
+<meta property="og:description" content="Embeddings, Embeddings Everywhere Be it a person, a product, a place, a text, an image, or a planet &mdash; virtually all entities you can think of can be represented as a special kind of vectors, called &ldquo;embeddings.&rdquo; Embedding is a classic idea in mathematical topology and machine learning (click ▶ for definitions), recently made popular by the rise of foundation models that are exceptionally good at embedding texts, images, and videos to empower downstream use cases, such as embedding-based retrieval, text/image/video understanding, and deep learning rankers with embedding features, to name a few." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.yuan-meng.com/posts/vector_retrieval/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-06-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-06-21T00:00:00+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Sift Through the Haystack: Vector Retrieval"/>
+<meta name="twitter:description" content="Embeddings, Embeddings Everywhere Be it a person, a product, a place, a text, an image, or a planet &mdash; virtually all entities you can think of can be represented as a special kind of vectors, called &ldquo;embeddings.&rdquo; Embedding is a classic idea in mathematical topology and machine learning (click ▶ for definitions), recently made popular by the rise of foundation models that are exceptionally good at embedding texts, images, and videos to empower downstream use cases, such as embedding-based retrieval, text/image/video understanding, and deep learning rankers with embedding features, to name a few."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.yuan-meng.com/css/styles.94f653e9e151e28067a7c5dbbc4600cbd5a3c721e79faaf971e523c40f3b249b8e4f20bb57810dfffa8d559ca5c140fd56eb4cd9c0853113ad08e66afdb08bdd.css" integrity="sha512-lPZT6eFR4oBnp8XbvEYAy9WjxyHnn6r5ceUjxA87JJuOTyC7V4EN//qNVZylwUD9VutM2cCFMROtCOZq/bCL3Q=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.yuan-meng.com/images/favicon.ico" />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://www.yuan-meng.com/posts/17_going_under/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&text=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&title=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&is_video=false&description=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&title=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&title=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&name=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval&description=Embeddings%2c%20Embeddings%20Everywhere%20Be%20it%20a%20person%2c%20a%20product%2c%20a%20place%2c%20a%20text%2c%20an%20image%2c%20or%20a%20planet%20%26mdash%3b%20virtually%20all%20entities%20you%20can%20think%20of%20can%20be%20represented%20as%20a%20special%20kind%20of%20vectors%2c%20called%20%26ldquo%3bembeddings.%26rdquo%3b%20Embedding%20is%20a%20classic%20idea%20in%20mathematical%20topology%20and%20machine%20learning%20%28click%20%e2%96%b6%20for%20definitions%29%2c%20recently%20made%20popular%20by%20the%20rise%20of%20foundation%20models%20that%20are%20exceptionally%20good%20at%20embedding%20texts%2c%20images%2c%20and%20videos%20to%20empower%20downstream%20use%20cases%2c%20such%20as%20embedding-based%20retrieval%2c%20text%2fimage%2fvideo%20understanding%2c%20and%20deep%20learning%20rankers%20with%20embedding%20features%2c%20to%20name%20a%20few." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&t=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#embeddings-embeddings-everywhere">Embeddings, Embeddings Everywhere</a></li>
+    <li><a href="#flavors-of-vector-retrieval">Flavors of Vector Retrieval</a></li>
+    <li><a href="#approximate-retrieval">Approximate Retrieval</a>
+      <ul>
+        <li><a href="#branch-and-bound">Branch-and-Bound</a></li>
+        <li><a href="#clustering">Clustering</a></li>
+      </ul>
+    </li>
+    <li><a href="#vector-compression">Vector Compression</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Sift Through the Haystack: Vector Retrieval
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2024-06-21 00:00:00 &#43;0000 UTC" itemprop="datePublished">2024-06-21</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          6 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/papers">papers</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/search" rel="tag">search</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/information-retrieval" rel="tag">information retrieval</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/vector-based-search" rel="tag">vector-based search</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <h1 id="embeddings-embeddings-everywhere">Embeddings, Embeddings Everywhere</h1>
+<p>Be it a person, a product, a place, a text, an image, or a planet &mdash; virtually all entities you can think of can be represented as a special kind of vectors, called &ldquo;embeddings.&rdquo; <a href="https://en.wikipedia.org/wiki/Embedding">Embedding</a> is a classic idea in mathematical topology and machine learning (click ▶ for definitions), recently made popular by the rise of foundation models that are exceptionally good at embedding texts, images, and videos to empower downstream use cases, such as embedding-based retrieval, text/image/video understanding, and deep learning rankers with embedding features, to name a few.</p>
+<details>
+  <summary><b>Mathematical topology</b></summary>
+  <p>An embedding is a function $f: X \rightarrow Y$ between two topological spaces that is injective (one-to-one) and a homeomorphism onto its image, thus preserving the topological properties of $X$ within $Y$. This concept ensures that $X$ is mapped into $Y$ in a way that $X$'s structure—such as its continuity and open/closed set properties—is maintained exactly within the host structure $Y$</p>
+</details>
+<details>
+  <summary><b>Machine learning</b></summary>
+  <p>An embedding is a transformation $f: X \rightarrow \mathbb{R}^n$ that maps entities from a high-dimensional or abstract space $X$ (e.g., words, images, or graph nodes) to vectors in a lower-dimensional, continuous vector space $\mathbb{R}^n$. This mapping aims to preserve relevant properties of the original entities, such as similarity or relational structure, thereby enabling more effective computational manipulation and analysis.</p>
+</details>
+<p>Not all vectors are embeddings &mdash; Entities similar in the real world must be close in the embedding space. Consider the multiple birth example from <a href="*https://www.oreilly.com/library/view/machine-learning-design/9781098115777/*"><em>Machine Learning Design Patterns</em></a>: We can use 6 one-hot vectors to represent 6 labels for the number of babies in one birth. Singles are more similar to twins than they are to quintuplets; yet, the cosine similarity between the single vector (<code>[1, 0, 0, 0, 0, 0]</code>) and the twin vector (<code>[0, 0, 1, 0, 0, 0]</code>) is 0, the same as that between the single vector and the quintuplet vector (<code>[0, 0, 0, 0, 0, 1]</code>). Since these one-hot vectors do not preserve the similarity between entities, they are <em>not</em> embeddings.</p>
+<table>
+<thead>
+<tr>
+<th>Plurality</th>
+<th>One-hot encoding</th>
+<th>Learned encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single (1)</td>
+<td>[1,0,0,0,0,0]</td>
+<td>[0.4, 0.6]</td>
+</tr>
+<tr>
+<td>Multiple (2+)</td>
+<td>[0,1,0,0,0,0]</td>
+<td>[0.1, 0.5]</td>
+</tr>
+<tr>
+<td>Twins (2)</td>
+<td>[0,0,1,0,0,0]</td>
+<td>[-0.1, 0.3]</td>
+</tr>
+<tr>
+<td>Triplets (3)</td>
+<td>[0,0,0,1,0,0]</td>
+<td>[-0.2, 0.5]</td>
+</tr>
+<tr>
+<td>Quadruplets (4)</td>
+<td>[0,0,0,0,1,0]</td>
+<td>[-0.4, 0.3]</td>
+</tr>
+<tr>
+<td>Quintuplets (5)</td>
+<td>[0,0,0,0,0,1]</td>
+<td>[-0.6, 0.5]</td>
+</tr>
+</tbody>
+</table>
+<p>We can learn to map each label to a vector in a way that more similar labels are closer to one another, according to some distance function (e.g., Euclidean distance, Jaccard similarity, dot product, cosine similarity, and so on).</p>
+<figure><img src="https://www.dropbox.com/scl/fi/5xi8v3omgam3126dr0ahi/Screenshot-2024-04-21-at-2.58.25-PM.png?rlkey=zt24ehipliz2c1f2o8pol4zax&amp;st=911v312w&amp;raw=1" width="1000"/>
+</figure>
+
+<p>This type of learning is called <a href="https://paperswithcode.com/task/metric-learning#:~:text=The%20goal%20of%20Metric%20Learning,been%20developed%20for%20Metric%20Learning.">&ldquo;metric learning&rdquo;</a>. When using embeddings as features in a deep neural net, we can start with random initial values and update them via backpropagation just like we would any other parameters in the neural net. Alternatively, we can use <a href="https://lilianweng.github.io/posts/2021-05-31-contrastive/">contrastive representation learning</a> to learn user and item embeddings, for example, and input learned embeddings into another neural net. The former ensures embeddings for optimal for the task at hand, whereas the latter greatly boosts training efficiency and is the choice of most companies.</p>
+<p>Say we already have embeddings for entities we care about: Given a query point $q$, how do we find top-$k$ points $u \in \mathcal{X}$ most similar to it, to minimize a distance function $\delta$ calculated on entity embeddings? This is the top-$k$ retrieval problem:</p>
+<p>$$\mathop{\text{arg min}}\limits^{(k)}_{u \in \mathcal{X}} \delta(q, u).$$</p>
+<p>The startup Pinecone is a lead provider of web-scale commercial top-$k$ retrieval solutions. In this blogpost, I review key ideas from the new monograph <a href="https://arxiv.org/abs/2401.09350"><em>Foundations of Vector Retrieval (2024)</em></a> by Sebastian Bruch, a Principal Scientist at Pinecone.</p>
+<h1 id="flavors-of-vector-retrieval">Flavors of Vector Retrieval</h1>
+<p>Finding top-$k$ points &ldquo;closest&rdquo; to the query point first requires a distance function. The figure below shows the 3 most popular choices (↓: minimize; ↑: maximize).</p>
+<figure><img src="https://www.dropbox.com/scl/fi/hx955sne496k99umhqi7f/Screenshot-2024-04-21-at-4.24.45-PM.png?rlkey=sxnuzw2ve6tye9qjf1g8jrt3v&amp;st=0og5opxa&amp;raw=1" width="1000"/>
+</figure>
+
+<ul>
+<li><strong>Euclidean distance</strong> (↓): Straight line  from each point to the query point;</li>
+<li><strong>Cosine similarity</strong> (↑): 1 - angular distance from each point to the query point;</li>
+<li><strong>Inner product</strong> (↑): Imagine a hyperplane that is orthogonal to the query point and passes through a given point — the inner product between this point and the query is given by the shortest distance from this hyperplane to the query.</li>
+</ul>
+<p>The 3 distance functions result in 3 flavors of vector retrieval: $k$-Nearest Neighbor Search ($k$-NN) base on Euclidean, $k$-Maximum Cosine Similarity Search ($k$-MCS) based on cosine, and $k$-Maximum Inner Product Search ($k$-MIPS) based on inner product. Which one to choose depends on the pros &amp; cons for your specific use case.</p>
+<table style="width:100%; border: 1px solid black; border-collapse: collapse;">
+    <tr style="background-color: #f2f2f2;">
+        <th style="width: 15%; padding: 10px; border: 1px solid black;">Method</th>
+        <th style="width: 25%; padding: 10px; border: 1px solid black;">Domain</th>
+        <th style="width: 30%; padding: 10px; border: 1px solid black;">Pros</th>
+        <th style="width: 30%; padding: 10px; border: 1px solid black;">Cons</th>
+    </tr>
+    <tr>
+        <td style="padding: 10px; border: 1px solid black;"><strong>$k$-NN</strong></td>
+        <td style="padding: 10px; border: 1px solid black;">General, Clustering</td>
+        <td style="padding: 10px; border: 1px solid black;">
+            - Simple and effective in metric spaces<br>
+            - Good if you care about literal distances
+        </td>
+        <td style="padding: 10px; border: 1px solid black;">
+            - Points are too far apart in high-dimensional spaces<br>
+            - Sensitive to scale
+        </td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+        <td style="padding: 10px; border: 1px solid black;"><strong>$k$-MCS</strong></td>
+        <td style="padding: 10px; border: 1px solid black;">Text processing, Sentiment analysis</td>
+        <td style="padding: 10px; border: 1px solid black;">
+            - Ignores vector magnitude; good for normalized vectors<br>
+            - Ideal for angle-based similarity (e.g., texts)
+        </td>
+        <td style="padding: 10px; border: 1px solid black;">
+            - Not appropriate if magnitude is meaningful<br>
+            - Expensive to compute for large datasets
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 10px; border: 1px solid black;"><strong>$k$-MIPS</strong></td>
+        <td style="padding: 10px; border: 1px solid black;">Recommendation systems, Collaborative filtering</td>
+        <td style="padding: 10px; border: 1px solid black;">
+            - Captures both vector magnitude and direction<br>
+            - Works well in high-dimensional spaces
+        </td>
+        <td style="padding: 10px; border: 1px solid black;">
+            - Non-metric (e.g., inner product with self may not be the largest)<br>
+            - Expensive to compute
+        </td>
+    </tr>
+</table>
+<h1 id="approximate-retrieval">Approximate Retrieval</h1>
+<p>Regardless of the method, exhaustively comparing the query vector with every other vector to find top $k$ is computationally expensive. To avoid exhaustive search, many approximate retrieval algorithms have been proposed, trading accuracy for speed.</p>
+<h2 id="branch-and-bound">Branch-and-Bound</h2>
+<p>Branch-and-bound is the earliest algorithm for top-$k$ vector retrieval. This class of algorithms proceed in two phases: Recursively <strong>partitioning</strong> the vector space $\mathcal{X}$ into smaller regions and marking region boundaries, storing them in a binary search tree (BST), and <strong>searching</strong> only regions that could contain the top $k$ solution set.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/fxy7jr9oo6mac3j8ki0is/Screenshot-2024-04-21-at-5.56.57-PM.png?rlkey=ch8lg4imvf6xwrzecnwd662v5&amp;st=wmmto60f&amp;raw=1" width="400"/>
+</figure>
+
+<ul>
+<li><strong>Partitioning</strong>: The original vector space is partitioned into a balanced binary search tree (BST), where each internal node has a decision boundary
+<ul>
+<li>To begin, partition the vector space into regions $\mathcal{R}_l$ and $\mathcal{R}_r$</li>
+<li>Exhaustively search $\mathcal{R}_l$ to find the optimal point $u_l^\ast$ that minimizes the distance to the query vector $q$, $\delta(q, u_l^\ast)$ 👉 <em>certify</em> $u_l^\ast$ is indeed optimal
+<ul>
+<li>If $\delta(q, u_l^\ast) &lt; \delta(q, \mathcal{R_r})$: Found optimal point and can discard points in $\mathcal{R}_r$
+<ul>
+<li>$\delta$-ball centered at $q$ with radius $\delta(q, u_l^\ast)$ is contained entirely in $\mathcal{R}_l$, so no point from $\mathcal{R}_r$ has have shorter distance to $q$ than $u_l^\ast$</li>
+</ul>
+</li>
+<li>If $\delta(q, u_l^\ast) \geq \delta(q, \mathcal{R_r})$: Also search $\mathcal{R}_l$ and compare the solution with $u_l^\ast$
+<ul>
+<li>Backtrack to the parent of $\mathcal{R}_l$ and compare $\delta(q, u_l^\ast)$ with the distance of $q$ with the decision boundary</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Retrieval</strong>: Similar to partitioning, but needs more care during traversal
+<ul>
+<li>Traverse from root to leaf; each node determines if $q$ belongs to $\mathcal{R}_l$ or $\mathcal{R}_r$</li>
+<li>Once we find the leaf region that contains $q$, we find the candidate vector $u^\ast$ 👉 backtrack and certify that $u^\ast$ is indeed optimal
+<ul>
+<li>At each internal node, compare the distance between $q$ and the current candidate with the distance between $q$ and the region on the other side of the boundary 👉 prune or search for better candidates</li>
+</ul>
+</li>
+<li>Terminate when back at root 👉 all branches are either pruned or certified</li>
+</ul>
+</li>
+</ul>
+<p>Different instantiations of branch-and-bound algorithms differ in how they split a collection or carry out certification. In general, however, brand-and-bound algorithms work poorly on high-dimensional data because the number of leaves that may be visited during certification grows exponentially with the embedding dimension $d$.</p>
+<h2 id="clustering">Clustering</h2>
+<p>Why not cluster vectors first, so that at retrieval time, we first find the cluster to which the query vector $q$ belongs, and then search top $k$ within that cluster?</p>
+<ul>
+<li><strong>Locality Sensitive Hashing (LSH)</strong>: Hash each vector in $\mathbb{R}^d$ into a single bucket $h: \mathbb{R}^d \rightarrow [b]$ 👉 during retrieval, exhaustively search the bucket where $q$ is put into, assuming $q$ is hashed into the same bucket as its nearest neighbors</li>
+</ul>
+<blockquote>
+<p>WIP&hellip; Finish later&hellip;</p>
+</blockquote>
+<h1 id="vector-compression">Vector Compression</h1>
+<h1 id="references">References</h1>
+<ul>
+<li>Pinecone book</li>
+<li>Embed everything paper</li>
+<li>ML design pattern paper</li>
+</ul>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">About</a></li>
+         
+          <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#embeddings-embeddings-everywhere">Embeddings, Embeddings Everywhere</a></li>
+    <li><a href="#flavors-of-vector-retrieval">Flavors of Vector Retrieval</a></li>
+    <li><a href="#approximate-retrieval">Approximate Retrieval</a>
+      <ul>
+        <li><a href="#branch-and-bound">Branch-and-Bound</a></li>
+        <li><a href="#clustering">Clustering</a></li>
+      </ul>
+    </li>
+    <li><a href="#vector-compression">Vector Compression</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&text=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&title=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&is_video=false&description=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&title=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&title=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&name=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval&description=Embeddings%2c%20Embeddings%20Everywhere%20Be%20it%20a%20person%2c%20a%20product%2c%20a%20place%2c%20a%20text%2c%20an%20image%2c%20or%20a%20planet%20%26mdash%3b%20virtually%20all%20entities%20you%20can%20think%20of%20can%20be%20represented%20as%20a%20special%20kind%20of%20vectors%2c%20called%20%26ldquo%3bembeddings.%26rdquo%3b%20Embedding%20is%20a%20classic%20idea%20in%20mathematical%20topology%20and%20machine%20learning%20%28click%20%e2%96%b6%20for%20definitions%29%2c%20recently%20made%20popular%20by%20the%20rise%20of%20foundation%20models%20that%20are%20exceptionally%20good%20at%20embedding%20texts%2c%20images%2c%20and%20videos%20to%20empower%20downstream%20use%20cases%2c%20such%20as%20embedding-based%20retrieval%2c%20text%2fimage%2fvideo%20understanding%2c%20and%20deep%20learning%20rankers%20with%20embedding%20features%2c%20to%20name%20a%20few." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fvector_retrieval%2f&t=Sift%20Through%20the%20Haystack%3a%20Vector%20Retrieval" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2024  Yuan Meng 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

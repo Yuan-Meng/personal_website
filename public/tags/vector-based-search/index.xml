@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vector-based search on Yuan Meng</title>
+    <link>https://www.yuan-meng.com/tags/vector-based-search/</link>
+    <description>Recent content in vector-based search on Yuan Meng</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Yuan Meng</copyright>
+    <lastBuildDate>Fri, 21 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/tags/vector-based-search/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sift Through the Haystack: Vector Retrieval</title>
+      <link>https://www.yuan-meng.com/posts/vector_retrieval/</link>
+      <pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/vector_retrieval/</guid>
+      <description>Embeddings, Embeddings Everywhere Be it a person, a product, a place, a text, an image, or a planet &amp;mdash; virtually all entities you can think of can be represented as a special kind of vectors, called &amp;ldquo;embeddings.&amp;rdquo; Embedding is a classic idea in mathematical topology and machine learning (click ▶ for definitions), recently made popular by the rise of foundation models that are exceptionally good at embedding texts, images, and videos to empower downstream use cases, such as embedding-based retrieval, text/image/video understanding, and deep learning rankers with embedding features, to name a few.</description>
+    </item>
+    
+  </channel>
+</rss>

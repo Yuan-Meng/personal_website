@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>machine learning on Yuan Meng</title>
+    <link>https://www.yuan-meng.com/tags/machine-learning/</link>
+    <description>Recent content in machine learning on Yuan Meng</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Yuan Meng</copyright>
+    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>(Opinionated) Guide to ML Engineer Job Hunting</title>
+      <link>https://www.yuan-meng.com/posts/mle_interviews/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/mle_interviews/</guid>
+      <description>The Marriage Analogy Nearly 2 years ago, I wrote a blog post on how to find jobs as a new grad data scientist (as a twist of fate, I never worked as a product data scientist but instead became an ML engineer at DoorDash). Back in 2021, I cared a ton about interview skills, answer &amp;ldquo;frameworks&amp;rdquo;, and whatnot, which may still come handy at New Grad or Early Career levels. For experienced hires, however, I think of interviews as some sort of marriage proposal &amp;mdash; it&amp;rsquo;s something you can rehearse but can never force.</description>
+    </item>
+    
+    <item>
+      <title>Attention as Soft Dictionary Lookup</title>
+      <link>https://www.yuan-meng.com/posts/attention_as_dict/</link>
+      <pubDate>Sat, 09 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/attention_as_dict/</guid>
+      <description>The Dictionary Metaphor 🔑📚 By now, the scaled-dot product attention formula might have burned into our brains 🧠, $\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$, yet still this brilliant metaphor from Kevin Murphy&amp;rsquo;s PML book gives it a refreshed interpretation &amp;mdash;
+ &amp;ldquo;We can think of attention as a soft dictionary look up, in which we compare the query $q$ to each key $k_i$, and then retrieve the corresponding value $v_i$.&amp;rdquo; &amp;mdash; Chapter 15, p.</description>
+    </item>
+    
+    <item>
+      <title>Teaching A Peceptron to See</title>
+      <link>https://www.yuan-meng.com/posts/perceptron/</link>
+      <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/perceptron/</guid>
+      <description>Ten years after the ImageNet Challenge thawed the last AI winter, ChaptGPT and generative AI have become part of our everyday life and colloquial language, like (almost) no one has imagined just 2 years back. As increasingly more folks aspire to foray into the field of ML/AI, I can&amp;rsquo;t help but think about a lesson from my guitar teacher:
+ Everyone wants to start playing the songs they love right off the bat, but without nailing seemingly &amp;ldquo;boring&amp;rdquo; building blocks such as scales, harmonies, and rhythms, the songs you love will sound like a nightmare&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Code ML Algorithms From Scratch</title>
+      <link>https://www.yuan-meng.com/posts/md_coding/</link>
+      <pubDate>Wed, 22 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/md_coding/</guid>
+      <description>Coding interviews can mean different things for &amp;ldquo;traditional&amp;rdquo; software engineers (back-end, front-end, full-stack, etc.) and engineers with a machine learning focus. Apart from LeetCode-style questions, ML engineers (as well as applied scientists, research engineers, and, occasionally, machine learning data scientists) may be asked to implement a classic ML algorithm from scratch during an interview.
+This may sound scary if you&amp;rsquo;ve only used libraries to train models without understanding how learning algorithms work under the hood.</description>
+    </item>
+    
+    <item>
+      <title>(Quirky) Roadmap for New Grad Data Scientists</title>
+      <link>https://www.yuan-meng.com/posts/newgrads/</link>
+      <pubDate>Sun, 13 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/newgrads/</guid>
+      <description>New Grad Timeline Since last November, I regularly get questions about how to get data science jobs. I&amp;rsquo;ve hesitated to give advice because no advice applies to everyone. As more people ask, however, I want to write a post for those in my shoes:
+ (PhD) students applying to machine learning or product data scientist roles at tech companies through university recruiting.
+ What&amp;rsquo;s special about university recruiting  July to October is high time to start: Some say companies have more headcounts at the beginning of each year &amp;mdash; that&amp;rsquo;s just not true for university recruiting.</description>
+    </item>
+    
+  </channel>
+</rss>

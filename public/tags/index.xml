@@ -7,31 +7,85 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Yuan Meng</copyright>
-    <lastBuildDate>Wed, 17 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>information retrieval</title>
       <link>https://www.yuan-meng.com/tags/information-retrieval/</link>
-      <pubDate>Wed, 17 Jan 2024 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate>
       
       <guid>https://www.yuan-meng.com/tags/information-retrieval/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>learning to rank</title>
-      <link>https://www.yuan-meng.com/tags/learning-to-rank/</link>
-      <pubDate>Wed, 17 Jan 2024 00:00:00 +0000</pubDate>
+      <title>search</title>
+      <link>https://www.yuan-meng.com/tags/search/</link>
+      <pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://www.yuan-meng.com/tags/learning-to-rank/</guid>
+      <guid>https://www.yuan-meng.com/tags/search/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>search</title>
-      <link>https://www.yuan-meng.com/tags/search/</link>
-      <pubDate>Wed, 17 Jan 2024 00:00:00 +0000</pubDate>
+      <title>vector-based search</title>
+      <link>https://www.yuan-meng.com/tags/vector-based-search/</link>
+      <pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://www.yuan-meng.com/tags/search/</guid>
+      <guid>https://www.yuan-meng.com/tags/vector-based-search/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>reflections</title>
+      <link>https://www.yuan-meng.com/tags/reflections/</link>
+      <pubDate>Mon, 06 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/tags/reflections/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>career</title>
+      <link>https://www.yuan-meng.com/tags/career/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/tags/career/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>interview</title>
+      <link>https://www.yuan-meng.com/tags/interview/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/tags/interview/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>machine learning</title>
+      <link>https://www.yuan-meng.com/tags/machine-learning/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>natural language processing</title>
+      <link>https://www.yuan-meng.com/tags/natural-language-processing/</link>
+      <pubDate>Sat, 09 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/tags/natural-language-processing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>learning to rank</title>
+      <link>https://www.yuan-meng.com/tags/learning-to-rank/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/tags/learning-to-rank/</guid>
       <description></description>
     </item>
     
@@ -45,47 +99,11 @@
     </item>
     
     <item>
-      <title>DL foundations</title>
-      <link>https://www.yuan-meng.com/tags/dl-foundations/</link>
-      <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.yuan-meng.com/tags/dl-foundations/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>birthday</title>
-      <link>https://www.yuan-meng.com/tags/birthday/</link>
-      <pubDate>Sat, 06 May 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.yuan-meng.com/tags/birthday/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>algorithms</title>
       <link>https://www.yuan-meng.com/tags/algorithms/</link>
       <pubDate>Wed, 22 Jun 2022 00:00:00 +0000</pubDate>
       
       <guid>https://www.yuan-meng.com/tags/algorithms/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>data science</title>
-      <link>https://www.yuan-meng.com/tags/data-science/</link>
-      <pubDate>Wed, 22 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.yuan-meng.com/tags/data-science/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ML</title>
-      <link>https://www.yuan-meng.com/tags/ml/</link>
-      <pubDate>Wed, 22 Jun 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.yuan-meng.com/tags/ml/</guid>
       <description></description>
     </item>
     
@@ -99,20 +117,11 @@
     </item>
     
     <item>
-      <title>career</title>
-      <link>https://www.yuan-meng.com/tags/career/</link>
+      <title>data science</title>
+      <link>https://www.yuan-meng.com/tags/data-science/</link>
       <pubDate>Sun, 13 Mar 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://www.yuan-meng.com/tags/career/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>interview</title>
-      <link>https://www.yuan-meng.com/tags/interview/</link>
-      <pubDate>Sun, 13 Mar 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.yuan-meng.com/tags/interview/</guid>
+      <guid>https://www.yuan-meng.com/tags/data-science/</guid>
       <description></description>
     </item>
     
@@ -122,15 +131,6 @@
       <pubDate>Fri, 04 Mar 2022 00:00:00 +0000</pubDate>
       
       <guid>https://www.yuan-meng.com/tags/phd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>reflection</title>
-      <link>https://www.yuan-meng.com/tags/reflection/</link>
-      <pubDate>Fri, 04 Mar 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.yuan-meng.com/tags/reflection/</guid>
       <description></description>
     </item>
     
@@ -158,24 +158,6 @@
       <pubDate>Wed, 19 Jan 2022 00:00:00 +0000</pubDate>
       
       <guid>https://www.yuan-meng.com/tags/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>2022</title>
-      <link>https://www.yuan-meng.com/tags/2022/</link>
-      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.yuan-meng.com/tags/2022/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>resolutons</title>
-      <link>https://www.yuan-meng.com/tags/resolutons/</link>
-      <pubDate>Sat, 01 Jan 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.yuan-meng.com/tags/resolutons/</guid>
       <description></description>
     </item>
     

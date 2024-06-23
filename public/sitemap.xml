@@ -2,32 +2,68 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.yuan-meng.com/posts/ltr/</loc>
-    <lastmod>2024-01-17T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://www.yuan-meng.com/categories/</loc>
-    <lastmod>2024-01-17T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/information-retrieval/</loc>
-    <lastmod>2024-01-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/learning-to-rank/</loc>
-    <lastmod>2024-01-17T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/categories/papers/</loc>
-    <lastmod>2024-01-17T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/posts/</loc>
-    <lastmod>2024-01-17T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/search/</loc>
-    <lastmod>2024-01-17T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/posts/vector_retrieval/</loc>
+    <lastmod>2024-06-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/</loc>
-    <lastmod>2024-01-17T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/vector-based-search/</loc>
+    <lastmod>2024-06-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/</loc>
-    <lastmod>2024-01-17T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/reflections/</loc>
+    <lastmod>2024-05-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/categories/reflections/</loc>
+    <lastmod>2024-05-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/posts/17_going_under/</loc>
+    <lastmod>2024-05-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/posts/mle_interviews/</loc>
+    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/categories/advice/</loc>
+    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/career/</loc>
+    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/interview/</loc>
+    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/machine-learning/</loc>
+    <lastmod>2024-03-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/posts/attention_as_dict/</loc>
+    <lastmod>2024-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/natural-language-processing/</loc>
+    <lastmod>2024-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/posts/ltr/</loc>
+    <lastmod>2024-02-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.yuan-meng.com/tags/learning-to-rank/</loc>
+    <lastmod>2024-02-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/autocomplete/</loc>
     <lastmod>2024-01-06T00:00:00+00:00</lastmod>
@@ -35,34 +71,19 @@
     <loc>https://www.yuan-meng.com/posts/autocomplete/</loc>
     <lastmod>2024-01-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.yuan-meng.com/tags/dl-foundations/</loc>
-    <lastmod>2023-07-02T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://www.yuan-meng.com/posts/perceptron/</loc>
     <lastmod>2023-07-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/categories/tutorials/</loc>
     <lastmod>2023-07-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.yuan-meng.com/tags/birthday/</loc>
-    <lastmod>2023-05-06T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://www.yuan-meng.com/posts/birthday/</loc>
-    <lastmod>2023-05-06T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/categories/reflections/</loc>
     <lastmod>2023-05-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/algorithms/</loc>
     <lastmod>2022-06-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/posts/md_coding/</loc>
-    <lastmod>2022-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/data-science/</loc>
-    <lastmod>2022-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/ml/</loc>
     <lastmod>2022-06-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/empathy/</loc>
@@ -74,19 +95,10 @@
     <loc>https://www.yuan-meng.com/posts/newgrads/</loc>
     <lastmod>2022-03-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.yuan-meng.com/categories/advice/</loc>
-    <lastmod>2022-03-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/career/</loc>
-    <lastmod>2022-03-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/interview/</loc>
+    <loc>https://www.yuan-meng.com/tags/data-science/</loc>
     <lastmod>2022-03-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/tags/phd/</loc>
-    <lastmod>2022-03-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/reflection/</loc>
     <lastmod>2022-03-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/posts/nothingness/</loc>
@@ -104,16 +116,10 @@
     <loc>https://www.yuan-meng.com/posts/python_env/</loc>
     <lastmod>2022-01-19T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.yuan-meng.com/tags/2022/</loc>
-    <lastmod>2022-01-01T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://www.yuan-meng.com/categories/essays/</loc>
     <lastmod>2022-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/posts/resolutions-2022/</loc>
-    <lastmod>2022-01-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.yuan-meng.com/tags/resolutons/</loc>
     <lastmod>2022-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.yuan-meng.com/posts/guitar/</loc>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <script type="text/javascript" src="https://latest.cactus.chat/cactus.js"></script>
+  <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> Attention as Soft Dictionary Lookup | Yuan Meng</title>
+  <link rel = 'canonical' href = 'https://www.yuan-meng.com/posts/attention_as_dict/'>
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a Machine Learning Engineer on DoorDash&#39;s Search team, where I work on query understanding and learn to learn to rank... Previously as a Computational Cognitive Scientist, I studied common sense causal and social reasoning in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (ranking, generative models, fairness), cognitively inspired AI, metal guitar, and 🐱. I use 重庆话 when I do mental math.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="Attention as Soft Dictionary Lookup" />
+<meta property="og:description" content="The Dictionary Metaphor 🔑📚 By now, the scaled-dot product attention formula might have burned into our brains 🧠, $\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$, yet still this brilliant metaphor from Kevin Murphy&rsquo;s PML book gives it a refreshed interpretation &mdash;
+ &ldquo;We can think of attention as a soft dictionary look up, in which we compare the query $q$ to each key $k_i$, and then retrieve the corresponding value $v_i$.&rdquo; &mdash; Chapter 15, p." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.yuan-meng.com/posts/attention_as_dict/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-03-09T00:00:00+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Attention as Soft Dictionary Lookup"/>
+<meta name="twitter:description" content="The Dictionary Metaphor 🔑📚 By now, the scaled-dot product attention formula might have burned into our brains 🧠, $\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$, yet still this brilliant metaphor from Kevin Murphy&rsquo;s PML book gives it a refreshed interpretation &mdash;
+ &ldquo;We can think of attention as a soft dictionary look up, in which we compare the query $q$ to each key $k_i$, and then retrieve the corresponding value $v_i$.&rdquo; &mdash; Chapter 15, p."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.yuan-meng.com/css/styles.94f653e9e151e28067a7c5dbbc4600cbd5a3c721e79faaf971e523c40f3b249b8e4f20bb57810dfffa8d559ca5c140fd56eb4cd9c0853113ad08e66afdb08bdd.css" integrity="sha512-lPZT6eFR4oBnp8XbvEYAy9WjxyHnn6r5ceUjxA87JJuOTyC7V4EN//qNVZylwUD9VutM2cCFMROtCOZq/bCL3Q=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.yuan-meng.com/images/favicon.ico" />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://www.yuan-meng.com/posts/ltr/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://www.yuan-meng.com/posts/mle_interviews/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&text=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&title=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&is_video=false&description=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Attention%20as%20Soft%20Dictionary%20Lookup&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&title=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&title=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&name=Attention%20as%20Soft%20Dictionary%20Lookup&description=The%20Dictionary%20Metaphor%20%f0%9f%94%91%f0%9f%93%9a%20By%20now%2c%20the%20scaled-dot%20product%20attention%20formula%20might%20have%20burned%20into%20our%20brains%20%f0%9f%a7%a0%2c%20%24%5ctext%7bAttention%7d%28Q%2c%20K%2c%20V%29%20%3d%20%5ctext%7bsoftmax%7d%5cleft%28%5cfrac%7bQK%5eT%7d%7b%5csqrt%7bd_k%7d%7d%5cright%29V%24%2c%20yet%20still%20this%20brilliant%20metaphor%20from%20Kevin%20Murphy%26rsquo%3bs%20PML%20book%20gives%20it%20a%20refreshed%20interpretation%20%26mdash%3b%0a%20%26ldquo%3bWe%20can%20think%20of%20attention%20as%20a%20soft%20dictionary%20look%20up%2c%20in%20which%20we%20compare%20the%20query%20%24q%24%20to%20each%20key%20%24k_i%24%2c%20and%20then%20retrieve%20the%20corresponding%20value%20%24v_i%24.%26rdquo%3b%20%26mdash%3b%20Chapter%2015%2c%20p." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&t=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-dictionary-metaphor-">The Dictionary Metaphor 🔑📚</a></li>
+    <li><a href="#hugging-face-implementation-">Hugging Face Implementation 🦜🤗</a>
+      <ul>
+        <li><a href="#self-attention">Self-Attention</a></li>
+        <li><a href="#multi-headed-attention">Multi-Headed Attention</a></li>
+        <li><a href="#token-embeddings">Token Embeddings</a></li>
+        <li><a href="#positional-encoding">Positional Encoding</a></li>
+        <li><a href="#sequence-classification">Sequence Classification</a></li>
+      </ul>
+    </li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        Attention as Soft Dictionary Lookup
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2024-03-09 00:00:00 &#43;0000 UTC" itemprop="datePublished">2024-03-09</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          8 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/papers">papers</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/machine-learning" rel="tag">machine learning</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/natural-language-processing" rel="tag">natural language processing</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <h1 id="the-dictionary-metaphor-">The Dictionary Metaphor 🔑📚</h1>
+<p>By now, the scaled-dot product attention formula might have burned into our brains 🧠, $\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$, yet still this brilliant metaphor from Kevin Murphy&rsquo;s PML book gives it a refreshed interpretation &mdash;</p>
+<blockquote>
+<p>&ldquo;We can think of attention as a soft dictionary look up, in which we compare the query $q$ to each key $k_i$, and then retrieve the corresponding value $v_i$.&rdquo; &mdash; Chapter 15, p. 513</p>
+</blockquote>
+<p>In a real dictionary, we query values by key and only grab the value whose key matches the query (<code>dict[query]</code>). The <strong>attention mechanism, however, allows us to grab values from multiple keys and return their weighted sum for the given query</strong>.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/f41wr0rkn85y5tgi3ss7h/Screenshot-2024-03-09-at-5.13.45-PM.png?rlkey=fevuo6cxy5gigzp682244co1q&amp;raw=1"
+         alt="Image Source: Probabilistic Machine Learning: An Introduction, Chapter 15" width="1000"/><figcaption>
+            <p>Image Source: Probabilistic Machine Learning: An Introduction, Chapter 15</p>
+        </figcaption>
+</figure>
+
+<p>The more compatible a key is to the query, the higher the &ldquo;attention weight&rdquo; we assign to the key&rsquo;s value. The $i$th key&rsquo;s attention weight is $\frac{\exp(\alpha(q, k_i))}{\sum_{j=1}^{m}\exp(a(q, k_j))}$ &mdash; attention weights of all keys sum to 1. The numerator of the attention weight, $\alpha(q, k_i)$, is the &ldquo;attention score&rdquo;. For masked tokens, we can set attention scores to a large negative number (e.g., $-10^6$) so that their attention weights will turn out close to 0.</p>
+<p>The most popular attention score function is the dot product between $q$ and $k_i$, scaled by the square root of the k dimension, $\sqrt{d_k}$. The scaled dot-product attention is used by the original transformer (<a href="https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Vaswani et al., 2017</a>) and many of its descendants. You can replace $\alpha(q, k_i)$ with other similarity functions.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/5cfqswt24wey8xavtochd/Screenshot-2024-03-09-at-6.26.24-PM.png?rlkey=ei4kj7a3n98hpn5no0cuvemuk&amp;raw=1" width="300"/>
+</figure>
+
+<h1 id="hugging-face-implementation-">Hugging Face Implementation 🦜🤗</h1>
+<p>I heard that in increasingly more MLE interviews are candidates asked to code components of the transformer architecture from scratch. I find the implementation in the Hugging Face <a href="https://www.amazon.com/Natural-Language-Processing-Transformers-Revised-dp-1098136799/dp/1098136799/ref=dp_ob_title_bk">book</a> the easiest to follow and perhaps closest to the day-to-day coding style of NLP practitioners. Let&rsquo;s begin by reviewing key concepts such as <strong>self-attention</strong> and <strong>multi-headed attention</strong> and then code up a basic <code>TransformerForSequenceClassification</code> model relying on the transformer encoder.</p>
+<h2 id="self-attention">Self-Attention</h2>
+<p>The transformer encoder uses the <strong>self-attention</strong> between each input token and all other input tokens to create <em>contextual token embeddings</em>. Before encoding, homophones (&ldquo;flies&rdquo; in &ldquo;time flies like an arrow&rdquo; and &ldquo;fruit flies like a banana&rdquo;) have the same initial embedding. In the first sentence, however, the token &ldquo;flies&rdquo; attends most strongly to &ldquo;time&rdquo; and &ldquo;arrow&rdquo;, so its contextual embedding will be close to that of these two, whereas in the second sentence, &ldquo;flies&rdquo; attends most strongly to &ldquo;fruit&rdquo; and &ldquo;banana&rdquo;, so its embedding will be close to theirs.</p>
+<p>After encoding, tokens attain new embeddings from associated tokens &mdash; as the developmental psychologist Jean Piaget put it, <em>&ldquo;Through others we become ourselves.&quot;</em></p>
+<figure><img src="https://www.dropbox.com/scl/fi/kw2f34jsz04se0r4pvc7q/Screenshot-2024-03-09-at-6.35.57-PM.png?rlkey=zdtgbli16j19jegvxc7tkwhci&amp;raw=1"
+         alt="The bertviz package can visualize the attention weight between tokens." width="400"/><figcaption>
+            <p>The <code>bertviz</code> package can visualize the attention weight between tokens.</p>
+        </figcaption>
+</figure>
+
+<h2 id="multi-headed-attention">Multi-Headed Attention</h2>
+<p>The original transformer paper pioneered the multi-head attention (MHA), where each &ldquo;head&rdquo; could capture a different notion of similarity (e.g., semantic, syntactic). The query $Q$, key $K$, and value $V$ matrices are split along the embedding dimension, $d_{model}$, and each split with the embedding size $d_{model} / h$ is fed to each head. Outputs from each head are concatenated to form a single output tensor &mdash; $\text{MHA}(Q, K, V) = \text{Concat}(\text{head}_1, \text{head}_2, \dots, \text{head}_h)W^O$ &mdash; before being passed to the linear layer.</p>
+<blockquote>
+<p>&ldquo;By dividing the <code>hidden_dim</code>, each head indeed sees the entire sequence (<code>seq_len</code>) but only a &ldquo;slice&rdquo; or portion of each token&rsquo;s embedding dimension (<code>head_dim</code>). This design enables the model to parallelly attend to information from different representation subspaces at different positions, enriching the model&rsquo;s ability to capture diverse relationships within the data.&rdquo; &mdash; <em>Natural Language Processing with Transformers</em></p>
+</blockquote>
+<figure><img src="https://www.dropbox.com/scl/fi/qi9srxe7snob76jsiy8rn/Screenshot-2024-03-09-at-6.26.27-PM.png?rlkey=ek30opu6d42lc3vf316jy26er&amp;raw=1" width="300"/>
+</figure>
+
+<p>Instead of starting with random embeddings for each token, we can use the tokenizer of pre-trained model, say <code>bert-base-uncased</code>, to encode the input text.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">from</span> math <span style="color:#ff79c6">import</span> sqrt
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span style="color:#ff79c6">import</span> torch
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span style="color:#ff79c6">from</span> torch <span style="color:#ff79c6">import</span> nn
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span style="color:#ff79c6">import</span> torch.nn.functional <span style="color:#ff79c6">as</span> F
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span style="color:#ff79c6">from</span> transformers <span style="color:#ff79c6">import</span> AutoTokenizer, AutoModel, AutoConfig
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span style="color:#6272a4"># load tokenizer from model checkpoint</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>model_ckpt <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;bert-base-uncased&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>tokenizer <span style="color:#ff79c6">=</span> AutoTokenizer<span style="color:#ff79c6">.</span>from_pretrained(model_ckpt)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span style="color:#6272a4"># load config associated with given model</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>config <span style="color:#ff79c6">=</span> AutoConfig<span style="color:#ff79c6">.</span>from_pretrained(model_ckpt)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span style="color:#6272a4"># input text</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>text <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;time flies like an arrow&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span style="color:#6272a4"># tokenize input text</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>inputs <span style="color:#ff79c6">=</span> tokenizer(text, return_tensors<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;pt&#34;</span>, add_special_tokens<span style="color:#ff79c6">=</span><span style="color:#ff79c6">False</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span style="color:#6272a4"># nn.Embedding is a lookup table to find embeddings of each input_id</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>token_emb <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Embedding(config<span style="color:#ff79c6">.</span>vocab_size, config<span style="color:#ff79c6">.</span>hidden_size)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span style="color:#6272a4"># look up embeddings by id</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>input_embs <span style="color:#ff79c6">=</span> token_emb(inputs<span style="color:#ff79c6">.</span>input_ids)
+</code></pre></div><p>For simplicity, we can use the same linear projection of the input embedding (<code>input_embs</code>) for $Q$ (<code>query</code>), $K$ (<code>key</code>), $V$ (<code>value</code>). In practice, we usually use 3 different linear projections. The <code>scaled_dot_product_attention</code> function below takes <code>query</code>, <code>key</code>, and <code>value</code> as inputs and returns output embeddings of the tokens.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#6272a4"># init Q, K, V with input_embs</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>query <span style="color:#ff79c6">=</span> key <span style="color:#ff79c6">=</span> value <span style="color:#ff79c6">=</span> input_embs
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">scaled_dot_product_attention</span>(query, key, value):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>    <span style="color:#6272a4"># get key dim: hidden_dim</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>    dim_k <span style="color:#ff79c6">=</span> key<span style="color:#ff79c6">.</span>size(<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>)  <span style="color:#6272a4"># last dim</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>    <span style="color:#6272a4"># attention weights</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>    weights <span style="color:#ff79c6">=</span> torch<span style="color:#ff79c6">.</span>bmm(query, key<span style="color:#ff79c6">.</span>transpose(<span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">2</span>)) <span style="color:#ff79c6">/</span> sqrt(dim_k)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>    <span style="color:#6272a4"># attention scores</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>    scores <span style="color:#ff79c6">=</span> F<span style="color:#ff79c6">.</span>softmax(weights, dim<span style="color:#ff79c6">=-</span><span style="color:#bd93f9">1</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>    <span style="color:#6272a4"># output embeddings</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>    <span style="color:#ff79c6">return</span> torch<span style="color:#ff79c6">.</span>bmm(scores, value)
+</code></pre></div><p>The code below implements MHA with 12 heads. We can instantiate a <code>MultiHeadAttention</code> object with the pre-trained model config and call it on <code>input_embs</code> to get the attention outputs that represent the input sequence.</p>
+<p>Note that we don&rsquo;t need to specifically use methods such as <code>encode</code> (or however you name it) to get the output &mdash; when calling a model object on some input data (<code>hidden_state</code>), it invokes the <code>forward</code> function and returns the output <code>x</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">AttentionHead</span>(nn<span style="color:#ff79c6">.</span>Module):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#ff79c6">def</span> __init__(self, embed_dim, head_dim):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>        <span style="color:#8be9fd;font-style:italic">super</span>()<span style="color:#ff79c6">.</span>__init__()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        <span style="color:#6272a4"># init 3 independent linear layers</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        self<span style="color:#ff79c6">.</span>q <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Linear(embed_dim, head_dim)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>        self<span style="color:#ff79c6">.</span>k <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Linear(embed_dim, head_dim)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>        self<span style="color:#ff79c6">.</span>v <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Linear(embed_dim, head_dim)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">forward</span>(self, hidden_state):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        attn_outputs <span style="color:#ff79c6">=</span> scaled_dot_product_attention(
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>            self<span style="color:#ff79c6">.</span>q(hidden_state), self<span style="color:#ff79c6">.</span>k(hidden_state), self<span style="color:#ff79c6">.</span>v(hidden_state)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        )
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        <span style="color:#ff79c6">return</span> attn_outputs
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">MultiHeadAttention</span>(nn<span style="color:#ff79c6">.</span>Module):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>    <span style="color:#ff79c6">def</span> __init__(self, config):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>        <span style="color:#8be9fd;font-style:italic">super</span>()<span style="color:#ff79c6">.</span>__init__()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>        <span style="color:#6272a4"># embedding size is 768 in the case of &#34;bert-base-uncased&#34;</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>        embed_dim <span style="color:#ff79c6">=</span> config<span style="color:#ff79c6">.</span>hidden_size
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>        <span style="color:#6272a4"># conventionally, hidden_size is divisible by num_heads</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span>        num_heads <span style="color:#ff79c6">=</span> config<span style="color:#ff79c6">.</span>num_attention_heads
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>        <span style="color:#6272a4"># if we have 12 heads, each head get 768 // 12 = 54 hidden_dim</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>        head_dim <span style="color:#ff79c6">=</span> embed_dim <span style="color:#ff79c6">//</span> num_heads
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span>        <span style="color:#6272a4"># create a list of attention heads</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span>        self<span style="color:#ff79c6">.</span>heads <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>ModuleList(
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span>            [AttentionHead(embed_dim, head_dim) <span style="color:#ff79c6">for</span> _ <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(num_heads)]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span>        )
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span>        <span style="color:#6272a4"># final linear layer</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span>        self<span style="color:#ff79c6">.</span>output_linear <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Linear(embed_dim, embed_dim)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">forward</span>(self, hidden_state):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span>        <span style="color:#6272a4"># concat output from each head on the last dim</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span>        x <span style="color:#ff79c6">=</span> torch<span style="color:#ff79c6">.</span>cat([h(hidden_state) <span style="color:#ff79c6">for</span> h <span style="color:#ff79c6">in</span> self<span style="color:#ff79c6">.</span>heads], dim<span style="color:#ff79c6">=-</span><span style="color:#bd93f9">1</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span>        <span style="color:#6272a4"># pass through final linear layer</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span>        x <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>output_linear(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span>        <span style="color:#ff79c6">return</span> x
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span style="color:#6272a4"># use model config from the beginning</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span>multihead_attn <span style="color:#ff79c6">=</span> MultiHeadAttention(config)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span style="color:#6272a4"># attention outputs concatenated from 12 heads</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span>attn_output <span style="color:#ff79c6">=</span> multihead_attn(input_embs)
+</code></pre></div><h2 id="token-embeddings">Token Embeddings</h2>
+<p>While we&rsquo;re at it, let&rsquo;s finish coding up the rest of the transformer decoder. The attention outputs are passed through a feedforward network (FFN).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">FeedForward</span>(nn<span style="color:#ff79c6">.</span>Module):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#ff79c6">def</span> __init__(self, config):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>        <span style="color:#8be9fd;font-style:italic">super</span>()<span style="color:#ff79c6">.</span>__init__()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        self<span style="color:#ff79c6">.</span>linear_1 <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Linear(config<span style="color:#ff79c6">.</span>hidden_size, config<span style="color:#ff79c6">.</span>intermediate_size)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        self<span style="color:#ff79c6">.</span>linear_2 <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Linear(config<span style="color:#ff79c6">.</span>intermediate_size, config<span style="color:#ff79c6">.</span>hidden_size)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>        self<span style="color:#ff79c6">.</span>gelu <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>GELU()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>        self<span style="color:#ff79c6">.</span>dropout <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Dropout(config<span style="color:#ff79c6">.</span>hidden_dropout_prob)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">forward</span>(self, x):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        x <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>linear_1(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        x <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>gelu(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        x <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>linear_2(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        x <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>dropout(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        <span style="color:#ff79c6">return</span> x
+</code></pre></div><p>Before FNN, we apply layer normalization to ensure each input has 0 mean and unity (1) variance. Moreover, to preserve information throughout the layers and alleviate the vanishing gradient problem, we can apply skip connections, which pass a tensor to the next layer without processing (<code>x</code>) and add it to the processed tensor.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">TransformerEncoderLayer</span>(nn<span style="color:#ff79c6">.</span>Module):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#ff79c6">def</span> __init__(self, config):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>        <span style="color:#8be9fd;font-style:italic">super</span>()<span style="color:#ff79c6">.</span>__init__()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        self<span style="color:#ff79c6">.</span>layer_norm_1 <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>LayerNorm(config<span style="color:#ff79c6">.</span>hidden_size)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        self<span style="color:#ff79c6">.</span>layer_norm_2 <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>LayerNorm(config<span style="color:#ff79c6">.</span>hidden_size)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>        self<span style="color:#ff79c6">.</span>attention <span style="color:#ff79c6">=</span> MultiHeadAttention(config)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>        self<span style="color:#ff79c6">.</span>feed_forward <span style="color:#ff79c6">=</span> FeedForward(config)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">forward</span>(self, x):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        <span style="color:#6272a4"># apply layer norm on input</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        hidden_state <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>layer_norm_1(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        <span style="color:#6272a4"># apply attention with skip connection</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        x <span style="color:#ff79c6">=</span> x <span style="color:#ff79c6">+</span> self<span style="color:#ff79c6">.</span>attention(hidden_state)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        <span style="color:#6272a4"># apply feedforward with skip connection</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>        x <span style="color:#ff79c6">=</span> x <span style="color:#ff79c6">+</span> self<span style="color:#ff79c6">.</span>feed_forward(self<span style="color:#ff79c6">.</span>layer_norm_2(x))
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>        <span style="color:#6272a4"># return processed</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>        <span style="color:#ff79c6">return</span> x
+</code></pre></div><h2 id="positional-encoding">Positional Encoding</h2>
+<p>Token embeddings from <code>TransformerEncoderLayer</code> agnostic to positional information, which can be injected via positional encoding. Each position (absolute or relative) in the input sequence is represented by a unique embedding, which is learned or fixed (such as sinusoidal waves below):</p>
+<ul>
+<li>Even-indexed positions: $PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)$</li>
+<li>Odd-indexed positions: $PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)$</li>
+</ul>
+<p>Check out the Machine Learning Mastery <a href="https://machinelearningmastery.com/a-gentle-introduction-to-positional-encoding-in-transformer-models-part-1/">tutorial</a> and Lilian Weng&rsquo;s <a href="https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/#positional-encoding">blogpost</a>. The code below uses positional encoding that comes with the pre-trained model.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Embeddings</span>(nn<span style="color:#ff79c6">.</span>Module):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#ff79c6">def</span> __init__(self, config):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>        <span style="color:#8be9fd;font-style:italic">super</span>()<span style="color:#ff79c6">.</span>__init__()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        <span style="color:#6272a4"># look up token and position embeddings</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        self<span style="color:#ff79c6">.</span>token_embeddings <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Embedding(config<span style="color:#ff79c6">.</span>vocab_size, config<span style="color:#ff79c6">.</span>hidden_size)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>        self<span style="color:#ff79c6">.</span>position_embeddings <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Embedding(
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>            config<span style="color:#ff79c6">.</span>max_position_embeddings, config<span style="color:#ff79c6">.</span>hidden_size
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>        )
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>        <span style="color:#6272a4"># define layernorm and dropout layers</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        self<span style="color:#ff79c6">.</span>layer_norm <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>LayerNorm(config<span style="color:#ff79c6">.</span>hidden_size, eps<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1e-12</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        self<span style="color:#ff79c6">.</span>drop_out <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Dropout()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">forward</span>(self, input_ids):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        <span style="color:#6272a4"># length of the input sequence</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>        seq_length <span style="color:#ff79c6">=</span> input_ids<span style="color:#ff79c6">.</span>size(<span style="color:#bd93f9">1</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>        <span style="color:#6272a4"># position id: [0 to seq_length - 1]</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>        position_ids <span style="color:#ff79c6">=</span> torch<span style="color:#ff79c6">.</span>arange(seq_length, dtype<span style="color:#ff79c6">=</span>torch<span style="color:#ff79c6">.</span>long)<span style="color:#ff79c6">.</span>unsqueeze(<span style="color:#bd93f9">0</span>)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>        <span style="color:#6272a4"># look up embeddings by id</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>        token_embeddings <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>token_embeddings(input_ids)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>        position_embeddings <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>position_embeddings(position_ids)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span>        <span style="color:#6272a4"># add up token and position embeddings</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span>        embeddings <span style="color:#ff79c6">=</span> token_embeddings <span style="color:#ff79c6">+</span> position_embeddings
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span>        <span style="color:#6272a4"># pass through layer norm and dropout</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>        embeddings <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>layer_norm(embeddings)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>        embeddings <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>drop_out(embeddings)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>        <span style="color:#ff79c6">return</span> embeddings
+</code></pre></div><p>The code below is the final encoder of our vanilla transformer.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">TransformerEncoder</span>(nn<span style="color:#ff79c6">.</span>Module):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#ff79c6">def</span> __init__(self, config):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>        <span style="color:#8be9fd;font-style:italic">super</span>()<span style="color:#ff79c6">.</span>__init__()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        self<span style="color:#ff79c6">.</span>embeddings <span style="color:#ff79c6">=</span> Embeddings(config)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        <span style="color:#6272a4"># repeat 12 times</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>        self<span style="color:#ff79c6">.</span>layers <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>ModuleList(
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>            [TransformerEncoderLayer(config) <span style="color:#ff79c6">for</span> _ <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(config<span style="color:#ff79c6">.</span>num_hidden_layers)]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>        )
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">forward</span>(self, x):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        x <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>embeddings(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        <span style="color:#ff79c6">for</span> layer <span style="color:#ff79c6">in</span> self<span style="color:#ff79c6">.</span>layers:
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>            x <span style="color:#ff79c6">=</span> layer(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        <span style="color:#ff79c6">return</span> x
+</code></pre></div><h2 id="sequence-classification">Sequence Classification</h2>
+<p>A common use case of the transformer is sequence classification, which maps input embeddings (token + positional) to probabilities of class labels.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">TransformerForSequenceClassification</span>(nn<span style="color:#ff79c6">.</span>Module):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span>    <span style="color:#ff79c6">def</span> __init__(self, config):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>        <span style="color:#8be9fd;font-style:italic">super</span>()<span style="color:#ff79c6">.</span>__init__()
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        self<span style="color:#ff79c6">.</span>encoder <span style="color:#ff79c6">=</span> TransformerEncoder(config)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span>        self<span style="color:#ff79c6">.</span>dropout <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Dropout(config<span style="color:#ff79c6">.</span>hidden_dropout_prob)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span>        self<span style="color:#ff79c6">.</span>classifier <span style="color:#ff79c6">=</span> nn<span style="color:#ff79c6">.</span>Linear(config<span style="color:#ff79c6">.</span>hidden_size, config<span style="color:#ff79c6">.</span>num_labels)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">forward</span>(self, x):
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span>        <span style="color:#6272a4"># select [CLS] token</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span>        x <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>encoder(x)[:, <span style="color:#bd93f9">0</span>, :]
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>        <span style="color:#6272a4"># apply dropout on embedding</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>        x <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>dropout(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>        <span style="color:#6272a4"># pass through classification layer</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span>        x <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>classifier(x)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>        <span style="color:#ff79c6">return</span> x
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span style="color:#6272a4"># specify number of labels</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span>config<span style="color:#ff79c6">.</span>num_labels <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">3</span>
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span>encoder_classifier <span style="color:#ff79c6">=</span> TransformerForSequenceClassification(config)
+<span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span>encoder_classifier(inputs<span style="color:#ff79c6">.</span>input_ids)<span style="color:#ff79c6">.</span>size()
+</code></pre></div><h1 id="resources">Resources</h1>
+<ol>
+<li><a href="https://probml.github.io/pml-book/book1.html"><em>Probabilistic Machine Learning: An Introduction</em> (2023)</a> by Kevin P. Murphy</li>
+<li>Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., &hellip; &amp; Polosukhin, I. (2017). <em><a href="https://proceedings.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention is all you need</a>. Advances in Neural Information Processing Systems</em>, 30.</li>
+<li><a href="https://www.amazon.com/Natural-Language-Processing-Transformers-Revised-dp-1098136799/dp/1098136799/ref=dp_ob_title_bk"><em>Natural Language Processing with Transformers</em> (2022)</a> by Hugging Face</li>
+<li><em>A Gentle Introduction to Positional Encoding in Transformer Models (<a href="https://machinelearningmastery.com/a-gentle-introduction-to-positional-encoding-in-transformer-models-part-1/">Part I</a>, <a href="https://machinelearningmastery.com/the-transformer-positional-encoding-layer-in-keras-part-2/">Part II</a>)</em></li>
+<li><a href="https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/"><em>The Transformer Family Version 2.0</em></a> by Lilian Weng</li>
+</ol>
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">About</a></li>
+         
+          <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-dictionary-metaphor-">The Dictionary Metaphor 🔑📚</a></li>
+    <li><a href="#hugging-face-implementation-">Hugging Face Implementation 🦜🤗</a>
+      <ul>
+        <li><a href="#self-attention">Self-Attention</a></li>
+        <li><a href="#multi-headed-attention">Multi-Headed Attention</a></li>
+        <li><a href="#token-embeddings">Token Embeddings</a></li>
+        <li><a href="#positional-encoding">Positional Encoding</a></li>
+        <li><a href="#sequence-classification">Sequence Classification</a></li>
+      </ul>
+    </li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&text=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&title=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&is_video=false&description=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=Attention%20as%20Soft%20Dictionary%20Lookup&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&title=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&title=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&name=Attention%20as%20Soft%20Dictionary%20Lookup&description=The%20Dictionary%20Metaphor%20%f0%9f%94%91%f0%9f%93%9a%20By%20now%2c%20the%20scaled-dot%20product%20attention%20formula%20might%20have%20burned%20into%20our%20brains%20%f0%9f%a7%a0%2c%20%24%5ctext%7bAttention%7d%28Q%2c%20K%2c%20V%29%20%3d%20%5ctext%7bsoftmax%7d%5cleft%28%5cfrac%7bQK%5eT%7d%7b%5csqrt%7bd_k%7d%7d%5cright%29V%24%2c%20yet%20still%20this%20brilliant%20metaphor%20from%20Kevin%20Murphy%26rsquo%3bs%20PML%20book%20gives%20it%20a%20refreshed%20interpretation%20%26mdash%3b%0a%20%26ldquo%3bWe%20can%20think%20of%20attention%20as%20a%20soft%20dictionary%20look%20up%2c%20in%20which%20we%20compare%20the%20query%20%24q%24%20to%20each%20key%20%24k_i%24%2c%20and%20then%20retrieve%20the%20corresponding%20value%20%24v_i%24.%26rdquo%3b%20%26mdash%3b%20Chapter%2015%2c%20p." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fattention_as_dict%2f&t=Attention%20as%20Soft%20Dictionary%20Lookup" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2024  Yuan Meng 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

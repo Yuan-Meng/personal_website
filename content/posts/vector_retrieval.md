@@ -1,21 +1,21 @@
 ---
-title: "Sift Through the Haystack: Vector Retrieval"
-date: 2024-05-07
+title: "An Intro to Embedding-Based Retrieval"
+date: 2024-06-22
 math: true
 tags:
-    - search
+    - embedding
     - information retrieval
     - vector-based search
 categories:
 - papers
 keywords:
-    - search, information retrieval, vector-based search
+    - embedding, information retrieval, vector-based search
 include_toc: true
 ---
 
-# Embeddings, Embeddings Everywhere
+# So, What is an Embedding?
 
-Be it a person, a product, a place, a text, an image, or a planet --- virtually all entities you can think of can be represented as a special kind of vectors, called "embeddings." [Embedding](https://en.wikipedia.org/wiki/Embedding) is a classic idea in mathematical topology and machine learning (click ▶ for definitions), recently made popular by the rise of foundation models that are exceptionally good at embedding texts, images, and videos to empower downstream use cases, such as embedding-based retrieval, text/image/video understanding, and deep learning rankers with embedding features, to name a few. 
+[Embedding](https://en.wikipedia.org/wiki/Embedding) is a classic idea in mathematical topology and machine learning (click ▶ for definitions). You can think of embeddings as a special type of vectors. 
 
 <details>
   <summary><b>Mathematical topology</b></summary>
@@ -28,7 +28,17 @@ Be it a person, a product, a place, a text, an image, or a planet --- virtually 
   <p>An embedding is a transformation $f: X \rightarrow \mathbb{R}^n$ that maps entities from a high-dimensional or abstract space $X$ (e.g., words, images, or graph nodes) to vectors in a lower-dimensional, continuous vector space $\mathbb{R}^n$. This mapping aims to preserve relevant properties of the original entities, such as similarity or relational structure, thereby enabling more effective computational manipulation and analysis.</p>
 </details>
 
-Not all vectors are embeddings --- Entities similar in the real world must be close in the embedding space. Consider the multiple birth example from [*Machine Learning Design Patterns*](*https://www.oreilly.com/library/view/machine-learning-design/9781098115777/*): We can use 6 one-hot vectors to represent 6 labels for the number of babies in one birth. Singles are more similar to twins than they are to quintuplets; yet, the cosine similarity between the single vector (`[1, 0, 0, 0, 0, 0]`) and the twin vector (`[0, 0, 1, 0, 0, 0]`) is 0, the same as that between the single vector and the quintuplet vector (`[0, 0, 0, 0, 0, 1]`). Since these one-hot vectors do not preserve the similarity between entities, they are *not* embeddings. 
+A vector $\mathbb{R}^n$ is an ordered list of numbers, which can represent almost everything: 
+
+- A geographic location, described by `[latitude, longitude]`.
+- A desk, characterized by `[height, area, color, other attributes]`.
+- A photo, consisting of channel values for each pixel, `[[r, g, b], ...]`.
+
+In traditional machine learning, each training example is described by a feature vector, usually consisted of hand-crafted features. For example, in spam classification, input text features might include the presence of a "$" 🤑 symbol in the email content, whether the subject line is in all CAPITAL LETTERS, and so on. 
+
+All vectors are not embeddings. For vectors to be considered as embeddings, similar entities in the real world must also be close in the embedding space, according to some distance function (e.g., Euclidean distance, Jaccard similarity, dot product, cosine similarity, etc.) --- a property that regular vectors do not always satisfy. Consider the example from [*Machine Learning Design Patterns*](*https://www.oreilly.com/library/view/machine-learning-design/9781098115777/*): 6 one-hot vectors are used to represent the number of babies in one birth. While singles are more similar to twins than they are to quintuplets, the cosine similarity between the single vector (`[1, 0, 0, 0, 0, 0]`) and the twin vector (`[0, 1, 0, 0, 0, 0]`) is 0, the same as that between the single vector and the quintuplets vector (`[0, 0, 0, 0, 0, 1]`). After all, these one-hot vectors are orthogonal to one another. Since one-hot vectors do not capture similarities between categories, they are *not* embeddings.
+
+We can, however, use a lower-dimensional vector to represent each class label (column 3 in the table below), such that more similar labels are closer to one another. 
 
 | Plurality       | One-hot encoding        | Learned encoding |
 |-----------------|-------------------------|------------------|
@@ -40,20 +50,24 @@ Not all vectors are embeddings --- Entities similar in the real world must be cl
 | Quintuplets (5) | [0,0,0,0,0,1]           | [-0.6, 0.5]      |
 
 
-We can learn to map each label to a vector in a way that more similar labels are closer to one another, according to some distance function (e.g., Euclidean distance, Jaccard similarity, dot product, cosine similarity, and so on).
-
 {{< figure src="https://www.dropbox.com/scl/fi/5xi8v3omgam3126dr0ahi/Screenshot-2024-04-21-at-2.58.25-PM.png?rlkey=zt24ehipliz2c1f2o8pol4zax&st=911v312w&raw=1" width="1000">}}
 
-This type of learning is called ["metric learning"](https://paperswithcode.com/task/metric-learning#:~:text=The%20goal%20of%20Metric%20Learning,been%20developed%20for%20Metric%20Learning.). When using embeddings as features in a deep neural net, we can start with random initial values and update them via backpropagation just like we would any other parameters in the neural net. Alternatively, we can use [contrastive representation learning](https://lilianweng.github.io/posts/2021-05-31-contrastive/) to learn user and item embeddings, for example, and input learned embeddings into another neural net. The former ensures embeddings for optimal for the task at hand, whereas the latter greatly boosts training efficiency and is the choice of most companies.
+The million-dollar question is, how do we learn the "proper" lower-dimensional representation of a class or an entity in the embedding space? This is the exact type of problems that ["metric learning"](https://paperswithcode.com/task/metric-learning#:~:text=The%20goal%20of%20Metric%20Learning,been%20developed%20for%20Metric%20Learning.) tries to solve. Typically, we need to mine the raw training data (e.g., search or feed logs) to construct positive/negative pairs or triplets, initialize with each entity's embedding with random values, and gradually pull similar entities (e.g., a user and an item on which they converted) closer and push dissimilar entities apart (e.g., a user and an unengaged item) using some contrastive objective (e.g., contrastive loss, triplet loss, Noise Contrastive Estimation, etc.). You can read Lilian Weng's wonderful [blog post](https://lilianweng.github.io/posts/2021-05-31-contrastive/) for more details. 
 
-Say we already have embeddings for entities we care about: Given a query point $q$, how do we find top-$k$ points $u \in \mathcal{X}$ most similar to it, to minimize a distance function $\delta$ calculated on entity embeddings? This is the top-$k$ retrieval problem: 
+With embeddings for entities we care about, we can answer many questions --- e.g.,
+
+- **First-pass ranking**: For a  user, how do we sift through a vast inventory of products/movies/posts/people/etc. to find items they may show interests in?
+- **Passage retrieval/semantic search**: Given a natural language question, how do we retrieve passages that may contain the answer?
+
+All this boils down to the **top-$k$ retrieval problem**: Given a query point $q$, how do we find top-$k$ document points $u \in \mathcal{X}$ that are most similar to it, so that we can minimize a distance function $\delta$ calculated on entity embeddings? 
 
 $$\mathop{\text{arg min}}\limits^{(k)}_{u \in \mathcal{X}} \delta(q, u).$$
 
+# Top-$k$ Retrieval Problem
+
 The startup Pinecone is a lead provider of web-scale commercial top-$k$ retrieval solutions. In this blogpost, I review key ideas from the new monograph [*Foundations of Vector Retrieval (2024)*](https://arxiv.org/abs/2401.09350) by Sebastian Bruch, a Principal Scientist at Pinecone.
 
-
-# Flavors of Vector Retrieval
+## Flavors of Distance Functions
 
 Finding top-$k$ points "closest" to the query point first requires a distance function. The figure below shows the 3 most popular choices (↓: minimize; ↑: maximize).
 
@@ -111,11 +125,11 @@ The 3 distance functions result in 3 flavors of vector retrieval: $k$-Nearest Ne
     </tr>
 </table>
 
-# Approximate Retrieval
+## Approximate Retrieval Algorithms
 
 Regardless of the method, exhaustively comparing the query vector with every other vector to find top $k$ is computationally expensive. To avoid exhaustive search, many approximate retrieval algorithms have been proposed, trading accuracy for speed.
 
-## Branch-and-Bound
+### Branch-and-Bound
 
 Branch-and-bound is the earliest algorithm for top-$k$ vector retrieval. This class of algorithms proceed in two phases: Recursively **partitioning** the vector space $\mathcal{X}$ into smaller regions and marking region boundaries, storing them in a binary search tree (BST), and **searching** only regions that could contain the top $k$ solution set. 
 
@@ -138,17 +152,19 @@ Branch-and-bound is the earliest algorithm for top-$k$ vector retrieval. This cl
 
 Different instantiations of branch-and-bound algorithms differ in how they split a collection or carry out certification. In general, however, brand-and-bound algorithms work poorly on high-dimensional data because the number of leaves that may be visited during certification grows exponentially with the embedding dimension $d$.
 
-## Clustering
+### Clustering
 Why not cluster vectors first, so that at retrieval time, we first find the cluster to which the query vector $q$ belongs, and then search top $k$ within that cluster?
 
 - **Locality Sensitive Hashing (LSH)**: Hash each vector in $\mathbb{R}^d$ into a single bucket $h: \mathbb{R}^d \rightarrow \[b\]$ 👉 during retrieval, exhaustively search the bucket where $q$ is put into, assuming $q$ is hashed into the same bucket as its nearest neighbors
 
-> WIP... Finish later...
+# Optimization Techniques
 
-# Vector Compression
+## Vector Compression
 
 # References
 
-- Pinecone book
-- Embed everything paper
-- ML design pattern paper
+## Books/Papers
+1. Bruch, S. (2024). Foundations of Vector Retrieval. [arXiv:2401.09350](https://arxiv.org/pdf/2401.09350).
+
+## Blog Posts
+2. [Contrastive Representation Learning](https://lilianweng.github.io/posts/2021-05-31-contrastive/) by Lilian Weng (2021)

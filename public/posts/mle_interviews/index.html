@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/font-awesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/lib/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <script type="text/javascript" src="https://latest.cactus.chat/cactus.js"></script>
+  <link rel="stylesheet" href="https://latest.cactus.chat/style.css" type="text/css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> (Opinionated) Guide to ML Engineer Job Hunting | Yuan Meng</title>
+  <link rel = 'canonical' href = 'https://www.yuan-meng.com/posts/mle_interviews/'>
+  <meta name="description" content="Hi, this is Yuan. I&#39;m a Machine Learning Engineer on DoorDash&#39;s Search team, where I work on query understanding and learn to learn to rank... Previously as a Computational Cognitive Scientist, I studied common sense causal and social reasoning in adults and kids, for which I received a Ph.D. from Berkeley. Things I particularly like: Machine learning (ranking, generative models, fairness), cognitively inspired AI, metal guitar, and 🐱. I use 重庆话 when I do mental math.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <meta name="googlebot" content="index,follow,snippet,archive">
+  <meta property="og:title" content="(Opinionated) Guide to ML Engineer Job Hunting" />
+<meta property="og:description" content="The Marriage Analogy Nearly 2 years ago, I wrote a blog post on how to find jobs as a new grad data scientist (as a twist of fate, I never worked as a product data scientist but instead became an ML engineer at DoorDash). Back in 2021, I cared a ton about interview skills, answer &ldquo;frameworks&rdquo;, and whatnot, which may still come handy at New Grad or Early Career levels. For experienced hires, however, I think of interviews as some sort of marriage proposal &mdash; it&rsquo;s something you can rehearse but can never force." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.yuan-meng.com/posts/mle_interviews/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-03-16T00:00:00+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="(Opinionated) Guide to ML Engineer Job Hunting"/>
+<meta name="twitter:description" content="The Marriage Analogy Nearly 2 years ago, I wrote a blog post on how to find jobs as a new grad data scientist (as a twist of fate, I never worked as a product data scientist but instead became an ML engineer at DoorDash). Back in 2021, I cared a ton about interview skills, answer &ldquo;frameworks&rdquo;, and whatnot, which may still come handy at New Grad or Early Career levels. For experienced hires, however, I think of interviews as some sort of marriage proposal &mdash; it&rsquo;s something you can rehearse but can never force."/>
+
+  
+  
+    
+  
+  
+  <link rel="stylesheet" href="https://www.yuan-meng.com/css/styles.94f653e9e151e28067a7c5dbbc4600cbd5a3c721e79faaf971e523c40f3b249b8e4f20bb57810dfffa8d559ca5c140fd56eb4cd9c0853113ad08e66afdb08bdd.css" integrity="sha512-lPZT6eFR4oBnp8XbvEYAy9WjxyHnn6r5ceUjxA87JJuOTyC7V4EN//qNVZylwUD9VutM2cCFMROtCOZq/bCL3Q=="> 
+
+  
+  
+  
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+
+  
+<link rel="icon" type="image/png" href="https://www.yuan-meng.com/images/favicon.ico" />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+  <div class="content index py4">
+
+  <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;" aria-label="Top of Page"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li>
+          <a class="icon" href=" https://www.yuan-meng.com/posts/attention_as_dict/" aria-label="Previous">
+            <i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i>
+          </a>
+        </li>
+        
+        
+        <li>
+          <a class="icon" href="https://www.yuan-meng.com/posts/17_going_under/" aria-label="Next">
+            <i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i>
+          </a>
+        </li>
+        
+        <li>
+          <a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+            <i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i>
+          </a>
+        </li>
+        <li>
+          <a class="icon" href="#" aria-label="Share">
+            <i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i>
+          </a>
+        </li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f" aria-label="Facebook">
+      <i class="fab fa-facebook " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&text=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Twitter">
+      <i class="fab fa-twitter " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&title=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Linkedin">
+      <i class="fab fa-linkedin " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&is_video=false&description=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Pinterest">
+      <i class="fab fa-pinterest " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f" aria-label="Email">
+      <i class="fas fa-envelope " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&title=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Pocket">
+      <i class="fab fa-get-pocket " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&title=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="reddit">
+      <i class="fab fa-reddit " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&name=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting&description=The%20Marriage%20Analogy%20Nearly%202%20years%20ago%2c%20I%20wrote%20a%20blog%20post%20on%20how%20to%20find%20jobs%20as%20a%20new%20grad%20data%20scientist%20%28as%20a%20twist%20of%20fate%2c%20I%20never%20worked%20as%20a%20product%20data%20scientist%20but%20instead%20became%20an%20ML%20engineer%20at%20DoorDash%29.%20Back%20in%202021%2c%20I%20cared%20a%20ton%20about%20interview%20skills%2c%20answer%20%26ldquo%3bframeworks%26rdquo%3b%2c%20and%20whatnot%2c%20which%20may%20still%20come%20handy%20at%20New%20Grad%20or%20Early%20Career%20levels.%20For%20experienced%20hires%2c%20however%2c%20I%20think%20of%20interviews%20as%20some%20sort%20of%20marriage%20proposal%20%26mdash%3b%20it%26rsquo%3bs%20something%20you%20can%20rehearse%20but%20can%20never%20force." aria-label="Tumblr">
+      <i class="fab fa-tumblr " aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&t=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Hacker News">
+      <i class="fab fa-hacker-news " aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+    
+    <div id="toc">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-marriage-analogy">The Marriage Analogy</a></li>
+    <li><a href="#what-to-prepare">What to Prepare</a></li>
+    <li><a href="#how-to-prepare">How to Prepare</a>
+      <ul>
+        <li><a href="#meta-tip-track-your-learnings">Meta Tip: Track Your Learnings</a>
+          <ul>
+            <li><a href="#one-topic-per-notion-page">One Topic per Notion Page</a></li>
+            <li><a href="#block-time-on-your-calendar">Block Time on Your Calendar</a></li>
+          </ul>
+        </li>
+        <li><a href="#coding">Coding</a>
+          <ul>
+            <li><a href="#classic-dsa">Classic DS&amp;A</a></li>
+            <li><a href="#ml-coding">ML Coding</a></li>
+          </ul>
+        </li>
+        <li><a href="#ml-system-design">ML System Design</a></li>
+        <li><a href="#ml-breadth">ML Breadth</a></li>
+        <li><a href="#ml-depth">ML Depth</a>
+          <ul>
+            <li><a href="#paper-tracker">Paper Tracker</a></li>
+            <li><a href="#ranking">Ranking</a></li>
+            <li><a href="#nlp">NLP</a></li>
+          </ul>
+        </li>
+        <li><a href="#behavior-interview">Behavior Interview</a>
+          <ul>
+            <li><a href="#tell-me-a-time-when">Tell Me A Time When&hellip;</a></li>
+            <li><a href="#project-deep-dive">Project Deep Dive</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#the-moment-of-truth">The &ldquo;Moment of Truth&rdquo;</a></li>
+  </ul>
+</nav>
+    </div>
+    
+  </span>
+</div>
+
+
+  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+      <h1 class="posttitle" itemprop="name headline">
+        (Opinionated) Guide to ML Engineer Job Hunting
+      </h1>
+      <div class="meta">
+        
+        <div class="postdate">
+          
+          <time datetime="2024-03-16 00:00:00 &#43;0000 UTC" itemprop="datePublished">2024-03-16</time>
+          
+        </div>
+        
+        
+        <div class="article-read-time">
+          <i class="far fa-clock"></i>
+          
+          22 minute read
+        </div>
+        
+        
+        <div class="article-category">
+            <i class="fas fa-archive"></i>
+            
+            
+            <a class="category-link" href="/categories/advice">advice</a>
+            
+        </div>
+        
+        
+        <div class="article-tag">
+            <i class="fas fa-tag"></i>
+            
+            
+            <a class="tag-link" href="/tags/career" rel="tag">career</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/machine-learning" rel="tag">machine learning</a>
+            
+             ,  
+            <a class="tag-link" href="/tags/interview" rel="tag">interview</a>
+            
+        </div>
+        
+      </div>
+    </header>
+
+  
+    
+    <div class="content" itemprop="articleBody">
+      <h1 id="the-marriage-analogy">The Marriage Analogy</h1>
+<p>Nearly 2 years ago, I wrote a <a href="https://www.yuan-meng.com/posts/newgrads/">blog post</a> on how to find jobs as a new grad data scientist (as a twist of fate, I never worked as a product data scientist but instead became an ML engineer at DoorDash). Back in 2021, I cared a ton about interview skills, answer &ldquo;frameworks&rdquo;, and whatnot, which may still come handy at New Grad or Early Career levels. For experienced hires, however, I think of interviews as some sort of marriage proposal &mdash; <em>it&rsquo;s something you can rehearse but can never force</em>.</p>
+<p>If your resume is strong enough, you may get a date or two (e.g., recruiter call/HM chat/phone screen), but for the company to say &ldquo;yes&rdquo; (the offer), the expertise you bring to the table has to fit their roadmap and the person that you are must fit the company/team culture &mdash; otherwise, the marriage will be painful (and short).</p>
+<p>Of course, you can and should prepare for interviews &mdash; just like people spent days or even months preparing for the very moment to propose, but a strong foundation should&rsquo;ve already been built over the years through thick (ML counterpart: when your models succeed) and thin (ML counterpart: when you learn from failures).</p>
+<h1 id="what-to-prepare">What to Prepare</h1>
+<blockquote>
+<p>You need to be motivated&hellip; It isn&rsquo;t so difficult, but it&rsquo;s also not so easy. &mdash; <em><a href="https://github.com/mikexcohen/LinAlgBook">Linear Algebra: Theory, Intuition, Code</a></em>, Mike X. Cohen</p>
+</blockquote>
+<p>The foreword from my favorite linear algebra book perfectly summarizes my opinion about the MLE interview. It isn&rsquo;t so hard that companies would ask you to implement, say, a two tower model in one hour. It isn&rsquo;t so easy that you can pass as an expert by memorizing a textbook without understanding. You need to be motivated because sheer power of will is sometimes needed to go over the vast knowledge repertoire of an MLE, especially when you also need to perform well at your current job while on the hunt. Rest assured that no time ever goes to waste &mdash; even if you don&rsquo;t get an offer &mdash; reading and thinking about ML foundations help you make more principled or creative decisions at work, or re-appreciate the sheer beauty of AI/ML.</p>
+<p>A typical MLE interview loop consists of 6 rounds, as shown in the hexagon. Some companies use a subset and some companies have their unique rounds. Generally, a successful candidate is a good coder with solid ML foundations who has delivered high-impact ML projects via challenging cross-functional collaborations and follows the latest industry/academic trends. As Josh Tobin put it, good MLEs are unicorns.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/jtwcup2ms2nt3wondqp04/Screenshot-2024-03-15-at-9.23.48-PM.png?rlkey=5e042y4cxlwo71rgajyyxkzfn&amp;raw=1"
+         alt="In a talk at Berkeley, Josh Tobin likened ML engineers to &amp;lsquo;unicorns&amp;rsquo;" width="1000"/><figcaption>
+            <p>In a talk at Berkeley, Josh Tobin likened ML engineers to &lsquo;unicorns&rsquo;</p>
+        </figcaption>
+</figure>
+
+<ol>
+<li><strong>Coding</strong>: For MLE candidates, coding interviews are like the GRE for Ph.D. candidates &mdash; good performance by no means guarantees acceptance, but poor performance easily disqualifies you (unless you have an uncannily matching background). There are 3 styles of MLE coding questions:
+<ul>
+<li><strong>LeetCode</strong> (<em>extremely common</em>): Classic data structures &amp; algorithms problems; usually medium or hard &ndash; sometimes really hard</li>
+<li><strong>ML coding</strong> (<em>increasingly more common</em>): Use NumPy to code up a classic ML algorithm (e.g., KNN, K-means, logistic regression, linear regression, perceptrons, etc.) or use PyTorch to code up a component of a SOTA model (e.g., multi-headed attention, positional encoding)</li>
+<li><strong>Object-oriented programming</strong> (<em>somewhat rare</em>): Write a series of classes to implement a system (e.g., an employee registry, a non-ML movie recommender) &mdash; kinda like a mini backend system design question</li>
+</ul>
+</li>
+<li><strong>ML System Design</strong>: Your resume may be packed with impressive projects, but it&rsquo;s impossible to tell if you thought of the solutions yourself or someone else told you what to do. The MLSD round is a window into your first-principle thinking of how to design a scalable ML system for a business problem at hand.
+<ul>
+<li><strong>Content:</strong> In 45 min to 1 hour, you need to translate a vague business problem into an end-to-end ML system, from collecting system requirements, understanding business objectives, framing the problem as an ML task, to data generation, feature engineering, model architecture &amp; loss function choices, and monitoring, deployment, and A/B testing.</li>
+<li><strong>Focus:</strong> Some companies focus on &ldquo;ML&rdquo; (e.g., SOTA model details) and some on &ldquo;E&rdquo; (backend implementations of feature store, model store, and data/feature/prediction pipelines, etc.). It&rsquo;s good to understand both.</li>
+</ul>
+</li>
+<li><strong>ML Breadth</strong>: Most companies have a rapid-fire round of questions about ML foundations (&ldquo;八股文快问快答&rdquo;), such as the bias-variance trade-off, detecting overfitting and under-fitting, L1/L2 regularization, feature/model selection&hellip; Noways DL basics are also a necessity, such as how backpropagation works, choices of optimizers and schedulers, vanishing/exploding gradients and remedies, regularization methods that apply specifically to neural nets, etc..</li>
+<li><strong>ML Domain Knowledge</strong>: This round ensures you&rsquo;re an expert of your domain (e.g., NLP/ranking) who deeply understands key ideas from seminal works.
+<ul>
+<li><strong>NLP</strong>: The original transformer architecture, the classic BERT/GPT/BART/T5, how Llama 2/Mistral 7B/etc. innovated from the original transformer, optimization techniques for pre-training and fine-tuning (e.g., flash attention, sliding window attention, LoRA), RLHF, LLM eval, etc.</li>
+<li><strong>Search/rec/ads</strong>: Ranking metrics (MRR, nDCG, MAP&hellip;), embeddings (created via contrastive representation learning such as two-tower models), candidate sampling, multi-task &amp; multi-objective learning, popular rec model architectures (e.g., Wide &amp; Deep, DCN, DCN V2, DLRM, DIN, DIEN, etc.)&hellip;</li>
+</ul>
+</li>
+<li><strong>Project Deep Dive</strong>: Your past success is a predictor of your future. By walking through how you delivered impactful ML projects by choosing the right business problem to solve, carefully considering all alternatives and their trade-offs, aligning the team on key decisions, and executing against decided milestones, you give the hiring manager some confidence that you could do the same there.
+<ul>
+<li><strong>A big red flag</strong>: Nothing is worse than making a random decision without any justifications (e.g., long-term tech debt vs. short-term velocity, accuracy vs. latency, buy vs. build, etc.), because it suggests you&rsquo;re unable/unwilling to make difficult decisions when the moment comes, but it is those moments that make or break a project.</li>
+</ul>
+</li>
+<li><strong>Behavior Interview</strong>: A rapid-fire round of questions about how you solve problems, work with others, deliver under pressure and limited resources, iterate on feedback, mentor team members, learn from successes/failures…</li>
+</ol>
+<p>The million-dollar question is, how can one prepare for so much in so little time? As is true for most good things in life, it&rsquo;s <em>devotion</em> and <em>motivation</em>, and a <em>foundation</em> built over the years. I often think about the lyrics of <em>Remember the Name</em>:</p>
+<blockquote>
+<p>This is ten percent luck <br/> Twenty percent skill <br/> Fifteen percent concentrated power of will <br/> Five percent pleasure <br/> Fifty percent pain <br/> And a hundred percent reason to remember the name <br/> &mdash; Fort Minor, <a href="https://www.youtube.com/watch?v=7HfjKUYiumA"><em>Remember the Name</em></a> (2005)</p>
+</blockquote>
+<h1 id="how-to-prepare">How to Prepare</h1>
+<h2 id="meta-tip-track-your-learnings">Meta Tip: Track Your Learnings</h2>
+<p>I don&rsquo;t know about you, but I&rsquo;m the kind of person who won&rsquo;t remember dinner plans unless I write down with whom am I having dinner at which restaurant (or I might stand you up 😂). For a much bigger undertaking like the MLE interview prep, I track what I&rsquo;ve learned in Notion Pages and when I learn them in Notion Calendar.</p>
+<h3 id="one-topic-per-notion-page">One Topic per Notion Page</h3>
+<p>I used to open a Google doc for each company I interviewed with and quickly noticed the redundancy &mdash; many companies have the same rounds, so instead of writing new notes, I could&rsquo;ve reviewed previous ones. I switched to Notion (have been a big fan since 2018) to consolidate my notes. As can be seen from the screenshot, I created a page for each interview round. Whenever I learn something new about a topic, I add it to the corresponding page. When reviewing a topic, I open the page to skim.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/gabmdr5f1oey5skstxkh6/Screenshot-2024-03-15-at-11.29.21-PM.png?rlkey=cf4m9kphy4b80w4prppzp5u92&amp;raw=1"
+         alt="I created Notion pages to collect knowledge for each MLE interview round" width="450"/><figcaption>
+            <p>I created Notion pages to collect knowledge for each MLE interview round</p>
+        </figcaption>
+</figure>
+
+<p>I can&rsquo;t share my notes since they contain NDA content &mdash; you should create your own notes anyways, because deep learning (no puns intended) doesn&rsquo;t come from reading someone else&rsquo;s notes; rather, notes are a means to consolidate your learning from the source (e.g., textbooks, SOTA papers, talks, engineering blogs, code, etc.).</p>
+<h3 id="block-time-on-your-calendar">Block Time on Your Calendar</h3>
+<p>I practice LC-style coding for one hour before work and 2 hours after work. I read NLP + ranking papers/books/blogs/code/etc. for 2-3 hours in the evenings. I sometimes take days off, but adhere to the schedule if I can. Having this schedule in Notion Calendar reminds me to focus on work during the day (so I don&rsquo;t think about interviews) and enjoy learning after work (rather than stretching &ldquo;busy work&rdquo;).</p>
+<p>You should find a schedule that suits your lifestyle. Or perhaps, you thrive without schedules, like some of my friends do. The bottom line is, ML interview prep takes a ton of time and you need to learn how to fit it into your normal work/life.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/g1m9j7z63j51hbfa2q9fi/Screenshot-2024-03-15-at-11.39.04-PM.png?rlkey=zg36o6hys6yhpnd4qi8i2xd6j&amp;raw=1"
+         alt="I blocked time for LC practice and NLP/ranking readings in Notion Calendar" width="1200"/><figcaption>
+            <p>I blocked time for LC practice and NLP/ranking readings in Notion Calendar</p>
+        </figcaption>
+</figure>
+
+<h2 id="coding">Coding</h2>
+<h3 id="classic-dsa">Classic DS&amp;A</h3>
+<p>As the NeetCode guy Navdeep Singh <a href="https://www.youtube.com/watch?v=2V7yPrxJ8Ck">put it</a>, the only way to solve LC problems is to have seen the algorithms beforehand; it&rsquo;s unrealistic to derive neat algorithms on the spot and companies are fooling themselves into thinking they are testing candidates on pure problem-solving skills. If you can&rsquo;t change the game, you gotta play along.</p>
+<p>Before grinding LC, take <a href="https://neetcode.io/courses">NeetCode&rsquo;s</a> beginner and advanced courses, where he explains almost all the data structures and algorithms you&rsquo;ll ever need for coding interviews. Each lesson typically lasts between 10 to 25 minutes and includes 3 to 5 practice questions. The courses are paid, but for the cost of 3-4 take-out orders, you get the best way to organize your learning and practice.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/b59qf2upsoz3pu4rvsi6s/Screenshot-2024-03-16-at-12.18.14-AM.png?rlkey=gjprpbxezvo4uzjt6d53w2qpp&amp;raw=1" width="600"/>
+</figure>
+
+<p>The table below summarizes data structures and algorithms in the two courses.</p>
+ <table>
+<tr>
+<th>Common data structures</th>
+<th>Common algorithms</th>
+</tr>
+<tr>
+<td>
+<ul>
+<li>Strings</li>
+<li>Arrays</li>
+<li>Matrices (can represent graphs)</li>
+<li>Hash tables</li>
+<li>Hash sets</li>
+<li>Heaps (priority queues)</li>
+<li>Linked list</li>
+<li>Trees
+<ul>
+<li>Binary tree</li>
+<li>Binary search tree</li>
+<li>Tries</li>
+<li>Segment trees</li>
+</ul>
+</li>
+<li>Graphs
+<ul>
+<li>Union Find</li>
+<li>Directed acyclic graphs (DAGs)</li>
+</ul>
+</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>Binary search</li>
+<li>Depth-first search (DFS)</li>
+<li>Breadth-first search (BFS)</li>
+<li>Backtracking
+<ul>
+<li>Subsets</li>
+<li>Combinations</li>
+<li>Permutations</li>
+</ul>
+</li>
+<li>Sliding windows</li>
+<li>Two pointers</li>
+<li>Prefix sum (e.g., Kadane&rsquo;s)</li>
+<li>Dynamic programming (top-down, bottom-up)</li>
+<li>Graph algorithms
+<ul>
+<li>Topological sort</li>
+<li>Dijkstra&rsquo;s</li>
+<li>Prim&rsquo;s</li>
+<li>Kruskal&rsquo;s</li>
+</ul>
+</li>
+<li>Sorting</li>
+<li>Bit manipulation</li>
+</ul>
+</td>
+</tr>
+</table>
+<p>After that, I recommend doing Blind 75 and NeetCode 150, two problem collections that cover classic, high-frequency questions from interviews. NeetCode All (400+ problems) may be an overkill &mdash; if you have interviews lined up, then move on to practice company-tag questions (URL pattern: <code>leetcode.com/company/&lt;company name&gt;</code>).</p>
+<figure><img src="https://www.dropbox.com/scl/fi/rxbnz4jpmzd8q22a7ccyx/Screenshot-2024-03-16-at-12.41.08-AM.png?rlkey=dpmx3aseb5ijp84eo61z64o26&amp;raw=1" width="450"/>
+</figure>
+
+<p>I was terrible when doing my first 100-200 questions, often having no clues or struggling to translate my thoughts into code. After 300-400 questions, I started to get the hang of it, often having a strong sense of the solution by recognizing patterns in the prompt/test cases. When solving the problem, I also have an intuition about whether I&rsquo;m going in the right direction or not (e.g., adding more and more auxiliary data structures or special cases is a strong sign of going awry). Think of LC problems as training data for the AI that is you &mdash; too few, you don&rsquo;t get the chance to observe representative patterns and learn useful tricks.</p>
+<p>However, the &ldquo;learning algorithm&rdquo; also matters. I like how Chris Jereza <a href="https://www.youtube.com/watch?v=lDTKnzrX6qU">put it</a> &mdash; many people have seen so many LC questions yet still fail to recognize common tricks and patterns, just like many go to the gym so often yet still fail to get fit &mdash; <em>mastery is not just determined by how many questions you did, but also by intensity and reflection</em>. I track problems I solved in Notion, mark my level of mastery (so I can re-do problems for which I had &ldquo;no clue&rdquo; or &ldquo;bugs&rdquo;), and summarize key insights for each problem in one or two sentences. For each company I interviewed with, I manually added questions from LC &mdash; the long-term benefits far outweigh the extra time in the beginning. You can modify my <a href="https://www.notion.so/yuanm/7667ceebb8dd4f3f840d96e43c9733c1?v=a9389f5990ed4cc691e326f92488624f&amp;pvs=4">template</a> to your liking.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/ofj185vw66fucdyqb5sd5/Screenshot-2024-03-16-at-12.53.20-AM.png?rlkey=2if7axp0v8wpwbothdo6onuix&amp;raw=1" width="1200"/>
+</figure>
+
+<p>I highly recommend doing a few mock interviews before the real interview, because it prepares you for solving problems while being watched. That said, I&rsquo;m not a big fan of excessive mock interviews &mdash; after two or three, I already know I can think under stress; it&rsquo;s just a matter of whether I know the algorithm or not. For me, practicing a wide variety of problems on my own is more efficient than spending hours scheduling mock interviews with friends, but if your bottleneck is nerves rather than knowledge, then it may be worth investing more time in mock interviews.</p>
+<h3 id="ml-coding">ML Coding</h3>
+<p>Some companies ask ML candidates to code an ML algorithm from scratch. The original motivation is to see if the candidate can translate their ML knowledge into code; in reality, it&rsquo;s another memorization game, just like LC &mdash; it was even the NeetCode guy who compiled the most comprehensive list of <a href="https://neetcode.io/practice?subpage=practice&amp;tab=coreSkills&amp;topic=Machine%20Learning">ML coding questions</a> I saw. For detailed explanations, you can find my <a href="https://www.yuan-meng.com/posts/md_coding/">blog post</a> on classic ML implementations (e.g., KNN, K-means, linear regression, and logistic regression). Candidates may also be asked to implement a component from a neural net. For instance, NLP candidates may be asked to implement multi-headed attention, which you can find in my other <a href="https://www.yuan-meng.com/posts/attention_as_dict/">post</a>.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/oug6tfhoga0gsom6zq4cn/Screenshot-2024-03-23-at-7.00.24-PM.png?rlkey=vs20ujbofoncvy54t93siub1o&amp;raw=1" width="1200"/>
+</figure>
+
+<p>It&rsquo;s rarer but you may also be asked to implement eval metric calculations given true labels and predicted labels, so prepare for the common ones (e.g., AUC, nDCG).</p>
+<h2 id="ml-system-design">ML System Design</h2>
+<p>At work, writing an RFC (&ldquo;Request For Comments&rdquo;) for a new model can take more than a week: I need to understand the business problem the model tries to solve or technical issues it aims to improve, the status quo, in what product surface/UI will the model be called under what latency requirements, what training data we have or need to request, how to frame the ML task, and the path towards productionization (e.g., data/feature/training/serving/monitoring pipelines, offline eval, A/B&hellip;).</p>
+<p>In 45 min to 1 hour, you&rsquo;ll be asked to replicate the whole process. You gotta structure your answers well to keep the interview moving on track. Some books (Alex Xu&rsquo;s <a href="https://www.amazon.com/Machine-Learning-System-Design-Interview/dp/1736049127"><em>Machine Learning System Design Intervie</em>w</a>) and courses (Educative: <a href="https://www.educative.io/courses/grokking-the-machine-learning-interview"><em>Grokking the Machine Learning Interview</em></a> and <a href="https://www.educative.io/courses/machine-learning-system-design"><em>Machine Learning System Design</em></a>) teach you exactly how to structure your answers. I summarized lessons from these sources in my <a href="https://yuanm.notion.site/ml-system-design-cd12d1028ed640e199e64ed0ed461851?pvs=4">notes</a>.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/bld9zng0xz2r5grp6fp9i/Screenshot-2024-03-16-at-10.55.08-AM.png?rlkey=jfd9g8bi2h1dv6k2j1xlqwjz0&amp;raw=1" width="1200"/>
+</figure>
+
+<p>At the end of the day, however, <strong>structure exists to support substance</strong>. When it comes to actual label/model designs and the production system, you&rsquo;ll be asked detailed questions about industry gold standards and your best practices at work &mdash; <em>this is the substance that shines through</em>. As some with a Search/NLP background, can I design an autonomous driving system for an interview? Perhaps, if I memorize some image data annotation and augmentation techniques and popular CV models, but my lack of CV experience will be seen through and, if offered the job, I&rsquo;ll most definitely run the system to the ground&hellip; So my advice for preparation is, sure, read Alex&rsquo;s book to master the structure, but the real preparation is being a good ML engineer who designs thoughtful, practical, reliable, and scalable ML systems and goes to design reviews to learn how other ML engineers think (or critique).</p>
+<h2 id="ml-breadth">ML Breadth</h2>
+<p>In this new wave of AI/ML craze, many non-ML friends and strangers asked me how to transition into an MLE. As someone who went through this transition back in school, I hate to discourage people, but it&rsquo;s also no use being dishonest: Grasping machine learning theory and applying it to production systems takes years of study and experience. Anyone can copy &amp; paste PyTorch code online, but only seasoned ML engineers can trouble-shoot a model that&rsquo;s not performing as intended (see my <a href="https://www.yuan-meng.com/posts/ltr/">post</a> on Airbnb&rsquo;s long-winded journey into DL). ML engineering is somewhat like medicine in that neural networks are as much an enigma as the human body: Highly specialized knowledge is needed to diagnose a non-working system and prescribe remedies.</p>
+<p>This post is aimed at helping current ML engineers seeking new ML opportunities. I don&rsquo;t have first-hand advice on transitioning from DS/SWE to MLE for experienced hires, but someone else may have, so I encourage you to keep looking for theirs.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/92naxalcd6i78zx1ztyzb/0F7631FE-DE40-47A8-A9E3-2DF4923C4C95_1_201_a.jpg?rlkey=ek4tn1eiu7ttg8lsd624wqanh&amp;raw=1" width="500"/>
+</figure>
+
+<p>All supervised learning models share the 3 following components (<a href="https://github.com/Chrisackerman1/The-Hundred-Page-Machine-Learning-Book">Burkov, 2019</a>):</p>
+<ul>
+<li><strong>Loss function</strong>: The discrepancy between the predicted value and the target value</li>
+<li><strong>Optimization criterion</strong>: Objectives the training process seeks to optimize for</li>
+<li><strong>Optimization routine</strong>: Approaches (e.g., gradient descent, SGD, momentum, Adam) to leveraging training data to find a solution to the optimization criterion</li>
+</ul>
+<p>The so-called &ldquo;ML breadth&rdquo; interview usually revolves around these concepts. For instance, how do we know if model training has converged (by looking at train/valid losses)? What is the so-called bias-variance trade-off? How do we tell if a model is under-fitting or over-fitting? If a model is over-fitting, how can we regularize it (e.g., L1/L2 regularization, early stopping, dropout&hellip;)? When training very deep neural nets, how do we prevent vanishing or exploding gradients? How do we choose the right optimizers and schedulers? How do we properly initialize model weights?&hellip;</p>
+<p>You can find the answers to these questions in countless textbooks, YouTube videos, tech blogs, interview guides, etc.. I like learning things systemically (as opposed to in a piecemeal manner) and below are books and online resources I like the best.</p>
+<ol>
+<li><strong>Math foundations</strong>: Once in a while when I scroll through my LinkedIn/X feed, I&rsquo;d see ML &ldquo;gurus&rdquo; fighting over whether math is necessary for getting into ML in 202X. My sense is that it greatly helps to know/review basic linear algebra and multi-variate calculus, or ML papers will read like gibberish &mdash; and ML engineers do need to catch up on seminal/new papers in their fields.
+<ul>
+<li><strong>Linear algebra</strong>: <a href="https://www.youtube.com/watch?v=fNk_zzaMoSs&amp;list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab">Essence of Linear Algebra</a> by 3Blue1Brown and <a href="https://github.com/mikexcohen/LinAlgBook">Linear Algebra: Theory, Intuition, Code</a> by Mike X Cohen 👉 <strong>Why</strong>: Some joke that ML is glorified linear algebra, which is quite true. Many ML methods are directly taken from linear algebra (e.g., OLS, matrix factorization, LoRA), many ML concepts hinge on linear algebra (e.g., embedding: projection), and linear algebra offers a compact way to represent weights &amp; biases in each neural net layer and operations on them&hellip;</li>
+<li><strong>Calculus</strong>: <a href="https://www.youtube.com/watch?v=WUvTyaaNkzM&amp;list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr">Essence of Calculus</a> by 3Blue1Brown 👉 <strong>Why</strong>: So you understand how optimization routines work and vanishing/exploding gradient problems</li>
+</ul>
+</li>
+<li><strong>Combine theory + code</strong>: I recommended <a href="https://www.amazon.com/Machine-Learning-PyTorch-Scikit-Learn-learning-ebook/dp/B09NW48MR1">Machine Learning with PyTorch and Scikit-Learn</a> by Sebastian Raschka 2 years ago and my recommendation stands today. It&rsquo;s the best foundational ML book that combines theory with code, covering everything from traditional ML to SOTA, implementing both using libraries and from scratch. I recommend reading it from cover to cover and running the <a href="https://github.com/rasbt/machine-learning-book">code</a>.</li>
+<li><strong>Go deep into theory</strong>: Last but not least, Kevin Murphy wrote 3 epic books on machine learning theory, the most recent ones being <a href="https://probml.github.io/pml-book/book1.html">Probabilistic Machine Learning: An Introduction (2022)</a> and <a href="https://probml.github.io/pml-book/book2.html">Probabilistic Machine Learning: Advanced Topics (2023)</a>. Even for concepts you and I can&rsquo;t be more familiar with such as attention, he still shed fresh light on them every now and then (see my <a href="https://www.yuan-meng.com/posts/attention_as_dict/">post</a> on the &ldquo;attention as soft dictionary lookup&rdquo; analogy). As an MLE who wishes to connect the dots scattered over the years, I think Kevin&rsquo;s books are the dream.
+<figure><img src="https://www.dropbox.com/scl/fi/f2624w8e5dxe77cko9791/Screenshot-2024-03-16-at-2.57.10-PM.png?rlkey=8a51dwek7aiqdwtbn8a6ix0ao&amp;raw=1"
+         alt="Table of Content of Probabilistic Machine Learning: Advanced Topics" width="500"/><figcaption>
+            <p><a href="https://probml.github.io/pml-book/book2.html#toc">Table of Content</a> of Probabilistic Machine Learning: Advanced Topics</p>
+        </figcaption>
+</figure>
+</li>
+</ol>
+<!-- I don't specifically prepare for ML Breadth interviews or keep Notion notes --- I did that 2 years ago (see my [old notes](https://www.notion.so/yuanm/core-ml-1930f2267ce942c984b005c1bb62d429?pvs=4)).  -->
+<p>Chip Huyen curated some <a href="https://huyenchip.com/ml-interviews-book/contents/8.1.2-questions.html">questions</a> in her ML interview book and a Roblox Principal MLE also wrote a <a href="https://medium.com/@reachpriyaa/how-to-crack-machine-learning-interviews-at-faang-78a2882a05c5">nice article</a> that contains many actual questions I&rsquo;ve encountered, which you can go over before an ML breadth interview to refresh your memories.</p>
+<h2 id="ml-depth">ML Depth</h2>
+<p>If you interview with Meta or the likes, you&rsquo;ll get the chance to choose a team later, but in today&rsquo;s market, most MLE candidates interview with specific teams that look for specific talents. As a domain expert, you need to know the gold standard in your chosen field(s) and the new bells and whistles. For me, it&rsquo;s ranking and NLP.</p>
+<h3 id="paper-tracker">Paper Tracker</h3>
+<p>It would take many lifetimes to read all papers that ever got published in your field. That said, good ML engineers should be familiar with the seminal works and &ldquo;new classics&rdquo; in their domain and make paper reading a regular habit. I used to save paper PDFs in random folders and would often forget which ones I had read, let alone what I learned from them. Then, inspired by the coding tracker, I created a paper tracker to keep track of papers/books/blog posts I read on different topics.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/m5nh0fyhaxe4f282kvkyo/Screenshot-2024-03-16-at-3.15.57-PM.png?rlkey=twfh7pw2n1c0mlwelmtil6wjc&amp;raw=1" width="1500"/>
+</figure>
+
+<p>For each entry, I write a one- or two-sentence TL;DR, and after clicking on the paper title, I jot down detailed notes. The example below is for the <a href="https://arxiv.org/abs/2307.09288">Llama 2</a> paper.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/g8qics73srz7jbexo3994/Screenshot-2024-03-16-at-3.26.40-PM.png?rlkey=3vcyjsh8wj3xwdkqj22muzw93&amp;raw=1" width="1000"/>
+</figure>
+
+<h3 id="ranking">Ranking</h3>
+<p>Ranking is the revenue-generator of consumer-facing companies &mdash; without search/discovery/ads, companies can&rsquo;t make money. This is why ranking is one of the most impactful and exciting domains and has the most job openings (arguably tied with NLP).</p>
+<p>I recently summarized classic search ranking papers in a blog post, <a href="https://www.yuan-meng.com/posts/ltr/">An Evolution of Learning to Rank</a>. You can find the original papers in the <a href="https://www.yuan-meng.com/posts/ltr/#learn-more">&ldquo;Learn More&rdquo;</a> section.</p>
+<p>Recommendation is the sibling of search, where users don&rsquo;t submit a query yet we still read their minds and show appealing contents to them. To gain a deep understanding of this domain, my friend recommended <a href="https://www.amazon.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%85%A8%E5%BD%A9%EF%BC%89-%E5%8D%9A%E6%96%87%E8%A7%86%E7%82%B9%E5%87%BA%E5%93%81-%E7%8E%8B%E5%96%86/dp/7121384647/ref=sr_1_1?crid=XZSJ6ZW1282A&amp;dib=eyJ2IjoiMSJ9.BxuHruDCtEpyjInRfwvRFn7pyNHfnLqM9I7MhiVO4QjP5NwIPzDAXhfcdM4N-9cc.-Amg_ZFv605zkwdYZmfQJIg4d3GGoacM4rlgWcwz29c&amp;dib_tag=se&amp;keywords=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F&amp;qid=1710629348&amp;sprefix=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%2Caps%2C141&amp;sr=8-1">深度学习推荐系统</a> by Zhe Wang, who used to be the Head of Engineering at TikTok. This book not only reviews the evolution of recommendation models from traditional collaborative filtering to emerging deep learning architectures, but also speaks from practical experience of productionizing such models. Unfortunately for non-Chinese speakers, this book is only written in Chinese. I also find Gaurav Chakravorty&rsquo;s <a href="https://substack.com/@recsysml">blog</a> and <a href="https://github.com/gauravchak">repo</a> a gold mine of practical rec models knowledge. For instance, in this <a href="https://github.com/gauravchak/two_tower_models">two-tower model repo</a>, Gaurav started with a bare bone structure and gradually introduced components such as user history embeddings, position debiasing, and a light ranker, which is highly educational.</p>
+<p>I don&rsquo;t know much about ads, which has extra concerns (e.g., calibration, bidding) on top of search/recs. I&rsquo;ve turned down recruiters reaching out for ads positions.</p>
+<h3 id="nlp">NLP</h3>
+<p>As a Cognitive Science student, I was interested in all aspects of human intelligence but language😅, thinking that language is an indirect, inaccurate byproduct of thought. Back in the summer of 2021 when I was driving to LA, I listened to a Gradient Dissent <a href="https://www.youtube.com/watch?v=VaxNN3YRhBA">episode</a> where Emily Bender argued that to interact with language models as we do with humans, we must treat them as equal linguistic partners rather than as mechanistic pattern recognizers. Back then, that day seemed far away. Now with the success of ChatGPT and ever more powerful new LLMs, NLP has become the fastest growing field in AI/ML, with far more active research, new startups, and headcount than any other ML fields. I got into NLP only because I was assigned to work on Query Understanding when I joined DoorDash as a new grad. If ranking has always fascinated me, then NLP is a required taste I&rsquo;ve come to appreciate.</p>
+<p>To get into NLP, first read <a href="https://www.amazon.com/Natural-Language-Processing-Transformers-Applications/dp/1098103246">Natural Language Processing With Transformers</a> by Hugging Face &mdash; it&rsquo;s the best textbook on transformer-based models, with intuitive explanations and practical code examples, covering a wide range of NLP tasks including sequence classification, named entity recognition, question answering, summarization, generation, etc.. It also talks about model compression, training without enough data, and pretraining LLMs from scratch, which come handy in production.</p>
+<p>While awesome, the HF book leaves you wanting for details from the original papers. To learn more, check out Sebastian Raschka&rsquo;s <a href="https://magazine.sebastianraschka.com/p/understanding-large-language-models">LLM reading list</a>, which starts with the original transformer in <em>Attention is All You Need</em> and its predecessors, moves on to the post child of each iconic model architecture (e.g., encoder-only: BERT; decoder-only: GPT; encoder-decoder: BART), and ends on SOTA models, training techniques (e.g., <a href="https://lightning.ai/pages/community/lora-insights/">LoRA and QLoRA</a>), and architectural innovations (e.g., FlashAttention, Rotary Positional Embeddings). To understand more deeply how each component of the original transformer can be optimized, I recommend Lilian Weng&rsquo;s blog post <a href="https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/">The Transformer Family Version 2.0</a>. To get an in-depth understanding of latest models (e.g., Llama 2, Mistral, Mamba) and fundamental techniques (e.g., quantization, RAG, distributed training), I suggest watching Umar Jamil&rsquo;s amazing YouTube <a href="https://www.youtube.com/@umarjamilai">videos</a> and reading his neat implementations (<a href="https://github.com/hkproj">GitHub</a>). Andrej Karpathy has also created a great course <a href="https://karpathy.ai/zero-to-hero.html">Neural Networks: Zero to Hero</a> and legendary educational repos (e.g., <a href="https://github.com/karpathy/minGPT">miniGPT</a>, <a href="https://github.com/karpathy/nanoGPT">nanoGPT</a>, <a href="https://github.com/karpathy/minbpe">minbpe</a>), which use minimalist code to train minimalist models.</p>
+<p>For important topics not covered, you can read representative blog posts and literature review to catch up, such as <a href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/">prompt engineering</a>, <a href="https://huggingface.co/blog/rlhf">RLHF</a>, and <a href="https://arxiv.org/abs/2307.03109">LLM evaluation</a>.</p>
+<p>There will never be a day when you think you know enough about NLP. Neither does your interviewer. Most NLP interviews focus on the basics, such as the original transformer, common tokenizers, popular models (e.g., BERT/GPT/BART/T5/Llama 2), and widely used techniques (e.g., RLHF, RAG, LoRA). Focus on these in your interview prep and don&rsquo;t worry about being asked about papers that came out yesterday.</p>
+<h2 id="behavior-interview">Behavior Interview</h2>
+<h3 id="tell-me-a-time-when">Tell Me A Time When&hellip;</h3>
+<p>I used to stammer my way through behavior interviews because I didn&rsquo;t prepare for certain questions I was asked. Then Amazon recommended <a href="https://www.amazon.com/Behavioral-Interviews-Software-Engineers-Strategies/dp/B0C1JFQYCR/ref=tmm_pap_swatch_0?_encoding=UTF8&amp;qid=&amp;sr=">Behavioral Interviews for Software Engineers</a> to me, which conveniently lists 30+ behavior questions one will ever get asked. I don&rsquo;t find the answers particularly applicable to MLE candidates &mdash; the question list is the treasure. Just like I did for coding and reading, I created a tracker for BQ questions, coming up with the best example for each question and putting my answer in the STAR (situation, task, action, result) format.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/5fe9oqb3bufcyonokjlg2/Screenshot-2024-03-16-at-3.32.07-PM.png?rlkey=3azakxu2vyiplwoiw7n9kkevg&amp;raw=1" width="1000"/>
+</figure>
+
+<p>Any example you provide should be a true reflection of your character, but think carefully about which examples to provide &mdash; don&rsquo;t paint yourself in a bad light 😂. Reading Merih Taze&rsquo;s <a href="https://www.amazon.com/Engineers-Survival-Guide-Facebook-Microsoft/dp/B09MBZBGFK">Engineers Survival Guide</a> helped me understand what behavior makes a good engineer &mdash; model not your answers but your words and deeds after it. I wish I read it in my first year at DoorDash, which would&rsquo;ve saved me many sweat and tears from reaching alignment, getting visibility, making impact, helping  managers to help you, resolving conflicts, and whatnot. Gergely Orosz&rsquo;s <a href="https://www.amazon.com/Software-Engineers-Guidebook-Navigating-positions/dp/908338182X">The Software Engineer&rsquo;s Guidebook</a> is another great book to read which you have the time.</p>
+<h3 id="project-deep-dive">Project Deep Dive</h3>
+<p>In some sense, the project deep dive is like an extended version of &ldquo;tell me about the project you&rsquo;re most proud of&rdquo;, but goes into all technical details imaginable &mdash;</p>
+<ul>
+<li><strong>Background</strong>: What business problem was the model trying to solve?</li>
+<li><strong>Solution &amp; alternatives</strong>: How did you solve the problem? Which alternatives did you consider? What were the trade-offs? How did you get the team onboard?</li>
+<li><strong>Challenges</strong>: Which technical challenges did you face? Cross-functionally?</li>
+<li><strong>Impact</strong>: In the end, what impact did you create? How did you measure it?</li>
+<li><strong>Reflection</strong>: What were you most proud of and what would you change?</li>
+</ul>
+<p>Choose a successful project you drove from end to end, or the lack of ownership or impact will backfire. Not only that, choose a project for which you made wise decisions by carefully considering all alternatives and thoughtfully balancing all sides (e.g., business goals, urgency, engineering excellence, infra&hellip;). If you made a big mistake (e.g., only involving a function until it was too late, making hasty decisions without thinking ahead) in a project, talk about other projects &mdash; this is your chance to showcase your technical + XFN collab prowess, not a post mortem.</p>
+<p>To prepare for this round, I re-read my self-review from perf cycles and made slides for each significant project I&rsquo;ve done. I highly recommend finding a friend not even in your field and practicing the delivery of your stories.</p>
+<h1 id="the-moment-of-truth">The &ldquo;Moment of Truth&rdquo;</h1>
+<p>Back in school, I often lost sleep the night before the interview, fearing any wrong word I said could cost me the job. Nowadays I work, sleep, and play with cats as usual before interviews, knowing results are determined long before then. If I am &ldquo;the one&rdquo;, then all I need is to chat with the interviewer about topics we both love and feel passionate about. For instance, I can spot a ranking expert from a brief conversation &mdash; even if they occasionally stammer or forget one or two minute details &mdash; so can my interviewer. If I make grave mistakes or can&rsquo;t recover what I forget from first-principle thinking, then I&rsquo;m not the one and not hiring me is for the best. It&rsquo;s kinda like being rejected after a few dates isn&rsquo;t pleasant, but it&rsquo;s orders of magnitude better than being married to someone profoundly incompatible.</p>
+<p>If you know me by now, you might&rsquo;ve guessed that I created an interview progress tracker, using one table to track the stage (<strong>scheduling</strong>: sent availability but coordinator hasn&rsquo;t finalized the schedule; <strong>in progress</strong>: interview scheduled for a future date; <strong>done</strong>: completed the given interview round) of each round (e.g., recruiter/HM chat, phone screen, onsite) with each company and another table to track what each round entails. When interviewing with a specific company, I filter down to the rounds asked by that company and review the corresponding Notion Pages.</p>
+<figure><img src="https://www.dropbox.com/scl/fi/bp78z6q27pa5cvotn342k/Screenshot-2024-03-16-at-11.44.33-PM.png?rlkey=wgymx513hyfu6t1wbo2zutvr1&amp;raw=1" width="1000"/>
+</figure>
+
+
+    </div>
+  </article>
+
+  
+  
+
+
+
+
+
+
+  <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">About</a></li>
+         
+          <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </div>
+
+    
+    <div id="toc-footer" style="display: none">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-marriage-analogy">The Marriage Analogy</a></li>
+    <li><a href="#what-to-prepare">What to Prepare</a></li>
+    <li><a href="#how-to-prepare">How to Prepare</a>
+      <ul>
+        <li><a href="#meta-tip-track-your-learnings">Meta Tip: Track Your Learnings</a>
+          <ul>
+            <li><a href="#one-topic-per-notion-page">One Topic per Notion Page</a></li>
+            <li><a href="#block-time-on-your-calendar">Block Time on Your Calendar</a></li>
+          </ul>
+        </li>
+        <li><a href="#coding">Coding</a>
+          <ul>
+            <li><a href="#classic-dsa">Classic DS&amp;A</a></li>
+            <li><a href="#ml-coding">ML Coding</a></li>
+          </ul>
+        </li>
+        <li><a href="#ml-system-design">ML System Design</a></li>
+        <li><a href="#ml-breadth">ML Breadth</a></li>
+        <li><a href="#ml-depth">ML Depth</a>
+          <ul>
+            <li><a href="#paper-tracker">Paper Tracker</a></li>
+            <li><a href="#ranking">Ranking</a></li>
+            <li><a href="#nlp">NLP</a></li>
+          </ul>
+        </li>
+        <li><a href="#behavior-interview">Behavior Interview</a>
+          <ul>
+            <li><a href="#tell-me-a-time-when">Tell Me A Time When&hellip;</a></li>
+            <li><a href="#project-deep-dive">Project Deep Dive</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#the-moment-of-truth">The &ldquo;Moment of Truth&rdquo;</a></li>
+  </ul>
+</nav>
+    </div>
+    
+
+    <div id="share-footer" style="display: none">
+      
+      <ul>
+  
+  
+    
+  
+  
+  <li>
+    <a class="icon" href="http://www.facebook.com/sharer.php?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f" aria-label="Facebook">
+      <i class="fab fa-facebook fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://twitter.com/share?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&text=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Twitter">
+      <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&title=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Linkedin">
+      <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&is_video=false&description=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Pinterest">
+      <i class="fab fa-pinterest fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="mailto:?subject=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting&body=Check out this article: https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f" aria-label="Email">
+      <i class="fas fa-envelope fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://getpocket.com/save?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&title=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Pocket">
+      <i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://reddit.com/submit?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&title=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="reddit">
+      <i class="fab fa-reddit fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="http://www.tumblr.com/share/link?url=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&name=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting&description=The%20Marriage%20Analogy%20Nearly%202%20years%20ago%2c%20I%20wrote%20a%20blog%20post%20on%20how%20to%20find%20jobs%20as%20a%20new%20grad%20data%20scientist%20%28as%20a%20twist%20of%20fate%2c%20I%20never%20worked%20as%20a%20product%20data%20scientist%20but%20instead%20became%20an%20ML%20engineer%20at%20DoorDash%29.%20Back%20in%202021%2c%20I%20cared%20a%20ton%20about%20interview%20skills%2c%20answer%20%26ldquo%3bframeworks%26rdquo%3b%2c%20and%20whatnot%2c%20which%20may%20still%20come%20handy%20at%20New%20Grad%20or%20Early%20Career%20levels.%20For%20experienced%20hires%2c%20however%2c%20I%20think%20of%20interviews%20as%20some%20sort%20of%20marriage%20proposal%20%26mdash%3b%20it%26rsquo%3bs%20something%20you%20can%20rehearse%20but%20can%20never%20force." aria-label="Tumblr">
+      <i class="fab fa-tumblr fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+  <li>
+    <a class="icon" href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2fwww.yuan-meng.com%2fposts%2fmle_interviews%2f&t=%28Opinionated%29%20Guide%20to%20ML%20Engineer%20Job%20Hunting" aria-label="Hacker News">
+      <i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i>
+    </a>
+  </li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      
+        <a id="menu-toggle" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;" aria-label="Menu">
+          <i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="toc-toggle" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;" aria-label="TOC">
+          <i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share-toggle" class="icon" href="#" onclick="$('#share-footer').toggle();return false;" aria-label="Share">
+          <i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" aria-label="Top of Page">
+          <i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+
+  <footer id="footer">
+  <div class="footer-left">
+    Copyright  &copy; 2024  Yuan Meng 
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+        <li><a href="/">About</a></li>
+         
+        <li><a href="/posts">Writings</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+  </div>
+</body>
+
+<link rel="stylesheet" href=/lib/font-awesome/css/all.min.css>
+<script src=/lib/jquery/jquery.min.js></script>
+<script src=/js/main.js></script>
+
+<script src=/js/code-copy.js></script>
+
+
+
+
+</html>

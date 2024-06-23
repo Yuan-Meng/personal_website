@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Yuan Meng</copyright>
-    <lastBuildDate>Sun, 13 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/categories/advice/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/categories/advice/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>(Opinionated) Guide to ML Engineer Job Hunting</title>
+      <link>https://www.yuan-meng.com/posts/mle_interviews/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/mle_interviews/</guid>
+      <description>The Marriage Analogy Nearly 2 years ago, I wrote a blog post on how to find jobs as a new grad data scientist (as a twist of fate, I never worked as a product data scientist but instead became an ML engineer at DoorDash). Back in 2021, I cared a ton about interview skills, answer &amp;ldquo;frameworks&amp;rdquo;, and whatnot, which may still come handy at New Grad or Early Career levels. For experienced hires, however, I think of interviews as some sort of marriage proposal &amp;mdash; it&amp;rsquo;s something you can rehearse but can never force.</description>
+    </item>
+    
     <item>
       <title>(Quirky) Roadmap for New Grad Data Scientists</title>
       <link>https://www.yuan-meng.com/posts/newgrads/</link>

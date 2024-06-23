@@ -7,11 +7,49 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Yuan Meng</copyright>
-    <lastBuildDate>Wed, 17 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.yuan-meng.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sift Through the Haystack: Vector Retrieval</title>
+      <link>https://www.yuan-meng.com/posts/vector_retrieval/</link>
+      <pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/vector_retrieval/</guid>
+      <description>Embeddings, Embeddings Everywhere Be it a person, a product, a place, a text, an image, or a planet &amp;mdash; virtually all entities you can think of can be represented as a special kind of vectors, called &amp;ldquo;embeddings.&amp;rdquo; Embedding is a classic idea in mathematical topology and machine learning (click ▶ for definitions), recently made popular by the rise of foundation models that are exceptionally good at embedding texts, images, and videos to empower downstream use cases, such as embedding-based retrieval, text/image/video understanding, and deep learning rankers with embedding features, to name a few.</description>
+    </item>
+    
+    <item>
+      <title>Seventeen Going Under</title>
+      <link>https://www.yuan-meng.com/posts/17_going_under/</link>
+      <pubDate>Mon, 06 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/17_going_under/</guid>
+      <description>See, I spent my teens enraged  Spiralin&#39; in silence  And I armed myself with a grin  &amp;lsquo;Cause I was always the fuckin&amp;rsquo; joker  Buried in their humor  Amongst the white noise  &amp;mdash; Sam Fender, Seventeen Going Under (2021)
+ When I was seventeen, it felt like the whole world was going to end. I was probably the only sexual minority in town that I knew of, and the headteacher asked that I stay home so the other kids could be rid of my &amp;ldquo;bad influence.</description>
+    </item>
+    
+    <item>
+      <title>(Opinionated) Guide to ML Engineer Job Hunting</title>
+      <link>https://www.yuan-meng.com/posts/mle_interviews/</link>
+      <pubDate>Sat, 16 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/mle_interviews/</guid>
+      <description>The Marriage Analogy Nearly 2 years ago, I wrote a blog post on how to find jobs as a new grad data scientist (as a twist of fate, I never worked as a product data scientist but instead became an ML engineer at DoorDash). Back in 2021, I cared a ton about interview skills, answer &amp;ldquo;frameworks&amp;rdquo;, and whatnot, which may still come handy at New Grad or Early Career levels. For experienced hires, however, I think of interviews as some sort of marriage proposal &amp;mdash; it&amp;rsquo;s something you can rehearse but can never force.</description>
+    </item>
+    
+    <item>
+      <title>Attention as Soft Dictionary Lookup</title>
+      <link>https://www.yuan-meng.com/posts/attention_as_dict/</link>
+      <pubDate>Sat, 09 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.yuan-meng.com/posts/attention_as_dict/</guid>
+      <description>The Dictionary Metaphor 🔑📚 By now, the scaled-dot product attention formula might have burned into our brains 🧠, $\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$, yet still this brilliant metaphor from Kevin Murphy&amp;rsquo;s PML book gives it a refreshed interpretation &amp;mdash;
+ &amp;ldquo;We can think of attention as a soft dictionary look up, in which we compare the query $q$ to each key $k_i$, and then retrieve the corresponding value $v_i$.&amp;rdquo; &amp;mdash; Chapter 15, p.</description>
+    </item>
+    
     <item>
       <title>An Evolution of Learning to Rank</title>
       <link>https://www.yuan-meng.com/posts/ltr/</link>
-      <pubDate>Wed, 17 Jan 2024 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
       
       <guid>https://www.yuan-meng.com/posts/ltr/</guid>
       <description>First Thing First  Enigmas of the universe  Cannot be known without a search  &amp;mdash; Epica, Omega (2021)
