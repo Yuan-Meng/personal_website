@@ -19,7 +19,7 @@ include_toc: true
 
 <details>
   <summary><b>Mathematical topology</b></summary>
-  <p>An embedding is a function $f: X \rightarrow Y$ between two topological spaces that is injective (one-to-one) and a homeomorphism onto its image, thus preserving the topological properties of $X$ within $Y$. This concept ensures that $X$ is mapped into $Y$ in a way that $X$'s structure—such as its continuity and open/closed set properties—is maintained exactly within the host structure $Y$</p>
+  <p>An embedding is a function $f: X \rightarrow Y$ between two topological spaces that is injective (one-to-one) and a homeomorphism onto its image, thus preserving the topological properties of $X$ within $Y$. This concept ensures that $X$ is mapped into $Y$ in a way that $X$'s structure — such as its continuity and open/closed set properties — is maintained exactly within the host structure $Y$</p>
 </details>
 
 
@@ -65,7 +65,7 @@ $$\mathop{\text{arg min}}\limits^{(k)}_{u \in \mathcal{X}} \delta(q, u).$$
 
 # Top-$k$ Retrieval Problem
 
-The startup Pinecone is a lead provider of web-scale commercial top-$k$ retrieval solutions. In this blogpost, I review key ideas from the new monograph [*Foundations of Vector Retrieval (2024)*](https://arxiv.org/abs/2401.09350) by Sebastian Bruch, a Principal Scientist at Pinecone.
+The startup Pinecone is a leading provider of web-scale commercial top-$k$ retrieval solutions. In this blogpost, I review key ideas from the new monograph [*Foundations of Vector Retrieval (2024)*](https://arxiv.org/abs/2401.09350) by Sebastian Bruch, a Principal Scientist at Pinecone.
 
 ## Choices of Distance Functions
 
@@ -81,11 +81,11 @@ Finding top-$k$ points "closest" to the query point first requires a distance fu
 
 The 3 distance functions lead to 3 common types of vector retrieval: 
 
-- **$k$-Nearest Neighbor Search ($k$-NN)**: Minimizes the Euclidean, $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} \lVert q - u \rVert_2^2$;
-- **$k$-Maximum Cosine Similarity Search ($k$-MCS)**: Maximizes cosine similarity, $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} 1 - \frac{\langle {q,u} \rangle}{\lVert q \rVert_2 \lVert u \rVert_2}$, which is rank-equivalent to $\mathop{\arg \max}\limits_{u \in \mathcal{X}}\limits^{(k)} \frac{\langle {q,u} \rangle}{\lVert u \rVert_2}$, assuming $\lVert q \rVert_2 = 1$;
+- **$k$-Nearest Neighbor Search ($k$-NN)**: Minimizes Euclidean, $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} \lVert q - u \rVert_2^2$;
+- **$k$-Maximum Cosine Similarity Search ($k$-MCS)**: Minimizes angular distance, $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} 1 - \frac{\langle {q,u} \rangle}{\lVert q \rVert_2 \lVert u \rVert_2}$, or maximizes cosine similarity $\mathop{\arg \max}\limits_{u \in \mathcal{X}}\limits^{(k)} \frac{\langle {q,u} \rangle}{\lVert u \rVert_2}$, given $\lVert q \rVert_2 = 1$;
 - **$k$-Maximum Inner Product Search ($k$-MIPS)**: Maximizes inner product, $\mathop{\arg \max}\limits_{u \in \mathcal{X}}\limits^{(k)} \langle {q,u} \rangle$.
 
-The 3 distance functions relate to one another. This is plain to see between $k$-MCS and $k$-MIPS: The former is a normalized version of the latter, where the inner product is divide by the $L_2$ norm of $u$. As for $k$-NN, we can expand the Euclidean distance into $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} \lVert q \rVert_2^2 - 2\langle {q,u} \rangle + \lVert u \rVert_2^2$, which can be rewritten as $\mathop{\arg \min}\limits_{u' \in \mathcal{X'}}\limits^{(k)} \langle {q',u'} \rangle$ by discarding the constant term $\lVert q \rVert_2^2$ and concatenating vectors $q \in \mathbb{R}^d$ and $u \in \mathbb{R}^d$ each with a 1-dimensional vector $\[-1/2\]$ into $q' \in \mathbb{R}^{d + 1}$ and $u' \in \mathbb{R}^{d + 1}$, respectively.
+The 3 distance functions are related to one another. This is plain to see between $k$-MCS and $k$-MIPS: The former is a normalized version of the latter, where the inner product is divide by the $L_2$ norm of $u$. As for $k$-NN, we can expand the Euclidean distance into $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} \lVert q \rVert_2^2 - 2\langle {q,u} \rangle + \lVert u \rVert_2^2$, which can be rewritten as $\mathop{\arg \min}\limits_{u' \in \mathcal{X'}}\limits^{(k)} \langle {q',u'} \rangle$ by discarding the constant term $\lVert q \rVert_2^2$ and concatenating vectors $q \in \mathbb{R}^d$ and $u \in \mathbb{R}^d$ each with a 1-dimensional vector $\[-1/2\]$ into $q' \in \mathbb{R}^{d + 1}$ and $u' \in \mathbb{R}^{d + 1}$, respectively.
 
 When to use which? As with all ML problems, it depends on your data and use cases: 
 
@@ -104,17 +104,17 @@ Regardless of the distance function, when the embedding dimension $d$ is high an
 
 The idea behind approximate top-$k$ retrieval is that we accept a vector $u$ as a valid solution so long as its distance to the query point $q$ is at most $(1 + \epsilon)$ times the distance to the $k$-th optimal vector (**Caveat**: Every vector may quality as an $\epsilon$-approximate nearest neighbor if embedding dimension $d$ is high and data are *i.i.d.* in every dimension, noted by [Beyer et al., 1999](https://minds.wisconsin.edu/bitstream/handle/1793/60174/TR1377.pdf?sequence=1&ref=https://githubhelp.com)). Recall at $k$ is often used to measure the effectiveness of approximate retrieval algorithms, which ideally maximize the overlap between the exact top-$k$ set $\mathcal{S}$ and the approximate top-$k$ set $\mathcal{\tilde{S}}$, $|\mathcal{S} \cap \mathcal{\tilde{S}}| / k$.  
 
-In this section, we review some common algorithms for approximate retrieval. 
+In this section, we review some common algorithms for approximate top-$k$ retrieval. 
 
-### Branch-and-Bound
+### Branch-and-Bound Algorithms
 
-Branch-and-bound is one of the earliest algorithms for top-$k$ vector retrieval. It proceeds in two phases: Recursively **partitioning** the vector space $\mathcal{X}$ into smaller regions, marking region boundaries, and storing them in a binary search tree (BST), and only **searching** regions that could contain the top $k$ solution set. 
+Branch-and-bound is one of the earliest algorithms for top-$k$ vector retrieval. It proceeds in two phases: 1) Recursively **partitioning** the vector space $\mathcal{X}$ into smaller regions, marking region boundaries, and storing them in a binary search tree (BST), and 2) only **searching** regions that could contain vectors in the top $k$ solution set. 
 
 {{< figure src="https://www.dropbox.com/scl/fi/fxy7jr9oo6mac3j8ki0is/Screenshot-2024-04-21-at-5.56.57-PM.png?rlkey=ch8lg4imvf6xwrzecnwd662v5&st=wmmto60f&raw=1" width="400">}}
 
 
 - **Partitioning**: The original vector space is partitioned into a balanced binary search tree (BST), where each internal node has a decision boundary
-    - To begin, partition the vector space into regions $\mathcal{R}_l$ and $\mathcal{R}_r$
+    - Partition the vector space into regions $\mathcal{R}_l$ and $\mathcal{R}_r$; the boundary is $h$
     - Exhaustively search $\mathcal{R}_l$ to find the optimal point $u_l^\ast$ that minimizes the distance to the query vector $q$, $\delta(q, u_l^\ast)$ 👉 *certify* $u_l^\ast$ is indeed optimal
         - If $\delta(q, u_l^\ast) < \delta(q, \mathcal{R_r})$: Found optimal point and can discard points in $\mathcal{R}_r$
             - $\delta$-ball centered at $q$ with radius $\delta(q, u_l^\ast)$ is contained entirely in $\mathcal{R}_l$, so no point from $\mathcal{R}_r$ has have shorter distance to $q$ than $u_l^\ast$
@@ -127,22 +127,48 @@ Branch-and-bound is one of the earliest algorithms for top-$k$ vector retrieval.
     - Terminate when back at root 👉 all branches are either pruned or certified 
 
 
-Different instantiations of branch-and-bound algorithms differ in how they split a collection or carry out certification. In general, however, brand-and-bound algorithms work poorly on high-dimensional data because the number of leaves that may be visited during certification grows exponentially with the embedding dimension $d$.
+Different instantiations of branch-and-bound algorithms differ in how they split a collection or conduct certification. In general, brand-and-bound algorithms work poorly on high-dimensional data as the number of leaves that may be visited during certification grows exponentially with the embedding dimension $d$. Modern approximate nearest neighbor retrieval services rarely rely on branch-and-bound.
 
-### Clustering
+### Locality Sensitive Hashing
+
+Locality Sensitive Hashing (LSH) reduces the nearest neighbor search space by hashing each vector into a single bucket, $h: \mathbb{R}^d \rightarrow \[b\]$, and searching exhaustively within the bucket. The choice of the hash function $h$ is critical because this algorithm only works if $\epsilon$-approximate $k$ nearest neighbors are hashed into the same bucket. 
+
+To reduce the reliance on one hash function, we can independently apply $L$ hash functions, each from a family of hash functions $h \in \mathcal{H}$, to map vectors into buckets (see this Pinecone [blog post](https://www.pinecone.io/learn/series/faiss/locality-sensitive-hashing/) for more details on hash functions). If a query is hashed into multiple buckets, then we search all these buckets to find nearest neighbors --- we sacrifice some efficiency in hopes to get more accurate results. 
+
+{{< figure src="https://www.dropbox.com/scl/fi/ibe1tr26h3k3pszf0lf17/Screenshot-2024-06-22-at-11.36.15-PM.png?rlkey=niw2bpqcztfc6xbevjmei8jni&st=klehneyl&raw=1" width="600">}}
+
+
+### Graph Algorithms
+
+Graph algorithms perform random walks from one vector to another via connected edges $(u, v) \in \mathcal{E}$, hopefully getting closer to the optimal solution with every hop. 
+
+The graph $G(\mathcal{V}, \mathcal{E})$ is constructed during pre-processing of the vector collections ---
+- **Nodes $\mathcal{V}$**: Each vector $u \in \mathcal{X}$ is a node in the graph $G$ --- i.e., $|\mathcal{V}| = |\mathcal{X}|$
+- **Edges $\mathcal{E}$**: Simply connecting every node by an edge results in high space + time complexity --- how we can construct a sparse graph that solves the top-$k$ vector retrieval problem is an active research topic.
+
+### Clustering 
+
 Why not cluster vectors first, so that at retrieval time, we first find the cluster to which the query vector $q$ belongs, and then search top $k$ within that cluster?
 
-- **Locality Sensitive Hashing (LSH)**: Hash each vector in $\mathbb{R}^d$ into a single bucket $h: \mathbb{R}^d \rightarrow \[b\]$ 👉 during retrieval, exhaustively search the bucket where $q$ is put into, assuming $q$ is hashed into the same bucket as its nearest neighbors
+### Sampling Algorithms
+
 
 # Optimization Techniques
 
-## Vector Compression
+## Quantization
+
+## Sketching 
+
+## Feature Multiplexing
 
 # References
 
 ## Books/Papers
 1. Bruch, S. (2024). Foundations of Vector Retrieval. [arXiv:2401.09350](https://arxiv.org/pdf/2401.09350).
 2. Coleman, B., Kang, W. C., Fahrbach, M., Wang, R., Hong, L., Chi, E., & Cheng, D. (2024). Unified Embedding: Battle-tested feature representations for web-scale ML systems. [NeurIPS](https://proceedings.neurips.cc/paper_files/paper/2023/file/afcac2e300bc243d15c25cd4f4040f0d-Paper-Conference.pdf).
+3. Zhang, H., Wang, S., Zhang, K., Tang, Z., Jiang, Y., Xiao, Y., ... & Yang, W. Y. (2020, July). Towards personalized and semantic retrieval: An end-to-end solution for e-commerce search via embedding learning. [SIGIR](https://arxiv.org/pdf/2006.02282).
 
 ## Blog Posts
-2. [Contrastive Representation Learning](https://lilianweng.github.io/posts/2021-05-31-contrastive/) by Lilian Weng (2021)
+4. [Contrastive Representation Learning](https://lilianweng.github.io/posts/2021-05-31-contrastive/) by Lilian Weng (2021)
+5. [Embedding-Based Retrieval for Search & Recommendation](https://medium.com/better-ml/embedding-learning-for-retrieval-29af1c9a1e65) by Jaideep Ray (2021)
+5. [Locality Sensitive Hashing (LSH): The Illustrated Guide](https://www.pinecone.io/learn/series/faiss/locality-sensitive-hashing/) by Pinecone
