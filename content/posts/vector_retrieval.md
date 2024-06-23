@@ -25,10 +25,10 @@ include_toc: true
 
 <details>
   <summary><b>Machine learning</b></summary>
-  <p>An embedding is a transformation $f: X \rightarrow \mathbb{R}^n$ that maps entities from a high-dimensional or abstract space $X$ (e.g., words, images, or graph nodes) to vectors in a lower-dimensional, continuous vector space $\mathbb{R}^n$. This mapping aims to preserve relevant properties of the original entities, such as similarity or relational structure, thereby enabling more effective computational manipulation and analysis.</p>
+  <p>An embedding is a transformation $f: X \rightarrow \mathbb{R}^d$ that maps entities from a high-dimensional or abstract space $X$ (e.g., words, images, or graph nodes) to vectors in a lower-dimensional, continuous vector space $\mathbb{R}^d$. This mapping aims to preserve relevant properties of the original entities, such as similarity or relational structure, thereby enabling more effective computational manipulation and analysis.</p>
 </details>
 
-A vector $\mathbb{R}^n$ is an ordered list of numbers, which can represent almost everything: 
+A vector $\mathbb{R}^d$ is an ordered list of numbers, which can represent almost everything: 
 
 - A geographic location, described by `[latitude, longitude]`.
 - A desk, characterized by `[height, area, color, other attributes]`.
@@ -38,7 +38,7 @@ In traditional machine learning, each training example is described by a feature
 
 All vectors are not embeddings. For vectors to be considered as embeddings, similar entities in the real world must also be close in the embedding space, according to some distance function (e.g., Euclidean distance, Jaccard similarity, dot product, cosine similarity, etc.) --- a property that regular vectors do not always satisfy. Consider the example from [*Machine Learning Design Patterns*](*https://www.oreilly.com/library/view/machine-learning-design/9781098115777/*): 6 one-hot vectors are used to represent the number of babies in one birth. While singles are more similar to twins than they are to quintuplets, the cosine similarity between the single vector (`[1, 0, 0, 0, 0, 0]`) and the twin vector (`[0, 1, 0, 0, 0, 0]`) is 0, the same as that between the single vector and the quintuplets vector (`[0, 0, 0, 0, 0, 1]`). After all, these one-hot vectors are orthogonal to one another. Since one-hot vectors do not capture similarities between categories, they are *not* embeddings.
 
-We can, however, use a lower-dimensional vector to represent each class label (column 3 in the table below), such that more similar labels are closer to one another. 
+We can use a lower-dimensional dense vector to represent each class label (column 3 in the table below), such that more similar labels are closer to one another. 
 
 | Plurality       | One-hot encoding        | Learned encoding |
 |-----------------|-------------------------|------------------|
@@ -67,7 +67,7 @@ $$\mathop{\text{arg min}}\limits^{(k)}_{u \in \mathcal{X}} \delta(q, u).$$
 
 The startup Pinecone is a lead provider of web-scale commercial top-$k$ retrieval solutions. In this blogpost, I review key ideas from the new monograph [*Foundations of Vector Retrieval (2024)*](https://arxiv.org/abs/2401.09350) by Sebastian Bruch, a Principal Scientist at Pinecone.
 
-## Flavors of Distance Functions
+## Choices of Distance Functions
 
 Finding top-$k$ points "closest" to the query point first requires a distance function. The figure below shows the 3 most popular choices (↓: minimize; ↑: maximize).
 
@@ -76,62 +76,39 @@ Finding top-$k$ points "closest" to the query point first requires a distance fu
 
 - **Euclidean distance** (↓): Straight line  from each point to the query point;
 - **Cosine similarity** (↑): 1 - angular distance from each point to the query point;
-- **Inner product** (↑): Imagine a hyperplane that is orthogonal to the query point and passes through a given point — the inner product between this point and the query is given by the shortest distance from this hyperplane to the query.
+- **Inner product** (↑): Imagine a hyperplane orthogonal to the query point passing through a document point — the shortest distance from this hyperplane to the query point is the inner product between the query-document pair.
 
-The 3 distance functions result in 3 flavors of vector retrieval: $k$-Nearest Neighbor Search ($k$-NN) base on Euclidean, $k$-Maximum Cosine Similarity Search ($k$-MCS) based on cosine, and $k$-Maximum Inner Product Search ($k$-MIPS) based on inner product. Which one to choose depends on the pros \& cons for your specific use case.
 
-<table style="width:100%; border: 1px solid black; border-collapse: collapse;">
-    <tr style="background-color: #f2f2f2;">
-        <th style="width: 15%; padding: 10px; border: 1px solid black;">Method</th>
-        <th style="width: 25%; padding: 10px; border: 1px solid black;">Domain</th>
-        <th style="width: 30%; padding: 10px; border: 1px solid black;">Pros</th>
-        <th style="width: 30%; padding: 10px; border: 1px solid black;">Cons</th>
-    </tr>
-    <tr>
-        <td style="padding: 10px; border: 1px solid black;"><strong>$k$-NN</strong></td>
-        <td style="padding: 10px; border: 1px solid black;">General, Clustering</td>
-        <td style="padding: 10px; border: 1px solid black;">
-            - Simple and effective in metric spaces<br>
-            - Good if you care about literal distances
-        </td>
-        <td style="padding: 10px; border: 1px solid black;">
-            - Points are too far apart in high-dimensional spaces<br>
-            - Sensitive to scale
-        </td>
-    </tr>
-    <tr style="background-color: #f9f9f9;">
-        <td style="padding: 10px; border: 1px solid black;"><strong>$k$-MCS</strong></td>
-        <td style="padding: 10px; border: 1px solid black;">Text processing, Sentiment analysis</td>
-        <td style="padding: 10px; border: 1px solid black;">
-            - Ignores vector magnitude; good for normalized vectors<br>
-            - Ideal for angle-based similarity (e.g., texts)
-        </td>
-        <td style="padding: 10px; border: 1px solid black;">
-            - Not appropriate if magnitude is meaningful<br>
-            - Expensive to compute for large datasets
-        </td>
-    </tr>
-    <tr>
-        <td style="padding: 10px; border: 1px solid black;"><strong>$k$-MIPS</strong></td>
-        <td style="padding: 10px; border: 1px solid black;">Recommendation systems, Collaborative filtering</td>
-        <td style="padding: 10px; border: 1px solid black;">
-            - Captures both vector magnitude and direction<br>
-            - Works well in high-dimensional spaces
-        </td>
-        <td style="padding: 10px; border: 1px solid black;">
-            - Non-metric (e.g., inner product with self may not be the largest)<br>
-            - Expensive to compute
-        </td>
-    </tr>
-</table>
+The 3 distance functions lead to 3 common types of vector retrieval: 
+
+- **$k$-Nearest Neighbor Search ($k$-NN)**: Minimizes the Euclidean, $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} \lVert q - u \rVert_2^2$;
+- **$k$-Maximum Cosine Similarity Search ($k$-MCS)**: Maximizes cosine similarity, $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} 1 - \frac{\langle {q,u} \rangle}{\lVert q \rVert_2 \lVert u \rVert_2}$, which is rank-equivalent to $\mathop{\arg \max}\limits_{u \in \mathcal{X}}\limits^{(k)} \frac{\langle {q,u} \rangle}{\lVert u \rVert_2}$, assuming $\lVert q \rVert_2 = 1$;
+- **$k$-Maximum Inner Product Search ($k$-MIPS)**: Maximizes inner product, $\mathop{\arg \max}\limits_{u \in \mathcal{X}}\limits^{(k)} \langle {q,u} \rangle$.
+
+The 3 distance functions relate to one another. This is plain to see between $k$-MCS and $k$-MIPS: The former is a normalized version of the latter, where the inner product is divide by the $L_2$ norm of $u$. As for $k$-NN, we can expand the Euclidean distance into $\mathop{\arg \min}\limits_{u \in \mathcal{X}}\limits^{(k)} \lVert q \rVert_2^2 - 2\langle {q,u} \rangle + \lVert u \rVert_2^2$, which can be rewritten as $\mathop{\arg \min}\limits_{u' \in \mathcal{X'}}\limits^{(k)} \langle {q',u'} \rangle$ by discarding the constant term $\lVert q \rVert_2^2$ and concatenating vectors $q \in \mathbb{R}^d$ and $u \in \mathbb{R}^d$ each with a 1-dimensional vector $\[-1/2\]$ into $q' \in \mathbb{R}^{d + 1}$ and $u' \in \mathbb{R}^{d + 1}$, respectively.
+
+When to use which? As with all ML problems, it depends on your data and use cases: 
+
+| Distance Metric    | Common In                        | Advantage                                                 | Usage                                                   |
+|--------------------|----------------------------------|-----------------------------------------------------------|---------------------------------------------------------|
+| Euclidean Distance | Spatial databases, clustering    | Measures absolute differences; intuitive in low-dimensional spaces | Best when scale and actual size differences are crucial |
+| Cosine Similarity  | Text retrieval, document similarity | Focuses on direction rather than magnitude; effective in high dimensions | Ideal for normalized data where orientation matters    |
+| Inner Product      | Neural networks, collaborative filtering | Direct measure of alignment; computationally efficient with matrix operations | Useful when projection similarity is more relevant than geometric closeness |
+
+
+<!-- Some metrics are "proper" and some not. A proper metric 1) is non-negative, 2) symmetrical ($\delta(u, v) = \delta(u, v)$), and 3) satisfies the triangle inequality, $\delta(u, v) \leq \delta(u, w) + \delta(w, v)$. The inner product is not proper because it is not non-negative and doesn't satisfy the triangle inequality, $\langle {u,v} \rangle \neq \langle {u,w} \rangle + \langle {w,v} \rangle$. In fact, we can't even guarantee that a vector maximizes the inner product with itself. That said, in a high enough dimension where data points $\mathcal{X}$ are *i.i.d.* in each dimension, we'd likely encounter "coincidences" with high confidence that $\langle {u,u} \rangle$ is greater than any $\langle {u,v} \rangle$ where $u \neq u$. -->
 
 ## Approximate Retrieval Algorithms
 
-Regardless of the method, exhaustively comparing the query vector with every other vector to find top $k$ is computationally expensive. To avoid exhaustive search, many approximate retrieval algorithms have been proposed, trading accuracy for speed.
+Regardless of the distance function, when the embedding dimension $d$ is high and the documents are vast, it's inefficient to compute $\delta(q, v)$ for every query-document pair and return top $k$ documents in ascending order of distance. Efficient search calls for approximate top-$k$ retrieval algorithms that trade some accuracy for speed. 
+
+The idea behind approximate top-$k$ retrieval is that we accept a vector $u$ as a valid solution so long as its distance to the query point $q$ is at most $(1 + \epsilon)$ times the distance to the $k$-th optimal vector (**Caveat**: Every vector may quality as an $\epsilon$-approximate nearest neighbor if embedding dimension $d$ is high and data are *i.i.d.* in every dimension, noted by [Beyer et al., 1999](https://minds.wisconsin.edu/bitstream/handle/1793/60174/TR1377.pdf?sequence=1&ref=https://githubhelp.com)). Recall at $k$ is often used to measure the effectiveness of approximate retrieval algorithms, which ideally maximize the overlap between the exact top-$k$ set $\mathcal{S}$ and the approximate top-$k$ set $\mathcal{\tilde{S}}$, $|\mathcal{S} \cap \mathcal{\tilde{S}}| / k$.  
+
+In this section, we review some common algorithms for approximate retrieval. 
 
 ### Branch-and-Bound
 
-Branch-and-bound is the earliest algorithm for top-$k$ vector retrieval. This class of algorithms proceed in two phases: Recursively **partitioning** the vector space $\mathcal{X}$ into smaller regions and marking region boundaries, storing them in a binary search tree (BST), and **searching** only regions that could contain the top $k$ solution set. 
+Branch-and-bound is one of the earliest algorithms for top-$k$ vector retrieval. It proceeds in two phases: Recursively **partitioning** the vector space $\mathcal{X}$ into smaller regions, marking region boundaries, and storing them in a binary search tree (BST), and only **searching** regions that could contain the top $k$ solution set. 
 
 {{< figure src="https://www.dropbox.com/scl/fi/fxy7jr9oo6mac3j8ki0is/Screenshot-2024-04-21-at-5.56.57-PM.png?rlkey=ch8lg4imvf6xwrzecnwd662v5&st=wmmto60f&raw=1" width="400">}}
 
@@ -165,6 +142,7 @@ Why not cluster vectors first, so that at retrieval time, we first find the clus
 
 ## Books/Papers
 1. Bruch, S. (2024). Foundations of Vector Retrieval. [arXiv:2401.09350](https://arxiv.org/pdf/2401.09350).
+2. Coleman, B., Kang, W. C., Fahrbach, M., Wang, R., Hong, L., Chi, E., & Cheng, D. (2024). Unified Embedding: Battle-tested feature representations for web-scale ML systems. [NeurIPS](https://proceedings.neurips.cc/paper_files/paper/2023/file/afcac2e300bc243d15c25cd4f4040f0d-Paper-Conference.pdf).
 
 ## Blog Posts
 2. [Contrastive Representation Learning](https://lilianweng.github.io/posts/2021-05-31-contrastive/) by Lilian Weng (2021)
