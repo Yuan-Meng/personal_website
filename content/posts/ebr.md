@@ -52,9 +52,12 @@ We can use a lower-dimensional dense vector to represent each class label (colum
 
 {{< figure src="https://www.dropbox.com/scl/fi/5xi8v3omgam3126dr0ahi/Screenshot-2024-04-21-at-2.58.25-PM.png?rlkey=zt24ehipliz2c1f2o8pol4zax&st=911v312w&raw=1" width="1000">}}
 
-The million-dollar question is, how do we learn the "proper" lower-dimensional representation of a class or an entity in the embedding space? This is the exact type of problems that ["metric learning"](https://paperswithcode.com/task/metric-learning#:~:text=The%20goal%20of%20Metric%20Learning,been%20developed%20for%20Metric%20Learning.) tries to solve. Typically, we need to mine the raw training data (e.g., search or feed logs) to construct positive/negative pairs or triplets, initialize with each entity's embedding with random values, and gradually pull similar entities (e.g., a user and an item on which they converted) closer and push dissimilar entities apart (e.g., a user and an unengaged item) using some contrastive objective (e.g., contrastive loss, triplet loss, Noise Contrastive Estimation, etc.). You can read Lilian Weng's wonderful [blog post](https://lilianweng.github.io/posts/2021-05-31-contrastive/) for more details. 
+The million-dollar question is, how do we learn the "proper" lower-dimensional representation of an entity in the embedding space? This is the exact type of problems that ["metric learning"](https://paperswithcode.com/task/metric-learning#:~:text=The%20goal%20of%20Metric%20Learning,been%20developed%20for%20Metric%20Learning.) tries to solve. Typically, we need to mine the raw training data (e.g., search or feed logs) for positive/negative pairs or triplets, initialize each entity's embedding with random values, and gradually pull similar entities (e.g., a user and a clicked item) closer and push dissimilar entities apart (e.g., a user and an unengaged item) in the embedding space using some contrastive objective (e.g., contrastive loss, triplet loss, Noise Contrastive Estimation, etc.). 
 
-With embeddings for entities we care about, we can answer many questions --- e.g.,
+
+In the now-classic [paper](https://arxiv.org/abs/2006.11632), the Facebook Search team outlined the challenges of building a web-scale embedding-based retrieval system. These include defining positive/negative labels, balancing hard (e.g., impressed but unclicked search results) vs. easy (non-positive results sampled from the the mini-batch) negatives, and serving at scale. A particularly interesting finding is that training exclusively on hard negatives reduced recall by 55\% compared to training exclusively on in-batch negatives, yet adding a few hard negatives (e.g., two people on the search result page have the same name, but one is the searcher's social connection and one is not --- the former is a hard negative) improved recall. It could be that easy negatives help the model capture textual similarities, while hard negatives force it to lean on contextual features (e.g., the searcher's location and social network). For a toy implementation of the embedding model architecture, check out this [repo](https://github.com/liyinxiao/UnifiedEmbeddingModel/blob/main/main.py). For an in-depth review of metric learning, read Lilian Weng's wonderful [blog post](https://lilianweng.github.io/posts/2021-05-31-contrastive/).
+
+After learning embeddings, we can answer many key questions --- to name a few:
 
 - **First-pass ranking**: For a  user, how do we sift through a vast inventory of products/movies/posts/people/etc. to find items they may show interests in?
 - **Passage retrieval/semantic search**: Given a natural language question, how do we retrieve passages that may contain the answer?
@@ -126,7 +129,6 @@ Branch-and-bound is one of the earliest algorithms for top-$k$ vector retrieval.
     - Once we find the leaf region that contains $q$, we find the candidate vector $u^\ast$ 👉 backtrack and certify that $u^\ast$ is indeed optimal
         - At each internal node, compare the distance between $q$ and the current candidate with the distance between $q$ and the region on the other side of the boundary 👉 prune or search for better candidates
     - Terminate when back at root 👉 all branches are either pruned or certified 
-
 
 Different instantiations of branch-and-bound algorithms differ in how they split a collection or conduct certification. In general, brand-and-bound algorithms work poorly on high-dimensional data as the number of leaves that may be visited during certification grows exponentially with the embedding dimension $d$. Modern approximate nearest neighbor retrieval services rarely rely on branch-and-bound.
 
@@ -271,13 +273,14 @@ That is the theory, at least. For certain type of problems, sketching can result
 
 ## Books/Papers
 1. Bruch, S. (2024). Foundations of Vector Retrieval. [arXiv:2401.09350](https://arxiv.org/pdf/2401.09350).
-2. Coleman, B., Kang, W. C., Fahrbach, M., Wang, R., Hong, L., Chi, E., & Cheng, D. (2024). Unified Embedding: Battle-tested feature representations for web-scale ML systems. [NeurIPS](https://proceedings.neurips.cc/paper_files/paper/2023/file/afcac2e300bc243d15c25cd4f4040f0d-Paper-Conference.pdf).
-3. Zhang, H., Wang, S., Zhang, K., Tang, Z., Jiang, Y., Xiao, Y., ... & Yang, W. Y. (2020, July). Towards personalized and semantic retrieval: An end-to-end solution for e-commerce search via embedding learning. [SIGIR](https://arxiv.org/pdf/2006.02282).
+2. Huang, J. T., Sharma, A., Sun, S., Xia, L., Zhang, D., Pronin, P., ... & Yang, L. (2020). Embedding-based retrieval in Facebook search. KDD ([paper](https://arxiv.org/abs/2006.11632) + [code](https://github.com/liyinxiao/UnifiedEmbeddingModel)).
+3. Coleman, B., Kang, W. C., Fahrbach, M., Wang, R., Hong, L., Chi, E., & Cheng, D. (2024). Unified Embedding: Battle-tested feature representations for web-scale ML systems. [NeurIPS](https://proceedings.neurips.cc/paper_files/paper/2023/file/afcac2e300bc243d15c25cd4f4040f0d-Paper-Conference.pdf).
+4. Zhang, H., Wang, S., Zhang, K., Tang, Z., Jiang, Y., Xiao, Y., ... & Yang, W. Y. (2020, July). Towards personalized and semantic retrieval: An end-to-end solution for e-commerce search via embedding learning. [SIGIR](https://arxiv.org/pdf/2006.02282).
 
 ## Blog Posts
-4. [Contrastive Representation Learning](https://lilianweng.github.io/posts/2021-05-31-contrastive/) by Lilian Weng (2021)
-5. [Embedding-Based Retrieval for Search & Recommendation](https://medium.com/better-ml/embedding-learning-for-retrieval-29af1c9a1e65) by Jaideep Ray (2021)
-6. [Locality Sensitive Hashing (LSH): The Illustrated Guide](https://www.pinecone.io/learn/series/faiss/locality-sensitive-hashing/) by Pinecone
-7. [Hierarchical Navigable Small Worlds (HNSW)](https://www.pinecone.io/learn/series/faiss/hnsw/) by Pinecone
-8. [FAISS: The Missing Manual](https://www.pinecone.io/learn/series/faiss/) by Pinecone
-9. [Does Sketching Work?](https://huggingface.co/blog/ethanepperly/does-sketching-work) by Ethan N. Epperly (2023)
+5. [Contrastive Representation Learning](https://lilianweng.github.io/posts/2021-05-31-contrastive/) by Lilian Weng (2021)
+6. [Embedding-Based Retrieval for Search & Recommendation](https://medium.com/better-ml/embedding-learning-for-retrieval-29af1c9a1e65) by Jaideep Ray (2021)
+7. [Locality Sensitive Hashing (LSH): The Illustrated Guide](https://www.pinecone.io/learn/series/faiss/locality-sensitive-hashing/) by Pinecone
+8. [Hierarchical Navigable Small Worlds (HNSW)](https://www.pinecone.io/learn/series/faiss/hnsw/) by Pinecone
+9. [FAISS: The Missing Manual](https://www.pinecone.io/learn/series/faiss/) by Pinecone
+10. [Does Sketching Work?](https://huggingface.co/blog/ethanepperly/does-sketching-work) by Ethan N. Epperly (2023)
