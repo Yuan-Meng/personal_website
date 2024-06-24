@@ -22,7 +22,6 @@ include_toc: true
   <p>An embedding is a function $f: X \rightarrow Y$ between two topological spaces that is injective (one-to-one) and a homeomorphism onto its image, thus preserving the topological properties of $X$ within $Y$. This concept ensures that $X$ is mapped into $Y$ in a way that $X$'s structure — such as its continuity and open/closed set properties — is maintained exactly within the host structure $Y$</p>
 </details>
 
-
 <details>
   <summary><b>Machine learning</b></summary>
   <p>An embedding is a transformation $f: X \rightarrow \mathbb{R}^d$ that maps entities from a high-dimensional or abstract space $X$ (e.g., words, images, or graph nodes) to vectors in a lower-dimensional, continuous vector space $\mathbb{R}^d$. This mapping aims to preserve relevant properties of the original entities, such as similarity or relational structure, thereby enabling more effective computational manipulation and analysis.</p>
@@ -73,7 +72,7 @@ The startup Pinecone is a leading provider of web-scale commercial top-$k$ retri
 
 Finding top-$k$ points "closest" to the query point first requires a distance function. The figure below shows the 3 most popular choices (↓: minimize; ↑: maximize).
 
-{{< figure src="https://www.dropbox.com/scl/fi/hx955sne496k99umhqi7f/Screenshot-2024-04-21-at-4.24.45-PM.png?rlkey=sxnuzw2ve6tye9qjf1g8jrt3v&st=0og5opxa&raw=1" width="1000">}}
+{{< figure src="https://www.dropbox.com/scl/fi/hx955sne496k99umhqi7f/Screenshot-2024-04-21-at-4.24.45-PM.png?rlkey=sxnuzw2ve6tye9qjf1g8jrt3v&st=0og5opxa&raw=1" width="1000" caption="Distance Functions for Top-$k$ Retrieval (Bruch, 2024, Chapter 1, p. 8)">}}
 
 
 - **Euclidean distance** (↓): Straight line  from each point to the query point;
@@ -113,7 +112,7 @@ In this section, we review some common algorithms for approximate top-$k$ retrie
 
 Branch-and-bound is one of the earliest algorithms for top-$k$ vector retrieval. It proceeds in two phases: 1) Recursively **partitioning** the vector space $\mathcal{X}$ into smaller regions, marking region boundaries, and storing them in a binary search tree (BST), and 2) only **searching** regions that could contain vectors in the top $k$ solution set. 
 
-{{< figure src="https://www.dropbox.com/scl/fi/fxy7jr9oo6mac3j8ki0is/Screenshot-2024-04-21-at-5.56.57-PM.png?rlkey=ch8lg4imvf6xwrzecnwd662v5&st=wmmto60f&raw=1" width="400">}}
+{{< figure src="https://www.dropbox.com/scl/fi/fxy7jr9oo6mac3j8ki0is/Screenshot-2024-04-21-at-5.56.57-PM.png?rlkey=ch8lg4imvf6xwrzecnwd662v5&st=wmmto60f&raw=1" width="400" caption="The Branch-and-Bound Algorithms (Bruch, 2024, Chapter 4, p. 32)">}}
 
 
 - **Partitioning**: The original vector space is partitioned into a balanced binary search tree (BST), where each internal node has a decision boundary
@@ -137,7 +136,7 @@ Locality Sensitive Hashing (LSH) reduces the nearest neighbor search space by ha
 
 To reduce the reliance on one hash function, we can independently apply $L$ hash functions, each from a family of hash functions $h \in \mathcal{H}$, to map vectors into buckets (see this Pinecone [blog post](https://www.pinecone.io/learn/series/faiss/locality-sensitive-hashing/) for more details on hash functions). If a query is hashed into multiple buckets, then we search all these buckets to find nearest neighbors --- we sacrifice some efficiency in hopes to get more accurate results. 
 
-{{< figure src="https://www.dropbox.com/scl/fi/ibe1tr26h3k3pszf0lf17/Screenshot-2024-06-22-at-11.36.15-PM.png?rlkey=niw2bpqcztfc6xbevjmei8jni&st=klehneyl&raw=1" width="600">}}
+{{< figure src="https://www.dropbox.com/scl/fi/ibe1tr26h3k3pszf0lf17/Screenshot-2024-06-22-at-11.36.15-PM.png?rlkey=niw2bpqcztfc6xbevjmei8jni&st=klehneyl&raw=1" width="600" caption="Locality Sensitive Hashing (LSH) Algorithm (Bruch, 2024, Chapter 5, p. 58)">}}
 
 
 ### Graph Algorithms (e.g., HNSW)
@@ -156,7 +155,7 @@ Whatever graph we decide to construct, it needs to support "best-first search", 
   - **Hop**: If a $N(u)$ is closer to $q$ than $u$, then hop to the closest neighbor; 
 - **Iteration**: Repeat until the terminal condition is met.
 
-{{< figure src="https://www.dropbox.com/scl/fi/s5j2ithac4ukhiys5hcj7/Screenshot-2024-06-23-at-9.31.14-AM.png?rlkey=vn5kkouxd4w9ilqvzrpgi8u3x&st=e71z747p&raw=1" width="600">}}
+{{< figure src="https://www.dropbox.com/scl/fi/s5j2ithac4ukhiys5hcj7/Screenshot-2024-06-23-at-9.31.14-AM.png?rlkey=vn5kkouxd4w9ilqvzrpgi8u3x&st=e71z747p&raw=1" width="600" caption="The Greedy Best-First-Search Algorithm (Bruch, 2024, Chapter 6, p. 74)">}}
 
 Below is a toy implementation to sketch out the algorithm we just described:
 
@@ -227,7 +226,7 @@ If a graph cannot get us spatially closer to the solution with each hop, then it
 - **Voronoi diagram**: The space $\mathbb{R}^d$ is partitioned into unique regions $\mathcal{R} = \bigcup_{u \in \mathcal{X}} \mathcal{R}_u$, where each region $\mathcal{R}_u$ is owned by $u \in \mathcal{X}$ and consists of $u$'s nearest neighbors;
 - **Delaunay graph**: An undirected graph that connects nodes $u$ and $v$ in the Voronoi diagram if their Voronoi regions have a non-empty intersection, $\mathcal{R}_u \cap \mathcal{R}_u \neq  \emptyset$.
 
-{{< figure src="https://www.dropbox.com/scl/fi/xlvcadtk361kqxpyuxt0p/Screenshot-2024-06-23-at-9.29.58-AM.png?rlkey=w9hwdwwkdj6ot2g5dkhcpjmjj&st=jvgy6y7w&raw=1" width="600">}}
+{{< figure src="https://www.dropbox.com/scl/fi/xlvcadtk361kqxpyuxt0p/Screenshot-2024-06-23-at-9.29.58-AM.png?rlkey=w9hwdwwkdj6ot2g5dkhcpjmjj&st=jvgy6y7w&raw=1" width="600" caption="The Delaunay Graph and the Voronoi Diagram (Bruch, 2024, Chapter 6, p. 77)">}}
 
 If we pick an entry node far from the answer, then we must traverse all Voronoi regions in between to get there. To speed up traversal, we can add long-range edges between non-Voronoi neighbors to skip over certain regions. The question is, which long-range edges should we add? In his seminal *Nature* paper, [Kleinberg (2000)](https://www.nature.com/articles/35022643) proposed a probabilistic approach based on the lattice network:
 
@@ -235,7 +234,7 @@ If we pick an entry node far from the answer, then we must traverse all Voronoi 
 - **Node distance**: The distance between two nodes $u$ and $v$ are defined by their Manhattan distance, $\delta (u, v) = \lVert u - v \rVert_1$;
 - **Edge probability**: Form a long-distance edge between $u$ and $v$ with probability proportional to $\delta (u, v)^{- \alpha}$, where $\alpha \geq$ is a hyperparameter that controls the bias to forming a long-range connection (higher $\alpha$ favors longer distances).
 
-{{< figure src="https://www.dropbox.com/scl/fi/rovai3146q4nvklhda978/Screenshot-2024-06-23-at-11.30.52-AM.png?rlkey=9rubh46vnleftougo1ytos5sf&st=1d2jinnh&raw=1" width="600">}}
+{{< figure src="https://www.dropbox.com/scl/fi/rovai3146q4nvklhda978/Screenshot-2024-06-23-at-11.30.52-AM.png?rlkey=9rubh46vnleftougo1ytos5sf&st=1d2jinnh&raw=1" width="600" caption="Forming Long-Distance Edges in the Lattice Network (Bruch, 2024, Chapter 6, p. 88)">}}
 
 With long-distance edges, the average number of hops required to go from one node to another significantly drops --- an observation dubbed as the "small world phenomenon". The resulting Navigable Small World (NSW) graphs are the basic of the Hierarchical Navigable Small World (HNSW) algorithm that allows for remarkably fast nearest neighbor search. You can find more details on HNSW in this Pinecone [post](https://www.pinecone.io/learn/series/faiss/hnsw/).
 
@@ -244,7 +243,7 @@ With long-distance edges, the average number of hops required to go from one nod
 
 The motivation behind clustering is similar to that behind hashing, but instead of using a hash function to map vectors into buckets, we can use a clustering function (e.g., KMeans) to map vectors into clusters, $\xi : \mathbb{R}^d \to [C]$. At retrieval time, we apply a routing function, $\tau : \mathbb{R}^d \to [C]^{l}$, to return top-$l$ clusters whose centroids are the closest to the query vector $q$, and then search for top-$k$ neighbors over the union of top-$l$ clusters. This is the main idea behind [Facebook AI Similarity Search (FAISS)](https://www.pinecone.io/learn/series/faiss/faiss-tutorial/), perhaps the most popular approximate retrieval algorithm today.
 
-{{< figure src="https://www.dropbox.com/scl/fi/ka38302lxoo46pnd2xswg/Screenshot-2024-06-23-at-1.36.11-PM.png?rlkey=s1tvwknbb82a2ktzl3ttlvb51&st=s5cqpozw&raw=1" width="600">}}
+{{< figure src="https://www.dropbox.com/scl/fi/ka38302lxoo46pnd2xswg/Screenshot-2024-06-23-at-1.36.11-PM.png?rlkey=s1tvwknbb82a2ktzl3ttlvb51&st=s5cqpozw&raw=1" width="600" caption="Clustering Algorithms for Top-$l$ and Top-$k$ Retrieval (Bruch, 2024, Chapter 7, p. 106)">}}
 
 For clustering algorithms to work, the data we search over must follow a multi-modal distribution --- which is fortunately usually the case with real-world data.
 
