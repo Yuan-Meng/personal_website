@@ -55,7 +55,7 @@ ByteRec only has a couple of features, a simplification from real search/feed lo
 
 # The Code ([DeepCTR-Torch](https://github.com/shenweichen/DeepCTR-Torch))
 
-For learning deep learning ranking model architectures, I find [DeepCTR-Torch](https://github.com/shenweichen/DeepCTR-Torch) (TensorFlow version: [DeepCTR](https://github.com/shenweichen/DeepCTR)) highly educational. The repo covers SOTA models spanning the last decade (e.g., Deep & Cross, DCN, DCN v2, DIN, DIEN, PNN, MMoE, etc.), even though it may not have the full functionalities needed by production-grade rankers (e.g., hash encoding for ID features). I recommend reading the [doc](https://deepctr-torch.readthedocs.io/en/latest/index.html) and the code. 
+For learning deep learning ranking model architectures, I find [DeepCTR-Torch](https://github.com/shenweichen/DeepCTR-Torch) (TensorFlow version: [DeepCTR](https://github.com/shenweichen/DeepCTR)) highly educational. The repo covers SOTA models spanning the last decade (e.g., Deep & Cross, DCN, DCN v2, DIN, DIEN, PNN, MMoE, etc.), even though it may not have the full functionalities needed by production-grade rankers (e.g., hash encoding for ID features). There is a [doc](https://deepctr-torch.readthedocs.io/en/latest/index.html) accompanying the code. 
 
 Below, I'll explain the MMoE [architecture](https://github.com/shenweichen/DeepCTR-Torch/blob/master/deepctr_torch/models/multitask/mmoe.py) and how it was used in the example [training script](https://github.com/shenweichen/DeepCTR-Torch/blob/master/examples/run_multitask_learning.py) the author provided. As with *The Annotated Transformer*, this post aims not to create an original implementation, but to provide a line-by-line explanation of an existing one. Please find my commented code in this Colab [notebook](https://colab.research.google.com/drive/1hA9K8cexY6hDLTGpYw1Dw-1kDvgIeJ_u?usp=sharing).
 
@@ -149,7 +149,7 @@ data[dense_features] = mms.fit_transform(data[dense_features])
 
 If exact values don't matter, we can discretize dense features into buckets (e.g., age $\rightarrow$ age groups) and process them as categorical (e.g., one-hot encoding).
 
-### Generate Training Data
+### Create Training Data
 
 Different deep learning libraries expect input data to be in different formats. DeepCTR-Torch uses [named tuples](https://stackoverflow.com/questions/2970608/what-are-named-tuples-in-python) such as `SparseFeat` and `DenseFeat`  to store feature metadata such as names, data types, dimensions, *etc.*. See definitions [here](https://github.com/shenweichen/DeepCTR-Torch/blob/master/deepctr_torch/inputs.py). 
 
@@ -185,7 +185,7 @@ train, test = data[:split_boundary], data[split_boundary:]
 # get feature names
 feature_names = get_feature_names(linear_feature_columns + dnn_feature_columns)
 
-# prepare input dicts: {feature name : feature vector}
+# prepare input dicts: {feature name : feature list}
 train_model_input = {name: train[name] for name in feature_names}
 test_model_input = {name: test[name] for name in feature_names}
 ```
@@ -194,7 +194,7 @@ test_model_input = {name: test[name] for name in feature_names}
 
 ### Set Up Environment
 
-We can use GPU for training whenever available; otherwise, we use CPU instead:
+We use GPU for training whenever available; otherwise, we use CPU instead:
 
 ```python
 device = "cpu"
@@ -205,6 +205,10 @@ if use_cuda and torch.cuda.is_available():
 ```
 
 ### Instantiate the Model
+
+I will explain the inner working of the `MMOE` model class in the [next section](https://www.yuan-meng.com/posts/mtml/#the-anatomy-of-the-mmoe-class). 
+
+To instantiate a new model, we need to provide a feature column list for the "deep" part of the network (our version of MMoE doesn't have a "wide" part), a list of task types (`binary` or `regression`), L2 regularization strength, and the names of the tasks (e.g., `["finish", "share"]`), and so on. In the DeepCTR-Torch API, we need to run `model.compile()` to specify the optimizer, the loss function for each task, and metrics to monitor during training before we can train the model.
  
 ```python
 # instantiate a MMoE model
@@ -216,7 +220,7 @@ model = MMOE(
     device=device,
 )
 
-# specify optimizer, loss functions for each task, and metrics to monitor during training
+# specify optimizer, loss functions for each task, and metrics
 model.compile(
     "adagrad",
     loss=["binary_crossentropy", "binary_crossentropy"],
@@ -226,12 +230,15 @@ model.compile(
 
 ### Train the Model
 
+The model training and inference API adopts the common `fit` and `predict` methods. `model.fit` takes a dictionary as features (`{feature name: feature list}`) and an `n`-dimensional array as targets (`n` being the number of tasks), along with training setup details (e.g., batch size, number of epochs, output verbosity, etc.). `model.predict` takes a similar dictionary as features and the inference batch size, and it outputs predictions for each task (dimension: `[batch_size, num_tasks]`).
+
 ```python
+# fit model to training data
 history = model.fit(
     train_model_input, train[target].values, batch_size=32, epochs=10, verbose=2
 )
-# batch size: 256
-pred_ans = model.predict(test_model_input, 256)
+# generate predictions for test data
+pred_ans = model.predict(test_model_input, 256) # inference batch size: 256
 print("")
 for i, target_name in enumerate(target):
     log_loss_value = round(log_loss(test[target[i]].values, pred_ans[:, i]), 4)
@@ -243,7 +250,10 @@ for i, target_name in enumerate(target):
 
 ## The Anatomy of the `MMOE` Class
 
-{{< figure src="https://www.dropbox.com/scl/fi/f1ug02fqo56tp45e1ny4l/Screenshot-2024-07-04-at-5.00.59-PM.png?rlkey=wypm9nfd7ejnbqs4rrcf6cn42&st=nfawbdlb&raw=1" width="1000">}}
+{{< figure src="https://www.dropbox.com/scl/fi/644b2o0qn6unmjcvzebk1/Screenshot-2024-07-05-at-1.19.37-PM.png?rlkey=lhpc6i3mebw2p28sdfh5asz74&st=smyl06ao&raw=1" width="1000">}}
+
+### Model Inputs
+
 
 ### Expert Networks
 
