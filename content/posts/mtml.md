@@ -250,23 +250,22 @@ for i, target_name in enumerate(target):
 
 ## The Anatomy of the `MMOE` Class
 
+The "meat" of this post is the class definition of the `MMOE` model. You can find the source code [here](https://github.com/shenweichen/DeepCTR-Torch/blob/master/deepctr_torch/models/multitask/mmoe.py). The snippet below includes comments added by me. The model design is a faithful translation of the MMoE architecture (doodles also by me):
+
 {{< figure src="https://www.dropbox.com/scl/fi/644b2o0qn6unmjcvzebk1/Screenshot-2024-07-05-at-1.19.37-PM.png?rlkey=lhpc6i3mebw2p28sdfh5asz74&st=smyl06ao&raw=1" width="1000">}}
 
-### Model Inputs
+- **Input**: For each training instance, embeddings are flattened and concatenated with dense features into a single vector, which feeds into gates and experts.
+- **Expert outputs**: Each expert gets the same input and generates an vector output.
+- **Gating outputs**: Each gate gets the same input and generates a scalar weight for each expert; for each gate, the weights of all experts sum up to 1.
+- **MMoE outputs**: For each task, we use the corresponding gate network to output a weighted sum of expert outputs, which is the input to the task-specific tower. 
+- **Task outputs**: Each tower gets a task-specific input and generates an output. 
 
 
-### Expert Networks
-
-### Gating Networks
-
-### Tower Networks
-
-
-As [Zhe Wang](https://wzhe.me/) put it in his [Deep Learning Recommender System](https://a.co/d/0dAigk02) book, modern deep learning ranker architectures often descended from the Wide & Deep network ([Cheng et al., 2016](https://arxiv.org/pdf/1606.07792.pdf)), with improvements either in the deep part or the wide part. In DeepCTR-Torch, shared components are largely captured in the [`BaseModel`](https://github.com/shenweichen/DeepCTR-Torch/blob/master/deepctr_torch/models/basemodel.py) class to avoid redundancies. The `MMOE` inherets from the
+Now, let's digest the model code bit by bit. You can read it in its entirety first:
 
 ```python
 class MMOE(BaseModel):
-    """instantiates the multi-gate mixture-of-experts architecture.
+    """Instantiates the multi-gate mixture-of-experts architecture.
 
     :param dnn_feature_columns: an iterable containing all the features used by deep part of the model.
     :param num_experts: integer, number of experts.
@@ -291,30 +290,26 @@ class MMOE(BaseModel):
 
     def __init__(
         self,
-        dnn_feature_columns,  # a list feature used by the deep par
-        num_experts=3,  # 3 experts
+        dnn_feature_columns,  # a list feature used by the deep part
+        num_experts=3,  # number of experts
         expert_dnn_hidden_units=(256, 128),  # each expert dnn has 2 layers
         gate_dnn_hidden_units=(64,),  # each gate dnn has 1 layer
         tower_dnn_hidden_units=(64,),  # each tower dnn has 1 layer
         l2_reg_linear=0.00001,  # l2 regularizer strength for linear part
-        l2_reg_embedding=0.00001,  # l2 regularizer strength for emb part
-        l2_reg_dnn=0,  # l2 regularizer strength for DNN part
-        # params for weight initialization
+        l2_reg_embedding=0.00001, # l2 regularizer strength for emb part
+        l2_reg_dnn=0, # l2 regularizer strength for DNN part
         init_std=0.0001,
         seed=1024,
-        # params for the dnn parts
         dnn_dropout=0,
         dnn_activation="relu",
         dnn_use_bn=False,  # whether to use batch norm
-        # params for outputs
         task_types=("binary", "binary"),
         task_names=("ctr", "ctcvr"),
-        # training device setup
         device="cpu",
         gpus=None,
     ):
         super(MMOE, self).__init__(
-            linear_feature_columns=[],  # this toy model only has deep part
+            linear_feature_columns=[],
             dnn_feature_columns=dnn_feature_columns,
             l2_reg_linear=l2_reg_linear,
             l2_reg_embedding=l2_reg_embedding,
@@ -326,30 +321,31 @@ class MMOE(BaseModel):
         self.num_tasks = len(task_names)  # infer task count from task names
 
         # performs input validations
-        # multi-task model must have multiple tasks
         if self.num_tasks <= 1:
-            raise ValueError("num_tasks must be greater than 1")
-        # multi-expert model must have multiple experts
+            raise ValueError(
+                "num_tasks must be greater than 1"
+            )  # multi-task model must have multiple tasks
         if num_experts <= 1:
-            raise ValueError("num_experts must be greater than 1")
-        # the deep part must have features
+            raise ValueError(
+                "num_experts must be greater than 1"
+            )  # multi-expert model must have multiple experts
         if len(dnn_feature_columns) == 0:
-            raise ValueError("dnn_feature_columns is null!")
-        # make sure we specify a type for each task
+            raise ValueError(
+                "dnn_feature_columns is null!"
+            )  # the deep part must have features
         if len(task_types) != self.num_tasks:
-            raise ValueError("num_tasks must be equal to the length of task_types")
-        # make sure task type is valid
+            raise ValueError(
+                "num_tasks must be equal to the length of task_types"
+            )  # make sure we specify a type for each task
         for task_type in task_types:
             if task_type not in ["binary", "regression"]:
                 raise ValueError(
                     f"task must be binary or regression, {task_type} is illegal"
-                )
+                )  # make sure task type is valid
 
         self.num_experts = num_experts
         self.task_names = task_names
-        self.input_dim = self.compute_input_dim(
-            dnn_feature_columns
-        )  # dimension of the entire input vector
+        self.input_dim = self.compute_input_dim(dnn_feature_columns)  
         self.expert_dnn_hidden_units = expert_dnn_hidden_units
         self.gate_dnn_hidden_units = gate_dnn_hidden_units
         self.tower_dnn_hidden_units = tower_dnn_hidden_units
@@ -472,7 +468,7 @@ class MMOE(BaseModel):
         sparse_embedding_list, dense_value_list = self.input_from_feature_columns(
             X, self.dnn_feature_columns, self.embedding_dict
         )
-        # concate feature lists into input to deep part
+        # concat features into a single vector for each instance
         dnn_input = combined_dnn_input(sparse_embedding_list, dense_value_list)
 
         # expert dnn: collect output from each expert
@@ -514,7 +510,215 @@ class MMOE(BaseModel):
         return task_outs
 ```
 
+When coding up deep learning models, I think of the constructor (`def __init__`) as the LEGO blocks: You specify what the pieces are and the properties of each piece, so that later you can use them at your disposal. The `forward` pass is the building process --- you put the pieces together in a specific way, to allow the data (`X`) to flow through the network architecture and return the output. For each component, we'll look at the LEGO pieces and how they are used in the `forward` method.
+
+### Model Inputs
+
+`MMOE` inherits from `BaseModel` ([code](https://github.com/shenweichen/DeepCTR-Torch/blob/master/deepctr_torch/models/basemodel.py)), which contains components and methods shared by various model architectures. It uses the `input_from_feature_columns` method from `BaseModel` and the `combined_dnn_input` function from the `inputs` [module](https://github.com/shenweichen/DeepCTR-Torch/blob/master/deepctr_torch/inputs.py) to process the raw input into a format that can be consumed by the DNN model.
+
+
+```python
+# list of embedding and dense feature values
+sparse_embedding_list, dense_value_list = self.input_from_feature_columns(
+    X, self.dnn_feature_columns, self.embedding_dict
+)
+# concat feature lists into input for the deep part
+dnn_input = combined_dnn_input(sparse_embedding_list, dense_value_list)
+```
+
+The `input_from_feature_columns` method first identifies which features are sparse and which are dense. For sparse features, it performs a lookup. For each `embedding_name` (e.g., `uid`), it finds the embedding matrix, and then for a given feature value (a particular `uid`), it retrieves the corresponding embedding vector. The output is a list of embedding vectors (`sparse_embedding_list`: `[emb1, emb2, emb3, ...]`). For dense features, it returns a list of scalars (`dense_value_list`: `[val1, val2, val3, ...]`). These two lists are returned separately.
+
+
+```python
+def input_from_feature_columns(self, X, feature_columns, embedding_dict, support_dense=True):
+
+    sparse_feature_columns = list(
+        filter(lambda x: isinstance(x, SparseFeat), feature_columns)) if len(feature_columns) else []
+    dense_feature_columns = list(
+        filter(lambda x: isinstance(x, DenseFeat), feature_columns)) if len(feature_columns) else []
+
+    varlen_sparse_feature_columns = list(
+        filter(lambda x: isinstance(x, VarLenSparseFeat), feature_columns)) if feature_columns else []
+
+    if not support_dense and len(dense_feature_columns) > 0:
+        raise ValueError(
+            "DenseFeat is not supported in dnn_feature_columns")
+
+    sparse_embedding_list = [embedding_dict[feat.embedding_name](
+        X[:, self.feature_index[feat.name][0]:self.feature_index[feat.name][1]].long()) for
+        feat in sparse_feature_columns]
+
+    sequence_embed_dict = varlen_embedding_lookup(X, self.embedding_dict, self.feature_index,
+                                                  varlen_sparse_feature_columns)
+    varlen_sparse_embedding_list = get_varlen_pooling_list(sequence_embed_dict, X, self.feature_index,
+                                                           varlen_sparse_feature_columns, self.device)
+
+    dense_value_list = [X[:, self.feature_index[feat.name][0]:self.feature_index[feat.name][1]] for feat in
+                        dense_feature_columns]
+
+    return sparse_embedding_list + varlen_sparse_embedding_list, dense_value_list
+```
+
+
+Then the `combined_dnn_input` function takes the two feature lists as inputs and outputs a matrix (`[batch_size, input_dim]`), where each row is a feature vector with all embeddings and dense features concatenated together:
+
+- `sparse_dnn_input`: Concatenate sparse embeddings in `sparse_embedding_list` along the last dimension; flatten the result starting from the 2nd dimension.
+- `dense_dnn_input`: Concatenate  dense values in `dense_value_list` along the last dimension; flatten the result starting from the 2nd dimension. 
+- `dnn_input`: Concatenate `sparse_dnn_input` (if available) and `dense_dnn_input` (if available) along the feature dimension; one of them must be available.
+
+```python
+def combined_dnn_input(sparse_embedding_list, dense_value_list):
+    if len(sparse_embedding_list) > 0 and len(dense_value_list) > 0:
+        sparse_dnn_input = torch.flatten(
+            torch.cat(sparse_embedding_list, dim=-1), start_dim=1)
+        dense_dnn_input = torch.flatten(
+            torch.cat(dense_value_list, dim=-1), start_dim=1)
+        return concat_fun([sparse_dnn_input, dense_dnn_input])
+    elif len(sparse_embedding_list) > 0:
+        return torch.flatten(torch.cat(sparse_embedding_list, dim=-1), start_dim=1)
+    elif len(dense_value_list) > 0:
+        return torch.flatten(torch.cat(dense_value_list, dim=-1), start_dim=1)
+    else:
+        raise NotImplementedError
+```
+
+### Expert Networks
+
+In this implementation, each expert network is a two-layer fully connected DNN. The first layer has 256 neurons, and the second has 128, as specified in `expert_dnn_hidden_units=(256, 128)`; they are connected by ReLU activation. `nn.ModuleList` stores and manages a list of expert networks as a single module.
+
+```python
+self.expert_dnn = nn.ModuleList(
+    [
+        DNN(
+            self.input_dim,
+            expert_dnn_hidden_units,
+            activation=dnn_activation,
+            l2_reg=l2_reg_dnn,
+            dropout_rate=dnn_dropout,
+            use_bn=dnn_use_bn,
+            init_std=init_std,
+            device=device,
+        )
+        for _ in range(self.num_experts)
+    ]
+)
+```
+
+Each expert network processes `dnn_input` independently. Outputs from all experts are returned in a matrix of dimension `[batch_size, num_experts, output_dim]`.
+
+```python
+expert_outs = []
+for i in range(self.num_experts):
+    expert_out = self.expert_dnn[i](dnn_input)
+    expert_outs.append(expert_out)
+expert_outs = torch.stack(expert_outs, 1)
+```
+
+### Gating Networks
+
+The gating network has a simpler structure than the expert network --- each gate is a one-layer DNN with 64 neurons, as specified in `gate_dnn_hidden_units=(64,)`. 
+
+```python3
+self.gate_dnn = nn.ModuleList(
+    [
+        DNN(
+            self.input_dim,
+            gate_dnn_hidden_units,
+            activation=dnn_activation,
+            l2_reg=l2_reg_dnn,
+            dropout_rate=dnn_dropout,
+            use_bn=dnn_use_bn,
+            init_std=init_std,
+            device=device,
+        )
+        for _ in range(self.num_tasks)
+    ]
+)
+```
+
+The output from each gating network is passed to a linear layer to generate the weight of each expert that will be used in to combine expert outputs in each task.
+
+```python3
+self.gate_dnn_final_layer = nn.ModuleList(
+    [
+        nn.Linear(
+            gate_dnn_hidden_units[-1]
+            if len(gate_dnn_hidden_units) > 0
+            else self.input_dim,
+            self.num_experts,
+            bias=False,
+        )
+        for _ in range(self.num_tasks)
+    ]
+)
+```
+
+Each gate takes `dnn_input` and outputs expert-specific weights, which are then multiplied with expert outputs to get the input for the corresponding tower.  
+
+```python3
+mmoe_outs = []
+for i in range(self.num_tasks):
+    if (
+        len(self.gate_dnn_hidden_units) > 0
+    ):  # input => gate dnn => final gate layer
+        gate_dnn_out = self.gate_dnn[i](dnn_input)
+        gate_dnn_out = self.gate_dnn_final_layer[i](gate_dnn_out)
+    else:  # input => final gate layer
+        gate_dnn_out = self.gate_dnn_final_layer[i](dnn_input)
+    # performs matrix multiplication between post-softmax gate dnn output and expert outputs
+    gate_mul_expert = torch.matmul(
+        gate_dnn_out.softmax(1).unsqueeze(1), expert_outs
+    )  # (bs, 1, dim)
+    mmoe_outs.append(gate_mul_expert.squeeze())
+```
+
+### Tower Networks
+
+Similar to the gating networks above, each tower network is also a one-layer DNN with 64 neurons, as specified in `gate_dnn_hidden_units=(64,)`.
+
+```python
+self.tower_dnn = nn.ModuleList(
+    [
+        DNN(
+            expert_dnn_hidden_units[-1],
+            tower_dnn_hidden_units,
+            activation=dnn_activation,
+            l2_reg=l2_reg_dnn,
+            dropout_rate=dnn_dropout,
+            use_bn=dnn_use_bn,
+            init_std=init_std,
+            device=device,
+        )
+        for _ in range(self.num_tasks)
+    ]
+)
+```
+
+The output from each tower is passed to a linear layer to generate the final prediction for a given task. Results of all tasks are collected in a `nn.ModuleList`. 
+
+```python
+# a list of linear layers, one for each task
+self.tower_dnn_final_layer = nn.ModuleList(
+    [
+        nn.Linear(
+            tower_dnn_hidden_units[-1]
+            if len(tower_dnn_hidden_units) > 0
+            else expert_dnn_hidden_units[-1],
+            1,
+            bias=False,
+        )
+        for _ in range(self.num_tasks)
+    ]
+)
+# each task type has an output
+self.out = nn.ModuleList([PredictionLayer(task) for task in task_types])
+```
+
+During training ([`fit`](https://github.com/shenweichen/DeepCTR-Torch/blob/master/deepctr_torch/models/basemodel.py) in `BaseModel`), the total loss from all tasks and regularization is used to compute gradients and update weights --- `total_loss.backward()`. 
+
 # Read More
-1. Ranking papers
-2. DeepCTR
-3. Meta E7
+
+Personally, I think deep learning ranking expertise is harder to come by than deep learning NLP expertise. Companies of any size can support fine-tuning "classic" NLP models such as BERT or BART, but many tech companies are still using Gradient Boosted Decision Trees (GBDT) in their ranking stack and struggling with the transition to deep learning. I'll be collecting sources as I learn more. Below are some resources I find particularly useful at this moment:
+
+1. [Ranking papers](https://github.com/liyinxiao/Ranking_Papers): A repository curated by a Meta engineer, collecting industry papers published by Meta, Airbnb, Amazon, and many more.
+2. Gaurav Chakravorty's [repo](https://github.com/gauravchak): Toy models created by a Meta E7 for educational purposes.
