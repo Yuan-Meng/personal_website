@@ -16,7 +16,7 @@ include_toc: true
 
 ## Two-Stage Architecture
 
-The iconic YouTube paper ([Covington et al., 2016](https://research.google/pubs/deep-neural-networks-for-youtube-recommendations/)) introduced a two-stage architecture, which since became the industry standard for large-scale recommender systems: 
+The iconic YouTube paper ([Covington et al., 2016](https://research.google/pubs/deep-neural-networks-for-youtube-recommendations/)) introduced a two-stage architecture that since became the industry standard for large-scale recommender systems: 
 
 - **Retrieval** (a.k.a. "candidate generation"): Use a lightweight model to quickly select top k (in the hundreds or thousands) candidates from a large item corpus
 - **Ranking** (a.k.a. "reranking"): Use a heavier model to rerank retrieved candidates so that the final candidates (in the dozens) maximize the target action probability (e.g., an ads click, a listing booking, a video watch, *etc.*)
