@@ -25,7 +25,7 @@ The iconic YouTube paper ([Covington et al., 2016](https://research.google/pubs/
 
 ## Two-Tower Network for Retrieval
 
-Reranking models are highly customized for each product at each company, since we need to tailor the ranking objective to bespoke business objectives and can afford complex models on a small candidate pool. For retrieval, the two-tower network is more or less the go-to choice at many companies to maximize Recall@k efficiently. 
+Reranking models are highly customized for each product at each company, since we need to tailor the ranking objective to bespoke business objectives and can afford complex models on a small candidate pool. For retrieval, the two-tower network is more or less the go-to choice at many companies to efficiently maximize Recall@k. 
 
 The high-level idea is to encode the *query* (e.g., literally a query in search; a user or a user action sequence in recommendation) and *item* using two deep neural networks that halve in the number of hidden units from one layer to the next (resembling a "tower"). During training, the two-tower network learns to pull embeddings of positive \<query, item\> pairs closer and push negative pairs apart.
 
@@ -40,7 +40,11 @@ Positive \<query, item\> pairs are "facts" in the data, such as an app a user do
 
 ## Recommendation as Classification
 
-In a recommender system, retrieval can be framed as an extreme multi-class classification problem: Given a context $c$ (e.g., a search query or a user), we want to predict the probability of a given item $i$ from the corpus $I$, $p(i | c) = \frac{\exp{\epsilon (c, i)}}{\sum_{i \in I} \exp{\epsilon (c, i)}}$, where $\epsilon (c, i)$ measures how close $i$ is to $c$. For those from an NLP background, such framing is exactly the same as *[language modeling](https://paperswithcode.com/task/language-modelling)*: Given a sequence of tokens $x_{0:t - 1}$, we want to predict the probability of the next token $x_t$ from the vocabulary $X$. 
+In a recommender system, retrieval can be framed as an extreme multi-class classification problem: Given a context $c$ (e.g., a search query or a user), we want to predict the probability of a given item $i$ from the corpus $I$, 
+
+$$p(i | c) = \frac{\exp{\epsilon (c, i)}}{\sum_{i \in I} \exp{\epsilon (c, i)}},$$
+
+where $\epsilon (c, i)$ measures how close $i$ is to $c$. For those from an NLP background, such framing is exactly the same as *[language modeling](https://paperswithcode.com/task/language-modelling)*: Given a sequence of tokens $x_{0:t - 1}$, we want to predict the probability of the next token $x_t$ from the vocabulary $X$. 
 
 In natural languages, vocabulary sizes are typically in the tens of thousands (e.g., 30,522 in [original BERT](https://arxiv.org/abs/1810.04805), 40,478 in [original GPT](https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf)), making it already too expensive to consider the entire vocabulary when we compute token probabilities. A large-scale recommender system can have billions of items (Netflix is an exception with <10k titles), making exhaustive softmax computation outright intractable.
 
