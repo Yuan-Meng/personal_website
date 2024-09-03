@@ -139,11 +139,19 @@ The 3 sampling approaches above (DNS, BNS, MNS) are all static samplers, since t
 
 ## Facebook People Search
 
+> **Highlights**: XXX
+
 ## LinkedIn Job Search
+
+> **Highlights**: XXX
 
 ## JD.com Product Search
 
+> **Highlights**: XXX
+
 ## Amazon Product Search
+
+> **Highlights**: XXX
 
 
 # Learn More
