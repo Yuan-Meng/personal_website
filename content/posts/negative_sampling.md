@@ -39,9 +39,7 @@ Intuitively, if item $y_i$ is positive for query $x_i$, $s(x_i, y_i)$ should be 
 
 Formally, we can frame retrieval as extreme multi-class classification: Given the query $x_i$, predict the probability of selecting each item $y_j$ from $M$ items $\\{y_j\\}_{j=1}^M$ ---
 
-
 $$p(y_i | x_i; \theta) = \frac{e^{s (x_i, y_i)}}{\sum_{j \in \[M\]} e^{s (x_i, y_j)}},$$
-
 
 where $\theta$ is the model parameters. Each pair of query $x_i$ and item $y_i$ is associated with a reward $r_i \in \mathbb{R}$ denoting binary (1: positive; 0: negative) or varying degrees of user engagement. A common setup in training is that for each $x_i$, only $y_i$ is positive, whereas every $y_{i \neq j}$ is negative. A good model should predict $p(y_i | x_i; \theta) > p(y_j | x_i; \theta)$ for all $j \neq i$. How "wrong" $p(y_i | x_i; \theta)$ is can be given by the softmax loss:
 
@@ -56,7 +54,6 @@ A neat solution is *negative sampling* (or ["candidate sampling"](https://www.te
 # Negative Sampling Approaches
 
 Xu et al.'s (2022) [review paper](https://arxiv.org/abs/2206.00212) organizes negative sampling approaches into the following taxonomy and distills 4 principles of what makes a good negative sampler:
-
 
 {{< figure src="https://www.dropbox.com/scl/fi/dez9g6p5enhzq7eagllom/Screenshot-2024-09-01-at-11.16.27-PM.png?rlkey=ye85jjtq09rhythgb6cmfqo9x&st=ltmulfdi&raw=1" width="800">}}
 
@@ -96,13 +93,11 @@ There are 2 popular ways to correct for sampling bias in BNG:
 1. **logQ correction**: Correct the model logit to $s^c(x_i, y_j) = s(x_i, y_i) - \log Q(i)$, where $Q(i)$ is the sampling probability of item $j$, given by $\frac{\mathrm{count}(i)}{\sum_j \mathrm{count}(i)}$ 👉 **motivation**: Avoid over-penalizing popular items, or at least to a lesser degree
 2. **Mixed Negative Sampling**: Sample additional negatives and combine them with BNS 👉 **motivation**: The model gets to see more negatives from other distributions 
 
-
 > <span style="background-color: #FDB515"><b>Performance review:</b></span> Super popular, but requires bias correction
 > 1. **Efficient** ✅: Can get all negatives from the mini-batch
 > 2. **Effective** 🤔: Over-penalizes popular items without correction
 > 3. **Stable** ✅: No additional setup to make BNS work in new corpuses
 > 3. **Data-independent** ✅: BNS doesn't rely on side information
-
 
 ## Mixed Negative Sampling (MNS)
 
@@ -134,8 +129,8 @@ The 3 sampling approaches above (DNS, BNS, MNS) are all static samplers, since t
 > 3. **Stable** ❌: Sample selection is highly reliant on the model 
 > 3. **Data-independent** ❌: The model *is* the sampler and may use "side info"
 
-
 # Case Studies
+
 
 ## Social Media
 
@@ -174,13 +169,29 @@ When first deployed, EBR failed to beat the baseline. The team found 2 solutions
 
 ## E-Commerce
 
-### JD.com Product Search (SIGIR 2020)
+### JD.com Product Search ([SIGIR 2020](https://dl.acm.org/doi/abs/10.1145/3397271.3401446))
 
-> <span style="background-color: #E31D1A"><b>Highlight:</b></span> XX
+> <span style="background-color: #E31D1A"><b>Highlight:</b></span> The author crafted a multi-head design for the query tower to capture *polysemy* (one word can have different semantics --- e.g., "apple" can either be an electronics brand or a fruit) and generalized the scoring function in the two-tower network output from dot product to attention
 
-### Amazon Product Search (KDD 2019)
+{{< figure src="https://www.dropbox.com/scl/fi/fliq5gl9po3863xmn7kom/Screenshot-2024-09-02-at-7.44.08-PM.png?rlkey=9xkry47poqxy9zuqov49e34ru&st=l3kmiqpy&raw=1" width="1500">}}
 
-> <span style="background-color: #ff9900"><b>Highlight:</b></span> XX
+The two-tower output scoring function $s(x, y) = \langle u(x, \theta), v(y, \theta) \rangle$ makes 2 assumptions:
+- **Output quantity**: Each tower outputs a single embedding for scoring
+- **Scoring method**: We apply dot product on embeddings to get the final logit
+
+Both assumptions were modified to improve product search at JD.com ---
+- **Output quantity**: The query tower outputs multiple embeddings, to capture semantics of polysemous queries 👉 the authors indeed found one head retrieved fruits and the other cellphones when the user searched for "apple" on JD.com
+- **Scoring method**: Correspondingly, the authors changed the scoring function to a weighted sum of $m$ dot products between $m$ query embeddings and 1 item embedding and the loss function to attention loss
+
+The new architecture, Deep Personalized and Semantic Retrieval (DPSR), led to a +10.03% CVR gain in long-tail queries and has been in production at JD since 2019.
+
+### Amazon Product Search ([KDD 2019](https://www.amazon.science/publications/semantic-product-search))
+
+> <span style="background-color: #ff9900"><b>Highlight:</b></span> Amazon's two-tower model couldn't distinguish between positive vs. negative items, until the authors separated out impressed but not purchased items 
+
+
+{{< figure src="https://www.dropbox.com/scl/fi/7f8euj8cbalwzlq216ef5/Screenshot-2024-09-02-at-8.15.12-PM.png?rlkey=z09lqbphotiwg2ffhrqj5yjyw&st=2zpvqvpz&raw=1" width="1500">}}
+
 
 
 # Learn More
