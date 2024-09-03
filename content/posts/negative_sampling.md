@@ -93,8 +93,8 @@ $$\text{word frequency} \propto \frac{1}{\text{word rank}}.$$
 Drawing yet another NLP analogy to recommender systems: The top few popular items dominate engagement logs. As a result, they often serve as negatives for many $(x_i, y_i)$ pairs, while long-tail negative items don't get demoted enough. Consequently, models trained on batch negatives alone often return strange long-tail items irrelevant to the users (false positives) or filter out popular items (false negatives).
 
 There are 2 popular ways to correct for sampling bias in BNG: 
-1. **logQ correction**: Correct the model logit to $s^c(x_i, y_j) = s(x_i, y_i) - \log Q(i)$, where $Q(i)$ is the sampling probability of item $j$, given by $\frac{\mathrm{count}(i)}{\sum_j \mathrm{count}(i)}$ 👉 **Motivation**: Avoid over-penalizing popular items, or at least to a lesser degree
-2. **Mixed Negative Sampling**: Sample additional negatives and combine them with BNS 👉 **Motivation**: The model gets to see more negatives from other distributions 
+1. **logQ correction**: Correct the model logit to $s^c(x_i, y_j) = s(x_i, y_i) - \log Q(i)$, where $Q(i)$ is the sampling probability of item $j$, given by $\frac{\mathrm{count}(i)}{\sum_j \mathrm{count}(i)}$ 👉 **motivation**: Avoid over-penalizing popular items, or at least to a lesser degree
+2. **Mixed Negative Sampling**: Sample additional negatives and combine them with BNS 👉 **motivation**: The model gets to see more negatives from other distributions 
 
 
 > <span style="background-color: #FDB515"><b>Performance review:</b></span> Super popular, but requires bias correction
@@ -124,9 +124,9 @@ $B'$ is a hyperparameter we can tune to achieve the best eval and A/B performanc
 > 3. **Stable** 🤔: Need additional indexing work in new corpuses
 > 3. **Data-independent** ✅: MNS doesn't rely on side information
 
-## Online Hard Negative Mining
+## Online Hard Negative Mining (HNM)
 
-The 3 sampling approaches above (DNS, BNS, MNS) are all static samplers, since the sampling probability for each item $j$ is fixed and independent of the model's learning progress. Researchers (e.g., [Hacohen and Weinshal, 2019](https://arxiv.org/abs/1904.03626)) found that introducing hard negatives (e.g., negative items with high predicted scores) can accelerate model convergence. This approach is "Curriculum Learning," and using model-generated scores to select hard negatives is "Online Hard Negative Mining". Starting with hard negatives may confuse the model, but after sufficient training on easy negatives from a static sampler, adding hard negatives can help the model align its "learned hypothesis" with the "target hypothesis," leading to faster convergence.
+The 3 sampling approaches above (DNS, BNS, MNS) are all static samplers, since the sampling probability for each item $j$ is fixed and independent of the model's learning progress. Researchers (e.g., [Hacohen and Weinshal, 2019](https://arxiv.org/abs/1904.03626)) found that introducing hard negatives (e.g., negative items with high predicted scores) can accelerate model convergence. This approach is "curriculum learning," and using model-generated scores to select hard negatives is "online Hard Negative Mining (HNM)". Starting with hard negatives may confuse the model, but after sufficient training on easy negatives from a static sampler, adding hard negatives helps the model align its "learned hypothesis" with the "target hypothesis," leading to faster convergence.
 
 > <span style="background-color: #FDB515"><b>Performance review:</b></span> Great addition to MNS, but don't start with it
 > 1. **Efficient** ✅: Can use the model itself to rank items in mini-batch
@@ -137,21 +137,50 @@ The 3 sampling approaches above (DNS, BNS, MNS) are all static samplers, since t
 
 # Case Studies
 
-## Facebook People Search
+## Social Media
 
-> **Highlights**: XXX
+### Facebook People Search ([KDD 2020](https://dl.acm.org/doi/abs/10.1145/3394486.3403305))
 
-## LinkedIn Job Search
+> <span style="background-color: #0081FB"><b>Highlight:</b></span> If Google popularized embedding-based retrieval (EBR) in recommender systems, the Facebook Search paper sets an inspiring example for applying EBR in personalized search. Apart from standard two-tower training, it discussed *hard negative mining* and *serving challenges* in detail. 
 
-> **Highlights**: XXX
+{{< figure src="https://www.dropbox.com/scl/fi/ulxyqvmwt0puycqdnr9q4/Screenshot-2024-09-02-at-5.47.39-PM.png?rlkey=up336nmsvuxyk0bhk1954quzg&st=wqnhynoj&raw=1" width="1500">}}
 
-## JD.com Product Search
+Search retrieval based on *semantic* embeddings has been used in CV (e.g,, visual search/discovery) and NLP (e.g., passage retrieval) for years, but searching people on Facebook is not a pure semantic problem: When you and I both search for "John Smith", we each want to see our friends, rather than the same set of profiles. 
 
-> **Highlights**: XXX
+To personalize retrieval, the authors trained a two-tower network, where the query and the item towers both encode textual (e.g., search query, profile texts), contextual (e.g., location), and social (e.g., social graph embeddings) features. 
 
-## Amazon Product Search
+{{< figure src="https://www.dropbox.com/scl/fi/1hwfalp8enjs46yb6ay1f/Screenshot-2024-09-02-at-6.13.10-PM.png?rlkey=0wmz220if10ug86tstg4rjwdw&st=u14u338g&raw=1" width="500">}}
 
-> **Highlights**: XXX
+They explored various positive and negative label definitions. For positives, it didn't matter whether clicks or impressions were treated as positives --- the results were the same. For negatives, the authors compared only training on hard negatives, pure BNS, and combining the two --- the hybrid sampling approach turned out the best.
+
+
+- **All hard negatives** ❌: Sampling impressed but  unclicked results as negatives led to *55% absolute recall drop* 👉 **why**: impressed results are often partial matches (e.g., a "John Smith", but not my John Smith); treating them as negatives teaches the model such matches are useless, or worse, hurt relevance
+- **BNS + hard negatives** ✅: BNS was a good baseline; adding hard negatives (a "John Smith", but not my John Smith) to batch negatives improved performance 👉 **why**: forcing the model to use social features to predict for hard negatives
+
+
+### LinkedIn Job Search ([KDD 2024](https://arxiv.org/abs/2402.13435))
+
+> <span style="background-color: #0e76a8"><b>Highlight:</b></span> Interesting paper in 3 regards --- 1) the same EBR service is *shared by ads and organic search*, which have different objectives (ads: job posters care the most about if applicants are qualified; organic: job seekers are driven by interests); 2) the authors applied *curriculum training*, warming up the model with easy negatives and then switching to online hard negatives; 3) they got *exact KNN* search to work (via GPU inference)!
+
+{{< figure src="https://www.dropbox.com/scl/fi/jkmg0ici348di9cl24god/Screenshot-2024-09-02-at-7.03.23-PM.png?rlkey=0pa4bs5zq587aj7gz5szzq39y&st=lob080d4&raw=1" width="1500">}}
+
+Unlike other social media where viral contents are celebrated, LinkedIn has to strike a delicate balance: For each job posting, they need to deliver *sufficient* candidates, but not *overwhelmingly* so --- a tight match between seekers and jobs is key. At LinkedIn, seekers $S$ and jobs $J$ both have a rich set of metadata (e.g., job title, seniority, company, etc.). From confirmed hire data, they learned important links between seeker and job metadata. This graph powered LinkedIn retrieval. 
+
+{{< figure src="https://www.dropbox.com/scl/fi/vdubss5sl610zfnin213l/Screenshot-2024-09-02-at-7.23.37-PM.png?rlkey=c5309d5i9fh1a02do3uz0gytl&st=cvn1w3ot&raw=1" width="1500">}}
+
+When first deployed, EBR failed to beat the baseline. The team found 2 solutions:
+- **Rules**: Enforce term-based matching rules to address relevance defects
+- **Exact KNN search**: Due to the sheer volume of documents and strict latency requirements, modern recommender systems and search engines have embraced Approximate Nearest Neighbor search, which sacrifices accuracy for speed (see my post for a [review](https://www.yuan-meng.com/posts/ebr/)) 👉 LinkedIn, somehow, got exact KNN to work and saw relevance improvements; this was achieved by mixing term-based retrieval (TBR) with EBR and using GPUs to speed up matrix operations behind EBR 
+
+## E-Commerce
+
+### JD.com Product Search (SIGIR 2020)
+
+> <span style="background-color: #E31D1A"><b>Highlight:</b></span> XX
+
+### Amazon Product Search (KDD 2019)
+
+> <span style="background-color: #ff9900"><b>Highlight:</b></span> XX
 
 
 # Learn More
@@ -170,7 +199,7 @@ The 3 sampling approaches above (DNS, BNS, MNS) are all static samplers, since t
 11. [*Semantic Product Search*](https://www.amazon.science/publications/semantic-product-search) (2019) by Nigam et al., *KDD*.
 12. [*Towards Personalized and Semantic Retrieval: An End-to-End Solution for E-commerce Search via Embedding Learning*](https://dl.acm.org/doi/abs/10.1145/3397271.3401446) (2020) by Zhang et al., *SIGIR*.
 
-
-## Blogposts / Repos
+## Blogposts + Repos
 1. [*What is Candidate Sampling*](https://www.tensorflow.org/extras/candidate_sampling.pdf), tutorial by TensorFlow
 2. [*Negative-Sampling-Paper*](https://github.com/RUCAIBox/Negative-Sampling-Paper#curriculum-learning), SOTA paper collection by [RUCAIBox](https://github.com/RUCAIBox) 👉 more on recommender systems: [Awesome-RSPapers](https://github.com/RUCAIBox/Awesome-RSPapers) and [RecSysDatasets](https://github.com/RUCAIBox/RecSysDatasets)
+3. [*An Introduction to Embedding-Based Retrieval*](https://www.yuan-meng.com/posts/ebr/), blogpost by Yuan
