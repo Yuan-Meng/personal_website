@@ -23,21 +23,20 @@ Little did I know, nearly 10 years later as a machine learning engineer, I'd be 
 
 ## Marr: Purpose & Function
 
-> <span style="background-color: #D9CEFF"> *"What is the goal of the computation, why is it appropriate,
-and what is the logic of the strategy by which it can be carried out?."* </span> --- David Marr (1982), *Vision*
+> <span style="background-color: #D9CEFF"> *"Trying to understand perception by studying only neurons is like trying to understand bird flight by studying only feathers: It just cannot be done."* </span> --- David Marr (1982), *Vision*, p. 27.
 
 Growing tired of neuroscience's obsession with identifying one specialized neuron after another (e.g., Barlow, 1953, "bug detector"; Gross, Rocha-Miranda, & Bender, 1972, "hand detector"; and the Cambridge joke, the [apocryphal grandmother cell](https://en.wikipedia.org/wiki/Grandmother_cell) that supposedly activates when you see your grandma), the young British neuroscientist [David Marr](https://en.wikipedia.org/wiki/David_Marr_(neuroscientist)) argued that to truly understand vision, we must step back and consider the *purpose* of vision and the *problems* it solves. This is the "computational" level of analysis, which sets the foundation of modern computational cognitive science.
 
-Marr provided a vivid example of how we understand an information-processing system through its purpose and function: *How do we understand a cash register*, which tells a customer how much to pay? Instead of examining each button on the machine, like neuroscientists in the '50s and '60s did, we can ask, *what should a cash register compute?* --- Addition. *Why addition and not, say, multiplication?* --- Because addition, unlike multiplication, meets the requirements for a successful transaction:
+Marr provided a vivid example of how to understand an information-processing system through its purpose and function: *How do we understand a cash register*, which tells a customer how much to pay? Instead of examining each button on the machine, like neuroscientists in the '50s and '60s did, we can ask, *what should a cash register compute?* --- Addition. *Why addition and not, say, multiplication?* --- Because addition, unlike multiplication, meets the requirements for a successful transaction:
 
-- **The rules of zero**: If you buy nothing, you pay nothing; if you buy nothing along with something, you should only pay for that something.
+- **The rules of zero**: If you buy nothing, you pay nothing; if you buy nothing along with something, you should pay for that something.
 - **Commutativity**: The order in which items are scanned shouldn't affect the total.
 - **Associativity**: Grouping items into different piles shouldn't affect the total.
 - **Inverse**: If you buy something and then return it, you should pay nothing.
 
-Multiplication fails the rule of zero --- if you buy nothing along with something, you'd pay nothing, since $0 \times \mathrm{something} = 0$. So, any merchant aiming to make a profit wouldn't use a cash register that does multiplication.
+Multiplication fails the rule of zero --- if you buy nothing along with something, you'd pay nothing, since $0 \times \mathrm{something} = 0$. So, any merchant aiming to make a profit wouldn't use a cash register that performs multiplication. Studying the buttons won't help us understand the cash register at this level, Marr argued, just as finding the grandmother cell doesn't bring us any closer to understanding vision.
 
-Summarized below are different levels at which we study the mind. At the computational level, we define the constraints for a task (in domains such as vision, language, or reasoning) and identify a computation that satisfies these constraints. At the algorithmic level, we determine how to represent the input and the output, as well as the algorithm to perform the transformation. Finally, at the implementational level, we figure out how to physically implement these representations and algorithms, whether in the human brain or in a machine (like a CPU or a GPU).
+Summarized below are levels at which we study the mind (artificial or natural). At the computational level, we define the constraints for a task (in domains such as vision, language, or reasoning) and identify a computation that satisfies these constraints. At the algorithmic level, we determine input/output representations, as well as the algorithm to perform the transformation. Finally, at the implementational level, we figure out how to physically implement these representations and algorithms, whether in the human brain or in a machine (like a CPU or a GPU).
 
 {{< figure src="https://www.dropbox.com/scl/fi/p9d9vhkjwrcaeehjy817v/Screenshot-2024-10-12-at-3.44.14-PM.png?rlkey=npsrifdkyk27dqc4m6543hhyx&st=a7t01q4e&raw=1" width="650" >}}
 
@@ -71,6 +70,7 @@ Summarized below are different levels at which we study the mind. At the computa
 6. [*Deep Learning*](https://hal.science/hal-04206682/document) (2015) by LeCun, Bengio, and Hinton, *Nature*.
 7. [*An Introduction to Convolutional Neural Networks*](https://arxiv.org/abs/1511.08458) (2015) by O'Shea and Nash, *arXiv*.
 8. [*An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale*](https://openreview.net/forum?id=YicbFdNTTy) (2021) by Dosovitskiy et al., *ICLR*.
+9. [*Yuan's Qualifying Exam Notes*](https://www.dropbox.com/scl/fo/tsuwr50z48813negx6f06/AOAFD4MnnU7kJG5mkgl7CdU?rlkey=1yiucza3jn1e3nwlzrvh6zg2q&st=rd86h6kb&dl=0) (2018), *UC Berkeley*.
 
 
 ## Talks
