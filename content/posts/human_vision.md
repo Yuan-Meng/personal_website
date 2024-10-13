@@ -203,19 +203,48 @@ An image doesn't have discrete tokens like language does. To leverage the standa
 
 {{< figure src="https://www.dropbox.com/scl/fi/qh6a9fgumutekl5q3gav3/Screenshot-2024-10-13-at-1.08.08-PM.png?rlkey=3f98ekhp1d17pw8n14so6nynh&st=9nq5sexy&raw=1" width="1500" caption="Architecture of the Vision Transformer (source: [ Dosovitskiy et al., 2020](https://arxiv.org/abs/2010.11929))." >}}
 
-It's fascinating that, with sufficient training, ViT learns to produce similar embeddings for patches in the same row or column, even though it lacks the inductive bias of CNNs that nearby patches should be similar. This observation harkens back to Hinton's [comment](http://localhost:1313/posts/human_vision/#hinton-mechanism--pretraining) that pretrained foundation models generalize as well as human learners, despite humans are endowed with even more inductive biases than CNNs.
+It's fascinating that, with sufficient training, ViT learns to produce similar embeddings for patches in the same row or column, even though it lacks the inductive bias of CNNs that nearby patches should be similar. This harkens back to Hinton's [comment](http://localhost:1313/posts/human_vision/#hinton-mechanism--pretraining) that pretrained foundation models generalize as well as human learners, despite that humans are endowed with even more inductive biases than CNNs.
 
 {{< figure src="https://www.dropbox.com/scl/fi/p7wjcxeripl0yc1f7ubu9/Screenshot-2024-10-13-at-2.15.59-PM.png?rlkey=auenfi97bk1bhtyfr69x7zw9f&st=jsxjtpf7&raw=1" width="300" caption="Attention from output token to input (source: [Dosovitskiy et al., 2020](https://arxiv.org/abs/2010.11929))." >}}
 
 ## Model-Human Alignment
 
+> <span style="background-color: #FFCFE5"> *"First, two systems can differ in which stimuli they fail to classify correctly [...] Second, while there is only one way to be right, there are many ways to be wrong --- systems can also vary systematically in how they misclassify stimuli."* </span> --- Tuli et al. (2021).
+
 As far as engineers are concerned, whichever model performs better on the task at hand should be used. However, the overall accuracy doesn't tell us which model behaves more like humans and, therefore, may be *closer to the nature of human vision*.
 
 Why does the question in this blog post's title even matter? Today, as an engineer, I'm not so sure anymore. If I were to channel my CogSci professors, they might say that understanding the algorithms behind human vision is key to improving human-machine alignment and interaction. In any case, it's still a great exercise to think how we can measure and compare the alignment between models and human performance.
 
-### Metrics
+### Shape Bias
 
-### Findings
+If you mess up the texture of an image but keep the shapes intact, like the one below, a human would still be able to recognize the cat in it. This is the so-called "shape bias" in human vision (e.g., [Kucker et al., 2019](https://pubmed.ncbi.nlm.nih.gov/30343894/)). By contrast, a CNN trained on ImageNet exhibits a texture bias (e.g., [Geirhos et al., 2018](https://arxiv.org/abs/1811.12231)).
+
+{{< figure src="https://www.dropbox.com/scl/fi/76855uzk8ke4vvmabnnbs/Screenshot-2024-10-13-at-3.00.10-PM.png?rlkey=bie4jt7f92k50aw8ocxtpl7kp&st=1xax2fkr&raw=1" width="500" caption="[Stylized ImageNet](https://github.com/rgeirhos/Stylized-ImageNet) with transformed textures (source: [Tuli et al., 2021](https://arxiv.org/pdf/2105.07197))." >}}
+
+Of course, one might ask: How can a CNN or ViT learn to rely on shapes if it has never been trained on texture-transformed cats still labeled as "cats", for instance? The authors compared both ImageNet-trained models (CNN: ResNet-50; ViT: ViT-B/32) and models fine-tuned with augmented data (e.g., Gaussian blur, color distortions) to human performance. ViT demonstrated a stronger shift toward shape bias than CNN, though both models still fall far short of human-level shape bias.
+
+{{< figure src="https://www.dropbox.com/scl/fi/02igt2ro9a5degf1rh8pc/Screenshot-2024-10-13-at-4.17.45-PM.png?rlkey=6b9590y6qcszhser1atyx0ouk&st=uu1sxxp1&raw=1" width="500" caption="Shape bias shown by human vs. models (source: [Tuli et al., 2021](https://arxiv.org/pdf/2105.07197))." >}}
+
+
+### Error Consistency
+
+We can also collect human judgments for all ImageNet classes and check if the human-label confusion matrix (e.g., $P$) differs more from the CNN-label or the ViT-label confusion matrix (e.g., $Q$). We can symmetric metrics to measure the distance between two probability distributions, such as the [Jensen–Shannon divergence](https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence) (JSD):
+
+$$\text{JSD}(P \parallel Q) = \frac{1}{2} \left( \text{KL}(P \parallel M) + \text{KL}(Q \parallel M) \right),$$
+
+where $M = \frac{1}{2}(P + Q)$ and $\text{KL}(P \parallel M)$ is the the Kullback-Leibler divergence between distributions $P$ and $M$, defined as $\text{KL}(P \parallel M) = \sum_i P(i) \log \frac{P(i)}{M(i)}$.
+
+With 1,000 ImageNet classes, populating the $10^6$ cells with human data is infeasible. The ImageNet classes were inspired by the [WordNet](https://wordnet.princeton.edu/) --- using the WordNet hierarchy, the authors identified 16 "entry-level" categories (e.g., airplane, bear, bird) that are hypernyms of finer labels, reducing the matrix dimensions to $16 \times 16$.
+
+JSD returns a non-negative scalar, where 0 indicates identical distributions and large numbers indicate large divergences. The authors computed two types of JSD:
+
+- **Class-wise JSD**: Collapse the $16 \times 16$ confusion matrix into a 16-vector, where each element represents the total count of errors made for that class 👉 compute JSD between the human and the model (CNN or ViT) error vectors.
+- **Inter-class JSD**: Compare the full $16 \times 16$ confusion matrices, where each element represents the count of times one class is misclassified as another 👉 compute JSD between the human and the model (CNN or ViT) confusion matrices to measure how similarly they confuse specific pairs of classes.
+
+Cohen's $\kappa$ is another measure of whether humans and models tend to make mistakes on the same images and how much this agreement differs from chance. However, Cohen's $\kappa$ has the limitation of not considering which label is assigned when an error is made. Overall, ViT shows more consistency with human errors, especially after fine-tuning. Interestingly, fine-tuning made CNNs less consistent with human errors.
+
+{{< figure src="https://www.dropbox.com/scl/fi/80x1kxfasawjyad4kcs94/Screenshot-2024-10-13-at-4.05.14-PM.png?rlkey=0lk8kxjmxk1z7lczcmwu8guof&st=hayaabbg&raw=1" width="500" caption="Error consistency between human vs. models (source: [Tuli et al., 2021](https://arxiv.org/pdf/2105.07197))." >}}
+
 
 # Cognitively Inspired AI
 
@@ -243,4 +272,4 @@ Why does the question in this blog post's title even matter? Today, as an engine
 14. *[But What Is A Convolution?](https://www.youtube.com/watch?v=KuXjwB4LzSA)* by 3Blue1Brown, *YouTube*.
 15. *[Geoffrey Hinton and Fei-Fei Li in Conversation](https://youtu.be/E14IsFbAbpI?si=pGDRbakEIOHv9A5p)*, *YouTube*.
 16. [*Aerodynamics For Cognition*](https://www.edge.org/conversation/tom_griffiths-aerodynamics-for-cognition) by Griffiths, *Edge*.
-17. [*The Future of AI is Here*](https://www.youtube.com/watch?v=vIXfYFB7aBI&t=1991s) by Fei-Fei Li, *YouTube*.
+17. [*The Future of AI is Here*](https://www.youtube.com/watch?v=vIXfYFB7aBI&t=1991s) by Fei-Fei Li on her startup [World Labs](https://techcrunch.com/2024/08/14/nea-led-a-100m-round-into-fei-fei-lis-new-ai-startup-now-valued-at-over-1b/), *YouTube*.
