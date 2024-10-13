@@ -209,7 +209,7 @@ It's fascinating that, with sufficient training, ViT learns to produce similar e
 
 ## Model-Human Alignment
 
-As far as engineers are concerned, whichever model performs better on the task at hand should be used. However, overall accuracy doesn't tell us which model behaves more like humans and, therefore, may be *closer to the nature of human vision*.
+As far as engineers are concerned, whichever model performs better on the task at hand should be used. However, the overall accuracy doesn't tell us which model behaves more like humans and, therefore, may be *closer to the nature of human vision*.
 
 Why does the question in this blog post's title even matter? Today, as an engineer, I'm not so sure anymore. If I were to channel my CogSci professors, they might say that understanding the algorithms behind human vision is key to improving human-machine alignment and interaction. In any case, it's still a great exercise to think how we can measure and compare the alignment between models and human performance.
 
