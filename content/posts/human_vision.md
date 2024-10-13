@@ -1,6 +1,6 @@
 ---
 title: "Is Human Vision More like CNN or Vision Transformer?"
-date: 2024-10-12
+date: 2024-10-13
 math: true
 tags:
     - AI
@@ -14,7 +14,7 @@ include_toc: true
 
 # Engineer the Mind
 
-In Winter 2015, after coming back from grad school interviews in the States, I told my dad over hotpot that I was going to study cognitive science at Berkeley.
+In Winter 2015, after coming back from grad school interviews in the States, I told my dad over hotpot that I was going to study [cognitive science](https://en.wikipedia.org/wiki/Cognitive_science) at Berkeley.
 
 
 > \- *"So, what is cognitive science?"* he asked. <br/> \- *"It is the study of the mind, uncovering algorithms that might underlie human reasoning, perception, and language."* I tried my best to explain. <br/> \- *"Cool... How is that different from artificial intelligence?"* Dad 🤔. <br/> \- *"Hmm... AI engineers solutions that work, but CogSci reverse-engineers how humans think back from the solutions?"* 21-year-old me 🤓. <br/> \- *"If AI works, does it matter if it works like the mind? Since the mind already works, does it matter if we can reverse-engineer it?"* Dad 🧐. <br/> \- *"The weather today is quite nice..."* 21-year-old me 🥵. <br/>
@@ -55,7 +55,7 @@ Marr did not prescribe specific architectures for modeling vision, yet his visio
 
 And it wasn't just vision --- I remember Berkeley CogSci PhD students had to write seminar essays explaining why neural networks (dubbed as ["connectionism"](https://en.wikipedia.org/wiki/Connectionism) in CogSci) weren't as good a fit for higher-level cognition as Bayesian models. The recurring argument was that neural networks require too much data to train, and it's way harder to adjust weights in a neural net than to modify edges in a Bayes net. For instance, a human may misclassify a dolphin as a fish but can quickly correct the label to a mammal --- at that time, it was hard to imagine how a neural network could perform this one-shot belief updating that was straightforward in a Bayes net. 
 
-Only after so many years can I admit -- I never really understood the contention between Bayesian models and neural nets. First of all, they're not even at the same level of analysis, with the former describing the solution to a task and the latter solving it. Moreover, just as it was underwhelming for Marr to see a collection of specialized neurons and call it "understanding vision," it felt similarly underwhelming to draw a Bayes net for a cognitive task and call it "understanding cognition," without implementing the nitty-gritty details to actually build one. Years later, I heard my doubts spoken aloud by Hinton, in that same talk with Fei-Fei (he might as well just say MIT's [Josh Tenenbaum](https://web.mit.edu/cocosci/josh.html)'s name out aloud 😆).
+Only after so many years can I admit -- I never really understood the contention between Bayesian models and neural nets. First of all, they're not even at the same level of analysis, with the former describing the solution to a task and the latter solving it. Moreover, just as it was underwhelming for Marr to see a collection of specialized neurons and call it "understanding vision," it felt similarly underwhelming to draw a Bayes net describing how a cognitive task should be done and call it "understanding cognition," without implementing the nitty-gritty details to build one. Years later, I heard my doubts spoken aloud by Hinton, in that same talk with Fei-Fei (he might as well just say MIT's [Josh Tenenbaum](https://web.mit.edu/cocosci/josh.html)'s name out aloud 😆).
 
 > <span style="background-color: #FFE88D"> *"For a long time in cognitive science, the general opinion was that if you give neural nets enough training data, they can do complicated things, but they need an awful lot of training data --- they need to see thousands of cats --- and people are much more statistically efficient. What they were really doing was comparing what an MIT undergraduate can learn to do on a limited amount of data with what a neural net that starts with random weights can learn to do on a limited amount of data. </br> </br> To make a fair comparison, you take a foundation model that is a neural net trained on lots and lots of data, give it a completely new task, and you ask how much data it needs to learn this completely new task --- and you discover these things are statistically efficient and compare favorably with people in how much data they need."* </span> --- Geoff Hinton (2023), <em>talk @Radical Ventures</em>, [46' 19''](https://youtu.be/E14IsFbAbpI?si=_OTpAbwpAquSqHQ-&t=2779).
 
@@ -66,9 +66,135 @@ When interviewing at Berkeley, I asked my student host why Bayesian models could
 Today's cognitive science is much more receptive to neural nets --- so much so that one might worry the best-performing model on machine learning benchmarks may just be viewed as the algorithm underlying the human mind. We need clever experimental designs and metrics to assess how well SOTA models align with human cognition. [Tuli et al.'s (2021)](https://arxiv.org/pdf/2105.07197) CogSci paper, comparing CNNs and Vision Transformers (ViT) to human vision, is an early effort in this direction. Below, I review the key ideas behind CNN + ViT and the authors' methodology for measuring model-human alignment.
 
 
-## CNN
+## Convolutional Neural Network (CNN)
 
-## ViT
+A [convolutional neural network](https://en.wikipedia.org/wiki/Convolutional_neural_network) (CNN) is a fancier version of a feed-forward network (FNN), which extracts features through convolutional layers and pooling layers first, before feeding them to fully connected layers. But *what is a convolution*? And *what features can it extract*? These are the million-dollar questions.
+
+
+### What Is a Convolution?
+
+In math, a [convolution](https://en.wikipedia.org/wiki/Convolution) is an operation on two functions, $f$ and $g$, that creates a third function, $f * g$. That might sound a bit abstract. In his awesome [video](https://www.youtube.com/watch?v=KuXjwB4LzSA), 3Blue1Brown explains it with a classic dice example: Imagine two $N$-faced dice, each with an array of probabilities for landing on faces 1 to $N$. To find the probability of rolling a specific sum from the two dice, you use a *convolution*:
+
+
+{{< figure src="https://www.dropbox.com/scl/fi/e722znugseompbmpwjtc6/Screenshot-2024-10-13-at-10.13.16-AM.png?rlkey=5xh6rr01cx8e5ca8ukernw3fw&st=xhb8vg1e&raw=1" width="500" caption="The probability of rolling a sum of 6 from two given weighted dice.">}}
+
+1. Flip the second die so that its faces range from $N$ to 1, left to right;
+2. Align dice with offsets 1 to $N$; sums in the overlapping region are the same;
+3. Finally, to get the probability of rolling each unique sum, add the product of the probabilities from each overlapping pair of faces.
+
+Below is a Python implementation for 1D array convolution (if this an coding interview 😅), or you could simply call `np.convolve` on the two input arrays. 
+
+```python3
+def convolve(dice1, dice2):
+    # Length of the convolved array is len(dice1) + len(dice2) - 1
+    n1 = len(dice1)
+    n2 = len(dice2)
+    result = [0] * (n1 + n2 - 1)
+    
+    # Perform convolution
+    for i in range(n1):
+        for j in range(n2):
+            # Index: a unique sum
+            # Value: probability of this sum
+            result[i + j] += dice1[i] * dice2[j]
+    
+    return result
+
+# Example 1: Two fair dice
+dice1 = [1/6] * 6
+dice2 = [1/6] * 6
+print(convolve(dice1, dice2))
+# Expected output (probabilities for sums 2 to 12):
+# [0.027777777777777776, 0.05555555555555555, 0.08333333333333333, 
+#  0.1111111111111111, 0.1388888888888889, 0.16666666666666669, 
+#  0.1388888888888889, 0.1111111111111111, 0.08333333333333333, 
+#  0.05555555555555555, 0.027777777777777776]
+
+# Example 2: Two weighted dice
+dice1 = [0.16, 0.21, 0.17, 0.16, 0.12, 0.18]
+dice2 = [0.11, 0.22, 0.24, 0.10, 0.20, 0.13]
+print(convolve(dice1, dice2))
+# Expected output (probabilities for sums 2 to 12):
+# [0.0176, 0.058300000000000005, 0.1033, 0.1214, 0.1422, 0.1644, 
+#  0.1457, 0.10930000000000001, 0.06280000000000001, 
+#  0.05159999999999999, 0.0234]
+```
+
+See the full results of convolving two 6-faced dice below, along with the formula.
+
+{{< figure src="https://www.dropbox.com/scl/fi/jhrttufl0cxmsej24wtgo/Screenshot-2024-10-13-at-9.37.58-AM.png?rlkey=1lzumlvdxjfifa4d1opxbocte&st=nvc4fw39&raw=1" width="1500" >}}
+
+In a CNN, instead of convolving two 1D arrays of the same length, we convolve two 2D arrays of different dimensions --- a larger image array and a smaller $k \times k$ kernel (which, like the second 1D array, is flipped 180 degrees before applying).  
+
+
+### What Features Can It Extract?
+
+{{< figure src="https://www.dropbox.com/scl/fi/3pymdr2gleao16g5dwx1t/Screenshot-2024-10-13-at-11.27.12-AM.png?rlkey=ztglg0gj4pyybcbf8h44cvsiu&st=q83g0r6n&raw=1" width="1500" >}}
+
+*Element values in the kernel determine what features it extracts*. In the above example, element values sum up to 1, so the kernel blurs the original image by taking a moving average of neighboring pixels ("box blur"). If we allow some values in a kernel to be positive and others negative, the kernel may detect variations in pixel values and pick up on features such as vertical and horizontal edges. We can design different kernel values to detect different image features (more [examples](https://en.wikipedia.org/wiki/Kernel_(image_processing))).
+
+
+In the 1D example, we considered all possible offsets between two arrays. In a CNN, however, we only compute element-wise products where the kernel is fully aligned with the original image. If the original image has dimensions $m \times n$ (ignoring the color channel for now), the output array --- or the "feature map" --- of a $k \times k$ kernel will have dimensions $(m - k + 1) \times (n - k + 1)$. This is because the kernel slides horizontally $(n - k + 1)$ times and vertically $(m - k + 1)$ times across the image.
+
+{{< figure src="https://www.dropbox.com/scl/fi/0jlc6tkazba6ab37gvdxv/Screenshot-2024-10-13-at-11.56.49-AM.png?rlkey=xwi0e4r4186ogsp5xlkc7tfn8&st=30xd4zqs&raw=1" width="1500" >}}
+
+In practice, we usually add padding to keep the dimensions of each feature map at $m \times n$ instead of reducing it to $(m - k + 1) \times (n - k + 1)$. After convolution, we stack the $l$ feature maps into a tensor of size $l \times m \times n$, and then apply the ReLU activation function to each element in the tensor, setting negative values to zero.
+
+
+{{< figure src="https://www.dropbox.com/scl/fi/tb263n4exx926l7vmnuuu/Screenshot-2024-10-13-at-12.25.27-PM.png?rlkey=hcf7s7bhtlq9tfwarug0n4mbu&st=sosp0r51&raw=1" width="1500" >}}
+
+It's customary to apply max pooling after ReLU, where we use a fixed-size window to downsample each individual feature map and take the maximum value in each window. We can use a hyperparameter "stride" to control how far the window moves across the feature map --- with a stride of 2, we reduce the spatial dimensions by half. 
+
+Using a window of size $p \times p$ and a stride of $s$, we reduce the tensor dimension to:
+
+$$l \times \left( \left\lfloor \frac{m - p}{s} \right\rfloor + 1 \right) \times \left( \left\lfloor \frac{n - p}{s} \right\rfloor + 1 \right).$$
+
+Finally, this dimension-reduced tensor is fed into a feed-forward network to perform the target task, such as image classification or object detection.
+
+### Put Together a CNN
+
+> <span style="background-color: #D9CEFF"> *"There is no set way of formulating a CNN architecture. That being said, it would be idiotic to simply throw a few of layers together and expect it to work."* </span> --- O'Shea and Nash (2015), *[An Introduction to CNN](https://arxiv.org/abs/1511.08458)*.
+
+{{< figure src="https://www.dropbox.com/scl/fi/6iuyho5mv6w7o5e3w6izj/Screenshot-2024-10-13-at-11.39.37-AM.png?rlkey=b2h4t1xuxo6zmb2z2fapp1bui&st=19j5vozh&raw=1" width="1500" >}}
+
+To extract complex features at increasingly levels of abstraction, we can use multiple CNN layers. A common approach is to stack two convolutional layers before each pooling layer. The code below illustrates this concept ([source](https://www.digitalocean.com/community/tutorials/writing-cnns-from-scratch-in-pytorch)).
+
+```python
+class ConvNeuralNet(nn.Module):
+#  Determine what layers and their order in CNN object 
+    def __init__(self, num_classes):
+        super(ConvNeuralNet, self).__init__()
+        self.conv_layer1 = nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3)
+        self.conv_layer2 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3)
+        self.max_pool1 = nn.MaxPool2d(kernel_size = 2, stride = 2)
+        
+        self.conv_layer3 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3)
+        self.conv_layer4 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3)
+        self.max_pool2 = nn.MaxPool2d(kernel_size = 2, stride = 2)
+        
+        self.fc1 = nn.Linear(1600, 128)
+        self.relu1 = nn.ReLU()
+        self.fc2 = nn.Linear(128, num_classes)
+    
+    # Progresses data across layers    
+    def forward(self, x):
+        out = self.conv_layer1(x)
+        out = self.conv_layer2(out)
+        out = self.max_pool1(out)
+        
+        out = self.conv_layer3(out)
+        out = self.conv_layer4(out)
+        out = self.max_pool2(out)
+                
+        out = out.reshape(out.size(0), -1)
+        
+        out = self.fc1(out)
+        out = self.relu1(out)
+        out = self.fc2(out)
+        return out
+```
+
+## Vision Transformer (ViT)
 
 ## Model-Human Alignment
 
@@ -98,6 +224,7 @@ Today's cognitive science is much more receptive to neural nets --- so much so t
 
 
 ## Talks
-1. *[But What Is A Convolution?](https://www.youtube.com/watch?v=KuXjwB4LzSA)* by 3Blue1Brown, *YouTube*.
-2. *[Geoffrey Hinton and Fei-Fei Li in Conversation](https://youtu.be/E14IsFbAbpI?si=pGDRbakEIOHv9A5p)*, *YouTube*.
-3. [*Aerodynamics For Cognition*](https://www.edge.org/conversation/tom_griffiths-aerodynamics-for-cognition) by Griffiths, *Edge*.
+13. *[But What Is A Convolution?](https://www.youtube.com/watch?v=KuXjwB4LzSA)* by 3Blue1Brown, *YouTube*.
+14. *[Geoffrey Hinton and Fei-Fei Li in Conversation](https://youtu.be/E14IsFbAbpI?si=pGDRbakEIOHv9A5p)*, *YouTube*.
+15. [*Aerodynamics For Cognition*](https://www.edge.org/conversation/tom_griffiths-aerodynamics-for-cognition) by Griffiths, *Edge*.
+16. Spatial Intelligence
