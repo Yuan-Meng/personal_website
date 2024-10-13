@@ -195,6 +195,18 @@ class ConvNeuralNet(nn.Module):
 
 ## Vision Transformer (ViT)
 
+Some say the success of CNNs in Computer Vision is no coincidence (e.g., [Yamins et al., 2014](https://www.pnas.org/doi/full/10.1073/pnas.1403112111)) --- the primate [primary visual cortex (V1)](https://en.wikipedia.org/wiki/Visual_cortex) is similar to a CNN in that it also uses local receptive fields ("kernels") with pooling to extract features from visual inputs, with increasing levels of abstraction from one layer to the next.
+
+Transformers, on the other hand, originated from Natural Language Processing (e.g., [Vaswani et al., 2017](https://arxiv.org/abs/1706.03762)) and do not bear biological similarities to the visual cortex like CNNs do, nor do they enjoy inductive biases such as translation equivariance (e.g., rotating or moving a pattern doesn't affect recognition) and locality (e.g., nearby pixels are more similar to one another than remote ones), which are inherent to CNNs. Despite lacking these inductive biases, a standard Transformer trained on large datasets (14M-300M images) performs favorably to CNNs on many benchmarks.
+
+{{< figure src="https://www.dropbox.com/scl/fi/qh6a9fgumutekl5q3gav3/Screenshot-2024-10-13-at-1.08.08-PM.png?rlkey=3f98ekhp1d17pw8n14so6nynh&st=9nq5sexy&raw=1" width="1500" caption="Architecture of the Vision Transformer (source: [ Dosovitskiy et al., 2020](https://arxiv.org/abs/2010.11929))." >}}
+
+An image doesn't have discrete tokens like language does. To leverage the standard Transformer encoder (see this [post](https://nlp.seas.harvard.edu/annotated-transformer/), for an NLP refresher), the Vision Transformer (ViT) authors split each image into fixed-size patches and treat each patch as a token. They then apply a linear projection to embed each flattened patch. To aid classification, a learnable `[CLS]` token is prepended to the sequence of patch embeddings. Positional embeddings are added to patch embeddings to retain positional information before feeding them into the multi-headed attention and MLP blocks.
+
+{{< figure src="https://www.dropbox.com/scl/fi/p7wjcxeripl0yc1f7ubu9/Screenshot-2024-10-13-at-2.15.59-PM.png?rlkey=auenfi97bk1bhtyfr69x7zw9f&st=jsxjtpf7&raw=1" width="300" caption="Attention from output token to input (source: [ Dosovitskiy et al., 2020](https://arxiv.org/abs/2010.11929))." >}}
+
+It's fascinating that, with sufficient training, ViT learns to produce similar embeddings for patches in the same row or column, even though it lacks the inductive bias of CNNs that nearby patches should be similar. This observation harkens back to Hinton's [comment](http://localhost:1313/posts/human_vision/#hinton-mechanism--pretraining) that pretrained foundation models generalize as well as human learners, despite humans are endowed with even more inductive biases than CNNs.
+
 ## Model-Human Alignment
 
 ### Metrics
@@ -213,17 +225,18 @@ class ConvNeuralNet(nn.Module):
 3. [*ImageNet Classification with Deep Convolutional Neural Networks*](https://proceedings.neurips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf) (2012) by Krizhevsky, Sutskever, and Hinton, *NeurIPS*.
 4. [*Deep Learning*](https://hal.science/hal-04206682/document) (2015) by LeCun, Bengio, and Hinton, *Nature*.
 5. [*An Introduction to Convolutional Neural Networks*](https://arxiv.org/abs/1511.08458) (2015) by O'Shea and Nash, *arXiv*.
-6. [*An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale*](https://openreview.net/forum?id=YicbFdNTTy) (2021) by Dosovitskiy et al., *ICLR*.
-7. [*Vision*](https://mitpress.mit.edu/9780262514620/vision/) (1982) by Marr, *MIT Press*.
-8. [*Probabilistic Models of Cognition: Exploring Representations and Inductive Biases*](https://www.ed.ac.uk/files/atoms/files/griffithstics.pdf) (2010) by Griffiths et al., *Trends in Cognitive Sciences.*
-9. [*How to Grow a Mind: Statistics, Structure, and Abstraction*](https://wiki.santafe.edu/images/e/e1/HowToGrowAMind%282011%29Tenebaum_J.pdf) (2011) by Tenenbaum et al., *Science*.
-10. [*Building Machines that Learn and Think Like People*](https://arxiv.org/abs/1604.00289) (2017) by Lake et al., *Behavioral and Brain Sciences*.
-11. [*Levels of Analysis for Machine Learning*](https://arxiv.org/abs/2004.05107) (2020) by Hamrick, *arXiv*.
-12. [*Yuan's Qualifying Exam Notes*](https://www.dropbox.com/scl/fo/tsuwr50z48813negx6f06/AOAFD4MnnU7kJG5mkgl7CdU?rlkey=1yiucza3jn1e3nwlzrvh6zg2q&st=rd86h6kb&dl=0) (2018), *UC Berkeley*.
+6. [*Performance-optimized Hierarchical Models Predict Neural Responses in Higher Visual Cortex*](https://www.pnas.org/doi/full/10.1073/pnas.1403112111) (2014) by Yamins et al., *PNAS*.
+7. [*An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale*](https://openreview.net/forum?id=YicbFdNTTy) (2021) by Dosovitskiy et al., *ICLR*.
+8. [*Vision*](https://mitpress.mit.edu/9780262514620/vision/) (1982) by Marr, *MIT Press*.
+9. [*Probabilistic Models of Cognition: Exploring Representations and Inductive Biases*](https://www.ed.ac.uk/files/atoms/files/griffithstics.pdf) (2010) by Griffiths et al., *Trends in Cognitive Sciences.*
+10. [*How to Grow a Mind: Statistics, Structure, and Abstraction*](https://wiki.santafe.edu/images/e/e1/HowToGrowAMind%282011%29Tenebaum_J.pdf) (2011) by Tenenbaum et al., *Science*.
+11. [*Building Machines that Learn and Think Like People*](https://arxiv.org/abs/1604.00289) (2017) by Lake et al., *Behavioral and Brain Sciences*.
+12. [*Levels of Analysis for Machine Learning*](https://arxiv.org/abs/2004.05107) (2020) by Hamrick, *arXiv*.
+13. [*Yuan's Qualifying Exam Notes*](https://www.dropbox.com/scl/fo/tsuwr50z48813negx6f06/AOAFD4MnnU7kJG5mkgl7CdU?rlkey=1yiucza3jn1e3nwlzrvh6zg2q&st=rd86h6kb&dl=0) (2018), *UC Berkeley*.
 
 
 ## Talks
-13. *[But What Is A Convolution?](https://www.youtube.com/watch?v=KuXjwB4LzSA)* by 3Blue1Brown, *YouTube*.
-14. *[Geoffrey Hinton and Fei-Fei Li in Conversation](https://youtu.be/E14IsFbAbpI?si=pGDRbakEIOHv9A5p)*, *YouTube*.
-15. [*Aerodynamics For Cognition*](https://www.edge.org/conversation/tom_griffiths-aerodynamics-for-cognition) by Griffiths, *Edge*.
-16. [*The Future of AI is Here*](https://www.youtube.com/watch?v=vIXfYFB7aBI&t=1991s) by Fei-Fei Li, *YouTube*.
+14. *[But What Is A Convolution?](https://www.youtube.com/watch?v=KuXjwB4LzSA)* by 3Blue1Brown, *YouTube*.
+15. *[Geoffrey Hinton and Fei-Fei Li in Conversation](https://youtu.be/E14IsFbAbpI?si=pGDRbakEIOHv9A5p)*, *YouTube*.
+16. [*Aerodynamics For Cognition*](https://www.edge.org/conversation/tom_griffiths-aerodynamics-for-cognition) by Griffiths, *Edge*.
+17. [*The Future of AI is Here*](https://www.youtube.com/watch?v=vIXfYFB7aBI&t=1991s) by Fei-Fei Li, *YouTube*.
