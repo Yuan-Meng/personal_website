@@ -248,7 +248,13 @@ Cohen's $\kappa$ is another measure of whether humans and models tend to make mi
 
 # Cognitively Inspired AI
 
-<!-- spatial intelligence -->
+Looking back on my dad's question in Winter 2015, I'd answer differently today.
+
+> \- *"If AI works, does it matter if it works like the mind? Since the mind already works, does it matter if we can reverse-engineer it?"* Dad 🧐. <br/>
+
+Back then, as a 21-year-old dead set on becoming a cognitive scientist, I wanted to believe that some special algorithms allow humans to learn from small amounts of data in a way that machines cannot. Now, as an engineer, I think that if pretraining on large datasets gets us human-level generalization and performance, perhaps it doesn't matter if we can create a replica of the human mind --- just like if we can build a plane that flies, does it matter if it flies the same way as a bird?
+
+But I still believe in the value of Cognitively Inspired AI, especially in a world seemingly dominated by Transformers. In a recent [talk](https://www.youtube.com/watch?v=vIXfYFB7aBI&t=1991s) publicizing her startup [World Labs](https://techcrunch.com/2024/08/14/nea-led-a-100m-round-into-fei-fei-lis-new-ai-startup-now-valued-at-over-1b/), Fei-Fei Li emphasized the importance of spatial intelligence. The 3D world doesn't come with captions describing what's happening --- it follows the rules of physics. To navigate this world, we may need a new form of representation, one that goes beyond sequences, tokens, and attention. As for what that might be, I look forward to what emerges from Fei-Fei's new venture. Before then, I have this hunch that the answer lies in some old CogSci literature from decades ago... We shall see.
 
 # References
 
