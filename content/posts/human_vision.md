@@ -42,7 +42,7 @@ Multiplication fails the rule of zero --- if you buy nothing along with somethin
 
 Summarized below are levels at which we study the mind (artificial or natural). At the computational level, we define the constraints for a task (in domains such as vision, language, or reasoning) and identify a computation that satisfies these constraints. At the algorithmic level, we determine input/output representations, as well as the algorithm to perform the transformation. Finally, at the implementational level, we figure out how to physically implement these representations and algorithms, whether in the human brain or in a machine (like a CPU or a GPU).
 
-{{< figure src="https://www.dropbox.com/scl/fi/p9d9vhkjwrcaeehjy817v/Screenshot-2024-10-12-at-3.44.14-PM.png?rlkey=npsrifdkyk27dqc4m6543hhyx&st=a7t01q4e&raw=1" width="650" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/p9d9vhkjwrcaeehjy817v/Screenshot-2024-10-12-at-3.44.14-PM.png?rlkey=npsrifdkyk27dqc4m6543hhyx&st=a7t01q4e&raw=1" caption="Source: David Marr's *Vision*, Chapter 1 [The Philosophy and the Approach](http://mechanism.ucsd.edu/teaching/f18/David_Marr_Vision_A_Computational_Investigation_into_the_Human_Representation_and_Processing_of_Visual_Information.chapter1.pdf)" width="650" >}}
 
 
 ## Hinton: Mechanism & Pretraining
@@ -76,7 +76,7 @@ A [convolutional neural network](https://en.wikipedia.org/wiki/Convolutional_neu
 In math, a [convolution](https://en.wikipedia.org/wiki/Convolution) is an operation on two functions, $f$ and $g$, that creates a third function, $f * g$. That might sound a bit abstract. In his awesome [video](https://www.youtube.com/watch?v=KuXjwB4LzSA), 3Blue1Brown explains it with a classic dice example: Imagine two $N$-faced dice, each with an array of probabilities for landing on faces 1 to $N$. To find the probability of rolling a specific sum from the two dice, you use a *convolution*:
 
 
-{{< figure src="https://www.dropbox.com/scl/fi/e722znugseompbmpwjtc6/Screenshot-2024-10-13-at-10.13.16-AM.png?rlkey=5xh6rr01cx8e5ca8ukernw3fw&st=xhb8vg1e&raw=1" width="500" caption="The probability of rolling a sum of 6 from two given weighted dice.">}}
+{{< figure src="https://www.dropbox.com/scl/fi/e722znugseompbmpwjtc6/Screenshot-2024-10-13-at-10.13.16-AM.png?rlkey=5xh6rr01cx8e5ca8ukernw3fw&st=xhb8vg1e&raw=1" width="500" caption="The probability of rolling a sum of 6 from 2 dice (source: [3Blue1Brown](https://www.youtube.com/watch?v=KuXjwB4LzSA)).">}}
 
 1. Flip the second die so that its faces range from $N$ to 1, left to right;
 2. Align dice with offsets 1 to $N$; sums in the overlapping region are the same;
@@ -122,26 +122,25 @@ print(convolve(dice1, dice2))
 
 See the full results of convolving two 6-faced dice below, along with the formula.
 
-{{< figure src="https://www.dropbox.com/scl/fi/jhrttufl0cxmsej24wtgo/Screenshot-2024-10-13-at-9.37.58-AM.png?rlkey=1lzumlvdxjfifa4d1opxbocte&st=nvc4fw39&raw=1" width="1500" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/jhrttufl0cxmsej24wtgo/Screenshot-2024-10-13-at-9.37.58-AM.png?rlkey=1lzumlvdxjfifa4d1opxbocte&st=nvc4fw39&raw=1" width="1500" caption="Probabilities of rolling possible sums from 2 dice (source: [3Blue1Brown](https://www.youtube.com/watch?v=KuXjwB4LzSA)).">}}
 
 In a CNN, instead of convolving two 1D arrays of the same length, we convolve two 2D arrays of different dimensions --- a larger image array and a smaller $k \times k$ kernel (which, like the second 1D array, is flipped 180 degrees before applying).  
 
 
 ### What Features Can It Extract?
 
-{{< figure src="https://www.dropbox.com/scl/fi/3pymdr2gleao16g5dwx1t/Screenshot-2024-10-13-at-11.27.12-AM.png?rlkey=ztglg0gj4pyybcbf8h44cvsiu&st=q83g0r6n&raw=1" width="1500" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/3pymdr2gleao16g5dwx1t/Screenshot-2024-10-13-at-11.27.12-AM.png?rlkey=ztglg0gj4pyybcbf8h44cvsiu&st=q83g0r6n&raw=1" width="1500" caption="An example kernel for detecting horizontal edges (source: [3Blue1Brown](https://www.youtube.com/watch?v=KuXjwB4LzSA))." >}}
 
 *Element values in the kernel determine what features it extracts*. In the above example, element values sum up to 1, so the kernel blurs the original image by taking a moving average of neighboring pixels ("box blur"). If we allow some values in a kernel to be positive and others negative, the kernel may detect variations in pixel values and pick up on features such as vertical and horizontal edges. We can design different kernel values to detect different image features (more [examples](https://en.wikipedia.org/wiki/Kernel_(image_processing))).
 
 
 In the 1D example, we considered all possible offsets between two arrays. In a CNN, however, we only compute element-wise products where the kernel is fully aligned with the original image. If the original image has dimensions $m \times n$ (ignoring the color channel for now), the output array --- or the "feature map" --- of a $k \times k$ kernel will have dimensions $(m - k + 1) \times (n - k + 1)$. This is because the kernel slides horizontally $(n - k + 1)$ times and vertically $(m - k + 1)$ times across the image.
 
-{{< figure src="https://www.dropbox.com/scl/fi/0jlc6tkazba6ab37gvdxv/Screenshot-2024-10-13-at-11.56.49-AM.png?rlkey=xwi0e4r4186ogsp5xlkc7tfn8&st=30xd4zqs&raw=1" width="1500" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/0jlc6tkazba6ab37gvdxv/Screenshot-2024-10-13-at-11.56.49-AM.png?rlkey=xwi0e4r4186ogsp5xlkc7tfn8&st=30xd4zqs&raw=1" width="1500" caption="In a CNN, we only convolve fully aligned positions (source: [DigitalOcean](https://www.digitalocean.com/community/tutorials/writing-cnns-from-scratch-in-pytorch)).">}}
 
 In practice, we usually add padding to keep the dimensions of each feature map at $m \times n$ instead of reducing it to $(m - k + 1) \times (n - k + 1)$. After convolution, we stack the $l$ feature maps into a tensor of size $l \times m \times n$, and then apply the ReLU activation function to each element in the tensor, setting negative values to zero.
 
-
-{{< figure src="https://www.dropbox.com/scl/fi/tb263n4exx926l7vmnuuu/Screenshot-2024-10-13-at-12.25.27-PM.png?rlkey=hcf7s7bhtlq9tfwarug0n4mbu&st=sosp0r51&raw=1" width="1500" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/tb263n4exx926l7vmnuuu/Screenshot-2024-10-13-at-12.25.27-PM.png?rlkey=hcf7s7bhtlq9tfwarug0n4mbu&st=sosp0r51&raw=1" width="1500" caption="Apply max pooling after convolutional layers + ReLU (source: [CS231n](https://cs231n.github.io/convolutional-networks/))." >}}
 
 It's customary to apply max pooling after ReLU, where we use a fixed-size window to downsample each individual feature map and take the maximum value in each window. We can use a hyperparameter "stride" to control how far the window moves across the feature map --- with a stride of 2, we reduce the spatial dimensions by half. 
 
@@ -151,11 +150,11 @@ $$l \times \left( \left\lfloor \frac{m - p}{s} \right\rfloor + 1 \right) \times 
 
 Finally, this dimension-reduced tensor is fed into a feed-forward network to perform the target task, such as image classification or object detection.
 
-### Put Together a CNN
+### Putting Together a CNN
 
 > <span style="background-color: #D9CEFF"> *"There is no set way of formulating a CNN architecture. That being said, it would be idiotic to simply throw a few of layers together and expect it to work."* </span> --- O'Shea and Nash (2015), *[An Introduction to CNN](https://arxiv.org/abs/1511.08458)*.
 
-{{< figure src="https://www.dropbox.com/scl/fi/6iuyho5mv6w7o5e3w6izj/Screenshot-2024-10-13-at-11.39.37-AM.png?rlkey=b2h4t1xuxo6zmb2z2fapp1bui&st=19j5vozh&raw=1" width="1500" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/6iuyho5mv6w7o5e3w6izj/Screenshot-2024-10-13-at-11.39.37-AM.png?rlkey=b2h4t1xuxo6zmb2z2fapp1bui&st=19j5vozh&raw=1" width="1500" caption="A common way to stack CNN layers (source: [O'Shea and Nash, 2015](https://arxiv.org/abs/1511.08458)).">}}
 
 To extract complex features at increasingly levels of abstraction, we can use multiple CNN layers. A common approach is to stack two convolutional layers before each pooling layer. The code below illustrates this concept ([source](https://www.digitalocean.com/community/tutorials/writing-cnns-from-scratch-in-pytorch)).
 
@@ -227,4 +226,4 @@ class ConvNeuralNet(nn.Module):
 13. *[But What Is A Convolution?](https://www.youtube.com/watch?v=KuXjwB4LzSA)* by 3Blue1Brown, *YouTube*.
 14. *[Geoffrey Hinton and Fei-Fei Li in Conversation](https://youtu.be/E14IsFbAbpI?si=pGDRbakEIOHv9A5p)*, *YouTube*.
 15. [*Aerodynamics For Cognition*](https://www.edge.org/conversation/tom_griffiths-aerodynamics-for-cognition) by Griffiths, *Edge*.
-16. Spatial Intelligence
+16. [*The Future of AI is Here*](https://www.youtube.com/watch?v=vIXfYFB7aBI&t=1991s) by Fei-Fei Li, *YouTube*.
