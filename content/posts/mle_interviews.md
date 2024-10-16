@@ -1,6 +1,6 @@
 ---
 title: (Opinionated) Guide to ML Engineer Job Hunting
-date: 2024-03-16
+date: 2024-10-15
 math: true
 tags:
     - career
@@ -15,7 +15,7 @@ include_toc: true
 
 # The Marriage Analogy
 
-Nearly 2 years ago, I wrote a [blog post](https://www.yuan-meng.com/posts/newgrads/) on how to find jobs as a new grad data scientist (as a twist of fate, I never worked as a product data scientist but instead became an ML engineer at DoorDash). Back in 2021, I cared a ton about interview skills, answer "frameworks", and whatnot, which may still come handy at New Grad or Early Career levels. For experienced hires, however, I think of interviews as some sort of marriage proposal --- *it's something you can rehearse but can never force*.
+Over 2 years ago, I wrote a [blog post](https://www.yuan-meng.com/posts/newgrads/) on how to find jobs as a new grad data scientist (as a twist of fate, I never worked as a product data scientist but instead became an ML engineer at DoorDash). Back in 2021, I cared a ton about interview skills, answer "frameworks", and whatnot, which may still come handy at New Grad or Early Career levels. For experienced hires, however, I think of interviews as some sort of marriage proposal --- *it's something you can rehearse but can never force*.
 
 If your resume is strong enough, you may get a date or two (e.g., recruiter call/HM chat/phone screen), but for the company to say "yes" (the offer), the expertise you bring to the table has to fit their roadmap and the person that you are must fit the company/team culture --- otherwise, the marriage will be painful (and short). 
 
@@ -25,63 +25,71 @@ Of course, you can and should prepare for interviews --- just like people spent 
 
 > You need to be motivated... It isn't so difficult, but it's also not so easy. --- *[Linear Algebra: Theory, Intuition, Code](https://github.com/mikexcohen/LinAlgBook)*, Mike X. Cohen
 
-The foreword from my favorite linear algebra book perfectly summarizes my opinion about the MLE interview. It isn't so hard that companies would ask you to implement, say, a two tower model in one hour. It isn't so easy that you can pass as an expert by memorizing a textbook without understanding. You need to be motivated because sheer power of will is sometimes needed to go over the vast knowledge repertoire of an MLE, especially when you also need to perform well at your current job while on the hunt. Rest assured that no time ever goes to waste --- even if you don't get an offer --- reading and thinking about ML foundations help you make more principled or creative decisions at work, or re-appreciate the sheer beauty of AI/ML. 
+The foreword from my favorite linear algebra book perfectly summarizes my opinion about the MLE interview. It isn't so hard that companies would ask you to implement, say, a two-tower model in one hour. It isn't so easy that you can pass as an expert by memorizing a textbook without understanding. You need to be motivated because sheer power of will is sometimes needed to go over the vast knowledge repertoire of an MLE, especially when you also need to perform well at your current job while on the hunt. Rest assured that no time ever goes to waste --- even if you don't get an offer --- reading and thinking about ML foundations help you make more principled or creative decisions at work, or re-appreciate the sheer beauty of AI/ML. 
 
 A typical MLE interview loop consists of 6 rounds, as shown in the hexagon. Some companies use a subset and some companies have their unique rounds. Generally, a successful candidate is a good coder with solid ML foundations who has delivered high-impact ML projects via challenging cross-functional collaborations and follows the latest industry/academic trends. As Josh Tobin put it, good MLEs are unicorns. 
 
 {{< figure src="https://www.dropbox.com/scl/fi/jtwcup2ms2nt3wondqp04/Screenshot-2024-03-15-at-9.23.48-PM.png?rlkey=5e042y4cxlwo71rgajyyxkzfn&raw=1" width="1000" caption="In a talk at Berkeley, Josh Tobin likened ML engineers to 'unicorns'" >}}
 
 1. **Coding**: For MLE candidates, coding interviews are like the GRE for Ph.D. candidates --- good performance by no means guarantees acceptance, but poor performance easily disqualifies you (unless you have an uncannily matching background). There are 3 styles of MLE coding questions:
-    - **LeetCode** (*extremely common*): Classic data structures & algorithms problems; usually medium or hard -- sometimes really hard
-    - **ML coding** (*increasingly more common*): Use NumPy to code up a classic ML algorithm (e.g., KNN, K-means, logistic regression, linear regression, perceptrons, etc.) or use PyTorch to code up a component of a SOTA model (e.g., multi-headed attention, positional encoding)
-    - **Object-oriented programming** (*somewhat rare*): Write a series of classes to implement a system (e.g., an employee registry, a non-ML movie recommender) --- kinda like a mini backend system design question
+    - **LeetCode** (*extremely common*): Classic data structures & algorithms problems 👉 <span style="background-color: #FDB515">same as the bar for SWE</span>: Meta asks 2 Mediums in 45 min; most places ask 1 Hard + 1 Medium in 1 hour, or 1 Hard with some follow-ups in 45 min.
+    - **ML Coding** (*traditional or researchy positions*):  Code up a simple model (e.g., K-means, logistic/linear regression), a SOTA building block (e.g., multi-headed attention), or an ML concept (e.g., AUC, vector/matrix multiplication) 👉 these were popular a few years ago, and some companies still keep them; researchy positions may also probe into ML coding.
+    - **Object-Oriented Programming** (*backend-heavy positions*): In places where MLEs handle heavy backend work (e.g., Netflix, Reddit), candidates are often asked to implement some sort of CRUD (create, read, update, delete) API 👉 class methods get increasingly more complex with each follow-up.
 2. **ML System Design**: Your resume may be packed with impressive projects, but it's impossible to tell if you thought of the solutions yourself or someone else told you what to do. The MLSD round is a window into your first-principle thinking of how to design a scalable ML system for a business problem at hand. 
-    - **Content:** In 45 min to 1 hour, you need to translate a vague business problem into an end-to-end ML system, from collecting system requirements, understanding business objectives, framing the problem as an ML task, to data generation, feature engineering, model architecture \& loss function choices, and monitoring, deployment, and A/B testing. 
-    - **Focus:** Some companies focus on "ML" (e.g., SOTA model details) and some on "E" (backend implementations of feature store, model store, and data/feature/prediction pipelines, etc.). It's good to understand both.
-3. **ML Breadth**: Most companies have a rapid-fire round of questions about ML foundations ("八股文快问快答"), such as the bias-variance trade-off, detecting overfitting and under-fitting, L1/L2 regularization, feature/model selection... Noways DL basics are also a necessity, such as how backpropagation works, choices of optimizers and schedulers, vanishing/exploding gradients and remedies, regularization methods that apply specifically to neural nets, etc.. 
+    - **Content:** In 45 min to 1 hour, you translate a vague business problem into an end-to-end ML system, from collecting requirements, understanding business objectives, framing the problem as an ML task, to data generation, feature engineering, label design, model architecture \& loss function choices, and eventually monitoring, deployment, scaling, and A/B. 
+    - **Focus:** Some companies focus on the "ML" (SOTA model details) and some on the "E" (the end-to-end ML system at training and serving time, including feature store, model store, data/feature/prediction/monitoring pipelines, etc.). Some companies have 2 design rounds covering both. It's necessary to deeply understand both industry-stand models and the ML infra.
+3. **ML Breadth**: Many companies have a rapid-fire round asking questions about ML foundations ("八股文快问快答"), such as the bias-variance trade-off, detecting overfitting and under-fitting, L1/L2 regularization, feature/model selection... Noways DL basics are also a necessity, such as how backpropagation works, choices of optimizers and schedulers, vanishing/exploding gradients and remedies, regularization methods that apply specifically to neural nets, etc.. 
 4. **ML Domain Knowledge**: This round ensures you're an expert of your domain (e.g., NLP/ranking) who deeply understands key ideas from seminal works.
-    - **NLP**: The original transformer architecture, the classic BERT/GPT/BART/T5, how Llama 2/Mistral 7B/etc. innovated from the original transformer, optimization techniques for pre-training and fine-tuning (e.g., flash attention, sliding window attention, LoRA), RLHF, LLM eval, etc.
-    - **Search/rec/ads**: Ranking metrics (MRR, nDCG, MAP...), embeddings (created via contrastive representation learning such as two-tower models), candidate sampling, multi-task \& multi-objective learning, popular rec model architectures (e.g., Wide \& Deep, DCN, DCN V2, DLRM, DIN, DIEN, etc.)...
+    - **NLP**: The original Transformer in *Attention Is All You Need*, popular Transformers (BERT/GPT/BART/T5/Llama), efficient Transformers (e.g., FlashAttention, Sliding Window Attention, LoRA, QLoRA, PEFT), RLHF, eval...
+    - **Search/Rec/Ads**: Multi-stage ranking design (candidate generation 👉 first-pass ranking 👉 second-pass ranking 👉 re-ranking), ranking metrics (MRR@K, nDCG@K, MAP@k, Recall@k...), popular DL architectures (e.g., Wide \& Deep, DCN, DCN V2, DIN, DIEN, DHEN, etc.), multi-objective learning and value models, solutions for cold-start/position bias/diversity...
 5. **Project Deep Dive**: Your past success is a predictor of your future. By walking through how you delivered impactful ML projects by choosing the right business problem to solve, carefully considering all alternatives and their trade-offs, aligning the team on key decisions, and executing against decided milestones, you give the hiring manager some confidence that you could do the same there. 
-    - **A big red flag**: Nothing is worse than making a random decision without any justifications (e.g., long-term tech debt vs. short-term velocity, accuracy vs. latency, buy vs. build, etc.), because it suggests you're unable/unwilling to make difficult decisions when the moment comes, but it is those moments that make or break a project.  
-6. **Behavior Interview**: A rapid-fire round of questions about how you solve problems, work with others, deliver under pressure and limited resources, iterate on feedback, mentor team members, learn from successes/failures… 
+    - **A Big Red Flag**: Nothing is worse than making a random decision without any justifications (e.g., long-term tech debt vs. short-term velocity, accuracy vs. latency, buy vs. build, etc.), because it suggests you're unable/unwilling to make difficult decisions when the moment comes, but it is those moments that make or break a project.  
+6. **Behavior Interview**: A rapid-fire round of questions asking how you solve problems, work with others, deliver under pressure and limited resources, iterate on feedback, mentor team members, learn from successes/failures… 
 
-The million-dollar question is, how can one prepare for so much in so little time? As is true for most good things in life, it's *devotion* and *motivation*, and a *foundation* built over the years. I often think about the lyrics of *Remember the Name*: 
+I joke with my friends that <span style="background-color: #FDB515">project management is the only real skill behind ML interview preparation</span>😆. Finding the time is already challenging --- it takes *devotion* , *motivation*, and *discipline* to make consistent progress toward your goals, be them learning the state of the art or enhancing the foundational knowledge that you've built over the years. I sometimes listen to *Remember the Name* to remind myself:
 
 > This is ten percent luck <br/> Twenty percent skill <br/> Fifteen percent concentrated power of will <br/> Five percent pleasure <br/> Fifty percent pain <br/> And a hundred percent reason to remember the name <br/> --- Fort Minor, [*Remember the Name*](https://www.youtube.com/watch?v=7HfjKUYiumA) (2005)
-
 
 # How to Prepare
 
 ## Meta Tip: Track Your Learnings
 
-I don't know about you, but I'm the kind of person who won't remember dinner plans unless I write down with whom am I having dinner at which restaurant (or I might stand you up 😂). For a much bigger undertaking like the MLE interview prep, I track what I've learned in Notion Pages and when I learn them in Notion Calendar.
-
+I'm your stereotypical INTJ who plans everything and tracks everything 🤣. For each interview topic, I have a dedicated Notion page; I block daily recurring times on my Notion Calendar to study a given topic at a give time; when the time comes, I track each interview round as a task in a centralized table with all my interviews.
 
 ### One Topic per Notion Page 
 
-I used to open a Google doc for each company I interviewed with and quickly noticed the redundancy --- many companies have the same rounds, so instead of writing new notes, I could've reviewed previous ones. I switched to Notion (have been a big fan since 2018) to consolidate my notes. As can be seen from the screenshot, I created a page for each interview round. Whenever I learn something new about a topic, I add it to the corresponding page. When reviewing a topic, I open the page to skim. 
+I used to open one Google doc for each company I interviewed with and quickly noticed the redundancy --- many companies have the same rounds, so instead of writing new notes, I could've reviewed previous ones. I switched to Notion (a big fan since 2018) to consolidate my notes. As you can see from the screenshot, I created one page for each interview round. Whenever I learn something new about a topic, I add it to the corresponding page. When reviewing a topic, I open the page to skim. 
 
-{{< figure src="https://www.dropbox.com/scl/fi/gabmdr5f1oey5skstxkh6/Screenshot-2024-03-15-at-11.29.21-PM.png?rlkey=cf4m9kphy4b80w4prppzp5u92&raw=1" width="450" caption="I created Notion pages to collect knowledge for each MLE interview round" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/v27sq1fb7ma34rq05a83y/Screenshot-2024-10-15-at-7.27.07-PM.png?rlkey=o1u0pz016xxzsdql3cqsv5052&st=b890it5j&raw=1" width="400" caption="I created Notion pages to collect knowledge for each MLE interview round" >}}
 
 I can't share my notes since they contain NDA content --- you should create your own notes anyways, because deep learning (no puns intended) doesn't come from reading someone else's notes; rather, notes are a means to consolidate your learning from the source (e.g., textbooks, SOTA papers, talks, engineering blogs, code, etc.).
 
 ### Block Time on Your Calendar
 
-I practice LC-style coding for one hour before work and 2 hours after work. I read NLP + ranking papers/books/blogs/code/etc. for 2-3 hours in the evenings. I sometimes take days off, but adhere to the schedule if I can. Having this schedule in Notion Calendar reminds me to focus on work during the day (so I don't think about interviews) and enjoy learning after work (rather than stretching "busy work"). 
+I practice LC-style coding for one hour before work and 2 hours after work. I read NLP + ranking papers/books/blogs/code/etc. for 2-3 hours in the evenings. I do take days off, but try to adhere to this schedule if I can. Having a schedule in Notion Calendar reminds me to focus on work during the day (so I don't think about interviews) and enjoy learning after work (rather than stretching "busy work"). 
 
 You should find a schedule that suits your lifestyle. Or perhaps, you thrive without schedules, like some of my friends do. The bottom line is, ML interview prep takes a ton of time and you need to learn how to fit it into your normal work/life. 
 
 {{< figure src="https://www.dropbox.com/scl/fi/g1m9j7z63j51hbfa2q9fi/Screenshot-2024-03-15-at-11.39.04-PM.png?rlkey=zg36o6hys6yhpnd4qi8i2xd6j&raw=1" width="1200" caption="I blocked time for LC practice and NLP/ranking readings in Notion Calendar" >}}
 
+### Track Interview Progress
+
+ When the time comes for interviewing, I track each interview as a task in a centralized table. Before an interview is scheduled, I place it under "scheduling." Once it's confirmed, I move it to "in progress," and after it's completed, I drag it to "done." Each interview comes with its own Notion page, where I note the date and time for each round, what to prepare, and the time I decide to allocate (e.g., 2 weeks for coding, 1 week for ML design, and 3 days for behavior).
+
+{{< figure src="https://www.dropbox.com/scl/fi/h6f0r7m4g8pmjyig53jra/Screenshot-2024-10-15-at-8.01.27-PM.png?rlkey=4laxswoi84nkf94o6mkpvs4wp&st=5nmw4hz2&raw=1" width="1200" caption="I track each round as a task, with a detailed page for the prep agenda." >}}
+
+For me personally, this tracking system relieves some of my stress and helps me focus:
+
+1. **Tunnel vision**: When I prepare for a phone interview, I focus only on what's necessary for that phone interview and don't worry about whether I'll pass the onsite; when I prepare for an onsite at one company, I don't worry about preparing for another company's interview later.
+2. **Get into the zone**: When I open an interview-specific page, I get into the zone.
 
 ## Coding
 
-### Classic DS\&A
+### Classic DS \& A
 
-As the NeetCode guy Navdeep Singh [put it](https://www.youtube.com/watch?v=2V7yPrxJ8Ck), the only way to solve LC problems is to have seen the algorithms beforehand; it's unrealistic to derive neat algorithms on the spot and companies are fooling themselves into thinking they are testing candidates on pure problem-solving skills. If you can't change the game, you gotta play along.
+As the NeetCode guy [put it](https://www.youtube.com/watch?v=2V7yPrxJ8Ck), <span style="background-color: #FDB515">the only way to solve LC problems is to have seen the algorithms beforehand</span>; it's unrealistic to derive neat algorithms on the spot. That said, I do think coding interviews is valuable for weeding out "bad" engineers: If someone is a great engineer, it would be out of character for them to write a solution with no regard for time or memory efficiency, keep adding "patches" to save a flawed logic, or get frustrated when their code doesn't work the first time. Of course, the reverse isn't true: Just because someone solves a LC problem doesn't mean they're a great engineer -- they might've just seen the solution yesterday.
 
-Before grinding LC, take [NeetCode's](https://neetcode.io/courses) beginner and advanced courses, where he explains almost all the data structures and algorithms you'll ever need for coding interviews. Each lesson typically lasts between 10 to 25 minutes and includes 3 to 5 practice questions. The courses are paid, but for the cost of 3-4 take-out orders, you get the best way to organize your learning and practice.
+So, how do you get started with LC? If you start with the 1312-page [CLRS](https://en.wikipedia.org/wiki/Introduction_to_Algorithms) book, you may still not have got your hands dirty a year later. If you just grind random questions, you may never identify common patterns. I find [NeetCode's](https://neetcode.io/courses) beginner and advanced courses a great middle ground. Navdeep Singh explains almost all the data structures and algorithms you'll ever need for coding interviews. Each lesson lasts between 10 to 25 minutes and comes with 3 to 5 practice questions, so you'll learn the theory and get hands-on practice immediately. The courses are paid, but for the price of 3-4 take-out orders, you get the best way to organize your LC prep.
 
  {{< figure src="https://www.dropbox.com/scl/fi/b59qf2upsoz3pu4rvsi6s/Screenshot-2024-03-16-at-12.18.14-AM.png?rlkey=gjprpbxezvo4uzjt6d53w2qpp&raw=1" width="600" >}}
 
@@ -137,19 +145,26 @@ Before grinding LC, take [NeetCode's](https://neetcode.io/courses) beginner and 
 </tr>
 </table>
 
-After that, I recommend doing Blind 75 and NeetCode 150, two problem collections that cover classic, high-frequency questions from interviews. NeetCode All (400+ problems) may be an overkill --- if you have interviews lined up, then move on to practice company-tag questions (URL pattern: `leetcode.com/company/<company name>`).
+After the courses, I recommend doing Blind 75 and NeetCode 150, two problem collections that cover classic, high-frequency interview questions. NeetCode All (500+ problems) is an overkill --- if you have interviews lined up, then move on to practicing LC problems with company tags (URL: `leetcode.com/company/<company name>`).
 
- {{< figure src="https://www.dropbox.com/scl/fi/rxbnz4jpmzd8q22a7ccyx/Screenshot-2024-03-16-at-12.41.08-AM.png?rlkey=dpmx3aseb5ijp84eo61z64o26&raw=1" width="450" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/rxbnz4jpmzd8q22a7ccyx/Screenshot-2024-03-16-at-12.41.08-AM.png?rlkey=dpmx3aseb5ijp84eo61z64o26&raw=1" width="500" >}}
 
+The final test is solving the problem on the spot. When I started getting offers (incl. from companies notorious for asking hard coding questions) after solving ~500 problems, I found it more tedious to code up the solutions than I worried about if I could solve the problems. Below is how I approach any given problem:
 
-I was terrible when doing my first 100-200 questions, often having no clues or struggling to translate my thoughts into code. After 300-400 questions, I started to get the hang of it, often having a strong sense of the solution by recognizing patterns in the prompt/test cases. When solving the problem, I also have an intuition about whether I'm going in the right direction or not (e.g., adding more and more auxiliary data structures or special cases is a strong sign of going awry). Think of LC problems as training data for the AI that is you --- too few, you don't get the chance to observe representative patterns and learn useful tricks. 
+{{< figure src="https://www.dropbox.com/scl/fi/jtg4r456ve2gdfzat7ku6/Screenshot-2024-10-15-at-8.20.41-PM.png?rlkey=0xwvfs2j657ji1kw47iazn56k&st=v85wynqt&raw=1" width="1200" caption="My approach to solving (almost) all LC problems in coding interviews." >}}
 
-However, the "learning algorithm" also matters. I like how Chris Jereza [put it](https://www.youtube.com/watch?v=lDTKnzrX6qU) --- many people have seen so many LC questions yet still fail to recognize common tricks and patterns, just like many go to the gym so often yet still fail to get fit --- *mastery is not just determined by how many questions you did, but also by intensity and reflection*. I track problems I solved in Notion, mark my level of mastery (so I can re-do problems for which I had "no clue" or "bugs"), and summarize key insights for each problem in one or two sentences. For each company I interviewed with, I manually added questions from LC --- the long-term benefits far outweigh the extra time in the beginning. You can modify my [template](https://www.notion.so/yuanm/7667ceebb8dd4f3f840d96e43c9733c1?v=a9389f5990ed4cc691e326f92488624f&pvs=4) to your liking. 
+1. **Understand**: Interviewers usually paste the prompt in the coding interface (e.g., CoderPad, HackerRank, CodeSignal). Read both the prompt and test cases carefully. Most problems are clear, but ask if anything is unclear.
+2. **Brainstorm**: In the first minute or two, let your intuitions flow. The prompt or test cases often hint at solutions. For example, words like "most" or "least" might suggest a greedy approach, or using DFS/DP to explore all possibilities.
+3. **Narrow down**: If you have a clear intuition, go with it. Otherwise, weigh the best solution for the problem against what you can realistically implement given the time you have. For instance, even if Dijkstra's is optimal, I might opt for DFS since it's easier for me to explain and implement.
+4. **Communicate**: Once you find a direction, explain it to the interviewer. If they agree, proceed; if they suggest a different approach, pivot.
+5. **Implement**: Only start coding if the interviewer agrees on your approach. I find it helpful to outline the steps as comments, then flesh out each step, moving comments down as I code. Walk through your solution with a simple example.
+
+It's not easy to reach this final state. When working through my first 100-200 problems, I was terrible --- clueless on Hard problems and often adding more and more auxiliary data structures or special cases as things went awry. Think of LC problems as training data for the AI that is you --- if you solve too few, you miss the chance to observe representative patterns and learn useful tricks. However, the "learning algorithm" also matters. I like how Chris Jereza [put it](https://www.youtube.com/watch?v=lDTKnzrX6qU) --- many people solve tons of LC questions but still fail to recognize common patterns, just like many go to the gym everyday but never get fit. *Mastery is not just determined by how many questions you did, but also by intensity and reflection*. I track problems I solve in Notion, mark my level of mastery (so I can re-do problems where I had "no clue" or made "bugs"), and summarize key insights for each problem in one or two sentences. For each company I interviewed with, I manually added questions with company tags from LC --- the long-term benefits far outweigh the extra time spent upfront. You can modify my [template](https://www.notion.so/yuanm/7667ceebb8dd4f3f840d96e43c9733c1?v=a9389f5990ed4cc691e326f92488624f&pvs=4)  to suit your needs.
+
 
  {{< figure src="https://www.dropbox.com/scl/fi/ofj185vw66fucdyqb5sd5/Screenshot-2024-03-16-at-12.53.20-AM.png?rlkey=2if7axp0v8wpwbothdo6onuix&raw=1" width="1200" >}}
 
-
-I highly recommend doing a few mock interviews before the real interview, because it prepares you for solving problems while being watched. That said, I'm not a big fan of excessive mock interviews --- after two or three, I already know I can think under stress; it's just a matter of whether I know the algorithm or not. For me, practicing a wide variety of problems on my own is more efficient than spending hours scheduling mock interviews with friends, but if your bottleneck is nerves rather than knowledge, then it may be worth investing more time in mock interviews.
+I highly recommend doing a few mock interviews before the real one, as it prepares you to solve problems while being watched. Companies like Google and Meta even offer mock interview services with a company interviewer before your actual interview. That said, I'm not a big fan of excessive mock interviews --- after two or three, I already know I can think under pressure; it's just a matter of whether I know the algorithm or not. For me, practicing a wide variety of problems on my own is sufficient. However, if your bottleneck is nerves rather than knowledge, it might be worth investing more time in mock interviews.
 
 ### ML Coding
 
@@ -165,7 +180,7 @@ At work, writing an RFC ("Request For Comments") for a new model can take more t
 
 In 45 min to 1 hour, you'll be asked to replicate the whole process. You gotta structure your answers well to keep the interview moving on track. Some books (Alex Xu's [*Machine Learning System Design Intervie*w](https://www.amazon.com/Machine-Learning-System-Design-Interview/dp/1736049127)) and courses (Educative: [*Grokking the Machine Learning Interview*](https://www.educative.io/courses/grokking-the-machine-learning-interview) and [*Machine Learning System Design*](https://www.educative.io/courses/machine-learning-system-design)) teach you exactly how to structure your answers. I summarized lessons from these sources in my [notes](https://yuanm.notion.site/ml-system-design-cd12d1028ed640e199e64ed0ed461851?pvs=4). 
 
- {{< figure src="https://www.dropbox.com/scl/fi/bld9zng0xz2r5grp6fp9i/Screenshot-2024-03-16-at-10.55.08-AM.png?rlkey=jfd9g8bi2h1dv6k2j1xlqwjz0&raw=1" width="1200" >}}
+{{< figure src="https://www.dropbox.com/scl/fi/bld9zng0xz2r5grp6fp9i/Screenshot-2024-03-16-at-10.55.08-AM.png?rlkey=jfd9g8bi2h1dv6k2j1xlqwjz0&raw=1" width="1200" >}}
 
 At the end of the day, however, **structure exists to support substance**. When it comes to actual label/model designs and the production system, you'll be asked detailed questions about industry gold standards and your best practices at work --- *this is the substance that shines through*. As some with a Search/NLP background, can I design an autonomous driving system for an interview? Perhaps, if I memorize some image data annotation and augmentation techniques and popular CV models, but my lack of CV experience will be seen through and, if offered the job, I'll most definitely run the system to the ground... So my advice for preparation is, sure, read Alex's book to master the structure, but the real preparation is being a good ML engineer who designs thoughtful, practical, reliable, and scalable ML systems and goes to design reviews to learn how other ML engineers think (or critique). 
 
@@ -269,3 +284,9 @@ If you know me by now, you might've guessed that I created an interview progress
 
 {{< figure src="https://www.dropbox.com/scl/fi/bp78z6q27pa5cvotn342k/Screenshot-2024-03-16-at-11.44.33-PM.png?rlkey=wgymx513hyfu6t1wbo2zutvr1&raw=1" width="1000" >}}
 
+# Resources
+## Coding
+1. ML coding: [ML Code Challenges](https://www.deep-ml.com/)
+
+## ML Design
+1. Feature
