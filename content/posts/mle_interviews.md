@@ -46,7 +46,7 @@ A typical MLE interview loop consists of 6 rounds, as shown in the hexagon. Some
     - **A Big Red Flag**: Nothing is worse than making a random decision without any justifications (e.g., long-term tech debt vs. short-term velocity, accuracy vs. latency, buy vs. build, etc.), because it suggests you're unable/unwilling to make difficult decisions when the moment comes, but it is those moments that make or break a project.  
 6. **Behavior Interview**: A rapid-fire round of questions asking how you solve problems, work with others, deliver under pressure and limited resources, iterate on feedback, mentor team members, learn from successes/failures… 
 
-I joke with my friends that <span style="background-color: #FDB515">project management is the only real skill behind ML interview preparation</span>😆. Finding the time is already challenging --- it takes *devotion* , *motivation*, and *discipline* to make consistent progress toward your goals, be them learning the state of the art or enhancing the foundational knowledge that you've built over the years. I sometimes listen to *Remember the Name* to remind myself:
+I joke with my friends that <span style="background-color: #FDB515">project management is the only real skill behind ML interview preparation</span> 😆. Finding the time is already challenging --- it takes *devotion* , *motivation*, and *discipline* to make consistent progress toward your goals, be them learning the state of the art or enhancing the foundational knowledge that you've built over the years. I sometimes listen to *Remember the Name* to remind myself:
 
 > This is ten percent luck <br/> Twenty percent skill <br/> Fifteen percent concentrated power of will <br/> Five percent pleasure <br/> Fifty percent pain <br/> And a hundred percent reason to remember the name <br/> --- Fort Minor, [*Remember the Name*](https://www.youtube.com/watch?v=7HfjKUYiumA) (2005)
 
@@ -190,8 +190,6 @@ I think of the ML system design interview as a mini design review for an ML proj
 
 You need to drive the interview in an organized manner to cover all bases in 45 minutes or 1 hour, while also attuning to the interviewer's preferences --- some focus on model architectures or feature ideas, others on ML infra and the end-to-end ML system. Think of them as design reviewers and meet their requests to get buy-in: Discuss modeling ideas from papers and your experience if they want model details, or draw a system diagram if they ask for the end-to-end architecture.
 
-On the one hand, it's up to you to structure your answers so you can cover all grounds in 45 min or 1 hour; on the other, interviewers have tend to have a preferences --- some want to hear more about model architectures, some feature ideas, and others the infra around ML. Think of them as reviewers in your design review --- to get their buy in, do follow their lead and satisfy their requests. If they want to hear model details, discuss ideas from papers and your work experience. If they want to see the end-to-end architecture, draw a system diagram. 
-
 In school, I took ML system design courses (Educative: [*Grokking the Machine Learning Interview*](https://www.educative.io/courses/grokking-the-machine-learning-interview), read Alex Xu's [*Machine Learning System Design Interview*](https://www.amazon.com/Machine-Learning-System-Design-Interview/dp/1736049127), and summarized learning in my [notes](https://yuanm.notion.site/ml-system-design-cd12d1028ed640e199e64ed0ed461851?pvs=4). However, these resources don't cover enough ML depth in any given domain, be it ranking, trust & safety, or NLP. As an interviewer myself, I've seen many candidates who memorize the structure from these sources, but it's really only substance that matters. You gotta know the industry gold standard, state-of-the-art models, and best practices for ML production in your domain.
 
 <!-- 
@@ -307,7 +305,7 @@ Back in school, I often lost sleep the night before an interview, fearing that a
 
 ## "Imposter Syndrome"
 
-> However, maybe you're working somewhere where you haven't dealt with large scale data or they aren't using any type of sophisticated ML techniques. This is a great motivation to get a new job! --- *[Systems Design Interview Guide](http://patrickhalina.com/posts/systems-design-interview-guide/)*, Patrick Halina, Staff MLE @Pinterest
+> <span style="background-color: #FDB515">However, maybe you're working somewhere where you haven't dealt with large scale data or they aren't using any type of sophisticated ML techniques. This is a great motivation to get a new job!</span> --- *[Systems Design Interview Guide](http://patrickhalina.com/posts/systems-design-interview-guide/)*, Patrick Halina, Staff MLE @Pinterest
 
 When I first started my interview prep journey, I struggled with imposter syndrome: If I'm already building the most sophisticated models from SOTA papers, then why would I need to look for new opportunities? But if I haven't worked on such models, then why would anyone take a chance on me? If I talk about new ML techniques I've only learned from papers to land a job, am I letting my words speak louder than my actions, which goes against the kind of ML engineer I aspire to be?
 
