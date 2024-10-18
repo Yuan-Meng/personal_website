@@ -177,7 +177,10 @@ Sometimes, you may not write a full algorithm, but rather a model component (e.g
 
 > <span style="background-color: #FDB515">"Project" is the word many organizations use to coordinate efforts which move the needle of a specific business goal.</span> --- Gergely Orosz (2023), <em>The Software Engineer's Guidebook</em>.
 
-I think of the ML System Design interview as a mini design review for an ML project. You first need to understand how the model moves the needle of a business goal (and push back if it doesn't), how success is measured, which users will see the model's predictions on which surfaces, what the system requirements are (e.g., latency, throughput, SLA), and how to translate the business problem into an ML problem with the right objective(s). Then, dive deep into how to develop (training data + label generation, features), evaluate (offline, online), and serve the model (e.g., data + feature + training + serving + monitoring pipelines) at web scale.
+
+### Mini Design Review
+
+I think of the ML system design interview as a mini design review for an ML project. You first need to understand how the model moves the needle of a business goal (and push back if it doesn't), how success is measured, which users will see the model's predictions on which surfaces, what the system requirements are (e.g., latency, throughput, SLA), and how to translate the business problem into an ML problem with the right objective(s). Then, dive deep into how to develop (training data + label generation, features), evaluate (offline, online), and serve the model (e.g., data + feature + training + serving + monitoring pipelines) at web scale.
 
 You need to drive the interview in an organized manner to cover all bases in 45 minutes or 1 hour, while also attuning to the interviewer's preferences --- some focus on model architectures or feature ideas, others on ML infra and the end-to-end ML system. Think of them as design reviewers and meet their requests to get buy-in: Discuss modeling ideas from papers and your experience if they want model details, or draw a system diagram if they ask for the end-to-end architecture.
 
@@ -185,16 +188,26 @@ On the one hand, it's up to you to structure your answers so you can cover all g
 
 In school, I took ML system design courses (Educative: [*Grokking the Machine Learning Interview*](https://www.educative.io/courses/grokking-the-machine-learning-interview), read Alex Xu's [*Machine Learning System Design Interview*](https://www.amazon.com/Machine-Learning-System-Design-Interview/dp/1736049127), and summarized learning in my [notes](https://yuanm.notion.site/ml-system-design-cd12d1028ed640e199e64ed0ed461851?pvs=4). However, these resources don't cover enough ML depth in any given domain, be it ranking, trust & safety, or NLP. As an interviewer myself, I've seen many candidates who memorize the structure from these sources, but it's really only substance that matters. You gotta know the industry gold standard, state-of-the-art models, and best practices for ML production in your domain.
 
+<!-- 
 {{< figure src="https://www.dropbox.com/scl/fi/bld9zng0xz2r5grp6fp9i/Screenshot-2024-03-16-at-10.55.08-AM.png?rlkey=jfd9g8bi2h1dv6k2j1xlqwjz0&raw=1" width="1200" >}}
 
 As a counterexample --- can I design an autonomous driving system in an interview, from a ranking/NLP background?  Perhaps, if I memorize some CV techniques, but my lack of experience will show, and, if offered the job, I'll run the system to the ground... My advice: Sure, read Alex's book for the structure, but the real preparation is being a good MLE who designs thoughtful, practical, reliable, and scalable ML systems and goes to design reviews to learn how others think (or critique). 
+ -->
 
+### Resources
+
+Below are resources I still find useful for ML system design: 
+1. **General advice**: [ML Eng Interview Guide](http://patrickhalina.com/posts/ml-eng-interview-guide/) by Pinterest's [Patrick Halina](https://www.linkedin.com/in/patrick-halina/?originalSubdomain=ca)
+2. **Feature ideas**: [Features in Recommendation Systems (那些年，我们追过的 Feature)](https://pyemma.github.io/Features-in-Recommendation-System/)
+3. **Data pipelines**: [Data Management Challenges in Production Machine Learning](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/46178.pdf)
+4. **Evolution of an ML system**: [Best Practices for ML Engineering](https://developers.google.com/machine-learning/guides/rules-of-ml)
+5. **State of the art**: Engineering blogs + papers in your domain (e.g., general: NeurIPS/ICLR/ICML; information retrieval: KDD/RecSys/SIGIR) 
 
 ## ML Breadth
 
-In this new wave of AI/ML craze, many non-ML friends and strangers asked me how to transition into an MLE. As someone who went through this transition back in school, I hate to discourage people, but it's also no use being dishonest: Grasping machine learning theory and applying it to production systems takes years of study and experience. Anyone can copy \& paste PyTorch code online, but only seasoned ML engineers can trouble-shoot a model that's not performing as intended (see my [post](https://www.yuan-meng.com/posts/ltr/) on Airbnb's long-winded journey into DL). ML engineering is somewhat like medicine in that neural networks are as much an enigma as the human body: Highly specialized knowledge is needed to diagnose a non-working system and prescribe remedies. 
+In this new wave of AI/ML craze, many DS/SWE friends and strangers asked me how to transition into an MLE. As someone who went through this transition back in school, I hate to discourage people, but it's also no use being dishonest: Grasping machine learning theory and applying it to production systems takes years of study and experience. Anyone can copy \& paste PyTorch code online, but only seasoned ML engineers can trouble-shoot a model that's not performing as intended (see my [post](https://www.yuan-meng.com/posts/ltr/) on Airbnb's long-winded journey into DL). ML engineering is somewhat like medicine in that neural networks are as much an enigma as the human body: Highly specialized knowledge is needed to diagnose a non-working system and prescribe remedies. 
 
-This post is aimed at helping current ML engineers seeking new ML opportunities. I don't have first-hand advice on transitioning from DS/SWE to MLE for experienced hires, but someone else may have, so I encourage you to keep looking for theirs. 
+This post aims to help current ML engineers find new ML opportunities. I do not have first-hand advice on transitioning from DS/SWE to MLE for experienced hires, but someone else may have, so I encourage you to keep looking for their advice. 
 
 {{< figure src="https://www.dropbox.com/scl/fi/92naxalcd6i78zx1ztyzb/0F7631FE-DE40-47A8-A9E3-2DF4923C4C95_1_201_a.jpg?rlkey=ek4tn1eiu7ttg8lsd624wqanh&raw=1" width="500" >}}
 
@@ -220,10 +233,9 @@ Chip Huyen curated some [questions](https://huyenchip.com/ml-interviews-book/con
 
 ## ML Depth 
 
-If you interview with Meta or the likes, you'll get the chance to choose a team later, but in today's market, most MLE candidates interview with specific teams that look for specific talents. As a domain expert, you need to know the gold standard in your chosen field(s) and the new bells and whistles. For me, it's ranking and NLP.
+If you interview with companies such as Meta, LinkedIn, or Pinterest, you'll choose a team later. At most companies (e.g., Netflix, Apple, Uber, and even Google now), MLE candidates interview with specific teams looking for domain experts who are familiar with the gold standards in their fields and the latest advancements.
 
 ### Paper Tracker
-
 
 It would take many lifetimes to read all papers that ever got published in your field. That said, good ML engineers should be familiar with the seminal works and "new classics" in their domain and make paper reading a regular habit. I used to save paper PDFs in random folders and would often forget which ones I had read, let alone what I learned from them. Then, inspired by the coding tracker, I created a paper tracker to keep track of papers/books/blog posts I read on different topics. 
 
@@ -236,18 +248,17 @@ For each entry, I write a one- or two-sentence TL;DR, and after clicking on the 
 
 ### Ranking
 
-Ranking is the revenue-generator of consumer-facing companies --- without search/discovery/ads, companies can't make money. This is why ranking is one of the most impactful and exciting domains and has the most job openings (arguably tied with NLP). 
+Ranking is a revenue generator for consumer-facing companies --- without search, recommendations, or ads, they can't make money. This is why ranking is one of the most impactful and exciting domains, with the most job openings nowadays (arguably tied with NLP). I collect the ranking papers (search/rec/ads) I read in this [repo](https://github.com/Yuan-Meng/search_rec_ads_papers).
 
-I recently summarized classic search ranking papers in a blog post, [An Evolution of Learning to Rank](https://www.yuan-meng.com/posts/ltr/). You can find the original papers in the ["Learn More"](https://www.yuan-meng.com/posts/ltr/#learn-more) section. 
+Earlier this year, I summarized classic search ranking papers in a blog post, [An Evolution of Learning to Rank](https://www.yuan-meng.com/posts/ltr/). You can find the original papers under ["Learn More"](https://www.yuan-meng.com/posts/ltr/#learn-more).
 
-Recommendation is the sibling of search, where users don't submit a query yet we still read their minds and show appealing contents to them. To gain a deep understanding of this domain, my friend recommended [深度学习推荐系统](https://www.amazon.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%85%A8%E5%BD%A9%EF%BC%89-%E5%8D%9A%E6%96%87%E8%A7%86%E7%82%B9%E5%87%BA%E5%93%81-%E7%8E%8B%E5%96%86/dp/7121384647/ref=sr_1_1?crid=XZSJ6ZW1282A&dib=eyJ2IjoiMSJ9.BxuHruDCtEpyjInRfwvRFn7pyNHfnLqM9I7MhiVO4QjP5NwIPzDAXhfcdM4N-9cc.-Amg_ZFv605zkwdYZmfQJIg4d3GGoacM4rlgWcwz29c&dib_tag=se&keywords=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F&qid=1710629348&sprefix=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%2Caps%2C141&sr=8-1) by Zhe Wang, who used to be the Head of Engineering at TikTok. This book not only reviews the evolution of recommendation models from traditional collaborative filtering to emerging deep learning architectures, but also speaks from practical experience of productionizing such models. Unfortunately for non-Chinese speakers, this book is only written in Chinese. I also find Gaurav Chakravorty's [blog](https://substack.com/@recsysml) and [repo](https://github.com/gauravchak) a gold mine of practical rec models knowledge. For instance, in this [two-tower model repo](https://github.com/gauravchak/two_tower_models), Gaurav started with a bare bone structure and gradually introduced components such as user history embeddings, position debiasing, and a light ranker, which is highly educational.
+Recommendation is the sibling of search, where users don't submit a query, yet we still read their minds and show appealing content. To gain a general understanding of this domain, I recommend [深度学习推荐系统](https://www.amazon.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%85%A8%E5%BD%A9%EF%BC%89-%E5%8D%9A%E6%96%87%E8%A7%86%E7%82%B9%E5%87%BA%E5%93%81-%E7%8E%8B%E5%96%86/dp/7121384647/ref=sr_1_1?crid=XZSJ6ZW1282A&dib=eyJ2IjoiMSJ9.BxuHruDCtEpyjInRfwvRFn7pyNHfnLqM9I7MhiVO4QjP5NwIPzDAXhfcdM4N-9cc.-Amg_ZFv605zkwdYZmfQJIg4d3GGoacM4rlgWcwz29c&dib_tag=se&keywords=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F&qid=1710629348&sprefix=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%2Caps%2C141&sr=8-1) by Zhe Wang, who was the Head of Engineering at TikTok. This book not only reviews the evolution of recommendation models, from collaborative filtering to deep learning architectures, but also offers practical insights into productionizing such models. Unfortunately, for non-Chinese speakers, this book is only available in Chinese; the book content is slightly outdated, too, as models published after 2020 (e.g., [DCN V2](https://arxiv.org/abs/2008.13535), [DHEN](https://arxiv.org/abs/2203.11014)) are not covered. I also find Gaurav Chakravorty's [blog](https://substack.com/@recsysml) and [repo](https://github.com/gauravchak) to be gold mines of practical rec models knowledge. For instance, in this [two-tower model repo](https://github.com/gauravchak/two_tower_models), Gaurav starts with a barebones structure and gradually introduces components like user history embeddings, position debiasing, and a light ranker, which is highly educational.
 
-I don't know much about ads, which has extra concerns (e.g., calibration, bidding) on top of search/recs. I've turned down recruiters reaching out for ads positions.
-
+Ads have extra concerns (e.g., bidding, auction, calibration) on top of organic ranking. I've become increasingly more fascinated by ads, which is arguably the most technically challenging ranking domain and directly impacts company revenues.
 
 ### NLP 
 
-As a Cognitive Science student, I was interested in all aspects of human intelligence but language😅, thinking that language is an indirect, inaccurate byproduct of thought. Back in the summer of 2021 when I was driving to LA, I listened to a Gradient Dissent [episode](https://www.youtube.com/watch?v=VaxNN3YRhBA) where Emily Bender argued that to interact with language models as we do with humans, we must treat them as equal linguistic partners rather than as mechanistic pattern recognizers. Back then, that day seemed far away. Now with the success of ChatGPT and ever more powerful new LLMs, NLP has become the fastest growing field in AI/ML, with far more active research, new startups, and headcount than any other ML fields. I got into NLP only because I was assigned to work on Query Understanding when I joined DoorDash as a new grad. If ranking has always fascinated me, then NLP is a required taste I've come to appreciate.
+As a Cognitive Science PhD student, I was interested in all aspects of the human intelligence except for language, thinking that language is an indirect, inaccurate byproduct of thought😅. Back in Summer 2021 when I was driving to LA, I listened to a Gradient Dissent [episode](https://www.youtube.com/watch?v=VaxNN3YRhBA) where Emily Bender argued that to interact with language models as we do with humans, we must treat them as equal linguistic partners rather than as mechanistic pattern recognizers. Back then, that day seemed far away. Now with the success of ChatGPT and ever more powerful new LLMs, NLP has become the fastest growing field in AI/ML, with far more active research, new startups, and headcount than any other ML fields. I got into NLP only because I was assigned to work on Query Understanding after joining DoorDash as a new grad. If ranking has always fascinated me, then NLP is a required taste I've come to appreciate.
 
 To get into NLP, first read [Natural Language Processing With Transformers](https://www.amazon.com/Natural-Language-Processing-Transformers-Applications/dp/1098103246) by Hugging Face --- it's the best textbook on transformer-based models, with intuitive explanations and practical code examples, covering a wide range of NLP tasks including sequence classification, named entity recognition, question answering, summarization, generation, etc.. It also talks about model compression, training without enough data, and pretraining LLMs from scratch, which come handy in production. 
 
@@ -255,7 +266,7 @@ While awesome, the HF book leaves you wanting for details from the original pape
 
 For important topics not covered, you can read representative blog posts and literature review to catch up, such as [prompt engineering](https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/), [RLHF](https://huggingface.co/blog/rlhf), and [LLM evaluation](https://arxiv.org/abs/2307.03109).
 
-There will never be a day when you think you know enough about NLP. Neither does your interviewer. Most NLP interviews focus on the basics, such as the original transformer, common tokenizers, popular models (e.g., BERT/GPT/BART/T5/Llama 2), and widely used techniques (e.g., RLHF, RAG, LoRA). Focus on these in your interview prep and don't worry about being asked about papers that came out yesterday.
+There will never be a day when you think you know enough about NLP. Neither does your interviewer. Most NLP interviews focus on the basics, such as the original transformer, common tokenizers, popular models (e.g., BERT/GPT/BART/T5/Llama 3.2), and widely used techniques (e.g., RLHF, RAG, LoRA). Focus on these in your interview prep and don't worry about being asked about papers that came out yesterday.
 
 ## Behavior Interview
 
@@ -288,10 +299,3 @@ Back in school, I often lost sleep the night before the interview, fearing any w
 If you know me by now, you might've guessed that I created an interview progress tracker, using one table to track the stage (**scheduling**: sent availability but coordinator hasn't finalized the schedule; **in progress**: interview scheduled for a future date; **done**: completed the given interview round) of each round (e.g., recruiter/HM chat, phone screen, onsite) with each company and another table to track what each round entails. When interviewing with a specific company, I filter down to the rounds asked by that company and review the corresponding Notion Pages. 
 
 {{< figure src="https://www.dropbox.com/scl/fi/bp78z6q27pa5cvotn342k/Screenshot-2024-03-16-at-11.44.33-PM.png?rlkey=wgymx513hyfu6t1wbo2zutvr1&raw=1" width="1000" >}}
-
-# Resources
-## Coding
-1. ML coding: [ML Code Challenges](https://www.deep-ml.com/)
-
-## ML Design
-1. Feature
